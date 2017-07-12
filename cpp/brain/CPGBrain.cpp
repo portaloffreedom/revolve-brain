@@ -24,6 +24,8 @@ CPGBrain::CPGBrain(std::string robot_name,
     // TODO read this values from config file
     , evaluation_rate_(30)
     , max_evaluations_(1000)
+    , algorithm_type_('D')
+    , source_y_size(12)
     , max_ranked_policies_(10)
     , noise_sigma_(0.1)
 {
@@ -109,7 +111,6 @@ void CPGBrain::learner(double t)
 }
 
 void CPGBrain::updatePolicy(double curr_fitness) {
-    unsigned int source_y_size = 12; //TODO
 
     // Insert ranked policy in list
     PolicyPtr policy_copy = std::make_shared<Policy>(n_actuators);
@@ -134,8 +135,8 @@ void CPGBrain::updatePolicy(double curr_fitness) {
     std::cout << std::endl;
 
     // Write fitness and genomes log to output files
-//     this->writeCurrent();
-//     this->writeElite();
+    this->writeCurrent();
+    this->writeElite();
 
     // Update generation counter and check is it finished
     generation_counter_++;
@@ -317,7 +318,7 @@ void CPGBrain::setConnections(std::vector<std::vector<cpg::CPGNetwork::Weights> 
 void CPGBrain::connectionsToGenotype()
 {
     for (int i=0; i< connections.size(); i++) {
-        GenomePtr genome = current_policy_->at(i);
+        GenomePtr &genome = current_policy_->at(i);
         const auto &conn_line = connections[i];
 
         for (int j=0; j<conn_line.size(); i++) {
@@ -336,4 +337,42 @@ void CPGBrain::connectionsToGenotype()
 }
 
 
-const double CPGBrain::SIGMA_DECAY_SQUARED = 0.98; // sigma decay
+const double CPGBrain::SIGMA_DECAY_SQUARED = 0.98;
+
+#include <fstream>
+void CPGBrain::writeCurrent() {
+    std::ofstream output_file;
+    output_file.open(robot_name + ".log",
+                    std::ios::app | std::ios::out | std::ios::ate);
+    output_file << "- generation: " << generation_counter_ << std::endl;
+    output_file << "  velocities:" << std::endl;
+    for (auto const &it : ranked_policies_) {
+        double fitness = it.first;
+        output_file << "  - " << fitness << std::endl;
+    }
+    output_file.close();
+}
+
+void
+CPGBrain::writeElite()
+{
+    std::ofstream outputFile;
+    outputFile.open(robot_name + ".policy",
+                    std::ios::app | std::ios::out | std::ios::ate);
+    outputFile << "- evaluation: " << generation_counter_ << std::endl;
+    outputFile << "  steps: " << source_y_size << std::endl;
+    outputFile << "  population:" << std::endl;
+    for (auto const &it : ranked_policies_) {
+        double fitness = it.first;
+        PolicyPtr policy = it.second;
+        outputFile << "   - velocity: " << fitness << std::endl;
+        outputFile << "     policy:" << std::endl;
+        for (unsigned int i = 0; i < policy->size(); i++) {
+            GenomePtr &genome = policy->at(i);
+            for (unsigned int j = 0; j < genome->size(); j++) {
+                outputFile << "      - " << genome->at(j) << std::endl;
+            }
+        }
+    }
+    outputFile.close();
+}

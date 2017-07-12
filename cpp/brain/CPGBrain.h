@@ -166,13 +166,19 @@ private:
     static const double SIGMA_DECAY_SQUARED;// = 0.98;
 
     // Type of the used algorithm
-    char algorithm_type_ = 'B';
+    char algorithm_type_; // = 'D'
+    // number of parameters to evolve
+    unsigned int source_y_size; // = 12
     // Maximal number of stored ranked policies
     unsigned int max_ranked_policies_; // = 10
     // Noise in generatePolicy() function
     double noise_sigma_; // = 0.008
     // Tau deviation for self-adaptive sigma
     double sigma_tau_correction_ = 0.2;
+
+    void writeCurrent();
+
+    void writeElite();
 
 };
 
