@@ -1,4 +1,4 @@
-#include "Neuron.h"
+#include "ENeuron.h"
 #include <iostream>
 
 namespace revolve {

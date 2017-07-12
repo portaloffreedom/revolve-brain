@@ -1,9 +1,9 @@
-#ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTENDEDANN_H_
-#define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTENDEDANN_H_
+#ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_LAYEREDEXTENDEDANN_H_
+#define REVOLVEBRAIN_BRAIN_CONTROLLER_LAYEREDEXTENDEDANN_H_
 
 #include "Controller.h"
 #include "brain/Evaluator.h"
-#include "brain/controller/extnn/Neuron.h"
+#include "brain/controller/extnn/ENeuron.h"
 #include "brain/controller/extnn/NeuralConnection.h"
 #include <map>
 #include <vector>
@@ -25,13 +25,10 @@
 namespace revolve {
 namespace brain {
 
-struct ExtNNConfig
+struct LayeredExtNNConfig
 {
 
-    std::vector<NeuronPtr> allNeurons_; //vector containing all neurons
-    std::vector<NeuronPtr> inputNeurons_; //vector containing the input neurons
-    std::vector<NeuronPtr> outputNeurons_; //vector containing the output neurons
-    std::vector<NeuronPtr> hiddenNeurons_; //vector containing the hidden neurons
+    std::vector<std::vector<NeuronPtr>> layers_; //vector containing all neurons
 
     std::map<NeuronPtr, int> outputPositionMap_;    // positions for indexing into the outputs_ buffer for each output neuron
     std::map<NeuronPtr, int> inputPositionMap_;    // positions for indexing into the inputs_ buffer for each input neuron
@@ -42,8 +39,8 @@ struct ExtNNConfig
 };
 
 //extended neural network controller usable with standard neat or hyper neat (use different conversion methods)
-class ExtNNController1
-        : public Controller<boost::shared_ptr<ExtNNConfig>>
+class LayeredExtNNController
+        : public Controller<boost::shared_ptr<LayeredExtNNConfig>>
 {
 public:
     /**
@@ -55,12 +52,12 @@ public:
      * @param sensors: vector list of robot's sensors
      * @return pointer to the neural network
      */
-    ExtNNController1(std::string modelName,
-                     boost::shared_ptr<ExtNNConfig> Config,
-                     const std::vector<ActuatorPtr> &actuators,
-                     const std::vector<SensorPtr> &sensors);
+    LayeredExtNNController(std::string modelName,
+                           boost::shared_ptr<LayeredExtNNConfig> Config,
+                           const std::vector<ActuatorPtr> &actuators,
+                           const std::vector<SensorPtr> &sensors);
 
-    virtual ~ExtNNController1();
+    virtual ~LayeredExtNNController();
 
     /**
     * Method for updating sensors readings, actuators positions
@@ -79,15 +76,15 @@ public:
      * Gets the weight of all the connections
      * @return weights of all neural connections
      */
-    virtual boost::shared_ptr<ExtNNConfig>
-    getGenome();
+    virtual boost::shared_ptr<LayeredExtNNConfig>
+    getGenotype();
 
     /**
      * Changes the weights of the neural connections
      * @param weights: new weights to be assigned
      */
     virtual void
-    setGenome(boost::shared_ptr<ExtNNConfig> config);
+    setGenotype(boost::shared_ptr<LayeredExtNNConfig> config);
 
     void
     writeNetwork(std::ofstream &write_to);
@@ -101,10 +98,8 @@ protected:
     double *inputs_;    // buffer of input values from the sensors
     double *outputs_;     // buffer of output values for the actuators
 
-    std::vector<NeuronPtr> allNeurons_; //vector containing all neurons
-    std::vector<NeuronPtr> inputNeurons_; //vector containing the input neurons
-    std::vector<NeuronPtr> outputNeurons_; //vector containing the output neurons
-    std::vector<NeuronPtr> hiddenNeurons_; //vector containing the hidden neurons
+    std::vector<std::vector<NeuronPtr>> layers_; //vector containing all neurons
+
 
     std::map<NeuronPtr, int> outputPositionMap_;    // positions for indexing into the outputs_ buffer for each output neuron
     std::map<NeuronPtr, int> inputPositionMap_;    // positions for indexing into the inputs_ buffer for each input neuron
@@ -122,4 +117,4 @@ protected:
 }
 }
 
-#endif // REVOLVEBRAIN_BRAIN_CONTROLLER_EXTENDEDANN_H_
+#endif // REVOLVEBRAIN_BRAIN_CONTROLLER_LAYEREDEXTENDEDANN_H_

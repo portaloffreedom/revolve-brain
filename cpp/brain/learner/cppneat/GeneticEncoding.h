@@ -4,8 +4,8 @@
 #include <vector>
 #include <utility>
 
-#include "Types.h"
-#include "Neuron.h"
+#include "CPPNTypes.h"
+#include "CPPNNeuron.h"
 #include "ConnectionGenome.h"
 #include "NeuronGenome.h"
 
@@ -17,36 +17,29 @@ class GeneticEncoding
 public:
     GeneticEncoding(std::vector<NeuronGenePtr> neuron_genes,
                     std::vector<ConnectionGenePtr> connection_genes)
-            :
-            neuron_genes(neuron_genes)
-            , connection_genes(connection_genes)
-            , layered(false)
+            : neuron_genes_(neuron_genes)
+            , connection_genes_(connection_genes)
+            , is_layered_(false)
     {}
 
     GeneticEncoding(std::vector<std::vector<NeuronGenePtr>> layers,
                     std::vector<ConnectionGenePtr> connection_genes)
-            :
-            layers(layers)
-            , connection_genes(connection_genes)
-            , layered(true)
+            : layers_(layers)
+            , connection_genes_(connection_genes)
+            , is_layered_(true)
     {}
 
     GeneticEncoding(bool layered)
-            :
-            layered(layered)
+            : is_layered_(layered)
     {}
 
-    GeneticEncodingPtr
-    copy();
+    GeneticEncodingPtr copy();
 
-    int
-    num_genes();
+    size_t num_genes();
 
-    int
-    num_neuron_genes();
+    size_t num_neuron_genes();
 
-    int
-    num_connection_genes();
+    size_t num_connection_genes();
 
     bool
     connection_exists(int mark_from,
@@ -83,7 +76,7 @@ public:
     min_max_innov_numer();
 
     GenePtr
-    find_gene_by_in(int innov_number);
+    find_gene_by_in(const size_t innov_number);
 
     //non-layered
     void
@@ -111,33 +104,33 @@ public:
                        int index);
 
     bool
-    neuron_exists(int innov_number);
+    neuron_exists(const size_t innov_number);
 
 #ifdef CPPNEAT_DEBUG
     bool is_valid();
 #endif
 
-    std::pair<unsigned int, unsigned int>
-    convert_index_to_layer_index(unsigned int index);
+    std::pair<size_t, size_t>
+    convert_index_to_layer_index(size_t index);
 
-    std::pair<unsigned int, unsigned int>
-    convert_in_to_layer_index(int innov_number);
+    std::pair<size_t, size_t>
+    convert_in_to_layer_index(const size_t innov_number);
 
 public:
     //non-layered
-    std::vector<NeuronGenePtr> neuron_genes;
+    std::vector<NeuronGenePtr> neuron_genes_;
 
     //layered
-    std::vector<std::vector<NeuronGenePtr>> layers;
+    std::vector<std::vector<NeuronGenePtr>> layers_;
 
     //both
-    std::vector<ConnectionGenePtr> connection_genes;
+    std::vector<ConnectionGenePtr> connection_genes_;
 
 private:
     std::vector<GenePtr> all_genes_sorted;
     bool all_genes_valid;
 public:
-    bool layered;
+    bool is_layered_;
 
 };
 }

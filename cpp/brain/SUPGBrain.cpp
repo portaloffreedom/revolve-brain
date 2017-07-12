@@ -1,3 +1,4 @@
+
 #include "SUPGBrain.h"
 #include "neat/AsyncNEAT.h"
 #include <sstream>
@@ -74,8 +75,8 @@ SUPGBrain::SUPGBrain(const std::string &robot_name,
   : evaluator(evaluator)
   , robot_name(robot_name)
   , start_eval_time(std::numeric_limits< double >::lowest())
-  , generation_counter(0)
   , neuron_coordinates(neuron_coordinates)
+  , generation_counter(0)
   , MAX_EVALUATIONS(GetMAX_EVALUATIONSenv())
   , FREQUENCY_RATE(GetFREQUENCY_RATEenv())
   , CYCLE_LENGTH(GetCYCLE_LENGTHenv())

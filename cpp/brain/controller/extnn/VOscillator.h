@@ -1,7 +1,7 @@
 #ifndef REVOLVE_GAZEBO_BRAIN_VOSCILLATOR_H_
 #define REVOLVE_GAZEBO_BRAIN_VOSCILLATOR_H_
 
-#include "Neuron.h"
+#include "ENeuron.h"
 #include "NeuralConnection.h"
 
 

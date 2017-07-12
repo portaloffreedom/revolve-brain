@@ -1,4 +1,4 @@
-#include "LayeredExtendedANN.h"
+#include "LayeredExtCPPN.h"
 
 #include <fstream>
 #include <iostream>
@@ -23,7 +23,7 @@ LayeredExtNNController::LayeredExtNNController(std::string modelName,
   idToNeuron_ = Config->idToNeuron_;
   connections_ = Config->connections_;
 
-  unsigned int p = 0;
+  size_t p = 0;
   for (auto sensor : sensors) {
     p += sensor->inputs();
   }
@@ -50,7 +50,7 @@ LayeredExtNNController::update(const std::vector<ActuatorPtr> &actuators,
                                double step)
 {
   // Read sensor data into the input buffer
-  unsigned int p = 0;
+  size_t p = 0;
   for (auto sensor : sensors) {
     sensor->read(&inputs_[p]);
     p += sensor->inputs();
@@ -89,7 +89,7 @@ LayeredExtNNController::update(const std::vector<ActuatorPtr> &actuators,
 }
 
 boost::shared_ptr<LayeredExtNNConfig>
-LayeredExtNNController::getGenome()
+LayeredExtNNController::getGenotype()
 {
   boost::shared_ptr<LayeredExtNNConfig> Config(new LayeredExtNNConfig());
   Config->layers_ = layers_;
@@ -101,7 +101,7 @@ LayeredExtNNController::getGenome()
 }
 
 void
-LayeredExtNNController::setGenome(boost::shared_ptr<LayeredExtNNConfig> Config)
+LayeredExtNNController::setGenotype(boost::shared_ptr<LayeredExtNNConfig> Config)
 {
   layers_ = Config->layers_;
   outputPositionMap_ = Config->outputPositionMap_;
@@ -120,7 +120,7 @@ LayeredExtNNController::writeNetwork(std::ofstream &write_to)
                        v.end());
   }
   boost::adjacency_list<> graph(allNeurons_.size());
-  for (unsigned int i = 0; i < allNeurons_.size(); i++) {
+  for (size_t i = 0; i < allNeurons_.size(); i++) {
     std::vector<std::pair<std::string, NeuralConnectionPtr>> connectionsToAdd = allNeurons_[i]->getIncomingConnections();
     for (std::pair<std::string, NeuralConnectionPtr> connectionToAdd : connectionsToAdd) {
       NeuronPtr input = connectionToAdd.second
@@ -134,7 +134,7 @@ LayeredExtNNController::writeNetwork(std::ofstream &write_to)
     }
   }
   std::string *names = new std::string[allNeurons_.size()];
-  for (int i = 0; i < allNeurons_.size(); i++) {
+  for (size_t i = 0; i < allNeurons_.size(); i++) {
     std::stringstream nodeName;
     nodeName << allNeurons_[i]->Id() + " of type: " + allNeurons_[i]->getType() << std::endl;
     for (std::pair<std::string, double> param : allNeurons_[i]->getNeuronParameters()) {
