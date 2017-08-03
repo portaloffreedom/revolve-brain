@@ -62,7 +62,7 @@ namespace revolve
       static const double PI = std::acos(-1);
 
       double thisPhi = this->phi;
-      double otherPhi = 0;
+      double otherPhi = 2 * PI * this->bias_;;
 
       // create phi(t+1)
       for (auto it = this->incomingConnections_.begin();
