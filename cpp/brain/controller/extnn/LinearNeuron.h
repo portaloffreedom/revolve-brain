@@ -23,46 +23,40 @@
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
-namespace revolve {
-namespace brain {
-
-class LinearNeuron
-        : public Neuron
+namespace revolve
 {
-public:
-    /**
-    * Constructor for a linear neuron
-    /// \param id: string to identify the neuron
-    /// \param params: parameters that specify the behavior of the neuron
-    /// \return pointer to the linear neuron
-    */
-    LinearNeuron(const std::string &id,
-                 const std::map<std::string, double> &params);
+  namespace brain
+  {
 
-    /**
-    * Method to calculate the output of the neuron
-    /// \param t: current time
-    /// \return the output of the neuron at time t
-    */
-    virtual double
-    CalculateOutput(double t) override;
+    class LinearNeuron
+            : public Neuron
+    {
+      public:
+      /// \brief  Constructor for a linear neuron
+      /// \param id: string to identify the neuron
+      /// \param params: parameters that specify the behavior of the neuron
+      /// \return pointer to the linear neuron
+      LinearNeuron(const std::string &id,
+                   const std::map<std::string, double> &params);
 
-    virtual std::map<std::string, double>
-    getNeuronParameters() override;
+      /// \brief  Method to calculate the output of the neuron
+      /// \param t: current time
+      /// \return the output of the neuron at time t
+      double CalculateOutput(double t) override;
 
-    virtual void
-    setNeuronParameters(std::map<std::string, double> params) override;
+      std::map<std::string, double> getNeuronParameters() override;
 
-    virtual std::string
-    getType() override;
+      void setNeuronParameters(std::map<std::string, double> params) override;
 
+      std::string getType() override;
 
-protected:
-    double gain_; //gain of the neuron
-    double bias_; //bias of the neuron
-};
+      /// \brief gain of the neuron
+      protected: double gain_;
 
-}
+      /// \brief bias of the neuron
+      protected: double bias_;
+    };
+  }
 }
 
 #endif // REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_LINEARNEURON_H_

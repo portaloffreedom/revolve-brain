@@ -13,7 +13,7 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
@@ -23,54 +23,51 @@
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
-
-namespace revolve {
-namespace brain {
-
-class LeakyIntegrator
-        : public Neuron
+namespace revolve
 {
-public:
-    /**
-  * Constructor for a leaky integrator neuron
-  /// \param id: string to identify the neuron
-  /// \param params: parameters that specify the behavior of the neuron
-  /// \return pointer to the leaky integrator neuron
-  */
-    LeakyIntegrator(const std::string &id,
-                    const std::map<std::string, double> &params);
+  namespace brain
+  {
 
-    /**
-    * Method to calculate the output of the neuron
-    /// \param t: current time
-    /// \return the output of the neuron at time t
-    */
-    virtual double
-    CalculateOutput(double t) override;
+    class LeakyIntegrator
+            : public Neuron
+    {
+      public:
+      /// \brief  Constructor for a leaky integrator neuron
+      /// \param id: string to identify the neuron
+      /// \param params: parameters that specify the behavior of the neuron
+      /// \return pointer to the leaky integrator neuron
+      LeakyIntegrator(const std::string &id,
+                      const std::map<std::string, double> &params);
 
-    virtual std::map<std::string, double>
-    getNeuronParameters() override;
+      /// \brief  Method to calculate the output of the neuron
+      /// \param t: current time
+      /// \return the output of the neuron at time t
+      double CalculateOutput(double t) override;
 
-    virtual void
-    setNeuronParameters(std::map<std::string, double> params) override;
+      std::map<std::string, double> getNeuronParameters() override;
 
-    virtual std::string
-    getType() override;
+      void setNeuronParameters(std::map<std::string, double> params) override;
 
-    virtual void
-    reset() override;
+      std::string getType() override;
 
-protected:
-    double bias_; //bias of the neuron
-    double tau_; //tau of the neuron
+      virtual void reset() override;
 
-    double lastTime_; //last time the output was calculated
+      /// \brief bias of the neuron
+      protected: double bias_;
 
-    double stateDeriv_; //current value of the derivation of the state
-    double state_; //current state value
-};
+      /// \brief tau of the neuron
+      protected: double tau_;
 
-}
+      /// \brief last time the output was calculated
+      protected: double lastTime_;
+
+      /// \brief current value of the derivation of the state
+      protected: double stateDeriv_;
+
+      /// \brief current state value
+      protected: double state_;
+    };
+  }
 }
 
 #endif // REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_LEAKYINTEGRATOR_H_

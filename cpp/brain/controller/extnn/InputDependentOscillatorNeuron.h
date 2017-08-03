@@ -23,46 +23,44 @@
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
-namespace revolve {
-namespace brain {
-
-class InputDependentOscillatorNeuron
-        : public Neuron
+namespace revolve
 {
-public:
-    /**
-    * Constructor for an oscilator neuron
-    /// \param id: string to identify the neuron
-    /// \param params: parameters that specify the behavior of the neuron
-    /// \return pointer to the oscilator neuron
-    */
-    InputDependentOscillatorNeuron(const std::string &id,
-                                   const std::map<std::string, double> &params);
+  namespace brain
+  {
 
-    /**
-    * Method to calculate the output of the neuron
-    /// \param t: current time
-    /// \return the output of the neuron at time t
-    */
-    virtual double
-    CalculateOutput(double t) override;
+    class InputDependentOscillatorNeuron
+            : public Neuron
+    {
+      public:
+      /// \brief  Constructor for an oscilator neuron
+      /// \param id: string to identify the neuron
+      /// \param params: parameters that specify the behavior of the neuron
+      /// \return pointer to the oscilator neuron
+      InputDependentOscillatorNeuron(const std::string &id,
+                                     const std::map<std::string, double> &params);
 
-    virtual std::map<std::string, double>
-    getNeuronParameters() override;
+      /// \brief Method to calculate the output of the neuron
+      /// \param t: current time
+      /// \return the output of the neuron at time t
+      double CalculateOutput(double t) override;
 
-    virtual void
-    setNeuronParameters(std::map<std::string, double> params) override;
+      std::map<std::string, double> getNeuronParameters() override;
 
-    virtual std::string
-    getType() override;
+      void setNeuronParameters(std::map<std::string, double> params) override;
 
-protected:
-    double period_; //period of the oscillation of the neuron
-    double phaseOffset_; //current phase offset of the oscillation of the neuron
-    double gain_; //gain of the neuron
-};
+      std::string getType() override;
 
-}
+      /// \brief period of the oscillation of the neuron
+      protected: double period_;
+
+      /// \brief current phase offset of the oscillation of the neuron
+      protected: double phaseOffset_;
+
+      /// \brief gain of the neuron
+      protected: double gain_;
+    };
+
+  }
 }
 
 #endif // REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTDEPENDENTOSCILLATORNEURON_H_
