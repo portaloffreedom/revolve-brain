@@ -52,11 +52,43 @@ namespace revolve
 
       std::string getType() override;
 
+      /////////////////////////////////////////////////////////////////////////
+      public:
+      const double WEIGHT_MIN = 0;
+      const double WEIGHT_MAX = 1.0;
+      const double C_MIN = -2;
+      const double C_MAX =  2;
+      const double AMPLITUDE_MIN = -1;
+      const double AMPLITUDE_MAX =  1;
+      const double OFFSET_MIN = -0.1;
+      const double OFFSET_MAX =  0.1;
+
       /// \brief bias of the neuron
       protected: double bias_;
 
       /// \brief last time the output was calculated
       protected: double lastTime_;
+
+      /// \brief current value
+      protected: double phi;
+
+      /// \brief weight that determines the shape [0, 1.0]
+      protected: double weight;
+
+      /// \brief weights for neighbours nodes
+      protected: std::vector<double> weight_neigbours;
+
+      /// \brief phase difference [-2, 2]
+      protected: double c;
+
+      /// \brief amplitude determines influence of a flexor/extensor on the
+      /// final output signal [−1, 1]
+      protected: double amplitude;
+
+      /// \brief offset dims shape of the final output signal to the starting
+      /// position [-0.1, 0.1]
+      protected: double offset;
+
     };
 
   }

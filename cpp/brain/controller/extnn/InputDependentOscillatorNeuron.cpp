@@ -88,8 +88,7 @@ InputDependentOscillatorNeuron::setNeuronParameters(std::map<std::string, double
 }
 
 
-std::string
-InputDependentOscillatorNeuron::getType()
+std::string InputDependentOscillatorNeuron::getType()
 {
   return "InputDependentOscillator";
 }

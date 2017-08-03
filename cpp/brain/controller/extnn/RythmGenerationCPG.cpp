@@ -32,6 +32,10 @@ namespace revolve
     RythmGenerationCPG::RythmGenerationCPG(const std::string &id,
                                            const std::map<std::string, double> &params)
             : Neuron(id)
+            , phi(1)
+            , weight(1)
+            , amplitude(1)
+            , offset(0)
     {
       if (not params.count("rv:bias"))
       {

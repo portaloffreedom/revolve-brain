@@ -62,8 +62,7 @@ BiasNeuron::setNeuronParameters(std::map<std::string, double> params)
                       ->second;
 }
 
-std::string
-BiasNeuron::getType()
+std::string BiasNeuron::getType()
 {
   return "Bias";
 }

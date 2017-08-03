@@ -20,78 +20,72 @@
 #include "ENeuron.h"
 #include <iostream>
 
-namespace revolve {
-namespace brain {
-
-Neuron::Neuron(const std::string &id)
+namespace revolve
 {
-  this->output_ = 0;
-  this->newOutput_ = 0;
-  this->id_ = id;
-}
+  namespace brain
+  {
 
-void
-Neuron::AddIncomingConnection(const std::string &socketName,
-                              NeuralConnectionPtr connection)
-{
-  this->incomingConnections_.push_back(std::pair<std::string, NeuralConnectionPtr>(socketName,
-                                                                                   connection));
-}
+    Neuron::Neuron(const std::string &id)
+    {
+      this->output_ = 0;
+      this->newOutput_ = 0;
+      this->id_ = id;
+    }
 
-
-void
-Neuron::DeleteIncomingConections()
-{
-  incomingConnections_.clear();
-}
-
-
-void
-Neuron::Update(double t)
-{
-  this->newOutput_ = this->CalculateOutput(t);
-}
+    void Neuron::AddIncomingConnection(const std::string &socketName,
+                                       NeuralConnectionPtr connection)
+    {
+      this->incomingConnections_.push_back(
+              std::pair<std::string, NeuralConnectionPtr>(socketName,
+                                                          connection)
+      );
+    }
 
 
-void
-Neuron::FlipState()
-{
-  this->output_ = this->newOutput_;
-}
+    void Neuron::DeleteIncomingConections()
+    {
+      incomingConnections_.clear();
+    }
 
 
-double
-Neuron::GetOutput() const
-{
-  return this->output_;
-}
+    void Neuron::Update(double t)
+    {
+      this->newOutput_ = this->CalculateOutput(t);
+    }
 
 
-std::string
-Neuron::GetSocketId() const
-{
-  return std::to_string(this->incomingConnections_.size());
-}
+    void Neuron::FlipState()
+    {
+      this->output_ = this->newOutput_;
+    }
 
 
-const std::string &
-Neuron::Id() const
-{
-  return this->id_;
-}
-
-std::vector<std::pair<std::string, NeuralConnectionPtr> >
-Neuron::getIncomingConnections()
-{
-  return this->incomingConnections_;
-}
-
-void
-Neuron::reset()
-{
-  this->output_ = 0;
-}
+    double Neuron::GetOutput() const
+    {
+      return this->output_;
+    }
 
 
-}
+    std::string Neuron::GetSocketId() const
+    {
+      return std::to_string(this->incomingConnections_.size());
+    }
+
+
+    const std::string &Neuron::Id() const
+    {
+      return this->id_;
+    }
+
+    std::vector<std::pair<std::string, NeuralConnectionPtr> >
+    Neuron::getIncomingConnections()
+    {
+      return this->incomingConnections_;
+    }
+
+    void Neuron::reset()
+    {
+      this->output_ = 0;
+    }
+  }
 }

@@ -25,11 +25,9 @@ namespace revolve
 {
   namespace brain
   {
-
-
     XOscillator::XOscillator(const std::string &id,
-                             const std::map<std::string, double> &params) :
-            Neuron(id)
+                             const std::map<std::string, double> &params)
+            : Neuron(id)
     {
       if (not params.count("rv:tau"))
       {
@@ -39,14 +37,11 @@ namespace revolve
       }
 
       this->tau_ = params.find("rv:tau")->second;
-
       this->lastTime_ = 0;
       this->stateDeriv_ = 0;
     }
 
-
-    double
-    XOscillator::CalculateOutput(double t)
+    double XOscillator::CalculateOutput(double t)
     {
       double deltaT = t - lastTime_;
       lastTime_ = t;
@@ -69,14 +64,14 @@ namespace revolve
 
         if (socketId == "from_v")
         {
-          vInput += inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+          vInput +=
+                  inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
         }
       }
 
-      stateDeriv_ = vInput / tau_;
+      this->stateDeriv_ = vInput / tau_;
 
-
-      double result = xInput + deltaT * stateDeriv_;
+      double result = xInput + deltaT * this->stateDeriv_;
       if (result > 1000.0)
       {
         result = 1000.0;
@@ -89,16 +84,14 @@ namespace revolve
       return result;
     }
 
-    std::map<std::string, double>
-    XOscillator::getNeuronParameters()
+    std::map<std::string, double> XOscillator::getNeuronParameters()
     {
       std::map<std::string, double> ret;
       ret["rv:tau"] = tau_;
       return ret;
     }
 
-    void
-    XOscillator::setNeuronParameters(std::map<std::string, double> params)
+    void XOscillator::setNeuronParameters(std::map<std::string, double> params)
     {
       if (not params.count("rv:tau"))
       {
@@ -112,11 +105,9 @@ namespace revolve
       this->stateDeriv_ = 0;
     }
 
-    std::string
-    XOscillator::getType()
+    std::string XOscillator::getType()
     {
       return "XOscillator";
     }
-
   }
 }

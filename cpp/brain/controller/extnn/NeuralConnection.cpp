@@ -19,42 +19,37 @@
 
 #include "NeuralConnection.h"
 
-namespace revolve {
-namespace brain {
-
-NeuralConnection::NeuralConnection(const NeuronPtr &src,
-                                   const NeuronPtr &dst,
-                                   double weight)
+namespace revolve
 {
-  weight_ = weight;
-  src_ = src;
-  dst_ = dst;
-}
+  namespace brain
+  {
+    NeuralConnection::NeuralConnection(const NeuronPtr &src,
+                                       const NeuronPtr &dst,
+                                       double weight)
+    {
+      weight_ = weight;
+      src_ = src;
+      dst_ = dst;
+    }
 
-double
-NeuralConnection::GetWeight() const
-{
-  return weight_;
-}
+    double NeuralConnection::GetWeight() const
+    {
+      return weight_;
+    }
 
-void
-NeuralConnection::SetWeight(double weight)
-{
-  weight_ = weight;
-}
+    void NeuralConnection::SetWeight(double weight)
+    {
+      weight_ = weight;
+    }
 
-NeuronPtr
-NeuralConnection::GetInputNeuron() const
-{
-  return src_;
-}
+    NeuronPtr NeuralConnection::GetInputNeuron() const
+    {
+      return src_;
+    }
 
-NeuronPtr
-NeuralConnection::GetOutputNeuron() const
-{
-  return dst_;
-}
-
-
-}
+    NeuronPtr NeuralConnection::GetOutputNeuron() const
+    {
+      return dst_;
+    }
+  }
 }

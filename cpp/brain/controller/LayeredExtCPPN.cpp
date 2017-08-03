@@ -107,8 +107,7 @@ LayeredExtNNController::update(const std::vector<ActuatorPtr> &actuators,
   }
 }
 
-boost::shared_ptr<LayeredExtNNConfig>
-LayeredExtNNController::getGenotype()
+boost::shared_ptr<LayeredExtNNConfig> LayeredExtNNController::getGenotype()
 {
   boost::shared_ptr<LayeredExtNNConfig> Config(new LayeredExtNNConfig());
   Config->layers_ = layers_;
@@ -119,8 +118,7 @@ LayeredExtNNController::getGenotype()
   return Config;
 }
 
-void
-LayeredExtNNController::setGenotype(boost::shared_ptr<LayeredExtNNConfig> Config)
+void LayeredExtNNController::setGenotype(boost::shared_ptr<LayeredExtNNConfig> Config)
 {
   layers_ = Config->layers_;
   outputPositionMap_ = Config->outputPositionMap_;
@@ -129,8 +127,7 @@ LayeredExtNNController::setGenotype(boost::shared_ptr<LayeredExtNNConfig> Config
   connections_ = Config->connections_;
 }
 
-void
-LayeredExtNNController::writeNetwork(std::ofstream &write_to)
+void LayeredExtNNController::writeNetwork(std::ofstream &write_to)
 {
   std::vector<NeuronPtr> allNeurons_;
   for (auto v : layers_) {
@@ -142,14 +139,10 @@ LayeredExtNNController::writeNetwork(std::ofstream &write_to)
   for (size_t i = 0; i < allNeurons_.size(); i++) {
     std::vector<std::pair<std::string, NeuralConnectionPtr>> connectionsToAdd = allNeurons_[i]->getIncomingConnections();
     for (std::pair<std::string, NeuralConnectionPtr> connectionToAdd : connectionsToAdd) {
-      NeuronPtr input = connectionToAdd.second
-                                       ->GetInputNeuron();
-      int indexInput = std::find(allNeurons_.begin(),
-                                 allNeurons_.end(),
+      NeuronPtr input = connectionToAdd.second->GetInputNeuron();
+      int indexInput = std::find(allNeurons_.begin(), allNeurons_.end(),
                                  input) - allNeurons_.begin();
-      boost::add_edge(indexInput,
-                      i,
-                      graph);
+      boost::add_edge(indexInput, i, graph);
     }
   }
   std::string *names = new std::string[allNeurons_.size()];

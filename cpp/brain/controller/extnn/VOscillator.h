@@ -24,51 +24,53 @@
 #include "NeuralConnection.h"
 
 
-namespace revolve {
-namespace brain {
-
-class VOscillator
-        : public Neuron
+namespace revolve
 {
-public:
-    /**
-    * Constructor for a Voscilator neuron
-    /// \param id: string to identify the neuron
-    /// \param params: parameters that specify the behavior of the neuron
-    /// \return pointer to the Voscilator neuron
-    */    VOscillator(const std::string &id,
+  namespace brain
+  {
+
+    class VOscillator
+            : public Neuron
+    {
+      public:
+      /// \brief Constructor for a Voscilator neuron
+      /// \param id: string to identify the neuron
+      /// \param params: parameters that specify the behavior of the neuron
+      /// \return pointer to the Voscilator neuron
+      VOscillator(const std::string &id,
                       const std::map<std::string, double> &params);
 
-    /**
-    * Method to calculate the output of the neuron
-    /// \param t: current time
-    /// \return the output of the neuron at time t
-    */
-    virtual double
-    CalculateOutput(double t) override;
+      /// \brief Method to calculate the output of the neuron
+      /// \param t: current time
+      /// \return the output of the neuron at time t
+      double CalculateOutput(double t) override;
 
-    virtual std::map<std::string, double>
-    getNeuronParameters() override;
+      std::map<std::string, double> getNeuronParameters() override;
 
-    virtual void
-    setNeuronParameters(std::map<std::string, double> params) override;
+      void setNeuronParameters(std::map<std::string, double> params) override;
 
-    virtual std::string
-    getType() override;
+      std::string getType() override;
 
-    virtual void
-    reset() override;
+      void reset() override;
 
-protected:
-    double alpha_; //TODO:: find out what these parameters mean
-    double tau_;
-    double energy_;
+      protected:
 
-    double lastTime_; //last time the output was calculated
-    double stateDeriv_;
-};
+      /// \brief
+      double alpha_;
 
-}
+      /// \brief
+      double tau_;
+
+      /// \brief
+      double energy_;
+
+      /// \brief last time the output was calculated
+      double lastTime_;
+
+      /// \brief
+      double stateDeriv_;
+    };
+  }
 }
 
 #endif // REVOLVE_GAZEBO_BRAIN_VOSCILLATOR_H_

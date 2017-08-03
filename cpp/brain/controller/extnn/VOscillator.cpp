@@ -124,8 +124,7 @@ VOscillator::setNeuronParameters(std::map<std::string, double> params)
 }
 
 
-std::string
-VOscillator::getType()
+std::string VOscillator::getType()
 {
   return "VOscillator";
 }

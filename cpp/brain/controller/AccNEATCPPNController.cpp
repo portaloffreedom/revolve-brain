@@ -13,13 +13,10 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: March 13, 2017
 *
 */
-
-//
-// Created by matteo on 3/13/17.
-//
 
 #include "AccNEATCPPNController.h"
 

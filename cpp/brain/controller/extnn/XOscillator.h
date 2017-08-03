@@ -23,48 +23,44 @@
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
-namespace revolve {
-namespace brain {
-
-class XOscillator
-        : public Neuron
+namespace revolve
 {
-public:
-    /**
-    * Constructor for a Xoscilator neuron
-    /// \param id: string to identify the neuron
-    /// \param params: parameters that specify the behavior of the neuron
-    /// \return pointer to the Xoscilator neuron
-    */
-    XOscillator(const std::string &id,
-                const std::map<std::string, double> &params);
+  namespace brain
+  {
 
-    /**
-    * Method to calculate the output of the neuron
-    /// \param t: current time
-    /// \return the output of the neuron at time t
-    */
-    virtual double
-    CalculateOutput(double t) override;
+    class XOscillator
+            : public Neuron
+    {
+      public:
+      /// \brief  Constructor for a Xoscilator neuron
+      /// \param id: string to identify the neuron
+      /// \param params: parameters that specify the behavior of the neuron
+      /// \return pointer to the Xoscilator neuron
+      XOscillator(const std::string &id,
+                  const std::map<std::string, double> &params);
 
-    virtual std::map<std::string, double>
-    getNeuronParameters() override;
+      /// \brief  Method to calculate the output of the neuron
+      /// \param t: current time
+      /// \return the output of the neuron at time t
+      double CalculateOutput(double t) override;
 
-    virtual void
-    setNeuronParameters(std::map<std::string, double> params) override;
+      std::map<std::string, double> getNeuronParameters() override;
 
-    virtual std::string
-    getType() override;
+      void setNeuronParameters(std::map<std::string, double> params) override;
 
+      std::string getType() override;
 
-protected:
-    double tau_; //TODO:: find out what these parameters mean
+      /// \brief
+      protected: double tau_;
 
-    double lastTime_; //last time the output was calculated
-    double stateDeriv_;
-};
+      /// \brief last time the output was calculated
+      protected: double lastTime_;
 
-}
+      /// \brief
+      protected: double stateDeriv_;
+    };
+
+  }
 }
 
 #endif // REVOLVE_GAZEBO_BRAIN_XOSCILLATOR_H_

@@ -12,55 +12,48 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
+* Description: Rafael Kiesel
 * Author: TODO <Add proper author>
 *
 */
 
 #include "InputNeuron.h"
 
-namespace revolve {
-namespace brain {
-
-
-InputNeuron::InputNeuron(const std::string &id,
-                         const std::map<std::string, double> &params) :
-        Neuron(id)
+namespace revolve
 {
-  input_ = 0;
-}
+  namespace brain
+  {
+    InputNeuron::InputNeuron(const std::string &id,
+                             const std::map<std::string, double> &params)
+            : Neuron(id)
+    {
+      input_ = 0;
+    }
 
-double
-InputNeuron::CalculateOutput(double /*t*/)
-{
-  return input_;
-}
+    double InputNeuron::CalculateOutput(double /*t*/)
+    {
+      return input_;
+    }
 
-void
-InputNeuron::SetInput(double value)
-{
-  input_ = value;
-}
+    void InputNeuron::SetInput(double value)
+    {
+      input_ = value;
+    }
 
-std::map<std::string, double>
-InputNeuron::getNeuronParameters()
-{
-  std::map<std::string, double> ret;
-  return ret;
-}
+    std::map<std::string, double> InputNeuron::getNeuronParameters()
+    {
+      std::map<std::string, double> ret;
+      return ret;
+    }
 
-void
-InputNeuron::setNeuronParameters(std::map<std::string, double> params)
-{
+    void InputNeuron::setNeuronParameters(std::map<std::string, double> params)
+    {
 
-}
+    }
 
-
-std::string
-InputNeuron::getType()
-{
-  return "Input";
-}
-
-}
+    std::string InputNeuron::getType()
+    {
+      return "Input";
+    }
+  }
 }

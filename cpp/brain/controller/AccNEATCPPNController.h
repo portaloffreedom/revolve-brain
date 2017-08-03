@@ -41,21 +41,16 @@ namespace revolve
 
       virtual ~AccNEATCPPNController();
 
-
-      /**
-       /// \brief Update the controller to the next step and sends signals
-       * to the actuators
-       *
-       /// \param actuators outputs of the controller
-       /// \param sensors inputs of the controller
-       /// \param t global time reference
-       /// \param step time since last update
-       */
-      virtual void
-      update(const std::vector<ActuatorPtr> &actuators,
-             const std::vector<SensorPtr> &sensors,
-             double t,
-             double step) override;
+      /// \brief Update the controller to the next step and sends signals
+      /// to the actuators
+      /// \param actuators outputs of the controller
+      /// \param sensors inputs of the controller
+      /// \param t global time reference
+      /// \param step time since last update
+      virtual void update(const std::vector<ActuatorPtr> &actuators,
+                          const std::vector<SensorPtr> &sensors,
+                          double t,
+                          double step) override;
 
       void activate(const double *const inputs);
 
@@ -73,6 +68,7 @@ namespace revolve
 
       private:
       double *inputs_vector;
+
       double *outputs_vector;
     };
 

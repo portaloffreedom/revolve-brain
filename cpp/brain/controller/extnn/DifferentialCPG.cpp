@@ -12,7 +12,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
+* Description: Rafael Kiesel
 * Author: TODO <Add proper author>
 *
 */
@@ -58,10 +58,12 @@ namespace revolve
 
       double inputValue = 0;
 
-      for (auto it = this->incomingConnections_.begin(); it != this->incomingConnections_.end(); ++it)
+      for (auto it =
+              this->incomingConnections_.begin(); it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
-        inputValue += inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+        inputValue +=
+                inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
       }
 
       double state_deriv = inputValue - this->bias_;
@@ -86,12 +88,13 @@ namespace revolve
 
     std::map<std::string, double> DifferentialCPG::getNeuronParameters()
     {
-      std::map<std::string, double> ret;
-      ret["rv:bias"] = bias_;
-      return ret;
+      std::map<std::string, double> parameters;
+      parameters["rv:bias"] = bias_;
+      return parameters;
     }
 
-    void DifferentialCPG::setNeuronParameters(std::map<std::string, double> params)
+    void
+    DifferentialCPG::setNeuronParameters(std::map<std::string, double> params)
     {
       if (not params.count("rv:bias"))
       {
@@ -102,8 +105,7 @@ namespace revolve
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }
-      this->bias_ = params.find("rv:bias")
-                          ->second;
+      this->bias_ = params.find("rv:bias")->second;
     }
 
     std::string DifferentialCPG::getType()
