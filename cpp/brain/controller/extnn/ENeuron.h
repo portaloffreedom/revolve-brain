@@ -116,6 +116,9 @@ namespace revolve
       /// \brief
       public: virtual std::string getType() = 0;
 
+      /// \brief Return phase for RythmGeneration neuron (HACK)
+      public: virtual double Phase();
+
       /// \brief reset the current activation of the neuron
       public: virtual void reset();
 

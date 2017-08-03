@@ -50,6 +50,8 @@ namespace revolve
 
       void setNeuronParameters(std::map<std::string, double> params) override;
 
+      double Phase() override;
+
       std::string getType() override;
 
       /////////////////////////////////////////////////////////////////////////
@@ -63,7 +65,7 @@ namespace revolve
       const double OFFSET_MIN = -0.1;
       const double OFFSET_MAX =  0.1;
 
-      /// \brief bias of the neuron
+      /// \brief phase difference [-2, 2]
       protected: double bias_;
 
       /// \brief last time the output was calculated
@@ -77,9 +79,6 @@ namespace revolve
 
       /// \brief weights for neighbours nodes
       protected: std::vector<double> weight_neigbours;
-
-      /// \brief phase difference [-2, 2]
-      protected: double c;
 
       /// \brief amplitude determines influence of a flexor/extensor on the
       /// final output signal [−1, 1]

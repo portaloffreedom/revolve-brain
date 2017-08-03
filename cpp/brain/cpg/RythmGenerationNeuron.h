@@ -14,7 +14,7 @@
 *
 * Description: TODO: <Add brief description about file purpose>
 * Author: Matteo De Carlo
-* Date November 1, 2016.
+* Date November 1, 2016
 *
 */
 
@@ -97,6 +97,7 @@ namespace revolve
 
         real_t getWeight() const;
 
+        /// \brief the weight that determines the shape [0, 1.0]
         void setWeight(real_t weight);
 
         // value from 0 to 1, does not throw exceptions if value is outside the allowed domain
@@ -108,6 +109,7 @@ namespace revolve
 
         real_t getWeightNeighbour(size_t index) const;
 
+        /// \brief the weight that determines the shape [0, 1.0]
         void setWeightNeighbour(real_t weight,
                                 size_t index);
 
@@ -123,9 +125,11 @@ namespace revolve
 
         real_t getC() const;
 
+        /// \brief the phase difference [-2, 2]
         void setC(real_t c);
 
-        // value from 0 to 1, does not throw exceptions if value is outside the allowed domain
+        /// \brief value from 0 to 1, does not throw exceptions if value is
+        /// outside the allowed domain
         real_t setCPercentage(real_t c);
 
         real_t calculateCPercentage(real_t c) const;
@@ -134,9 +138,12 @@ namespace revolve
 
         real_t getAmplitude() const;
 
+        /// \brief the amplitude determines influence of a flexor/extensor on
+        /// the final output signal [−1, 1]
         void setAmplitude(real_t amplitude);
 
-        // value from 0 to 1, does not throw exceptions if value is outside the allowed domain
+        /// \brief value from 0 to 1, does not throw exceptions if value is
+        /// outside the allowed domain
         real_t setAmplitudePercentage(real_t amplitude);
 
         real_t calculateAmplitudePercentage(real_t amplitude) const;
@@ -145,9 +152,12 @@ namespace revolve
 
         real_t getOffset() const;
 
+        /// \brief the offset dims shape of the final output signal to the
+        /// starting position [-0.1, 0.1]
         void setOffset(real_t offset);
 
-        // value from 0 to 1, does not throw exceptions if value is outside the allowed domain
+        /// \brief value from 0 to 1, does not throw exceptions if value is
+        /// outside the allowed domain
         real_t setOffsetPercentage(real_t offset);
 
         real_t calculateOffsetPercentage(real_t offset) const;
@@ -170,15 +180,22 @@ namespace revolve
 
         private:
         // RythmGenerationNeuron parameters
-        // the weight that determines the shape [0, 1.0]
+
+        /// \brief the weight that determines the shape [0, 1.0]
         real_t weight;
-        // weights for neighbours nodes
+
+        /// \brief weights for neighbours nodes
         std::vector<real_t> weight_neigbours;
-        // the phase difference [-2, 2]
+
+        /// \brief the phase difference [-2, 2]
         real_t c;
-        //  the amplitude determines influence of a flexor/extensor on the final output signal [−1, 1]
+
+        /// \brief the amplitude determines influence of a flexor/extensor on
+        /// the final output signal [−1, 1]
         real_t amplitude;
-        //  the offset dims shape of the final output signal to the starting position [-0.1, 0.1]
+
+        /// \brief the offset dims shape of the final output signal to the
+        /// starting position [-0.1, 0.1]
         real_t offset;
       };
 

@@ -58,40 +58,37 @@ namespace revolve
 
       if (deltaT > 0.1) deltaT = 0.1;
 
-      double inputValue = 0;
+//      double inputValue = 0;
+      static const double PI = std::acos(-1);
 
+      double thisPhi = this->phi;
+      double otherPhi = 0;
+
+      // create phi(t+1)
       for (auto it = this->incomingConnections_.begin();
            it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
-        inputValue += inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+        if("RythmGeneratorCPG" == inConnection->GetInputNeuron()->getType())
+        {
+          otherPhi +=
+                  std::sin(inConnection->GetInputNeuron()->Phase() - thisPhi) * inConnection->GetWeight();
+        }
       }
 
-      double state_deriv = inputValue - this->bias_;
-      double result = this->output_ + deltaT * state_deriv;
+      thisPhi += (otherPhi * deltaT);
+      double result = (this->amplitude * std::cos(thisPhi)) + this->offset;
 
-      double maxOut = 10000.0;
-
-      // limit output:
-      // if (result > maxOut) {
-      // 	result = maxOut;
-      // }
-      // else if (result < -maxOut) {
-      // 	result = -maxOut;
-      // }
-
-      // saturate output:
-      double gain = 2.0 / maxOut;
-      result = (2.0 / (1.0 + std::exp(-result * gain)) - 1.0) * maxOut;
-
+      // create phi(t+1)
+      this->phi = thisPhi;
       return result;
     }
 
     std::map<std::string, double> RythmGenerationCPG::getNeuronParameters()
     {
-      std::map<std::string, double> ret;
-      ret["rv:bias"] = bias_;
-      return ret;
+      std::map<std::string, double> parameters;
+      parameters["rv:bias"] = bias_;
+      return parameters;
     }
 
     void RythmGenerationCPG::setNeuronParameters(std::map<std::string, double> params)
@@ -108,11 +105,14 @@ namespace revolve
       this->bias_ = params.find("rv:bias")->second;
     }
 
+    double RythmGenerationCPG::Phase()
+    {
+      return this->phi;
+    }
+
     std::string RythmGenerationCPG::getType()
     {
       return "RythmGenerationCPG";
     }
-
-
   }
 }

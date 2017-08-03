@@ -41,36 +41,30 @@ namespace revolve
       );
     }
 
-
     void Neuron::DeleteIncomingConections()
     {
       incomingConnections_.clear();
     }
-
 
     void Neuron::Update(double t)
     {
       this->newOutput_ = this->CalculateOutput(t);
     }
 
-
     void Neuron::FlipState()
     {
       this->output_ = this->newOutput_;
     }
-
 
     double Neuron::GetOutput() const
     {
       return this->output_;
     }
 
-
     std::string Neuron::GetSocketId() const
     {
       return std::to_string(this->incomingConnections_.size());
     }
-
 
     const std::string &Neuron::Id() const
     {
@@ -81,6 +75,11 @@ namespace revolve
     Neuron::getIncomingConnections()
     {
       return this->incomingConnections_;
+    }
+
+    double Neuron::Phase()
+    {
+      return 0.0;
     }
 
     void Neuron::reset()
