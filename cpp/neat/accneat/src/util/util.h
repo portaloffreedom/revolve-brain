@@ -1,3 +1,22 @@
+/*
+* Copyright (C) 2017 Vrije Universiteit Amsterdam
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* Description: TODO: <Add brief description about file purpose>
+* Author: TODO <Add proper author>
+*
+*/
+
 #pragma once
 
 #include <algorithm>
@@ -5,7 +24,8 @@
 #include <iostream>
 #include <map>
 
-namespace NEAT {
+namespace NEAT
+{
 
 #define error(msg) {std::cerr << __FILE__ << ":" << __LINE__ << ": " << msg << std::endl; exit(1);}
 #define warn(msg) {std::cerr << __FILE__ << ":" << __LINE__ << ": " << msg << std::endl;}
@@ -15,24 +35,24 @@ namespace NEAT {
 
 #define sh(cmd) {int rc = system(cmd); if(rc != 0) error("Failed executing " << cmd);}
 
-template <typename Container, typename Predicate>
-void
-erase_if(Container &cont,
-         Predicate predicate)
-{
-  auto iterator = std::remove_if(cont.begin(),
-                                 cont.end(),
-                                 predicate);
-  cont.erase(iterator,
-             cont.end());
-}
+  template <typename Container, typename Predicate>
+  void
+  erase_if(Container &cont,
+           Predicate predicate)
+  {
+    auto iterator = std::remove_if(cont.begin(),
+                                   cont.end(),
+                                   predicate);
+    cont.erase(iterator,
+               cont.end());
+  }
 
-template <typename T, typename... Args>
-std::unique_ptr<T>
-make_unique(Args &&... args)
-{
-  return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-}
+  template <typename T, typename... Args>
+  std::unique_ptr<T>
+  make_unique(Args &&... args)
+  {
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+  }
 }
 
 template <typename T, typename U>
@@ -69,7 +89,8 @@ append(std::vector<T> &vec,
        const T &val,
        size_t n = 1)
 {
-  for (size_t i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; i++)
+  {
     vec.push_back(val);
   }
 }
@@ -163,19 +184,23 @@ split(const std::string &s,
       const std::string &delims = WHITESPACE,
       bool keep_empty = false)
 {
-  if (delims.empty()) {
+  if (delims.empty())
+  {
     return {s};
   }
 
   std::vector<std::string> result;
   size_t substart = 0;
-  while (substart < s.length()) {
+  while (substart < s.length())
+  {
     size_t subend = s.find_first_of(delims,
                                     substart);
-    if (subend == std::string::npos) {
+    if (subend == std::string::npos)
+    {
       subend = s.length();
     }
-    if ((subend != substart) || keep_empty) {
+    if ((subend != substart) || keep_empty)
+    {
       result.push_back(s.substr(substart,
                                 subend - substart));
     }

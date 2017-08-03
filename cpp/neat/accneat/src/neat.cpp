@@ -1,4 +1,23 @@
 /*
+* Copyright (C) 2017 Vrije Universiteit Amsterdam
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* Description: TODO: <Add brief description about file purpose>
+* Author: TODO <Add proper author>
+*
+*/
+
+/*
  Copyright 2001 The University of Texas at Austin
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,11 +51,14 @@ NEAT::getUnitCount(const char *string,
 {
   int count = 0;
   short last = 0;
-  while (*string) {
+  while (*string)
+  {
     last = *string++;
 
-    for (int i = 0; set[i]; i++) {
-      if (last == set[i]) {
+    for (int i = 0; set[i]; i++)
+    {
+      if (last == set[i])
+      {
         count++;
         last = 0;
         break;
@@ -69,12 +91,14 @@ NEAT::oldhebbian(real_t weight,
 
   if (weight < -maxweight) weight = -maxweight;
 
-  if (weight < 0) {
+  if (weight < 0)
+  {
     neg = true;
     weight = -weight;
   }
 
-  if (not (neg)) {
+  if (not(neg))
+  {
     //if (true) {
     delta =
             hebb_rate * (maxweight - weight) * active_in * active_out +
@@ -83,7 +107,8 @@ NEAT::oldhebbian(real_t weight,
 
     if (weight + delta > 0)
       return weight + delta;
-  } else {
+  } else
+  {
     //In the inhibatory case, we strengthen the synapse when output is low and
     //input is high
     delta =
@@ -132,7 +157,8 @@ NEAT::hebbian(real_t weight,
 
   if (weight < -maxweight) weight = -maxweight;
 
-  if (weight < 0) {
+  if (weight < 0)
+  {
     neg = true;
     weight = -weight;
   }
@@ -147,7 +173,8 @@ NEAT::hebbian(real_t weight,
   topweight = weight + 2.0;
   if (topweight > maxweight) topweight = maxweight;
 
-  if (not (neg)) {
+  if (not(neg))
+  {
     //if (true) {
     delta =
             hebb_rate * (maxweight - weight) * active_in * active_out +
@@ -156,7 +183,8 @@ NEAT::hebbian(real_t weight,
 
     return weight + delta;
 
-  } else {
+  } else
+  {
     //In the inhibatory case, we strengthen the synapse when output is low and
     //input is high
     delta =
