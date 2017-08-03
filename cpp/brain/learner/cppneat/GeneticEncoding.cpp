@@ -416,13 +416,13 @@ namespace cppneat
       {
         for (NeuronGenePtr neuron_gene : neuron_genes_)
         {
-          all_genes_sorted.push_back(boost::dynamic_pointer_cast<Gene>(
-                  neuron_gene));
+          all_genes_sorted.push_back(
+                  boost::dynamic_pointer_cast<Gene>(neuron_gene));
         }
         for (ConnectionGenePtr connection_gene : connection_genes_)
         {
-          all_genes_sorted.push_back(boost::dynamic_pointer_cast<Gene>(
-                  connection_gene));
+          all_genes_sorted.push_back(
+                  boost::dynamic_pointer_cast<Gene>(connection_gene));
         }
       } else
       {
@@ -430,8 +430,8 @@ namespace cppneat
         {
           for (NeuronGenePtr neuron_gene : layer)
           {
-            all_genes_sorted.push_back(boost::dynamic_pointer_cast<Gene>(
-                    neuron_gene));
+            all_genes_sorted.push_back(
+                    boost::dynamic_pointer_cast<Gene>(neuron_gene));
           }
         }
         for (ConnectionGenePtr connection_gene : connection_genes_)
@@ -588,7 +588,7 @@ namespace cppneat
   {
       if (not layered)
       {
-          for(ConnectionGenePtr connection_gene : connection_genes) {
+          for (ConnectionGenePtr connection_gene : connection_genes) {
               if (not neuron_exists(connection_gene->mark_from) || not neuron_exists(connection_gene->mark_to)) {
                   if (not neuron_exists(connection_gene->mark_from)) {
                       std::cerr << "neuron with mark " << connection_gene->mark_from << " doesnt exist" <<std::endl;
@@ -600,7 +600,7 @@ namespace cppneat
               }
           }
       } else {
-          for(ConnectionGenePtr connection_gene : connection_genes) {
+          for (ConnectionGenePtr connection_gene : connection_genes) {
               if (not neuron_exists(connection_gene->mark_from) || not neuron_exists(connection_gene->mark_to)) {
                   if (not neuron_exists(connection_gene->mark_from)) {
                       std::cerr << "neuron with mark " << connection_gene->mark_from << " doesnt exist" <<std::endl;

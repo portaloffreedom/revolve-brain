@@ -13,13 +13,10 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: November 9, 2016.
 *
 */
-
-//
-// Created by matteo on 09/11/16.
-//
 
 #ifndef REVOLVE_BRAIN_CPGBRAIN_H
 #define REVOLVE_BRAIN_CPGBRAIN_H
@@ -46,14 +43,11 @@ namespace revolve
 
       using revolve::brain::Brain::update;
 
-      /**
        /// \brief CPGBrain constructor
-       *
        /// \param robot_name the robot name (for logs)
        /// \param evaluator pointer to the evaluator to evoluate the brain
        /// \param n_actuators number of actuators
        /// \param n_sensors number of sensors
-       */
       CPGBrain(std::string robot_name,
                EvaluatorPtr evaluator,
                size_t n_actuators,
@@ -169,11 +163,9 @@ namespace revolve
       typedef std::vector<GenomePtr> Policy;
       typedef std::shared_ptr<Policy> PolicyPtr;
 
-      /**
+
        /// \brief Evaluate the current policy and generate new
-       *
        /// \param fitness fitness of the current evaluation
-       */
       void updatePolicy(double fitness);
 
       /**
@@ -182,9 +174,7 @@ namespace revolve
        */
       std::map<double, PolicyPtr>::iterator binarySelection();
 
-      /**
-       /// \brief update the new parameters in the cpgs
-       */
+      /// \brief update the new parameters in the cpgs
       void genomeToPhenotype();
 
       private:

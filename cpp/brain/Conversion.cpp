@@ -536,7 +536,7 @@ namespace revolve
         std::vector<std::pair<std::string, NeuralConnectionPtr>> connectionsToAdd =
                 conf->allNeurons_[i]->getIncomingConnections();
 
-        for (std::pair<std::string, NeuralConnectionPtr> connectionToAdd : connectionsToAdd)
+        for (auto connectionToAdd : connectionsToAdd)
         {
           NeuronPtr input = connectionToAdd.second->GetInputNeuron();
           long indexInput = std::find(conf->allNeurons_.begin(),
@@ -551,9 +551,10 @@ namespace revolve
       {
         std::stringstream nodeName;
         nodeName
-                << conf->allNeurons_[i]->Id() + " of type: " + conf->allNeurons_[i]->getType()
+                << conf->allNeurons_[i]->Id()
+                << " of type: " + conf->allNeurons_[i]->getType()
                 << std::endl;
-        for (std::pair<std::string, double> param : conf->allNeurons_[i]->getNeuronParameters())
+        for (auto param : conf->allNeurons_[i]->getNeuronParameters())
         {
           nodeName << param.first << ": " << param.second << std::endl;
         }
@@ -718,7 +719,7 @@ namespace revolve
 
       // Add input layer (x, y, z) for splines
       std::map<std::string, double> initial_neuron_params;
-      for (int i = 0; i < 3; i++)
+      for (size_t i = 0; i < 3; i++)
       {
         cppneat::NeuronPtr neuron(new cppneat::Neuron(
                 //better names (like input x1 etc) might help

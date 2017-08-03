@@ -13,16 +13,14 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: November 9, 2016.
 *
 */
 
-//
-// Created by matteo on 09/11/16.
-//
+#include <random>
 
 #include "CPGBrain.h"
-#include <random>
 
 using namespace revolve::brain;
 
@@ -47,12 +45,12 @@ CPGBrain::CPGBrain(std::string robot_name,
 {
     size_t n_connections = n_actuators-1;
 
-    for(size_t i=0; i<n_actuators; i++) {
+    for (size_t i=0; i<n_actuators; i++) {
         cpgs[i] = new cpg::CPGNetwork(n_sensors, n_connections);
     }
 
-    for(size_t i=0; i<n_actuators; i++) {
-        for(size_t j=0; j<n_actuators; j++) {
+    for (size_t i=0; i<n_actuators; i++) {
+        for (size_t j=0; j<n_actuators; j++) {
             if (i == j) continue;
             cpgs[i]->addConnection(cpgs[j]);
         }
@@ -88,7 +86,7 @@ CPGBrain::CPGBrain(std::string robot_name,
 
 CPGBrain::~CPGBrain()
 {
-    for(cpg::CPGNetwork* ptr : cpgs)
+    for (cpg::CPGNetwork* ptr : cpgs)
         delete ptr;
 }
 
