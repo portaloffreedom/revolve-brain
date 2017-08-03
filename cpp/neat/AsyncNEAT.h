@@ -62,7 +62,7 @@ public:
 
     /**
      * to be called before any AsyncNeat object can be used
-     * @param robot_name robot_name to
+     /// \param robot_name robot_name to
      */
     static void
     Init(const std::string &robot_name)
@@ -126,7 +126,7 @@ public:
 
     /**
      * Set the prob. that a link mutation which doesn't have to be recurrent will be made recurrent
-     * @param prob new probability
+     /// \param prob new probability
      */
     static void
     SetRecurProb(NEAT::real_t prob)
@@ -136,7 +136,7 @@ public:
 
     /**
      * Set the probability of forcing selection of ONLY links that are naturally recurrent
-     * @param prob new probability
+     /// \param prob new probability
      */
     static void
     SetRecurOnlyProb(NEAT::real_t prob)

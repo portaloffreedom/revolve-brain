@@ -24,34 +24,36 @@
 #include "brain/Actuator.h"
 #include "brain/Sensor.h"
 
-namespace revolve {
-namespace brain {
-
-class BaseController
+namespace revolve
 {
-public:
-    // REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
-    virtual ~BaseController()
-    {}
+  namespace brain
+  {
 
-    /**
-     * @brief Update the controller to the next step and sends signals
-     * to the actuators
-     *
-     * @param actuators outputs of the controller
-     * @param sensors inputs of the controller
-     * @param t global time reference
-     * @param step time since last update
-     */
+    class BaseController
+    {
+      public:
+      // REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
+      virtual ~BaseController()
+      {}
 
-    virtual void
-    update(const std::vector<ActuatorPtr> &actuators,
-           const std::vector<SensorPtr> &sensors,
-           double t,
-           double step) = 0;
-};
+      /**
+       /// \brief Update the controller to the next step and sends signals
+       * to the actuators
+       *
+       /// \param actuators outputs of the controller
+       /// \param sensors inputs of the controller
+       /// \param t global time reference
+       /// \param step time since last update
+       */
 
-}
+      virtual void
+      update(const std::vector<ActuatorPtr> &actuators,
+             const std::vector<SensorPtr> &sensors,
+             double t,
+             double step) = 0;
+    };
+
+  }
 }
 
 #endif // REVOLVE_BRAIN_BASECONTROLLER_H_

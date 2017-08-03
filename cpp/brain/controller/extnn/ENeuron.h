@@ -67,8 +67,8 @@ class Neuron
 public:
     /**
   * Constructor for a neuron.
-  * @param id: string to identify the neuron
-  * @return pointer to the neuron
+  /// \param id: string to identify the neuron
+  /// \return pointer to the neuron
   */
     Neuron(const std::string &id);
 
@@ -77,16 +77,16 @@ public:
 
     /**
     * Method to calculate the output of the neuron
-    * @param t: current time
-    * @return the output of the neuron at time t
+    /// \param t: current time
+    /// \return the output of the neuron at time t
     */
     virtual double
     CalculateOutput(double t) = 0;
 
     /**
      * Add an incoming connection to the neuron.
-     * @param socketName: name of the socket the connection "arrives" at
-     * @param connection: name of the connection to be added
+     /// \param socketName: name of the socket the connection "arrives" at
+     /// \param connection: name of the connection to be added
      */
     void
     AddIncomingConnection(const std::string &socketName,
@@ -100,14 +100,14 @@ public:
 
 
     /**
-     * @return the current output of the neuron
+     /// \return the current output of the neuron
      */
     double
     GetOutput() const;
 
     /**
      * Method to set the input of the neuron
-     * @param value: the value the input should be set to
+     /// \param value: the value the input should be set to
      */
     virtual void
     SetInput(double /*value*/)
@@ -115,7 +115,7 @@ public:
 
     /**
      * Calculate the output and save it for when FlipState is called
-     * @param t: current time
+     /// \param t: current time
      */
     void
     Update(double t);
@@ -128,13 +128,13 @@ public:
 
     /**
      * Compute the id for the socket of the next imcoming neural connection
-     * @return id for the socket of the next imcoming neural connection
+     /// \return id for the socket of the next imcoming neural connection
      */
     std::string
     GetSocketId() const;
 
     /**
-     * @return id of the neuron
+     /// \return id of the neuron
      */
     virtual const std::string &
     Id() const;

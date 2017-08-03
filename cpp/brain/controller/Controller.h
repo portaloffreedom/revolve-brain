@@ -42,23 +42,23 @@ public:
 
     /**
      * Get method for the genome
-     * @return current genome
+     /// \return current genome
      */
     virtual Phenotype getPhenotype() = 0;
 
     /**
      * Set method for the phenome
-     * @param newGenome: new genome to use instead of the old one
+     /// \param newGenome: new genome to use instead of the old one
      */
     virtual void setPhenotype(Phenotype phenotype) = 0;
 
     /**
      * Update step called for the controller.
      *
-     * @param actuators List of actuators
-     * @param sensors List of sensors
-     * @param t Current simulation time
-     * @param step Actuation step size in seconds
+     /// \param actuators List of actuators
+     /// \param sensors List of sensors
+     /// \param t Current simulation time
+     /// \param step Actuation step size in seconds
      */
     virtual void update(const std::vector<ActuatorPtr> &actuators,
                         const std::vector<SensorPtr> &sensors,

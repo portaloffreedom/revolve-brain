@@ -48,10 +48,10 @@ public:
     /**
      * Update step called for the brain.
      *
-     * @param actuators List of actuators
-     * @param sensors List of sensors
-     * @param t Current simulation time
-     * @param step Actuation step size in seconds
+     /// \param actuators List of actuators
+     /// \param sensors List of sensors
+     /// \param t Current simulation time
+     /// \param step Actuation step size in seconds
      */
     virtual void update(const std::vector<ActuatorPtr> &actuators,
                         const std::vector<SensorPtr> &sensors,
@@ -61,7 +61,7 @@ public:
     /**
      * If offline, the robot won't update his controller. This is delegated to
      * a supervisor.
-     * @return true if the brain is offline
+     /// \return true if the brain is offline
      */
     bool isOffline() const
     {
@@ -71,7 +71,7 @@ public:
     /**
      * If offline, the robot won't update his controller. This is delegated to
      * a supervisor
-     * @param offline set offline mode on or off
+     /// \param offline set offline mode on or off
      */
     virtual void setOffline(const bool is_offline)
     {

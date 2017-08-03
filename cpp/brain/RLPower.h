@@ -54,12 +54,12 @@ public:
     /**
      * The RLPower constructor reads out configuration file, deretmines which algorithm type to apply and
      * initialises new policy.
-     * @param modelName: name of a robot
-     * @param brain: configuration file
-     * @param evaluator: pointer to fitness evaluatior
-     * @param n_actuators: number of actuators
-     * @param n_sensors: number of sensors
-     * @return pointer to the RLPower class object
+     /// \param modelName: name of a robot
+     /// \param brain: configuration file
+     /// \param evaluator: pointer to fitness evaluatior
+     /// \param n_actuators: number of actuators
+     /// \param n_sensors: number of sensors
+     /// \return pointer to the RLPower class object
      */
     RLPower(std::string modelName,
             Config brain,
@@ -72,10 +72,10 @@ public:
       using revolve::brain::Brain::update;
     /**
      * Method for updating sensors readings, actuators positions, ranked list of policies and generating new policy
-     * @param actuators: vector list of robot's actuators
-     * @param sensors: vector list of robot's sensors
-     * @param t:
-     * @param step:
+     /// \param actuators: vector list of robot's actuators
+     /// \param sensors: vector list of robot's sensors
+     /// \param t:
+     /// \param step:
      */
     virtual void
     update(const std::vector<ActuatorPtr> &actuators,
@@ -211,8 +211,8 @@ private:
 
     /**
      * Generate interpolated spline based on number of sampled control points in 'source_y'
-     * @param source_y: set of control points over which interpolation is generated
-     * @param destination_y: set of interpolated control points (default 100 points)
+     /// \param source_y: set of control points over which interpolation is generated
+     /// \param destination_y: set of interpolated control points (default 100 points)
      */
     void
     interpolateCubic(Policy *const source_y,
@@ -226,7 +226,7 @@ private:
 
     /**
      * Randomly select two policies and return the one with higher fitness
-     * @return an iterator from 'ranked_policies_' map
+     /// \return an iterator from 'ranked_policies_' map
      */
     std::map<double, RLPower::PolicyPtr>::iterator
     binarySelection();
@@ -243,7 +243,7 @@ private:
 
     /**
      * Retrieves fitness for the current policy
-     * @return
+     /// \return
      */
     double
     getFitness();

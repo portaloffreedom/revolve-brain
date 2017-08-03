@@ -32,17 +32,17 @@ class SigmoidNeuron
 public:
     /**
     * Constructor for a sigmoid neuron
-    * @param id: string to identify the neuron
-    * @param params: parameters that specify the behavior of the neuron
-    * @return pointer to the sigmoid neuron
+    /// \param id: string to identify the neuron
+    /// \param params: parameters that specify the behavior of the neuron
+    /// \return pointer to the sigmoid neuron
     */
     SigmoidNeuron(const std::string &id,
                   const std::map<std::string, double> &params);
 
     /**
     * Method to calculate the output of the neuron
-    * @param t: current time
-    * @return the output of the neuron at time t
+    /// \param t: current time
+    /// \return the output of the neuron at time t
     */
     virtual double
     CalculateOutput(double t) override;

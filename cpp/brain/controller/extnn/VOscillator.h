@@ -33,16 +33,16 @@ class VOscillator
 public:
     /**
     * Constructor for a Voscilator neuron
-    * @param id: string to identify the neuron
-    * @param params: parameters that specify the behavior of the neuron
-    * @return pointer to the Voscilator neuron
+    /// \param id: string to identify the neuron
+    /// \param params: parameters that specify the behavior of the neuron
+    /// \return pointer to the Voscilator neuron
     */    VOscillator(const std::string &id,
                       const std::map<std::string, double> &params);
 
     /**
     * Method to calculate the output of the neuron
-    * @param t: current time
-    * @return the output of the neuron at time t
+    /// \param t: current time
+    /// \return the output of the neuron at time t
     */
     virtual double
     CalculateOutput(double t) override;

@@ -47,13 +47,13 @@ public:
      *
      * Light sensor constructors are passed the coordinates with already the offset included
      *
-     * @param robot_name name of the robot to use in logs
-     * @param _encapsulatedLearner encapsulated learner that creates the controllers.
-     * @param _light_constructor_left left fakelight factory.
-     * @param _light_constructor_right right fakelight factory.
-     * @param _light_radius_distance distance of the light from the robot.
-     * @param evaluationTime Time each evaulation should last in seconds. Default to 30 seconds.
-     * @param maxEvaluations Number of evaluation before the program should exit. If negative, the program will never
+     /// \param robot_name name of the robot to use in logs
+     /// \param _encapsulatedLearner encapsulated learner that creates the controllers.
+     /// \param _light_constructor_left left fakelight factory.
+     /// \param _light_constructor_right right fakelight factory.
+     /// \param _light_radius_distance distance of the light from the robot.
+     /// \param evaluationTime Time each evaulation should last in seconds. Default to 30 seconds.
+     /// \param maxEvaluations Number of evaluation before the program should exit. If negative, the program will never
      * stop. Default to -1.
      */
     PhototaxisLearner(const std::string &robot_name,

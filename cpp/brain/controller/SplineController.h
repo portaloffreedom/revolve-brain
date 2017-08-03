@@ -43,8 +43,8 @@ public: // typedefs
 public: // STATIC METHODS
     /**
     * Generate interpolated spline based on number of sampled control points in 'source_y'
-    * @param source_y: set of control points over which interpolation is generated
-    * @param destination_y: set of interpolated control points (default 100 points)
+    /// \param source_y: set of control points over which interpolation is generated
+    /// \param destination_y: set of interpolated control points (default 100 points)
     */
     static void
     Interpolate_cubic(Policy *const source_y,

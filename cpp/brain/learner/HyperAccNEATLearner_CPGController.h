@@ -33,19 +33,19 @@ namespace revolve { namespace brain {
         /**
          * Constructor
          *
-         * @param evaluator pointer to the evaluator
-         * @param n_inputs number of sensory inputs of the robot
-         * @param n_outputs number of outputs of the robot (number of servos). It will create a CPG for
+         /// \param evaluator pointer to the evaluator
+         /// \param n_inputs number of sensory inputs of the robot
+         /// \param n_outputs number of outputs of the robot (number of servos). It will create a CPG for
          * each output.
-         * @param n_coordinates coordinates cardinality for HyperNEAT CPG positioning
-         * @param connections_active square matrix holding connection activator for different CPGs.
+         /// \param n_coordinates coordinates cardinality for HyperNEAT CPG positioning
+         /// \param connections_active square matrix holding connection activator for different CPGs.
          * Dimensions should be n_outputs x n_outputs.
          * If connections[x][y] == false, then the connection between the x and the y cpg will be deactivated.
-         * @param cpgs_coordinates vector of coordinates for each CPG.
+         /// \param cpgs_coordinates vector of coordinates for each CPG.
          * First dimension number should be equivalent to the n_outputs.
          * Second dimension must equal n_coordinates.
-         * @param evaluationTime how much time each evaluation should last
-         * @param maxEvaluations number of evaluations after which the learner will halt.
+         /// \param evaluationTime how much time each evaluation should last
+         /// \param maxEvaluations number of evaluations after which the learner will halt.
          * A negative value will be interpreted as an infinite number of evaluations.
          */
         HyperAccNEATLearner_CPGController(const std::string &robot_name,

@@ -65,12 +65,12 @@ class LayeredExtNNController
 public:
     /**
      * Constructor for a neural network including neurons that are of a different type than the usual ones.
-     * @param modelName: name of the model
-     * @param Config: configuration file
-     * @param evaluator: pointer to the evaluator that is used
-     * @param actuators: vector list of robot's actuators
-     * @param sensors: vector list of robot's sensors
-     * @return pointer to the neural network
+     /// \param modelName: name of the model
+     /// \param Config: configuration file
+     /// \param evaluator: pointer to the evaluator that is used
+     /// \param actuators: vector list of robot's actuators
+     /// \param sensors: vector list of robot's sensors
+     /// \return pointer to the neural network
      */
     LayeredExtNNController(std::string modelName,
                            boost::shared_ptr<LayeredExtNNConfig> Config,
@@ -81,10 +81,10 @@ public:
 
     /**
     * Method for updating sensors readings, actuators positions
-    * @param actuators: vector list of robot's actuators
-    * @param sensors: vector list of robot's sensors
-    * @param t: current time
-    * @param step:
+    /// \param actuators: vector list of robot's actuators
+    /// \param sensors: vector list of robot's sensors
+    /// \param t: current time
+    /// \param step:
     */
     virtual void
     update(const std::vector<ActuatorPtr> &actuators,
@@ -94,14 +94,14 @@ public:
 
     /**
      * Gets the weight of all the connections
-     * @return weights of all neural connections
+     /// \return weights of all neural connections
      */
     virtual boost::shared_ptr<LayeredExtNNConfig>
     getGenotype();
 
     /**
      * Changes the weights of the neural connections
-     * @param weights: new weights to be assigned
+     /// \param weights: new weights to be assigned
      */
     virtual void
     setGenotype(boost::shared_ptr<LayeredExtNNConfig> config);

@@ -75,10 +75,10 @@ public:
     NeuralNetwork();
 
     /**
-     * @param Name of the robot
-     * @param The brain node
-     * @param Reference to motor list, which might be reordered
-     * @param Reference to the sensor list, which might be reordered
+     /// \param Name of the robot
+     /// \param The brain node
+     /// \param Reference to motor list, which might be reordered
+     /// \param Reference to the sensor list, which might be reordered
      */
     NeuralNetwork(std::string modelName,
                   std::vector<ActuatorPtr> &actuators,
@@ -87,8 +87,8 @@ public:
     virtual ~NeuralNetwork() override;
 
     /**
-  * @param Motor list
-  * @param Sensor list
+  /// \param Motor list
+  /// \param Sensor list
   */
     virtual void
     update(const std::vector<ActuatorPtr> &actuators,
