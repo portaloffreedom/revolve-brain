@@ -25,7 +25,7 @@
 
 #include <yaml-cpp/yaml.h>
 
-namespace CPPNEAT {
+namespace cppneat {
 NEATLearner::NEATLearner(MutatorPtr mutator,
                  std::string mutator_path,
                  NEATLearner::LearningConfiguration conf)

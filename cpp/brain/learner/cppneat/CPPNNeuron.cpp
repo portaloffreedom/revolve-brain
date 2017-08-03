@@ -19,7 +19,7 @@
 
 #include "CPPNNeuron.h"
 
-namespace CPPNEAT {
+namespace cppneat {
 
 Neuron::Neuron(Neuron &copy_of)
         :

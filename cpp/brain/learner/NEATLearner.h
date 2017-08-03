@@ -32,7 +32,7 @@
 #include <random>
 
 //crossover between genotypes
-namespace CPPNEAT {
+namespace cppneat {
 class NEATLearner
         : public revolve::brain::Learner<GeneticEncodingPtr>
 {

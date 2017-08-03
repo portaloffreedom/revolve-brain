@@ -23,7 +23,7 @@
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 
-namespace CPPNEAT {
+namespace cppneat {
 
 std::vector<Neuron::Ntype>
 Mutator::get_addable_types(std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> brain_spec)

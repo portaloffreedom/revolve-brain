@@ -13,7 +13,7 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
@@ -25,7 +25,7 @@
 #include <vector>
 
 //class containg all information that is evolved for neurons
-namespace CPPNEAT
+namespace cppneat
 {
   class Neuron
   {
@@ -76,7 +76,11 @@ namespace CPPNEAT
 
     /**
      * tostring     def __str__(self):
-     * return "id={0}, layer={1}, type={2}, part={3}".format(self.neuron_id, self.layer, self.neuron_type, self.body_part_id)
+     * return "id={0}, layer={1}, type={2}, part={3}"
+     *          .format(self.neuron_id,
+     *                  self.layer,
+     *                  self.neuron_type,
+     *                  self.body_part_id)
      */
 
     std::string neuron_id;

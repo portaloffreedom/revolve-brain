@@ -20,14 +20,18 @@
 #ifndef REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_CONNECTIONGENOME_H_
 #define REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_CONNECTIONGENOME_H_
 
-#include "Genome.h"
-//class for connection genes
-namespace CPPNEAT {
-class ConnectionGene
-        : public Gene
-{
+#include <string>
 
-public:
+#include "Genome.h"
+
+//class for connection genes
+namespace cppneat
+{
+  class ConnectionGene
+          : public Gene
+  {
+
+    public:
     ConnectionGene(int mark_to,
                    int mark_from,
                    double weight,
@@ -44,8 +48,7 @@ public:
     { this->gene_type = Gene::CONNECTION_GENE; };
 
     ConnectionGene(ConnectionGene &copy_of)
-            :
-            Gene(copy_of.getInnovNumber(),
+            : Gene(copy_of.getInnovNumber(),
                  copy_of.isEnabled(),
                  copy_of.get_parent_name(),
                  copy_of.get_parent_index())
@@ -55,12 +58,12 @@ public:
             , socket(copy_of.socket)
     { this->gene_type = Gene::CONNECTION_GENE; }
 
-public:
+    public:
     int mark_to;
     int mark_from;
     double weight;
     std::string socket;
-};
+  };
 }
 
 #endif // REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_CONNECTIONGENOME_H_

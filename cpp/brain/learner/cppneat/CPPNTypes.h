@@ -22,7 +22,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace CPPNEAT {
+namespace cppneat {
 class Gene;
 
 class Neuron;

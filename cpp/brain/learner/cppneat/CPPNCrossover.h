@@ -13,7 +13,7 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
@@ -23,15 +23,16 @@
 #include "GeneticEncoding.h"
 
 //crossover between genotypes
-namespace CPPNEAT {
-class Crossover
+namespace cppneat
 {
-public:
+  class Crossover
+  {
+    public:
     static GeneticEncodingPtr
     crossover(GeneticEncodingPtr genotype_more_fit,
               GeneticEncodingPtr genotype_less_fit);
 
-};
+  };
 }
 
 #endif // REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_CROSSOVER_H_
