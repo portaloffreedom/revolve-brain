@@ -148,4 +148,4 @@ CpuNetwork::set_activations(accneat_in std::vector<real_t> &newacts)
   activations = newacts;
 }
 
-#endif // ENABLE_CUDA
+#endif  //  ENABLE_CUDA

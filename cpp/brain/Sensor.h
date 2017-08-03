@@ -49,4 +49,4 @@ typedef boost::shared_ptr<Sensor> SensorPtr;
 }
 
 
-#endif // REVOLVEBRAIN_BRAIN_SENSOR_H_
+#endif  //  REVOLVEBRAIN_BRAIN_SENSOR_H_

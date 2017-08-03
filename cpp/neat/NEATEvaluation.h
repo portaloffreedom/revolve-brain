@@ -59,4 +59,4 @@ private:
     NEAT::Organism *organism;
 };
 
-#endif // REVOLVE_NEAT_NEATEVALUATION_H_
+#endif  //  REVOLVE_NEAT_NEATEVALUATION_H_

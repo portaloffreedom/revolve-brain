@@ -73,4 +73,4 @@ namespace revolve
   }
 }
 
-#endif // REVOLVE_GAZEBO_BRAIN_VOSCILLATOR_H_
+#endif  //  REVOLVE_GAZEBO_BRAIN_VOSCILLATOR_H_

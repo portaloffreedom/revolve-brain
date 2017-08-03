@@ -99,4 +99,4 @@ convertForHyperFromSplines(PolicyPtr policy);
 }
 
 
-#endif // REVOLVEBRAIN_BRAIN_CONVERSION_H_
+#endif  //  REVOLVEBRAIN_BRAIN_CONVERSION_H_

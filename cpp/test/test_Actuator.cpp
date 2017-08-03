@@ -22,18 +22,20 @@
 #include "test_Actuator.h"
 
 TestActuator::TestActuator(bool verbose)
-    : verbose(verbose)
+        : verbose(verbose)
 {
 }
-
 
 unsigned int TestActuator::outputs() const
 {
-    return 1;
+  return 1;
 }
 
-void TestActuator::update(double* output_vector, double step)
+void TestActuator::update(double *output_vector,
+                          double step)
 {
-    if (verbose)
-        std::cout << "TestActuator::update <- " << output_vector[0] << std::endl;
+  if (verbose)
+  {
+    std::cout << "TestActuator::update <- " << output_vector[0] << std::endl;
+  }
 }

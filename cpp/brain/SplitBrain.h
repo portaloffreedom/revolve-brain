@@ -52,4 +52,4 @@ protected:
 }
 }
 
-#endif // REVOLVEBRAIN_BRAIN_SPLITBRAIN_H_
+#endif  //  REVOLVEBRAIN_BRAIN_SPLITBRAIN_H_

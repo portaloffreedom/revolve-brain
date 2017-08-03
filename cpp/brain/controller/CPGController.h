@@ -69,4 +69,4 @@ namespace revolve { namespace brain {
 }}
 
 
-#endif //TRIANGLEOFLIFE_CPGCONTROLLER_H
+#endif  // TRIANGLEOFLIFE_CPGCONTROLLER_H

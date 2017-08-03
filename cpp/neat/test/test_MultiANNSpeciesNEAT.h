@@ -22,25 +22,19 @@
 
 class TestMultiNNSpeciesNeat
 {
-public:
-    TestMultiNNSpeciesNeat();
+  public:
+  TestMultiNNSpeciesNeat();
 
-    ~TestMultiNNSpeciesNeat();
+  ~TestMultiNNSpeciesNeat();
 
-    /**
-     * Runs all tests. Returns false if one of the tests fails.
-     */
-    bool
-    test();
+  /// \brief Runs all tests. Returns false if one of the tests fails.
+  bool  test();
 
-private:
-    /**
-     * test if the algorithm is able to resolve the XOR problem
-     */
-    bool
-    testXOR();
+  private:
+  /// \brief test if the algorithm is able to resolve the XOR problem
+  bool  testXOR();
 
-    const int MAX_EVALUATIONS = 9999;
+  const int MAX_EVALUATIONS = 9999;
 };
 
-#endif // REVOLVE_NEAT_TEST_MULTIANNSPECIESNEAT_H_
+#endif  //  REVOLVE_NEAT_TEST_MULTIANNSPECIESNEAT_H_

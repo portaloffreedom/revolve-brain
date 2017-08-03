@@ -20,15 +20,16 @@
 #ifndef REVOLVE_BRAIN_SUPGBRAIN_H
 #define REVOLVE_BRAIN_SUPGBRAIN_H
 
-#include "Brain.h"
-#include "supg/SUPGNeuron.h"
-#include "neat/AsyncNEAT.h"
-#include "Evaluator.h"
-
 #include <vector>
 #include <memory>
 #include <iostream>
 #include <cstdlib>
+
+#include "Brain.h"
+#include "Evaluator.h"
+
+#include "neat/AsyncNEAT.h"
+#include "supg/SUPGNeuron.h"
 
 namespace revolve {
 namespace brain {
@@ -157,4 +158,4 @@ protected:
 }
 }
 
-#endif // REVOLVE_BRAIN_SUPGBRAIN_H
+#endif  //  REVOLVE_BRAIN_SUPGBRAIN_H

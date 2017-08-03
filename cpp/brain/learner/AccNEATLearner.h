@@ -87,4 +87,4 @@ namespace revolve { namespace brain {
 }}
 
 
-#endif //REVOLVE_BRAIN_ACCNEATLEARNER_H
+#endif  // REVOLVE_BRAIN_ACCNEATLEARNER_H

@@ -100,4 +100,4 @@ public:
     const unsigned int supg_internal_outputs; // 2
 };
 
-#endif // REVOLVEBRAIN_BRAIN_SUPGG_SUPGNEURON_H_
+#endif  //  REVOLVEBRAIN_BRAIN_SUPGG_SUPGNEURON_H_

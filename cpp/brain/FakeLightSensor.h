@@ -56,4 +56,4 @@ protected:
 }
 }
 
-#endif // REVOLVE_BRAIN_FAKELIGHT_H
+#endif  //  REVOLVE_BRAIN_FAKELIGHT_H

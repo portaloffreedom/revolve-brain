@@ -58,4 +58,4 @@ public:
 
 };
 
-#endif // REVOLVEBRAIN_BRAIN_PYTHON_ARRAY_H_
+#endif  //  REVOLVEBRAIN_BRAIN_PYTHON_ARRAY_H_

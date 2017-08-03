@@ -22,24 +22,25 @@
 #include "test_Evaluator.h"
 
 TestEvaluator::TestEvaluator(bool verbose)
-    : verbose(verbose)
-    , rd()
-    , gen(rd())
-    , dis(0, 2)
+        : verbose(verbose)
+          , rd()
+          , gen(rd())
+          , dis(0, 2)
 {
 }
 
 
 void TestEvaluator::start()
 {
-    if (verbose)
-        std::cout << "calling evalutator start" << std::endl;
+  if (verbose)
+    std::cout << "calling evalutator start" << std::endl;
 }
 
 double TestEvaluator::fitness()
 {
-    if (verbose)
-        std::cout << "calling evalutator fitness" << std::endl;
-
-    return dis(gen);
+  if (verbose)
+  {
+    std::cout << "calling evalutator fitness" << std::endl;
+  }
+  return dis(gen);
 }

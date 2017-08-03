@@ -39,8 +39,11 @@ class TestSensor
 
   private:
   bool verbose;
+
   std::random_device rd;
+
   std::mt19937 gen;
+
   std::uniform_real_distribution<double> dis;
 };
 

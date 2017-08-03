@@ -25,25 +25,23 @@
  */
 class TestAsyncNeat
 {
-public:
-    TestAsyncNeat();
+  public:
+  TestAsyncNeat();
 
-    ~TestAsyncNeat();
+  ~TestAsyncNeat();
 
-    /**
-     * Runs all tests. Returns false if one of the tests fails.
-     */
-    bool
-    test();
+  /**
+   * Runs all tests. Returns false if one of the tests fails.
+   */
+  bool test();
 
-private:
-    /**
-     * test if the algorithm is able to resolve the XOR problem
-     */
-    bool
-    testXOR();
+  private:
+  /**
+   * test if the algorithm is able to resolve the XOR problem
+   */
+  bool testXOR();
 
-    const int MAX_EVALUATIONS = 9999;
+  const int MAX_EVALUATIONS = 9999;
 };
 
-#endif // REVOLVE_NEAT_TEST_ASYNCNEAT_H_
+#endif  //  REVOLVE_NEAT_TEST_ASYNCNEAT_H_

@@ -29,46 +29,38 @@
 #include <vector>
 
 
-namespace revolve {
-namespace brain {
-
-template <typename Phenotype>
-class Controller
+namespace revolve
 {
-public:
+  namespace brain
+  {
+    template <typename Phenotype>
+    class Controller
+    {
+      public:
 
-    virtual ~Controller()
-    {};
+      virtual ~Controller()
+      {};
 
-    /**
-     * Get method for the genome
-     /// \return current genome
-     */
-    virtual Phenotype getPhenotype() = 0;
-
-    /**
-     * Set method for the phenome
-     /// \param newGenome: new genome to use instead of the old one
-     */
-    virtual void setPhenotype(Phenotype phenotype) = 0;
-
-    /**
-     * Update step called for the controller.
-     *
-     /// \param actuators List of actuators
-     /// \param sensors List of sensors
-     /// \param t Current simulation time
-     /// \param step Actuation step size in seconds
-     */
-    virtual void update(const std::vector<ActuatorPtr> &actuators,
-                        const std::vector<SensorPtr> &sensors,
-                        double t,
-                        double step) = 0;
+      /// \brief Get method for the genome
+      /// \return current genome
+      virtual Phenotype getPhenotype() = 0;
 
 
-};
+      /// \brief Set method for the phenome
+      /// \param newGenome: new genome to use instead of the old one
+      virtual void setPhenotype(Phenotype phenotype) = 0;
 
-}
+      /// \brief Update step called for the controller.
+      /// \param actuators List of actuators
+      /// \param sensors List of sensors
+      /// \param t Current simulation time
+      /// \param step Actuation step size in seconds
+      virtual void update(const std::vector<ActuatorPtr> &actuators,
+                          const std::vector<SensorPtr> &sensors,
+                          double t,
+                          double step) = 0;
+    };
+  }
 }
 
-#endif // REVOLVEBRAIN_BRAIN_CONTROLLER_CONTROLLER_H_
+#endif  //  REVOLVEBRAIN_BRAIN_CONTROLLER_CONTROLLER_H_

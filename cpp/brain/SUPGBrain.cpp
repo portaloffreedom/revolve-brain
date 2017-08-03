@@ -17,15 +17,16 @@
 *
 */
 
-
-#include "SUPGBrain.h"
-#include "neat/AsyncNEAT.h"
+#include <ctime>
+#include <iomanip>
+#include <limits>
+#include <string>
 #include <sstream>
 #include <stdexcept>
-#include <limits>
-#include <iomanip>
-#include <string>
-#include <ctime>
+
+#include "neat/AsyncNEAT.h"
+
+#include "SUPGBrain.h"
 
 using namespace revolve::brain;
 

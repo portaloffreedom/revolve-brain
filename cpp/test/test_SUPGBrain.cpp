@@ -13,13 +13,10 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: November 14, 2016
 *
 */
-
-//
-// Created by matteo on 14/11/16.
-//
 
 #include <boost/make_shared.hpp>
 
@@ -36,7 +33,8 @@ int main()
   std::cout << "testing supgbrain" << std::endl;
   AsyncNeat::Init(test_name);
 
-  revolve::brain::EvaluatorPtr testEvaluator = boost::make_shared<TestEvaluator>();
+  revolve::brain::EvaluatorPtr
+          testEvaluator = boost::make_shared<TestEvaluator>();
 
   std::vector<revolve::brain::SensorPtr> sensors;
   for (int i = 0; i < 10; i++)
@@ -61,9 +59,7 @@ int main()
 
   for (float time = 0; time < 1000; time += delta_time)
   {
-    testBrain.test_update(actuators,
-                          sensors,
-                          time, delta_time);
+    testBrain.test_update(actuators, sensors, time, delta_time);
   }
 
   AsyncNeat::CleanUp();
@@ -85,7 +81,8 @@ TestSUPGBrain::TestSUPGBrain(revolve::brain::EvaluatorPtr evaluator,
 void
 TestSUPGBrain::test_update(const std::vector<revolve::brain::ActuatorPtr> &actuators,
                            const std::vector<revolve::brain::SensorPtr> &sensors,
-                           double t, double step)
+                           double t,
+                           double step)
 {
   this->update(actuators, sensors, t, step);
 }

@@ -43,4 +43,4 @@ typedef boost::shared_ptr<revolve::brain::Evaluator> EvaluatorPtr;
 }
 }
 
-#endif // REVOLVEBRAIN_BRAIN_EVALUATOR_H
+#endif  //  REVOLVEBRAIN_BRAIN_EVALUATOR_H

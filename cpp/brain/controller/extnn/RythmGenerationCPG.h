@@ -93,4 +93,4 @@ namespace revolve
   }
 }
 
-#endif //TOL_REVOLVE_RYTHMGENERATIONCPG_H
+#endif  // TOL_REVOLVE_RYTHMGENERATIONCPG_H

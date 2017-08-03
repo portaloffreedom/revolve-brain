@@ -45,4 +45,4 @@ typedef boost::shared_ptr<Actuator> ActuatorPtr;
 }
 
 
-#endif // REVOLVEBRAIN_BRAIN_ACTUATOR_H_
+#endif  //  REVOLVEBRAIN_BRAIN_ACTUATOR_H_

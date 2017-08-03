@@ -24,19 +24,24 @@
 
 #include "brain/Evaluator.h"
 
-class TestEvaluator : public revolve::brain::Evaluator
+class TestEvaluator
+        : public revolve::brain::Evaluator
 {
-public:
-    TestEvaluator(bool verbose = false);
+  public:
+  TestEvaluator(bool verbose = false);
 
-    void start() override;
-    double fitness() override;
+  void start() override;
 
-private:
-    bool verbose;
-    std::random_device rd;
-    std::mt19937 gen;
-    std::uniform_real_distribution<double> dis;
+  double fitness() override;
+
+  private:
+  bool verbose;
+
+  std::random_device rd;
+
+  std::mt19937 gen;
+
+  std::uniform_real_distribution<double> dis;
 };
 
-#endif // TESTEVALUATOR_H
+#endif  // TESTEVALUATOR_H

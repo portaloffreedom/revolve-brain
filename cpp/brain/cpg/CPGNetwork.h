@@ -13,21 +13,19 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: November 9, 2016
 *
 */
-
-//
-// Created by matteo on 09/11/16.
-//
 
 #ifndef REVOLVE_BRAIN_CPGNETWORK_H
 #define REVOLVE_BRAIN_CPGNETWORK_H
 
-#include "RythmGenerationNeuron.h"
-#include "PatternFormationNeuron.h"
-#include "MotoNeuron.h"
 #include <memory>
+
+#include "MotoNeuron.h"
+#include "PatternFormationNeuron.h"
+#include "RythmGenerationNeuron.h"
 
 namespace revolve
 {
@@ -51,15 +49,11 @@ namespace revolve
 
         virtual ~CPGNetwork();
 
-        /**
-         /// \brief calculates next output of the network
-         *
-         * Updates the network to the new steps and returns the next result
-         *
-         /// \param sensor_readings vector containing sensor readings
-         /// \param step time passed since last update
-         /// \return revolve::brain::cpg::real_t output for the network after the update
-         */
+        /// \brief calculates next output of the network
+        /// Updates the network to the new steps and returns the next result
+        /// \param sensor_readings vector containing sensor readings
+        /// \param step time passed since last update
+        /// \return revolve::brain::cpg::real_t output for the network after the update
         real_t update(const std::vector<real_t> &sensor_readings,
                       double step);
 
@@ -229,4 +223,4 @@ namespace revolve
 }
 
 
-#endif //REVOLVE_BRAIN_CPGNETWORK_H
+#endif  // REVOLVE_BRAIN_CPGNETWORK_H

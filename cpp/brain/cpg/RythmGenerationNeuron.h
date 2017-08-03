@@ -34,18 +34,17 @@ namespace revolve
               : public revolve::brain::cpg::Neuron
       {
         public:
-        /**
-         * RythmGenerationNeuron constructor. Starting value of phi is 1
-         /// \param weight the weight that determines the shape [0, 4.5]
-         /// \param weight_neigbours the weights for the connected neighbours. This
-         * size must be `inputs.size()-1` in the update function
-         /// \param c the phase difference [-2, 2]
-         /// \param amplitude the amplitude determines influence of a flexor/extensor
-         * on the final output signal [−10, 10]
-         /// \param offset the offset dims shape of the final output signal to the
-         * starting position [-0.1, 0.1]
-         * @throws invalid_parameter if one of the given parameters is out of range
-         */
+        /// \brief RythmGenerationNeuron constructor. Starting value of phi is 1
+        /// \param weight the weight that determines the shape [0, 4.5]
+        /// \param weight_neigbours the weights for the connected neighbours.
+        /// This size must be `inputs.size()-1` in the update function
+        /// \param c the phase difference [-2, 2]
+        /// \param amplitude the amplitude determines influence of a
+        /// flexor/extensor on the final output signal [−10, 10]
+        /// \param offset the offset dims shape of the final output signal to
+        /// the starting position [-0.1, 0.1]
+        /// \throws invalid_parameter if one of the given parameters is out of
+        /// range
         RythmGenerationNeuron(real_t weight,
                               std::vector<real_t> weight_neigbours,
                               real_t c,
@@ -54,45 +53,46 @@ namespace revolve
 
         virtual ~RythmGenerationNeuron();
 
-        /**
-         * Update the rythm generator to the step (t+1)
-         /// \param inputs std::vector<real_t> of size 1 + weight_neigbours.size()
-         * contaning the phi of the coupled RythmGenerationNeuron
-         /// \param delta_time time passed since the last update. Value in seconds
-         * expected to be positive and relativly small. Big time steps could have
-         * weird effects on the network.
-         /// \return std::vector<real_t> of size 2. First element has the output of
-         * the RythmGenerationNeuron, second element has the update phi value
-         * @throws invalid_input_exception if input vector is not of the correct
-         * size
-         */
+
+        /// \brief  Update the rythm generator to the step (t+1)
+        /// \param inputs std::vector<real_t> of size 1 + weight_neigbours.size()
+        /// contaning the phi of the coupled RythmGenerationNeuron
+        /// \param delta_time time passed since the last update. Value in
+        /// seconds expected to be positive and relativly small. Big time steps
+        /// could have weird effects on the network.
+        /// \return std::vector<real_t> of size 2. First element has the output
+        /// of the RythmGenerationNeuron, second element has the update phi
+        /// value
+        /// \throws invalid_input_exception if input vector is not of the
+        /// correct size
         virtual std::vector<real_t> update(std::vector<real_t> inputs,
                                            real_t delta_time) override;
 
         protected:
-        /**
-         * Calculates the next phi value and returns it. It is NOT updating this->phi.
-         /// \param inputs the phi of the coupled RythmGenerationNeuron (in position 0) and the phis of the neighbours
-         * nodes
-         /// \param delta_time time passed since the last update. Value in seconds expected to be
-         * positive and relativly small. Big time steps could have weird effects on the network.
-         /// \return new phi value
-         */
+
+        /// \brief Calculates the next phi value and returns it. It is NOT
+        /// updating this->phi.
+        /// \param inputs the phi of the coupled RythmGenerationNeuron
+        /// (in position 0) and the phis of the neighbours
+        /// nodes
+        /// \param delta_time time passed since the last update. Value in
+        /// seconds expected to be
+        /// positive and relativly small. Big time steps could have weird
+        /// effects on the network.
+        /// \return new phi value
         real_t nextPhi(const std::vector<real_t> &inputs,
                        real_t delta_time) const;
 
-        /**
-         * Calculates the output value of the neuron using the current phi value
-         /// \return the output value of the RythmGenerationNeuron
-         */
+
+        /// \brief  Calculates the output value of the neuron using the current
+        /// phi value
+        /// \return the output value of the RythmGenerationNeuron
         real_t output() const;
 
 // GETTERS AND SETTERS
         public:
-        /**
-         * Returns current phi value
-         /// \return current phi value
-         */
+        /// \brief  Returns current phi value
+        /// \return current phi value
         real_t getPhi() const;
 
         real_t getWeight() const;
@@ -100,7 +100,8 @@ namespace revolve
         /// \brief the weight that determines the shape [0, 1.0]
         void setWeight(real_t weight);
 
-        // value from 0 to 1, does not throw exceptions if value is outside the allowed domain
+        /// \brief value from 0 to 1, does not throw exceptions if value is
+        /// outside the allowed domain
         real_t setWeightPercentage(real_t weight);
 
         real_t calculateWeightPercentage(real_t weight) const;
@@ -113,7 +114,8 @@ namespace revolve
         void setWeightNeighbour(real_t weight,
                                 size_t index);
 
-        // value from 0 to 1, does not throw exceptions if value is outside the allowed domain
+        /// \brief value from 0 to 1, does not throw exceptions if value is
+        /// outside the allowed domain
         real_t setWeightNeighbourPercentage(real_t weight,
                                             size_t index);
 
@@ -175,7 +177,8 @@ namespace revolve
         const real_t OFFSET_MAX = 0.1;
 
         protected:
-        // current value
+
+        /// \brief current value
         real_t phi;
 
         private:
@@ -204,4 +207,4 @@ namespace revolve
 }
 
 
-#endif //REVOLVE_BRAIN_RYTHMGENERATIONNEURON_H
+#endif  // REVOLVE_BRAIN_RYTHMGENERATIONNEURON_H

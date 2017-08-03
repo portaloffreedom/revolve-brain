@@ -88,28 +88,24 @@ namespace revolve
 
       virtual ~RafCPGController();
 
-      /**
-      * Method for updating sensors readings, actuators positions
+
+      /// \brief Method for updating sensors readings, actuators positions
       /// \param actuators: vector list of robot's actuators
       /// \param sensors: vector list of robot's sensors
       /// \param t: current time
       /// \param step:
-      */
       virtual void update(const std::vector<ActuatorPtr> &actuators,
                           const std::vector<SensorPtr> &sensors,
                           double t,
                           double step);
 
-      /**
-       * Gets the weight of all the connections
-       /// \return weights of all neural connections
-       */
+      /// \brief Gets the weight of all the connections
+      /// \return weights of all neural connections
       virtual CPPNConfigPtr getPhenotype();
 
-      /**
-       * Changes the weights of the neural connections
-       /// \param weights: new weights to be assigned
-       */
+
+      /// \brief Changes the weights of the neural connections
+      /// \param weights: new weights to be assigned
       virtual void setPhenotype(CPPNConfigPtr _config);
 
       void writeNetwork(std::ofstream &write_to);
@@ -149,9 +145,8 @@ namespace revolve
 
       /// \brief vector of all the neural connections
       std::vector<NeuralConnectionPtr> connections_;
-
     };
   }
 }
 
-#endif // REVOLVEBRAIN_BRAIN_CONTROLLER_EXTENDEDANN_H_
+#endif  //  REVOLVEBRAIN_BRAIN_CONTROLLER_EXTENDEDANN_H_

@@ -21,15 +21,15 @@
 #ifndef REVOLVE_BRAIN_CPGBRAIN_H
 #define REVOLVE_BRAIN_CPGBRAIN_H
 
+#include <iostream>
+#include <map>
+
+#include "Brain.h"
+#include "Evaluator.h"
 #include "brain/cpg/CPGNetwork.h"
 #include "brain/cpg/RythmGenerationNeuron.h"
 #include "brain/cpg/PatternFormationNeuron.h"
 #include "brain/cpg/MotoNeuron.h"
-#include "Brain.h"
-#include "Evaluator.h"
-
-#include <iostream>
-#include <map>
 
 namespace revolve
 {
@@ -42,19 +42,20 @@ namespace revolve
       public:
 
       using revolve::brain::Brain::update;
-
-       /// \brief CPGBrain constructor
-       /// \param robot_name the robot name (for logs)
-       /// \param evaluator pointer to the evaluator to evoluate the brain
-       /// \param n_actuators number of actuators
-       /// \param n_sensors number of sensors
+      /// \brief CPGBrain constructor
+      /// \param robot_name the robot name (for logs)
+      /// \param evaluator pointer to the evaluator to evoluate the brain
+      /// \param n_actuators number of actuators
+      /// \param n_sensors number of sensors
       CPGBrain(std::string robot_name,
                EvaluatorPtr evaluator,
                size_t n_actuators,
                size_t n_sensors);
 
+      /// \brief
       virtual ~CPGBrain();
 
+      /// \brief
       virtual void update(const std::vector<ActuatorPtr> &actuators,
                           const std::vector<SensorPtr> &sensors,
                           double t,
@@ -114,46 +115,51 @@ namespace revolve
         delete[] outputs;
       }
 
+      /// \brief
       void connectionsToGenotype();
 
       protected:
-      // robot name
+      /// \brief robot name
       const std::string robot_name;
-
 
       // -- controller data --
 
-      // number of sensory inputs expected
+      /// \brief number of sensory inputs expected
       size_t n_inputs;
-      // number of actuators
-      size_t n_actuators;
-      //list of cpgs
-      std::vector<cpg::CPGNetwork *> cpgs;
-      /** Connection matrix between the different servos
-       * First is start of the connections, second is end.
-       * Example: connections[0][1].we is the connection starting from servo 0
-       * and reacing servo 1 for the RythmGenerationNeurons E
-       */
-      std::vector<std::vector<cpg::CPGNetwork::Weights>> connections;
 
+      /// \brief number of actuators
+      size_t n_actuators;
+
+      /// \brief list of cpgs
+      std::vector<cpg::CPGNetwork *> cpgs;
+
+      /// \brief Connection matrix between the different servos
+      /// First is start of the connections, second is end.
+      /// \example connections[0][1].we is the connection starting from servo 0
+      /// and reacing servo 1 for the RythmGenerationNeurons E
+      std::vector<std::vector<cpg::CPGNetwork::Weights>> connections;
 
       // -- learner data --
 
-      // Evaluator for the brain
+      /// \brief Evaluator for the brain
       const EvaluatorPtr evaluator;
-      // last start of the evaluations. Needed to check duration of current evaluation.
-      double start_eval_time_;
-      // id of the current generation
-      size_t generation_counter_;
-      // needs to implement the grace period in starting the controller
-      bool evaluator_started = false;
 
+      /// \brief last start of the evaluations. Needed to check duration of
+      /// current evaluation.
+      double start_eval_time_;
+
+      /// \brief id of the current generation
+      size_t generation_counter_;
+
+      /// \brief needs to implement the grace period in starting the controller
+      bool evaluator_started = false;
 
       // -- learner parameters --
 
-      // How many seconds should every evaluation last
+      /// \brief How many seconds should every evaluation last
       const double evaluation_rate_;
-      // Maximal number of evaluations
+
+      /// \brief Maximal number of evaluations
       const size_t max_evaluations_;
 
 // RLPOWER SECTION ------------------------------------------------------------
@@ -163,36 +169,38 @@ namespace revolve
       typedef std::vector<GenomePtr> Policy;
       typedef std::shared_ptr<Policy> PolicyPtr;
 
-
-       /// \brief Evaluate the current policy and generate new
-       /// \param fitness fitness of the current evaluation
+      /// \brief Evaluate the current policy and generate new
+      /// \param fitness fitness of the current evaluation
       void updatePolicy(double fitness);
 
-      /**
-       * Randomly select two policies and return the one with higher fitness
-       /// \return an iterator from 'ranked_policies_' map
-       */
+      /// \brief Randomly select two policies and return the one with higher
+      /// fitness
+      /// \return an iterator from 'ranked_policies_' map
       std::map<double, PolicyPtr>::iterator binarySelection();
 
       /// \brief update the new parameters in the cpgs
       void genomeToPhenotype();
 
       private:
-      // Pointer to the current policy
+      /// \brief Pointer to the current policy
       PolicyPtr current_policy_ = nullptr;
-      // Container
+
+      /// \brief Container
       std::map<double, PolicyPtr, std::greater<cpg::real_t>> ranked_policies_;
 
-      // sigma decay
-      static const double SIGMA_DECAY_SQUARED;// = 0.98;
+      /// \brief sigma decay // = 0.98;
+      static const double SIGMA_DECAY_SQUARED;
 
-      // Type of the used algorithm
+      /// \brief Type of the used algorithm
       char algorithm_type_ = 'B';
-      // Maximal number of stored ranked policies
-      size_t max_ranked_policies_; // = 10
-      // Noise in generatePolicy() function
-      double noise_sigma_; // = 0.008
-      // Tau deviation for self-adaptive sigma
+
+      /// \brief Maximal number of stored ranked policies // = 10
+      size_t max_ranked_policies_;
+
+      /// \brief Noise in generatePolicy() function // = 0.008
+      double noise_sigma_;
+
+      /// \brief Tau deviation for self-adaptive sigma
       double sigma_tau_correction_ = 0.2;
 
     };
@@ -201,4 +209,4 @@ namespace revolve
 }
 
 
-#endif //REVOLVE_BRAIN_CPGBRAIN_H
+#endif  // REVOLVE_BRAIN_CPGBRAIN_H

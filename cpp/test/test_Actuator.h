@@ -22,17 +22,19 @@
 
 #include "brain/Actuator.h"
 
-class TestActuator : public revolve::brain::Actuator
+class TestActuator
+        : public revolve::brain::Actuator
 {
-public:
-    TestActuator(bool verbose = false);
+  public:
+  TestActuator(bool verbose = false);
 
-    virtual void update(double *output_vector,
-                        double step) override;
-    virtual unsigned int outputs() const override;
+  virtual void update(double *output_vector,
+                      double step) override;
 
-private:
-    bool verbose;
+  virtual unsigned int outputs() const override;
+
+  private:
+  bool verbose;
 };
 
-#endif // TESTACTUATOR_H
+#endif  //  TESTACTUATOR_H

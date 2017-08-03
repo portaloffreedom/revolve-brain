@@ -80,4 +80,4 @@ class SUPGBrainPhototaxis : protected SUPGBrain
 }
 }
 
-#endif // REVOLVE_BRAIN_SUPGBRAINPHOTOTAXIS_H
+#endif  //  REVOLVE_BRAIN_SUPGBRAINPHOTOTAXIS_H

@@ -47,5 +47,5 @@ namespace revolve { namespace brain {
 }}
 
 
-#endif //REVOLVE_BRAIN_GENERICLEARNERBRAIN_H}}
+#endif  // REVOLVE_BRAIN_GENERICLEARNERBRAIN_H}}
 

@@ -48,4 +48,4 @@ typedef boost::shared_ptr<GeneticEncoding> GeneticEncodingPtr;
 typedef boost::shared_ptr<Mutator> MutatorPtr;
 }
 
-#endif // REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_TYPES_H_
+#endif  //  REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_TYPES_H_

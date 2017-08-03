@@ -34,4 +34,4 @@ typedef float real_t;
 }
 }
 
-#endif //REVOLVE_BRAIN_CPGTYPES_H
+#endif  // REVOLVE_BRAIN_CPGTYPES_H

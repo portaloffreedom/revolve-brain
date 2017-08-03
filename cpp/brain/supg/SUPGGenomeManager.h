@@ -38,4 +38,4 @@ public:
                            const std::string &robot_name) override;
 };
 
-#endif // REVOLVEBRAIN_BRAIN_SUPGG_SUPGGENOMEMANAGER_H_
+#endif  //  REVOLVEBRAIN_BRAIN_SUPGG_SUPGGENOMEMANAGER_H_

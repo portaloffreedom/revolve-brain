@@ -40,20 +40,16 @@ namespace revolve
       class Neuron
       {
         public:
-        /**
-         * Virtual function to standardize all neurons
-         /// \param inputs std::vector<real> containing the neuron inputs
-         /// \param delta_time time passed since the last update. Value in seconds expected to be
-         * positive and relativly small. Big time steps could have weird effects on the network.
-         * @throws should throw invalid_input_exception if input vector is not of the correct size
-         /// \return std::vector<real> containing the network output
-         */
+        /// \brief Virtual function to standardize all neurons
+        /// \param inputs std::vector<real> containing the neuron inputs
+        /// \param delta_time time passed since the last update. Value in seconds expected to be
+        /// positive and relativly small. Big time steps could have weird effects on the network.
+        /// \throws should throw invalid_input_exception if input vector is not of the correct size
+        /// \return std::vector<real> containing the network output
         virtual std::vector<real_t> update(std::vector<real_t> inputs,
                                            real_t delta_time) = 0;
 
-        /**
-         * Exception for update function, in case the input vector is not ok for the neuron
-         */
+        /// \brief Exception for update function, in case the input vector is not ok for the neuron
         class invalid_input_exception
                 : public std::exception
         {
@@ -72,9 +68,7 @@ namespace revolve
           const std::string desc;
         };
 
-        /**
-         * Exception for parameters setters and constructors in Neurons
-         */
+        /// \brief  Exception for parameters setters and constructors in Neurons
         class invalid_parameter
                 : public std::exception
         {
@@ -141,4 +135,4 @@ namespace revolve
 }
 
 
-#endif //REVOLVE_BRAIN_CPGNEURON_H
+#endif  // REVOLVE_BRAIN_CPGNEURON_H

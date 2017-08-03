@@ -37,4 +37,4 @@ typedef boost::shared_ptr<revolve::brain::RafCPGController> RafCPGControllerPtr;
 }
 }
 
-#endif //TOL_REVOLVE_TYPES_H
+#endif  // TOL_REVOLVE_TYPES_H

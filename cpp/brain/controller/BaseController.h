@@ -56,4 +56,4 @@ namespace revolve
   }
 }
 
-#endif // REVOLVE_BRAIN_BASECONTROLLER_H_
+#endif  //  REVOLVE_BRAIN_BASECONTROLLER_H_

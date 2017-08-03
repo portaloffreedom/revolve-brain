@@ -51,4 +51,4 @@ public:
 }
 }
 
-#endif // REVOLVE_BRAIN_RLPOWER_PYTHON_H
+#endif  //  REVOLVE_BRAIN_RLPOWER_PYTHON_H

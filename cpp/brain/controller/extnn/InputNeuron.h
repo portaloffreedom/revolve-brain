@@ -47,10 +47,13 @@ namespace revolve
       /// \return the output of the neuron at time t
       double CalculateOutput(double t) override;
 
+      /// \brief
       std::map<std::string, double> getNeuronParameters() override;
 
+      /// \brief
       void setNeuronParameters(std::map<std::string, double> params) override;
 
+      /// \brief
       std::string getType() override;
 
       /// \brief input of the neuron
@@ -60,4 +63,4 @@ namespace revolve
   }
 }
 
-#endif // REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTNEURON_H_
+#endif  //  REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTNEURON_H_

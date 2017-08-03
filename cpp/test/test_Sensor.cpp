@@ -22,27 +22,27 @@
 #include "test_Sensor.h"
 
 TestSensor::TestSensor(bool verbose)
-    : verbose(verbose)
-    , rd()
-    , gen(rd())
-    , dis(0, 2)
+        : verbose(verbose)
+        , rd()
+        , gen(rd())
+        , dis(0, 2)
 {
 }
 
 std::string TestSensor::sensorId() const
 {
-    return std::string("TestSensor");
+  return std::string("TestSensor");
 }
 
 unsigned int TestSensor::inputs() const
 {
-    return 1;
+  return 1;
 }
 
-void TestSensor::read(double* input_vector)
+void TestSensor::read(double *input_vector)
 {
-    input_vector[0] = dis(gen);
+  input_vector[0] = dis(gen);
 
-    if (verbose)
-        std::cout << "TestSensor::read <- " << input_vector[0] << std::endl;
+  if (verbose)
+    std::cout << "TestSensor::read <- " << input_vector[0] << std::endl;
 }

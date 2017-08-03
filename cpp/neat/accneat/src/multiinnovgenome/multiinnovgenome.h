@@ -57,4 +57,4 @@ private:
 
 }
 
-#endif // MULTIINNOVGENOME_H
+#endif  //  MULTIINNOVGENOME_H
