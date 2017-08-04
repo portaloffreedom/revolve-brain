@@ -27,14 +27,13 @@ namespace revolve
 {
   namespace brain
   {
-
     template <typename Genotype>
     class Learner
     {
       public:
 
       virtual ~Learner()
-      {};
+      {}
 
       /// \brief Method to report the fitness of a robot
       /// \param[in] id: identifier of a robot (in case there are multiple ones)
@@ -51,7 +50,6 @@ namespace revolve
       /// \param[in] id: identifier of a robot (in case there are multiple ones)
       /// \return new genome
       virtual Genotype currentGenotype() = 0;
-
     };
   }
 }

@@ -12,7 +12,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
+* Description: Crossover between genotypes
 * Author: Rafael Kiesel
 *
 */
@@ -22,7 +22,6 @@
 
 #include "GeneticEncoding.h"
 
-//crossover between genotypes
 namespace cppneat
 {
   class Crossover
@@ -31,7 +30,6 @@ namespace cppneat
     static GeneticEncodingPtr
     crossover(GeneticEncodingPtr genotype_more_fit,
               GeneticEncodingPtr genotype_less_fit);
-
   };
 }
 

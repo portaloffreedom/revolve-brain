@@ -72,8 +72,8 @@ namespace NEAT
     /// \brief
     virtual void verify() override;
 
-//    virtual void
-//    write(std::ostream &out) override;
+    //    virtual void
+    //    write(std::ostream &out) override;
 
     private:
     /// \brief
@@ -106,6 +106,6 @@ namespace NEAT
     /// \brief If too high, leads to delta coding
     int highest_last_changed;
   };
-} // namespace NEAT
+}  // namespace NEAT
 
 #endif

@@ -13,17 +13,15 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: March 14, 2017
 *
 */
 
-//
-// Created by matteo on 3/14/17.
-//
-
 #include "network/cpu/cpunetwork.h"
+
 #include "brain/controller/CPGController.h"
-#include "brain/cpg/CPGNetwork.h"
+
 #include "HyperAccNEATLearner_CPGController.h"
 
 using namespace revolve::brain;
@@ -39,15 +37,15 @@ HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(const std::
                                                                      const std::vector<std::vector<float>> &cpgs_coordinates,
                                                                      const float evaluationTime,
                                                                      const long maxEvaluations)
-    : AccNEATLearner(robot_name,
-                     evaluator,
-                     (n_coordinates + 1) * 2,
-                     HyperAccNEATLearner_CPGController::CPPN_OUTPUT_SIZE,
-                     evaluationTime,
-                     maxEvaluations),
-      connections_active(connections_active),
-      cpgs_coordinates(cpgs_coordinates),
-      n_coordinates(n_coordinates + 1)
+        : AccNEATLearner(robot_name,
+                         evaluator,
+                         (n_coordinates + 1) * 2,
+                         HyperAccNEATLearner_CPGController::CPPN_OUTPUT_SIZE,
+                         evaluationTime,
+                         maxEvaluations)
+          , connections_active(connections_active)
+          , cpgs_coordinates(cpgs_coordinates)
+          , n_coordinates(n_coordinates + 1)
 {
   assert(connections_active.size() == n_outputs);
   for (const auto &connection_row: connections_active)
@@ -58,7 +56,7 @@ HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(const std::
     assert(cpg_coordinates.size() == n_coordinates);
 
   std::unique_ptr<CPGController> controller(
-      new CPGController(n_inputs, n_outputs)
+          new CPGController(n_inputs, n_outputs)
   );
 
   this->active_controller = std::move(controller);
@@ -68,25 +66,30 @@ HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(const std::
   AsyncNeat::SetRecurOnlyProb(0);
 }
 
-BaseController * HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
+BaseController *
+HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
 {
-  if (current_evalaution) {
+  if (current_evalaution)
+  {
     // not first `create_new_controller`
     current_evalaution->finish(fitness);
   }
   current_evalaution = neat->getEvaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
-      current_evalaution->getOrganism()->net.get()
+          current_evalaution->getOrganism()->net.get()
   );
 
-  CPGController *controller = (CPGController *) active_controller.get();
+  CPGController *controller = (CPGController *)active_controller.get();
 
   size_t x = 0;
-  for (auto cpg_it = controller->beginCPGNetwork(); cpg_it != controller->endCPGNetwork(); cpg_it++) {
+  for (auto cpg_it =
+          controller->beginCPGNetwork(); cpg_it != controller->endCPGNetwork(); cpg_it++)
+  {
     cpg::CPGNetwork *cpg = (*cpg_it);
 
     // LOAD CPPN start and end coordinates (skip one input for the z)
-    for (size_t i = 0; i < n_coordinates - 1; i++) {
+    for (size_t i = 0; i < n_coordinates - 1; i++)
+    {
       auto c = cpgs_coordinates[x][i];
       cppn->load_sensor(i, c); //start
       cppn->load_sensor(n_coordinates + i, c); //end
@@ -98,7 +101,8 @@ BaseController * HyperAccNEATLearner_CPGController::create_new_controller(double
      * the CPG neuron. They are appended at the end of
      * the full CPG coordinate
      */
-    for (int z = -1; z <= 1; z += 2) {
+    for (int z = -1; z <= 1; z += 2)
+    {
       // LOAD z input coordinate
       cppn->load_sensor(n_coordinates - 1, z); //start
       cppn->load_sensor(n_coordinates * 2 - 1, z); //end
@@ -124,7 +128,8 @@ BaseController * HyperAccNEATLearner_CPGController::create_new_controller(double
        * and end coordinates different.
        */
 
-      if (z < 0) { //E
+      if (z < 0)
+      { //E
         // Rhythm generator parameters
 //        cpg->setRGEWeightPercentage(output[0]);    //1
         cpg->setRGEAmplitudePercentage(output[0]); //2
@@ -134,7 +139,8 @@ BaseController * HyperAccNEATLearner_CPGController::create_new_controller(double
         // Pattern Formation parameters
         cpg->setPFEAlphaPercentage(output[2]); //5
         cpg->setPFEThetaPercentage(output[3]); //6
-      } else { //F
+      } else
+      { //F
         // Rhythm generator parameters
 //        cpg->setRGFWeightPercentage(output[0]);    //1
         cpg->setRGFAmplitudePercentage(output[0]); //2
@@ -149,7 +155,8 @@ BaseController * HyperAccNEATLearner_CPGController::create_new_controller(double
 
     const size_t n_cpgs = cpgs_coordinates.size();
     // Repeat for both z coordinates
-    for (int z = -1; z <= 1; z += 2) {
+    for (int z = -1; z <= 1; z += 2)
+    {
       // LOAD z input coordinate
       cppn->load_sensor(n_coordinates - 1, z); //start
       cppn->load_sensor(n_coordinates * 2 - 1, z); //end
@@ -162,14 +169,17 @@ BaseController * HyperAccNEATLearner_CPGController::create_new_controller(double
        * we save the weights is the end part, not the start as
        * intuition could erroneously suggest you.
        */
-      for (size_t y = 0; y < n_cpgs; y++) {
+      for (size_t y = 0; y < n_cpgs; y++)
+      {
         // ignore self connection
-        if (x == y) {
+        if (x == y)
+        {
           continue;
         }
 
         // change start node
-        for (size_t i = 0; i < n_coordinates - 1; i++) {
+        for (size_t i = 0; i < n_coordinates - 1; i++)
+        {
           auto c = cpgs_coordinates[y][i];
           cppn->load_sensor(i, c); //start
         }
@@ -178,15 +188,19 @@ BaseController * HyperAccNEATLearner_CPGController::create_new_controller(double
         cppn->activate(1);
         NEAT::real_t *output = cppn->get_outputs();
 
-        if (connections_active[x][y]) {
+        if (connections_active[x][y])
+        {
           // set connection
           // (first connection is the weight)
-          if (z < 0) {// E
+          if (z < 0)
+          {// E
             cpg->setRGEWeightNeighbourPercentage(output[0], y);
-          } else {
+          } else
+          {
             cpg->setRGFWeightNeighbourPercentage(output[0], y);
           }
-        } else {
+        } else
+        {
           // set connection weight to 0 to truncate connection
           cpg->setRGEWeightNeighbour(0, y);
           cpg->setRGFWeightNeighbour(0, y);

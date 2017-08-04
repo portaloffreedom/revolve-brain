@@ -22,13 +22,14 @@
 
 #pragma once
 
+#include <algorithm>
+
 #include "cudautil.h"
 #include "cudanetwork.h"
 #include "cudanetworkkernel.h"
 
 namespace NEAT
 {
-
   template <typename Evaluator>
   class CudaNetworkBatch
   {
@@ -72,7 +73,7 @@ namespace NEAT
         uint net_sizeof_shared = (2 * sizeof(real_t) * dims.nnodes.all)
                                  + (sizeof(real_t) * Threads_Per_Block);
 
-        //main buffer
+        // main buffer
         {
           uint sizeof_links = sizeof(CudaLink) * dims.nlinks;
           uint sizeof_partitions =
@@ -86,7 +87,7 @@ namespace NEAT
           lens.main += net_lens.main;
         }
 
-        //gpu_states buffer
+        // gpu_states buffer
         {
           uint sizeof_state = sizeof(GpuState);
 
@@ -97,7 +98,7 @@ namespace NEAT
           lens.gpu_states += net_lens.gpu_states;
         }
 
-        //output buffer
+        // output buffer
         {
           uint sizeof_evals = sizeof(OrganismEvaluation);
 
@@ -164,7 +165,6 @@ namespace NEAT
     CudaNetworkBatch(int device_)
             : device(device_)
     {
-
       cudaSetDevice(device);
 
       memset(&offsets, 0, sizeof(offsets));
@@ -222,7 +222,6 @@ namespace NEAT
       memcpy(results, h_bufs.output, sizeof(OrganismEvaluation) * nnets);
     }
   };
-
 }
 
 #endif

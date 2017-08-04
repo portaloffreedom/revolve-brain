@@ -17,17 +17,22 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_STATIC_STATICEVALUATOR_H_
+#define CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_STATIC_STATICEVALUATOR_H_
+
 #pragma once
 
-#include "neattypes.h"
-#include <vector>
 #include <string>
+#include <vector>
 
-namespace NEAT {
+#include "neattypes.h"
 
-// Specifies a set of input activations and an expected set of output activations.
-struct Step
+namespace NEAT
 {
+  /// \brief Specifies a set of input activations and an expected set of output
+  /// activations.
+  struct Step
+  {
     std::vector<real_t> input;
     std::vector<real_t> output;
     real_t weight;
@@ -35,36 +40,36 @@ struct Step
     Step(const std::vector<real_t> &input_,
          const std::vector<real_t> &output_,
          real_t weight_ = 1.0)
-            :
-            input(input_)
-            , output(output_)
-            , weight(weight_)
+            : input(input_)
+              , output(output_)
+              , weight(weight_)
     {
     }
-};
+  };
 
-// A set of Steps for which the neural net state is expected to begin in its default
-// state.
-struct Test
-{
+  /// \brief A set of Steps for which the neural net state is expected to begin
+  /// in its default state.
+  struct Test
+  {
     std::string name;
     std::vector<Step> steps;
 
     Test(const std::string &name_,
          const std::vector<Step> &steps_)
-            :
-            name(name_), steps(steps_)
+            : name(name_)
+              , steps(steps_)
     {
     }
 
     Test(const std::vector<Step> &steps_)
-            :
-            name(""), steps(steps_)
+            : name("")
+              , steps(steps_)
     {
     }
-};
+  };
 
-extern class NetworkEvaluator *
-create_static_evaluator(const std::vector<Test> &tests);
-
+  extern class NetworkEvaluator *
+  create_static_evaluator(const std::vector<Test> &tests);
 }
+
+#endif

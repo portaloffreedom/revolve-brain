@@ -21,6 +21,7 @@
 #define REVOLVEBRAIN_BRAIN_SIMPLESPLITBRAIN_H_
 
 #include <iostream>
+#include <string>
 
 #include "ConverterSplitBrain.h"
 #include "Evaluator.h"

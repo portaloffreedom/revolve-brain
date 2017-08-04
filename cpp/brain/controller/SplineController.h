@@ -13,7 +13,7 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
 *
 */
 
@@ -24,101 +24,108 @@
 
 #include "BaseController.h"
 
-namespace revolve {
-namespace brain {
-
-class BaseLearner;
-
-class SplineController
-        : public BaseController
+namespace revolve
 {
-public: // typedefs
-    typedef std::vector<double> Spline;
-    typedef std::vector<Spline> Policy;
-    typedef std::shared_ptr<Policy> PolicyPtr;
+  namespace brain
+  {
+    class BaseLearner;
 
-    friend class BaseLearner;
-
-// METHODS-FUNCTIONS ----------------------------------------------------------
-public: // STATIC METHODS
-    /**
-    * Generate interpolated spline based on number of sampled control points in 'source_y'
-    /// \param source_y: set of control points over which interpolation is generated
-    /// \param destination_y: set of interpolated control points (default 100 points)
-    */
-    static void
-    Interpolate_cubic(Policy *const source_y,
-                      Policy *destination_y);
-
-    static SplineController *
-    GenerateRandomController(double noise_sigma,
-                             unsigned int n_actuators,
-                             unsigned int n_spline_points,
-                             unsigned int interpolation_cache_size);
-
-    static SplineController *
-    GenerateRandomController(double noise_sigma,
-                             unsigned int n_actuators,
-                             unsigned int n_spline_points)
+    class SplineController
+            : public BaseController
     {
-      return GenerateRandomController(noise_sigma,
-                                      n_actuators,
-                                      n_spline_points,
-                                      INTERPOLATION_CACHE_SIZE);
-    }
+      public:  // typedefs
+      typedef std::vector<double> Spline;
+      typedef std::vector<Spline> Policy;
+      typedef std::shared_ptr<Policy> PolicyPtr;
 
-public: // methods
-    explicit SplineController(unsigned int n_actuators,
-                              unsigned int n_spline_points,
-                              unsigned int interpolation_cache_size);
+      friend class BaseLearner;
 
-    explicit SplineController(unsigned int n_actuators,
-                              unsigned int n_spline_points);
+      // METHODS-FUNCTIONS -----------------------------------------------------
+      public:  // STATIC METHODS
+      /// \brief Generate interpolated spline based on number of sampled control
+      /// points in 'source_y'
+      /// \param source_y: set of control points over which interpolation is
+      /// generated
+      /// \param destination_y: set of interpolated control points
+      /// (default 100 points)
+      static void Interpolate_cubic(Policy *const source_y,
+                                    Policy *destination_y);
 
-    virtual ~SplineController();
+      /// \brief
+      static SplineController *
+      GenerateRandomController(double noise_sigma,
+                                unsigned int n_actuators,
+                                unsigned int n_spline_points,
+                                unsigned int interpolation_cache_size);
 
-    virtual void
-    update(const std::vector<ActuatorPtr> &actuators,
-           const std::vector<SensorPtr> &sensors,
-           double t,
-           double step) override;
+      /// \brief
+      static SplineController *
+      GenerateRandomController(double noise_sigma,
+                                unsigned int n_actuators,
+                                unsigned int n_spline_points)
+      {
+        return GenerateRandomController(noise_sigma,
+                                        n_actuators,
+                                        n_spline_points,
+                                        INTERPOLATION_CACHE_SIZE);
+      }
 
-    virtual void
-    generateOutput(const double time,
-                   double *output_vector);
+      public:  // methods
+      /// \brief
+      explicit SplineController(unsigned int n_actuators,
+                                unsigned int n_spline_points,
+                                unsigned int interpolation_cache_size);
 
-    /**
-     * Generate cache policy
-     */
-    void
-    update_cache();
+      /// \brief
+      explicit SplineController(unsigned int n_actuators,
+                                unsigned int n_spline_points);
 
-// VARIABLES-CONSTANTS --------------------------------------------------------
-public: // STATIC CONSTANTS
-    // cycle lenght in seconds
-    static const double CYCLE_LENGTH;// = 5 seconds
-    /** Default value for the number of `interpolation_cache` data points
-     * (default value for `interpolation_cache_size`)
-     */
-    static const unsigned int INTERPOLATION_CACHE_SIZE;// = 100
+      /// \brief
+      virtual ~SplineController();
 
-protected: // consts
-    // number of actuators the spline is expeting to write into
-    const unsigned int n_actuators;
-    // number of spline points
-    const unsigned int n_spline_points;
-    // Number of `interpolation_cache` data points
-    const unsigned int interpolation_cache_size;
+      /// \brief
+      virtual void update(const std::vector<ActuatorPtr> &actuators,
+                          const std::vector<SensorPtr> &sensors,
+                          double t,
+                          double step) override;
 
-protected: // variables
-    // Pointer to the current policy
-    PolicyPtr policy;
-    // Pointer to the interpolated current_policy_ (default 100 points)
-    PolicyPtr interpolation_cache = nullptr;
-    double cycle_start_time;
-};
+      /// \brief
+      virtual void generateOutput(const double time,
+                                  double *output_vector);
 
-}
+      /// \brief Generate cache policy
+      void update_cache();
+
+      // VARIABLES-CONSTANTS ---------------------------------------------------
+      public:  // STATIC CONSTANTS
+      /// \brief cycle lenght in seconds = 5 seconds
+      static const double CYCLE_LENGTH;
+      /// \brief  Default value for the number of `interpolation_cache` data
+      /// points (default value for `interpolation_cache_size`) = 100
+      static const unsigned int INTERPOLATION_CACHE_SIZE;
+
+      protected:  // consts
+      /// \brief number of actuators the spline is expeting to write into
+      const unsigned int n_actuators;
+
+      /// \brief number of spline points
+      const unsigned int n_spline_points;
+
+      /// \brief Number of `interpolation_cache` data points
+      const unsigned int interpolation_cache_size;
+
+      protected:  // variables
+      /// \brief Pointer to the current policy
+      PolicyPtr policy;
+
+      /// \brief Pointer to the interpolated current_policy_
+      /// (default 100 points)
+      PolicyPtr interpolation_cache = nullptr;
+
+      /// \brief
+      double cycle_start_time;
+    };
+  }
 }
 
 #endif  //  REVOLVEBRAIN_BRAIN_CONTROLLER_SPLINECONTROLLER_H_

@@ -32,51 +32,69 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+#ifndef CPP_NEAT_ACCNEAT_SRC_GENOME_H_
+#define CPP_NEAT_ACCNEAT_SRC_GENOME_H_
+
 #pragma once
+
+#include <string>
 
 #include "util/rng.h"
 
-namespace NEAT {
-
-class Genome
+namespace NEAT
 {
-public:
+  class Genome
+  {
+    public:
+    /// \brief
     rng_t rng;
-    int genome_id;
-    const std::string * robot_name;
 
+    /// \brief
+    int genome_id;
+
+    /// \brief
+    const std::string *robot_name;
+
+    /// \brief
     Genome(const std::string &robot_name)
             : Genome(&robot_name)
     {}
 
+    /// \brief
     Genome(const std::string *robot_name)
             : robot_name(robot_name)
     {}
 
+    /// \brief
     virtual ~Genome()
     {}
 
-    virtual Genome &
-    operator=(const Genome &other) = 0;
+    /// \brief
+    virtual Genome &operator=(const Genome &other) = 0;
 
-    virtual void
-    init_phenotype(class Network &net) = 0;
+    /// \brief
+    virtual void init_phenotype(class Network &net) = 0;
 
+    /// \brief
     virtual void verify() = 0;
 
-
+    /// \brief
     virtual void save(std::ostream &out) const = 0;
+
+    /// \brief
     virtual bool load(std::istream &in) = 0;
 
-    struct Stats {
-        size_t nnodes;
-        size_t nlinks;
+    /// \brief
+    struct Stats
+    {
+      size_t nnodes;
+      size_t nlinks;
     };
 
-    virtual Stats
-    get_stats() = 0;
-};
+    /// \brief
+    virtual Stats get_stats() = 0;
+  };
+}  // namespace NEAT
 
-} // namespace NEAT
-
-
+#endif

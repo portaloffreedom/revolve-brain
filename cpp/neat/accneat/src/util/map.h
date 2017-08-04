@@ -22,12 +22,11 @@
 
 #pragma once
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace NEAT
 {
-
   struct Glyph
   {
     std::string type;
@@ -56,10 +55,12 @@ namespace NEAT
       if (index.row < other.index.row)
       {
         return true;
-      } else if (index.row == other.index.row)
+      }
+      else if (index.row == other.index.row)
       {
         return index.col < other.index.col;
-      } else
+      }
+      else
       {
         return false;
       }
@@ -94,7 +95,6 @@ namespace NEAT
   };
 
   Map parse_map(std::string path);
-
 }
 
 #endif

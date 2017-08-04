@@ -13,16 +13,15 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: November 9, 2016
 *
 */
 
-//
-// Created by matteo on 09/11/16.
-//
-
 #ifndef REVOLVE_BRAIN_MOTONEURON_H
 #define REVOLVE_BRAIN_MOTONEURON_H
+
+#include <vector>
 
 #include "CPGNeuron.h"
 
@@ -32,7 +31,6 @@ namespace revolve
   {
     namespace cpg
     {
-
       class MotoNeuron
               : revolve::brain::cpg::Neuron
       {
@@ -66,7 +64,6 @@ namespace revolve
         private:
         real_t v_max;
       };
-
     }
   }
 }

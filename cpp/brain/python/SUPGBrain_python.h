@@ -26,28 +26,28 @@
 
 #include "brain/SUPGBrain.h"
 
-namespace revolve {
-namespace brain {
-
-class SUPGBrain_python
-        : public revolve::brain::SUPGBrain
+namespace revolve
 {
-public:
-    SUPGBrain_python(revolve::brain::EvaluatorPtr evaluator,
-                     const boost::python::list /*< boost::python::list< float > >*/ &neuron_coordinates,
-                     const boost::python::list /*< ActuatorPtr> */ &motors,
-                     const boost::python::list /*< SensorPtr> */ &sensors);
+  namespace brain
+  {
+    class SUPGBrain_python
+            : public revolve::brain::SUPGBrain
+    {
+      public:
+      SUPGBrain_python(revolve::brain::EvaluatorPtr evaluator,
+              /*< boost::python::list< float > >*/
+                       const boost::python::list &neuron_coordinates,
+              /*< ActuatorPtr> */
+                       const boost::python::list &motors,
+              /*< SensorPtr> */
+                       const boost::python::list &sensors);
 
-
-    void
-    update(boost::python::list &actuators,
-           const boost::python::list &sensors,
-           double t,
-           double step);
-
-};
-
-}
+      void update(boost::python::list &actuators,
+                  const boost::python::list &sensors,
+                  double t,
+                  double step);
+    };
+  }
 }
 
 #endif  //  REVOLVEBRAIN_BRAIN_PYTHON_SUPGBRAIN_H_

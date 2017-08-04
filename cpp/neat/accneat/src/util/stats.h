@@ -39,7 +39,8 @@ namespace NEAT
   template <typename T, typename U = double>
   U mean(const std::vector<T> &vec)
   {
-    if (vec.size() == 0) return NAN;
+    if (vec.size() == 0)
+    { return NAN; }
     return sum<T, U>(vec) / vec.size();
   }
 
@@ -50,7 +51,9 @@ namespace NEAT
     for (size_t i = 1; i < vec.size(); i++)
     {
       if (vec[i] < minval)
+      {
         minval = vec[i];
+      }
     }
     return minval;
   }
@@ -62,7 +65,9 @@ namespace NEAT
     for (size_t i = 1; i < vec.size(); i++)
     {
       if (vec[i] > maxval)
+      {
         maxval = vec[i];
+      }
     }
     return maxval;
   }
@@ -95,7 +100,8 @@ namespace NEAT
       result.min = min(vec);
       result.max = max(vec);
       result.mean = mean<T, double>(vec);
-    } else
+    }
+    else
     {
       result.min = result.max = result.mean = 0;
     }

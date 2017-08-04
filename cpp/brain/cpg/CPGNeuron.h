@@ -14,13 +14,14 @@
 *
 * Description: TODO: <Add brief description about file purpose>
 * Author: Matteo De Carlo
- * Date: November 1, 2016
+* Date: November 1, 2016
 *
 */
 
 #ifndef REVOLVE_BRAIN_CPGNEURON_H
 #define REVOLVE_BRAIN_CPGNEURON_H
 
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -108,7 +109,8 @@ namespace revolve
           if (percentage > 1)
           {
             return range_end;
-          } else if (percentage < 0)
+          }
+          else if (percentage < 0)
           {
             return range_start;
           }
@@ -125,7 +127,8 @@ namespace revolve
           if (value > range_end)
           {
             return 1;
-          } else if (value < range_start)
+          }
+          else if (value < range_start)
           {
             return 0;
           }
@@ -138,6 +141,5 @@ namespace revolve
     }
   }
 }
-
 
 #endif  // REVOLVE_BRAIN_CPGNEURON_H

@@ -13,7 +13,7 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
@@ -26,8 +26,6 @@ namespace revolve
 {
   namespace brain
   {
-
-
     InputDependentOscillatorNeuron::InputDependentOscillatorNeuron(const std::string &id,
                                                                    const std::map<std::string, double> &params) :
             Neuron(id)
@@ -38,8 +36,7 @@ namespace revolve
       {
         std::cerr
                 << "An `Oscillator` neuron requires"
-
-                        " `rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
+                << " `rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }
@@ -58,11 +55,15 @@ namespace revolve
            it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
-        inputValue +=
-                inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+        inputValue += inConnection->GetInputNeuron()->GetOutput()
+                      * inConnection->GetWeight();
       }
-      return 0.5 * (1.0 + this->gain_ *
-                          sin(2.0 * M_PI / (this->period_) * (inputValue - this->period_ * this->phaseOffset_)));
+      return 0.5
+             * (1.0 + this->gain_
+                      * sin(2.0 * M_PI
+                            / (this->period_)
+                            * (inputValue - this->period_
+                                            * this->phaseOffset_)));
     }
 
     std::map<std::string, double>

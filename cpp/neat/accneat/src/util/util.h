@@ -31,13 +31,28 @@
 
 namespace NEAT
 {
-#define error(msg) {std::cerr << __FILE__ << ":" << __LINE__ << ": " << msg << std::endl; exit(1);}
-#define warn(msg) {std::cerr << __FILE__ << ":" << __LINE__ << ": " << msg << std::endl;}
-#define trap(msg) {std::cerr << __FILE__ << ":" << __LINE__ << ": " << msg << std::endl; abort();}
-#define impl() {std::cerr << __FILE__ << ":" << __LINE__ << ": IMPLEMENT!" << std::endl; abort();}
-#define panic() {std::cerr << __FILE__ << ":" << __LINE__ << ": PANIC!" << std::endl; abort();}
+#define error(msg) { std::cerr << __FILE__                                     \
+                     << ":" << __LINE__                                        \
+                     << ": " << msg << std::endl;                              \
+                     exit(1); }
+#define warn(msg) { std::cerr << __FILE__                                      \
+                    << ":" << __LINE__                                         \
+                    << ": " << msg << std::endl; }
+#define trap(msg) { std::cerr << __FILE__                                      \
+                    << ":" << __LINE__                                         \
+                    << ": " << msg << std::endl;                               \
+                    abort(); }
+#define impl() { std::cerr << __FILE__                                         \
+                 << ":" << __LINE__                                            \
+                 << ": IMPLEMENT!" << std::endl;                               \
+                 abort(); }
+#define panic() { std::cerr << __FILE__                                        \
+                  << ":" << __LINE__                                           \
+                  << ": PANIC!" << std::endl;                                  \
+                  abort(); }
 
-#define sh(cmd) {int rc = system(cmd); if (rc != 0) error("Failed executing " << cmd);}
+#define sh(cmd) { int rc = system(cmd); \
+                  if (rc != 0) error("Failed executing " << cmd);}
 
   template <typename Container, typename Predicate>
   void erase_if(Container &cont,
@@ -188,7 +203,8 @@ void mkdir(const std::string &path);
 
 bool exists(const std::string &path);
 
-// e.g. ("ab", 3) --> {"aaa", "aab", "aba", "abb", "baa", "bab", "bba", "bbb"}
+/// \example
+/// ("ab", 3) --> {"aaa", "aab", "aba", "abb", "baa", "bab", "bba", "bbb"}
 std::vector<std::string> permute_repeat(const std::string &letters,
                                         size_t len);
 

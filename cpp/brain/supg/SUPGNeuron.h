@@ -22,82 +22,97 @@
 
 #include <vector>
 #include <chrono>
+
 #include "network/cpu/cpunetwork.h"
 
 class SUPGNeuron
 {
-public:
-    SUPGNeuron(NEAT::CpuNetwork *cppn,
-               std::vector<float> coordinates,
-               NEAT::real_t cicle_length);
+  public:
+  /// \brief
+  SUPGNeuron(NEAT::CpuNetwork *cppn,
+             std::vector<float> coordinates,
+             NEAT::real_t cicle_length);
 
-    SUPGNeuron(const SUPGNeuron &other,
-               std::vector<float> coordinates,
-               NEAT::real_t cicle_length);
+  /// \brief
+  SUPGNeuron(const SUPGNeuron &other,
+             std::vector<float> coordinates,
+             NEAT::real_t cicle_length);
 
-    virtual ~SUPGNeuron();
+  /// \brief
+  virtual ~SUPGNeuron();
 
-    static unsigned int
-    GetDimensionInput(unsigned int n_inputs,
-                      unsigned int coordinates_size);
+  /// \brief
+  static unsigned int GetDimensionInput(unsigned int n_inputs,
+                                        unsigned int coordinates_size);
 
-    static unsigned int
-    GetDimensionOutput(unsigned int n_outputs);
+  /// \brief
+  static unsigned int GetDimensionOutput(unsigned int n_outputs);
 
-    void
-    reset(float global_time);
+  /// \brief
+  void reset(float global_time);
 
-    void
-    activate(float global_time);
+  /// \brief
+  void activate(float global_time);
 
-    void
-    load_sensor(size_t isensor,
-                NEAT::real_t activation);
+  /// \brief
+  void load_sensor(size_t isensor,
+                   NEAT::real_t activation);
 
-    void
-    setCppn(NEAT::CpuNetwork *cppn);
+  /// \brief
+  void setCppn(NEAT::CpuNetwork *cppn);
 
-    NEAT::real_t *
-    get_outputs();
+  /// \brief
+  NEAT::real_t *get_outputs();
 
-    NEAT::NetDims
-    get_dims();
+  /// \brief
+  NEAT::NetDims get_dims();
 
-private:
-    NEAT::CpuNetwork *cppn;
-    NEAT::real_t start_timer;
-    std::vector<float> coordinates;
-    NEAT::real_t const timer_window;
-    bool started_timer_flag;
+  private:
+  /// \brief
+  NEAT::CpuNetwork *cppn;
 
-    /**
-     * create values from cppn (limit value from 0 to 1)
-     */
-    void
-    init_timer(float global_time);
+  /// \brief
+  NEAT::real_t start_timer;
 
-    void
-    set_coordinates(std::vector<float> coordinates);
+  /// \brief
+  std::vector<float> coordinates;
 
-    void
-    load_coordinates();
+  /// \brief
+  NEAT::real_t const timer_window;
 
-    NEAT::real_t
-    get_timer(float global_time);
+  /// \brief
+  bool started_timer_flag;
 
-public:
-    enum Input
-    {
-        TIMER = 0,
-        COORDINATE_OFFSET = 1
-    };
-    const unsigned int supg_internal_inputs; // 1 + coordinate.size()
-    enum Output
-    {
-        OFFSET = 0,
-        RESET_TRIGGER = 1
-    };
-    const unsigned int supg_internal_outputs; // 2
+  /// \brief create values from cppn (limit value from 0 to 1)
+  void init_timer(float global_time);
+
+  /// \brief
+  void set_coordinates(std::vector<float> coordinates);
+
+  /// \brief
+  void load_coordinates();
+
+  /// \brief
+  NEAT::real_t get_timer(float global_time);
+
+  public:
+  enum Input
+  {
+    TIMER = 0,
+    COORDINATE_OFFSET = 1
+  };
+
+  /// \brief 1 + coordinate.size()
+  const unsigned int supg_internal_inputs;
+
+  enum Output
+  {
+    OFFSET = 0,
+    RESET_TRIGGER = 1
+  };
+
+  /// \brief 2
+  const unsigned int supg_internal_outputs;
 };
 
 #endif  //  REVOLVEBRAIN_BRAIN_SUPGG_SUPGNEURON_H_

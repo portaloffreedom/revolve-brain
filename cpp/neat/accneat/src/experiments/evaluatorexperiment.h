@@ -24,6 +24,8 @@
 
 #include <fstream>
 #include <functional>
+#include <string>
+#include <vector>
 
 #include "genomemanager.h"
 #include "experiment.h"
@@ -36,11 +38,11 @@
 
 namespace NEAT
 {
-  //------------------------------
-  //---
-  //--- CLASS EvaluatorExperiment
-  //---
-  //------------------------------
+  ////------------------------
+  ///
+  /// CLASS EvaluatorExperiment
+  ///
+  ////------------------------
   class EvaluatorExperiment
           : public Experiment
   {
@@ -48,9 +50,7 @@ namespace NEAT
     std::string get_dir_path(int experiment_num)
     {
       char buf[1024];
-      std::sprintf(buf,
-                   "./experiment_%d",
-                   experiment_num);
+      std::snprintf(buf, "./experiment_%d", experiment_num);
       return buf;
     }
 
@@ -58,16 +58,14 @@ namespace NEAT
                                  int generation)
     {
       char buf[1024];
-      std::sprintf(buf,
-                   "%s/fittest_%d",
-                   get_dir_path(experiment_num).c_str(),
-                   generation);
+      std::snprintf(buf, "%s/fittest_%d",
+                    get_dir_path(experiment_num).c_str(), generation);
       return buf;
     }
 
     public:
     typedef std::function<NetworkEvaluator *()> CreateEvaluatorFunc;
-    typedef std::function<std::vector<std::unique_ptr<Genome>>(rng_t rng)>
+    typedef std::function<std::vector<std::unique_ptr<Genome >>(rng_t rng)>
             CreateSeedsFunc;
 
     CreateEvaluatorFunc create_evaluator;
@@ -109,14 +107,14 @@ namespace NEAT
       {
         mkdir(get_dir_path(expcount));
 
-        //Create a unique rng sequence for this experiment
+        // Create a unique rng sequence for this experiment
         rng_t rng_exp(rng.integer());
 
         fittest = nullptr;
         env->genome_manager = GenomeManager::create(get_name());
         vector<unique_ptr<Genome>> genomes = create_seeds(rng_exp);
 
-        //Spawn the Population
+        // Spawn the Population
         pop = Population::create(rng_exp, genomes);
 
         bool success = false;
@@ -151,10 +149,10 @@ namespace NEAT
           timer.stop();
           Timer::report();
 
-          //Don't print on success because we'll exit the loop and print then.
-//          if (not success && (gen % env->print_every == 0))
-//            print(expcount,
-//                  gen);
+          // Don't print on success because we'll exit the loop and print then.
+          //          if (not success && (gen % env->print_every == 0))
+          //            print(expcount,
+          //                  gen);
         }
 
         if (success)
@@ -188,7 +186,6 @@ namespace NEAT
       cout << "fitness stats: " << stats(fitness) << endl;
       cout << "nnodes stats: " << stats(nnodes) << endl;
       cout << "nlinks stats: " << stats(nlinks) << endl;
-
     }
 
     private:
@@ -203,8 +200,7 @@ namespace NEAT
     //      fittest->write(out);
     //    }
 
-    void
-    evaluate()
+    void evaluate()
     {
       using namespace std;
 

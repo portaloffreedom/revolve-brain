@@ -31,7 +31,7 @@ RythmGenerationNeuron::RythmGenerationNeuron(real_t weight,
                                              real_t amplitude,
                                              real_t offset)
         : phi(1)
-        , weight_neigbours(weight_neigbours)
+          , weight_neigbours(weight_neigbours)
 {
   setWeight(weight);
   setC(c);
@@ -60,7 +60,7 @@ std::vector<real_t> RythmGenerationNeuron::update(std::vector<real_t> inputs,
             << inputs.size();
     throw invalid_input_exception(ss.str());
   }
-//     real_t otherPhi = inputs[0];
+  //  real_t otherPhi = inputs[0];
 
   // creating output value from previous phi
   real_t _output = output();

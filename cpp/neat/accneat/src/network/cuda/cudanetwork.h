@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "cudautil.h"
 #include "network/network.h"
 
@@ -35,9 +37,9 @@
 
 namespace NEAT
 {
-  //---
-  //--- CLASS CudaLink
-  //---
+  ///
+  /// CLASS CudaLink
+  ///
   struct CudaLink
   {
     link_size_t partition;
@@ -45,9 +47,9 @@ namespace NEAT
     real_t weight;
   };
 
-  //---
-  //--- CLASS ActivationPartition
-  //---
+  ///
+  /// CLASS ActivationPartition
+  ///
   struct ActivationPartition
   {
     node_size_t out_node_index;
@@ -55,9 +57,9 @@ namespace NEAT
     uchar len;
   };
 
-  //---
-  //--- CLASS Offsets
-  //---
+  ///
+  /// CLASS Offsets
+  ///
   struct Offsets
   {
     struct
@@ -75,9 +77,9 @@ namespace NEAT
     } output;
   };
 
-  //---
-  //--- CLASS Lens
-  //---
+  ///
+  /// CLASS Lens
+  ///
   struct Lens
   {
     uint main;
@@ -85,9 +87,9 @@ namespace NEAT
     uint output;
   };
 
-  //---
-  //--- CLASS RawBuffers
-  //---
+  ///
+  /// CLASS RawBuffers
+  ///
   struct RawBuffers
   {
     uchar *main;
@@ -95,18 +97,18 @@ namespace NEAT
     uchar *output;
   };
 
-  //---
-  //--- CLASS CudaNetDims
-  //---
+  ///
+  /// CLASS CudaNetDims
+  ///
   struct CudaNetDims
           : public NetDims
   {
     link_size_t npartitions;
   };
 
-  //---
-  //--- CLASS GpuState
-  //---
+  ///
+  /// CLASS GpuState
+  ///
   struct GpuState
   {
     CudaNetDims dims;
@@ -129,9 +131,9 @@ namespace NEAT
     return (ActivationPartition *)(bufs.main + offs.main.partitions);
   }
 
-  //---
-  //--- CLASS CudaNetwork
-  //---
+  ///
+  /// CLASS CudaNetwork
+  ///
   class CudaNetwork
           : public Network
   {
@@ -203,7 +205,6 @@ namespace NEAT
           if ((i % Threads_Per_Block == 0)
               || (link.out_node_index != partition.out_node_index))
           {
-
             if (i != 0)
             {
               partitions.push_back(partition);
@@ -220,12 +221,10 @@ namespace NEAT
           gpu_link.partition = partitions.size();
           gpu_link.weight = link.weight;
         }
-
         partitions.push_back(partition);
       }
       dims.npartitions = partitions.size();
     }
-
   };
 }
 

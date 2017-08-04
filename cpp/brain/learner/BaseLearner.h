@@ -1,27 +1,29 @@
 ﻿/*
-* Copyright (C) 2017 Vrije Universiteit Amsterdam
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
-*
-*/
+ * Copyright (C) 2017 Vrije Universiteit Amsterdam
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Description: TODO: <Add brief description about file purpose>
+ * Author: Matteo De Carlo
+ *
+ */
 
 #ifndef REVOLVEBRAIN_BRAIN_LEARNER_BASELEARNER_H_
 #define REVOLVEBRAIN_BRAIN_LEARNER_BASELEARNER_H_
 
-#include <vector>
 #include <memory>
+#include <string>
+#include <vector>
+
 #include "brain/Actuator.h"
 #include "brain/Sensor.h"
 #include "brain/controller/BaseController.h"
@@ -30,11 +32,9 @@ namespace revolve
 {
   namespace brain
   {
-
     class BaseLearner
     {
       public:
-
       /// \brief takes ownership of the controller and moves it inside
       /// \param controller p_controller: the base_controller will take
       /// ownership of this controller
@@ -43,7 +43,7 @@ namespace revolve
       explicit BaseLearner(std::unique_ptr<BaseController> controller,
                            const std::string &robot_name);
 
-      // REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
+      /// \brief REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
       virtual ~BaseLearner();
 
       /// \brief Updates the learner and modifies the controller if needed. Is
@@ -71,10 +71,9 @@ namespace revolve
       /// \return revolve::brain::base_controller* the controller you should use
       /// in this update cycle. The pointer is guaranteed to be valid until the
       /// end of the update cycle.
-      virtual BaseController *
-      update(const std::vector<SensorPtr> &sensors,
-             double t,
-             double step);
+      virtual BaseController *update(const std::vector<SensorPtr> &sensors,
+                                     double t,
+                                     double step);
 
       protected:
 
@@ -91,8 +90,7 @@ namespace revolve
       /// the controller inside another.
       /// \param fitness fitness of the previous controller.
       /// \return pointer to the new controller.
-      virtual BaseController *
-      create_new_controller(double fitness) = 0;
+      virtual BaseController *create_new_controller(double fitness) = 0;
 
       protected:
       /// \brief pointer to the current active controller

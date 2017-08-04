@@ -12,7 +12,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
+* Description: Class combining meta and normal informations for neurons
 * Author: TODO <Add proper author>
 *
 */
@@ -20,17 +20,17 @@
 #ifndef REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_NEURONGENOME_H_
 #define REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_NEURONGENOME_H_
 
+#include <string>
+
 #include "Genome.h"
 #include "CPPNNeuron.h"
 #include "CPPNTypes.h"
 
-//class combining meta and normal informations for neurons
 namespace cppneat
 {
   class NeuronGene
           : public Gene
   {
-
     public:
     NeuronGene(NeuronPtr neuron,
                int innov_number = 0,
@@ -57,6 +57,7 @@ namespace cppneat
     }
 
     public:
+
     NeuronPtr neuron;
   };
 }

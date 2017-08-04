@@ -22,6 +22,9 @@
 #define TRIANGLEOFLIFE_PHOTOTAXISLEARNER_H
 
 #include <cmath>
+#include <limits>
+#include <string>
+#include <vector>
 
 #include "BaseLearner.h"
 #include "brain/FakeLightSensor.h"
@@ -55,12 +58,13 @@ namespace revolve
       /// Default to 30 seconds.
       /// \param maxEvaluations Number of evaluation before the program should
       /// exit. If negative, the program will never stop. Default to -1.
-      PhototaxisLearner(const std::string &robot_name,
-                        std::unique_ptr<EncapsulatedLearner> _encapsulatedLearner,
-                        std::function<boost::shared_ptr<FakeLightSensor>(
-                                std::vector<float> coordinates)> _light_constructor_left,
-                        std::function<boost::shared_ptr<FakeLightSensor>(
-                                std::vector<float> coordinates)> _light_constructor_right,
+      PhototaxisLearner(
+              const std::string &robot_name,
+              std::unique_ptr<EncapsulatedLearner> _encapsulatedLearner,
+              std::function<boost::shared_ptr<FakeLightSensor>(
+                      std::vector<float> coordinates)> _light_constructor_left,
+              std::function<boost::shared_ptr<FakeLightSensor>(
+                      std::vector<float> coordinates)> _light_constructor_right,
                         std::vector<SensorPtr> &_sensors,
                         double _light_radius_distance,
                         const float evaluationTime = 30,
@@ -91,7 +95,6 @@ namespace revolve
                              double t,
                              double step) override
       {
-
         // Evaluate policy on certain time limit
         if ((t - start_eval_time) > EVALUATION_TIME)
         {
@@ -118,7 +121,9 @@ namespace revolve
 
       protected:
       double getFitness()
-      { return partial_fitness; };
+      {
+        return partial_fitness;
+      };
 
 #define MAX_PHASE_FITNESS 100
 
@@ -134,7 +139,7 @@ namespace revolve
         double value = (left_eye + right_eye)
                        - ((left_eye - right_eye) * (left_eye - right_eye));
 
-        //double value = (left_eye + right_eye)
+        // double value = (left_eye + right_eye)
         //               - std::fabs(left_eye - right_eye);
 
         if (value > MAX_PHASE_FITNESS)
@@ -244,8 +249,8 @@ namespace revolve
                     << std::endl;
         }
 
-        //delete current_light_left; //shared pointer takes care of this
-        //delete current_light_right; //shared pointer takes care of this
+        // delete current_light_left; //shared pointer takes care of this
+        // delete current_light_right; //shared pointer takes care of this
 
         this->current_light_left =
                 this->light_constructor_left(relative_coordinates);
@@ -285,7 +290,8 @@ namespace revolve
       } phase;
 
       /// \brief
-      std::function<boost::shared_ptr<FakeLightSensor>(std::vector<float> coordinates)>
+      std::function< boost::shared_ptr
+                            <FakeLightSensor>(std::vector<float> coordinates) >
               light_constructor_left,
               light_constructor_right;
 
@@ -296,8 +302,10 @@ namespace revolve
       unsigned long current_light_right_pos;
 
       /// \brief
-      boost::shared_ptr<FakeLightSensor> current_light_left,
-              current_light_right;
+      boost::shared_ptr<FakeLightSensor> current_light_left;
+
+      /// \brief
+      boost::shared_ptr<FakeLightSensor> current_light_right;
 
       /// \brief
       double light_radius_distance;
@@ -311,12 +319,11 @@ namespace revolve
       /// \brief
       double start_eval_time;
 
-
-      /// \brief Number of evaluations before the program quits. Usefull to do long run
-      /// tests. If negative (default value), it will never stop.
+      /// \brief Number of evaluations before the program quits. Usefull to do
+      /// long run tests. If negative (default value), it will never stop.
       ///
-      /// Default value -1
-      const long MAX_EVALUATIONS; //= -1; // max number of evaluations
+      /// Default value -1 // max number of evaluations
+      const long MAX_EVALUATIONS;
 
       /// \brief How long should an evaluation lasts (in seconds)
       ///
@@ -326,7 +333,6 @@ namespace revolve
       private:
       using BaseLearner::update;
     };
-
   }
 }
 

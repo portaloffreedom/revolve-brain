@@ -35,13 +35,14 @@
 #ifndef _SPECIES_H_
 #define _SPECIES_H_
 
+#include <vector>
+
 #include "neat.h"
 #include "speciesorganism.h"
 #include "population.h"
 
 namespace NEAT
 {
-
   /// \brief SPECIES CLASS:
   /// A Species is a group of similar Organisms reproduction takes place mostly
   /// within a single species, so that compatible organisms can mate.
@@ -144,7 +145,6 @@ namespace NEAT
 
     /// \brief
     ~Species();
-
   };
 
   /// \brief This is used for list sorting of Species by fitness of best
@@ -155,7 +155,6 @@ namespace NEAT
   /// \brief
   bool order_new_species(Species *x,
                          Species *y);
-
 }
 
 #endif

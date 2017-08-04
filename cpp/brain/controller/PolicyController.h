@@ -80,10 +80,11 @@ namespace revolve
                                    Policy *destination_y);
 
       /// \brief
-      static PolicyController *GenerateRandomController(double noise_sigma,
-                                                        size_t n_actuators,
-                                                        size_t n_spline_points,
-                                                        size_t interpolation_cache_size);
+      static PolicyController
+      *GenerateRandomController(double noise_sigma,
+                                size_t n_actuators,
+                                size_t n_spline_points,
+                                size_t interpolation_cache_size);
 
       /// \brief
       static PolicyController *GenerateRandomController(double noise_sigma,

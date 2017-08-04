@@ -17,12 +17,15 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_MAZE_MAZEEVALUATOR_H_
+#define CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_MAZE_MAZEEVALUATOR_H_
+
 #pragma once
 
-namespace NEAT {
-
-enum sensor_t
+namespace NEAT
 {
+  enum sensor_t
+  {
     sensor_right = 0,
     sensor_fwd = 1,
     sensor_left = 2,
@@ -30,16 +33,17 @@ enum sensor_t
     sensor_freq = 4,
     sensor_go = 5,
     __sensor_N = 6
-};
+  };
 
-enum output_t
-{
+  enum output_t
+  {
     output_right = 0,
     output_left = 1,
     output_fwd = 2,
     __output_N = 3
-};
+  };
 
-class NetworkEvaluator *
-create_maze_evaluator();
+  class NetworkEvaluator *create_maze_evaluator();
 }
+
+#endif

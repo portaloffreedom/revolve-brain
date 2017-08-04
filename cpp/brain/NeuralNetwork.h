@@ -23,6 +23,8 @@
 #define REVOLVEBRAIN_BRAIN_NEURALNETWORK_H_
 
 #include <map>
+#include <string>
+#include <vector>
 
 #include <boost/thread/mutex.hpp>
 

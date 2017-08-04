@@ -30,7 +30,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class InputDependentOscillatorNeuron
             : public Neuron
     {
@@ -39,8 +38,9 @@ namespace revolve
       /// \param id: string to identify the neuron
       /// \param params: parameters that specify the behavior of the neuron
       /// \return pointer to the oscilator neuron
-      InputDependentOscillatorNeuron(const std::string &id,
-                                     const std::map<std::string, double> &params);
+      InputDependentOscillatorNeuron(
+              const std::string &id,
+              const std::map<std::string, double> &params);
 
       /// \brief Method to calculate the output of the neuron
       /// \param t: current time
@@ -68,8 +68,7 @@ namespace revolve
       protected:
       double gain_;
     };
-
   }
 }
 
-#endif  //  REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTDEPENDENTOSCILLATORNEURON_H_
+#endif  // REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTDEPENDENTOSCILLATORNEURON_H_

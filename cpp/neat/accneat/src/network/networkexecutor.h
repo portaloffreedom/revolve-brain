@@ -26,9 +26,9 @@ namespace NEAT
 {
 #define NACTIVATES_PER_INPUT 10
 
-  //---
-  //--- CLASS NetworkExecutor<>
-  //---
+  ///
+  /// CLASS NetworkExecutor<>
+  ///
   template <typename Evaluator>
   class NetworkExecutor
   {

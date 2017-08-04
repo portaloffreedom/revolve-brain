@@ -20,8 +20,9 @@
 #ifndef REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_GENETICENCODING_H_
 #define REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_GENETICENCODING_H_
 
-#include <vector>
+#include <map>
 #include <utility>
+#include <vector>
 
 #include "CPPNTypes.h"
 #include "CPPNNeuron.h"
@@ -166,7 +167,6 @@ namespace cppneat
     private:
     /// \brief
     bool all_genes_valid;
-
   };
 }
 

@@ -13,17 +13,15 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: November 9, 2016
 *
 */
 
-//
-// Created by matteo on 09/11/16.
-//
-
-#include "MotoNeuron.h"
 #include <sstream>
 #include <cmath>
+
+#include "MotoNeuron.h"
 
 using namespace revolve::brain::cpg;
 

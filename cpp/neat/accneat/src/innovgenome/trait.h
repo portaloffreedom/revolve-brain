@@ -32,14 +32,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
 #ifndef _TRAIT_H_
 #define _TRAIT_H_
+
+#include <yaml-cpp/yaml.h>
 
 #include "neat.h"
 #include "util/rng.h"
 
 namespace NEAT {
-
   const int NUM_TRAIT_PARAMS = 8;
 
   // ------------------------------------------------------------------
@@ -49,44 +51,46 @@ namespace NEAT {
   //        on every node.  Instead, each node can simply point to a trait
   //        and those traits can evolve on their own
   class Trait {
-
     // ************ LEARNING PARAMETERS ***********
     // The following parameters are for use in
     //   neurons that learn through habituation,
     //   sensitization, or Hebbian-type processes
 
   public:
-    int trait_id; // Used in file saving and loading
-    real_t params[NUM_TRAIT_PARAMS]; // Keep traits in an array
+    /// \brief Used in file saving and loading
+    int trait_id;
 
+    /// \brief Keep traits in an array
+    real_t params[NUM_TRAIT_PARAMS];
+
+    /// \brief
     Trait();
 
-    Trait(int id, real_t p1, real_t p2, real_t p3, real_t p4, real_t p5, real_t p6, real_t p7, real_t p8,
-          real_t p9);
+    /// \brief
+    Trait(int id, real_t p1, real_t p2, real_t p3, real_t p4, real_t p5,
+          real_t p6, real_t p7, real_t p8, real_t p9);
 
-    // Copy Constructor
+    /// \brief Copy Constructor
     Trait(const Trait &t);
 
-    // Create a trait exactly like another trait
+    /// \brief Create a trait exactly like another trait
     Trait(Trait *t);
 
-    // Special constructor off a file assume word "trait" has been read in
+    /// \brief Special constructor off a file assume word "trait" has been read
+    /// in
     Trait(const char *argline);
 
-    // Special Constructor creates a new Trait which is the average of 2 existing traits passed in
+    /// \brief Special Constructor creates a new Trait which is the average of 2
+    /// existing traits passed in
     Trait(const Trait &t1, const Trait &t2);
 
-    // Dump trait to a stream
+    /// \brief Dump trait to a stream
     void print_to_file(std::ostream &outFile) const;
 
-    // Perturb the trait parameters slightly
+    /// \brief Perturb the trait parameters slightly
     void mutate(rng_t &rng);
-
   };
-
-} // namespace NEAT
-
-#include <yaml-cpp/yaml.h>
+}  // namespace NEAT
 
 namespace YAML {
   template<>

@@ -30,7 +30,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class DifferentialCPG
             : public Neuron
     {

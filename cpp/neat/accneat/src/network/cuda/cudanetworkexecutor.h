@@ -22,14 +22,16 @@
 
 #pragma once
 
+#include <vector>
+
 #include "network/networkexecutor.h"
 #include "cudanetworkbatch.h"
 
 namespace NEAT
 {
-  //---
-  //--- CLASS CudaNetworkExecutor
-  //---
+  ///
+  /// CLASS CudaNetworkExecutor
+  ///
   template <typename Evaluator>
   class CudaNetworkExecutor
           : public NetworkExecutor<Evaluator>
@@ -62,8 +64,7 @@ namespace NEAT
     {
       for (size_t i = 0; i < batches.size(); i++)
       {
-        batches[i]->configure(config,
-                              len);
+        batches[i]->configure(config, len);
       }
     }
 
@@ -81,14 +82,15 @@ namespace NEAT
         size_t inet = ibatch * batch_size;
         size_t n = batch_size;
         if (ibatch == nbatches - 1)
+        {
           n += nnets % batch_size;
+        }
 
         batches[ibatch]->activate(nets + inet,
                                   results + inet,
                                   n,
                                   NACTIVATES_PER_INPUT);
       }
-
     }
 
   };
@@ -98,7 +100,6 @@ namespace NEAT
   {
     return new CudaNetworkExecutor<Evaluator>();
   }
-
 }  // namespace NEAT
 
 #endif

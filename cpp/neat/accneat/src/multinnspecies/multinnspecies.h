@@ -35,6 +35,8 @@
 #ifndef _SPECIES_H_
 #define _SPECIES_H_
 
+#include <vector>
+
 #include "neat.h"
 #include "multinnspeciesorganism.h"
 #include "population.h"
@@ -159,7 +161,6 @@ namespace NEAT
   /// \brief
   bool order_new_species(MultiNNSpecies *x,
                          MultiNNSpecies *y);
-
 }
 
 #endif

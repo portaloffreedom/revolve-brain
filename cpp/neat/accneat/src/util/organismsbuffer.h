@@ -106,7 +106,8 @@ namespace NEAT
       {
         _curr = &_b;
         _prev = &_a;
-      } else
+      }
+      else
       {
         _curr = &_a;
         _prev = &_b;
@@ -119,7 +120,6 @@ namespace NEAT
         org.init(generation);
       }
     }
-
   };
 }
 

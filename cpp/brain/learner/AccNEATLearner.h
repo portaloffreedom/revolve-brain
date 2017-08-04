@@ -66,7 +66,7 @@ namespace revolve
       /// \brief
       void writeCurrent(double fitness);
 
-      protected: // VARIABLES
+      protected:  // VARIABLES
       /// \brief
       EvaluatorPtr evaluator;
 
@@ -85,8 +85,8 @@ namespace revolve
       /// \brief
       std::shared_ptr<NeatEvaluation> current_evalaution;
 
-      /// \brief Number of evaluations before the program quits. Usefull to do long run
-      /// tests. If negative (default value), it will never stop.
+      /// \brief Number of evaluations before the program quits. Usefull to do
+      /// long run tests. If negative (default value), it will never stop.
       ///
       /// Default value -1 //= -1; // max number of evaluations
       const long MAX_EVALUATIONS;

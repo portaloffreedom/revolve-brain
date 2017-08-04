@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "organism.h"
 
 namespace NEAT

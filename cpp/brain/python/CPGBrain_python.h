@@ -21,6 +21,7 @@
 #ifndef REVOLVE_BRAIN_CPGBRAIN_PYTHON_H
 #define REVOLVE_BRAIN_CPGBRAIN_PYTHON_H
 
+#include <string>
 #include <vector>
 
 #include <boost/python/list.hpp>

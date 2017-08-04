@@ -21,8 +21,10 @@
 #ifndef REVOLVE_BRAIN_GENERICLEARNERBRAIN_H
 #define REVOLVE_BRAIN_GENERICLEARNERBRAIN_H
 
-#include "brain/learner/BaseLearner.h"
+#include <vector>
+
 #include "Brain.h"
+#include "brain/learner/BaseLearner.h"
 
 namespace revolve
 {
@@ -32,7 +34,6 @@ namespace revolve
             : public Brain
     {
       public:
-
       using Brain::update;
 
       /// \brief
@@ -51,7 +52,6 @@ namespace revolve
       /// \brief
       std::unique_ptr<BaseLearner> learner;
     };
-
   }
 }
 

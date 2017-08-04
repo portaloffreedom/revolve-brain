@@ -25,7 +25,8 @@ using namespace revolve::brain;
 #include <random>
 
 const double SplineController::CYCLE_LENGTH = 5; // seconds
-const unsigned int SplineController::INTERPOLATION_CACHE_SIZE = 100; // number of data
+const unsigned int
+        SplineController::INTERPOLATION_CACHE_SIZE = 100; // number of data
 
 SplineController *
 SplineController::GenerateRandomController(
@@ -48,9 +49,11 @@ SplineController::GenerateRandomController(
   if (not controller->policy)
     controller->policy = std::make_shared<Policy>(n_actuators);
 
-  for (unsigned int i = 0; i < n_actuators; i++) {
+  for (unsigned int i = 0; i < n_actuators; i++)
+  {
     Spline spline(n_spline_points);
-    for (unsigned int j = 0; j < n_spline_points; j++) {
+    for (unsigned int j = 0; j < n_spline_points; j++)
+    {
       spline[j] = dist(mt);
     }
     controller->policy->at(i) = spline;
@@ -60,7 +63,8 @@ SplineController::GenerateRandomController(
   if (not controller->interpolation_cache)
     controller->interpolation_cache = std::make_shared<Policy>(n_actuators);
 
-  for (unsigned int i = 0; i < n_actuators; i++) {
+  for (unsigned int i = 0; i < n_actuators; i++)
+  {
     controller->interpolation_cache->at(i).resize(controller->interpolation_cache_size,
                                                   0);
   }
@@ -81,7 +85,8 @@ SplineController::SplineController(unsigned int n_actuators,
         , cycle_start_time(-1)
 {
   this->policy = std::make_shared<Policy>(n_actuators);
-  for (unsigned int i = 0; i < n_actuators; i++) {
+  for (unsigned int i = 0; i < n_actuators; i++)
+  {
     Spline spline(n_spline_points,
                   0);
     this->policy->at(i) = spline;
@@ -90,7 +95,8 @@ SplineController::SplineController(unsigned int n_actuators,
   // Init of empty cache
   interpolation_cache = std::make_shared<Policy>(n_actuators);
 
-  for (unsigned int i = 0; i < n_actuators; i++) {
+  for (unsigned int i = 0; i < n_actuators; i++)
+  {
     interpolation_cache->at(i).resize(interpolation_cache_size,
                                       0);
   }
@@ -122,7 +128,8 @@ SplineController::update(const std::vector<ActuatorPtr> &actuators,
 
   // Send new signals to the actuators
   unsigned int p = 0;
-  for (auto actuator: actuators) {
+  for (auto actuator: actuators)
+  {
     actuator->update(&output_vector[p],
                      step);
     p += actuator->outputs();
@@ -135,13 +142,15 @@ void
 SplineController::generateOutput(const double time,
                                  double *output_vector)
 {
-  if (cycle_start_time < 0) {
+  if (cycle_start_time < 0)
+  {
     cycle_start_time = time;
   }
 
   // get correct X value (between 0 and CYCLE_LENGTH)
   double x = time - cycle_start_time;
-  while (x >= SplineController::CYCLE_LENGTH) {
+  while (x >= SplineController::CYCLE_LENGTH)
+  {
     cycle_start_time += SplineController::CYCLE_LENGTH;
     x = time - cycle_start_time;
   }
@@ -153,7 +162,8 @@ SplineController::generateOutput(const double time,
   int x_b = (x_a + 1) % interpolation_cache_size;
 
   // linear interpolation for every actuator
-  for (unsigned int i = 0; i < n_actuators; i++) {
+  for (unsigned int i = 0; i < n_actuators; i++)
+  {
     double y_a = interpolation_cache->at(i)[x_a];
     double y_b = interpolation_cache->at(i)[x_b];
 
@@ -190,23 +200,27 @@ SplineController::Interpolate_cubic(Policy *const source_y,
 
   // init x
   double step_size = CYCLE_LENGTH / source_y_internal_size;
-  for (unsigned int i = 0; i < N; i++) {
+  for (unsigned int i = 0; i < N; i++)
+  {
     x[i] = step_size * i;
   }
 
   // init x_new
   step_size = CYCLE_LENGTH / destination_y_internal_size;
-  for (unsigned int i = 0; i < destination_y_internal_size; i++) {
+  for (unsigned int i = 0; i < destination_y_internal_size; i++)
+  {
     x_new[i] = step_size * i;
   }
 
-  for (unsigned int j = 0; j < n_actuators; j++) {
+  for (unsigned int j = 0; j < n_actuators; j++)
+  {
     Spline &source_y_line = source_y->at(j);
     Spline &destination_y_line = destination_y->at(j);
 
     // init y
     // TODO use memcpy
-    for (unsigned int i = 0; i < source_y_internal_size; i++) {
+    for (unsigned int i = 0; i < source_y_internal_size; i++)
+    {
       y[i] = source_y_line[i];
     }
 
@@ -218,7 +232,8 @@ SplineController::Interpolate_cubic(Policy *const source_y,
                     y,
                     N);
 
-    for (unsigned int i = 0; i < destination_y_internal_size; i++) {
+    for (unsigned int i = 0; i < destination_y_internal_size; i++)
+    {
       destination_y_line[i] = gsl_spline_eval(spline,
                                               x_new[i],
                                               acc);
