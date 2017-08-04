@@ -17,7 +17,9 @@
 *
 */
 
+#include <map>
 #include <iostream>
+#include <string>
 
 #include "XOscillator.h"
 
@@ -65,7 +67,8 @@ namespace revolve
         if (socketId == "from_v")
         {
           vInput +=
-                  inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+                  inConnection->GetInputNeuron()->GetOutput()
+                  * inConnection->GetWeight();
         }
       }
 

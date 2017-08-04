@@ -19,6 +19,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <map>
 
 #include "InputDependentOscillatorNeuron.h"
 
@@ -26,9 +27,10 @@ namespace revolve
 {
   namespace brain
   {
-    InputDependentOscillatorNeuron::InputDependentOscillatorNeuron(const std::string &id,
-                                                                   const std::map<std::string, double> &params) :
-            Neuron(id)
+    InputDependentOscillatorNeuron::InputDependentOscillatorNeuron(
+            const std::string &id,
+            const std::map<std::string, double> &params)
+            : Neuron(id)
     {
       if (not params.count("rv:period")
           || not params.count("rv:phase_offset")
@@ -76,18 +78,16 @@ namespace revolve
       return ret;
     }
 
-    void
-    InputDependentOscillatorNeuron::setNeuronParameters(std::map<std::string, double> params)
+    void InputDependentOscillatorNeuron::setNeuronParameters(
+            std::map<std::string, double> params)
     {
       if (not params.count("rv:period")
           || not params.count("rv:phase_offset")
           || not params.count("rv:amplitude"))
       {
         std::cerr
-                << "An"
-                << " `Oscillator` neuron requires "
-                <<
-                "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
+                << "An `Oscillator` neuron requires "
+                << "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }

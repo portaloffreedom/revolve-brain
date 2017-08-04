@@ -18,6 +18,8 @@
 */
 
 #include <iostream>
+#include <map>
+#include <string>
 
 #include "BiasNeuron.h"
 
@@ -58,11 +60,8 @@ namespace revolve
     {
       if (not params.count("rv:bias"))
       {
-        std::cerr
-                << "A `"
-                << "Bias"
-                << "` neuron requires `rv:bias` element."
-                << std::endl;
+        std::cerr << "A `Bias`"
+                  << " neuron requires `rv:bias` element." << std::endl;
         throw std::runtime_error("Robot brain error");
       }
       this->bias_ = params.find("rv:bias")->second;
@@ -72,7 +71,5 @@ namespace revolve
     {
       return "Bias";
     }
-
-
   }
 }

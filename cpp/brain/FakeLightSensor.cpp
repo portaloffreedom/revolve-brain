@@ -46,6 +46,6 @@ float revolve::brain::FakeLightSensor::light_attenuation(float distance,
   if (abs_angle > half_fov)
     return 0;
 
-  //TODO noise
+  // TODO noise
   return distance;
 }

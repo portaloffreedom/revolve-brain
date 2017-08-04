@@ -17,6 +17,10 @@
 *
 */
 
+#include <limits>
+#include <string>
+#include <vector>
+
 #include "neat/AsyncNEAT.h"
 #include "network/cpu/cpunetwork.h"
 
@@ -35,7 +39,9 @@ TestAsyncNeat::~TestAsyncNeat()
 bool TestAsyncNeat::test()
 {
   if (not testXOR())
+  {
     return false;
+  }
 
   return true;
 }
@@ -64,8 +70,7 @@ bool TestAsyncNeat::testXOR()
     std::shared_ptr<NeatEvaluation> eval = neat.getEvaluation();
     const NEAT::Organism *organism = eval->getOrganism();
     NEAT::CpuNetwork *net = reinterpret_cast< NEAT::CpuNetwork *> (
-            organism->net.get()
-    );
+            organism->net.get());
 
     float error = 0;
     for (unsigned int test = 0; test < inputs0.size(); test++)
@@ -103,7 +108,6 @@ bool TestAsyncNeat::testXOR()
   neat.CleanUp();
   return success;
 }
-
 
 int main()
 {

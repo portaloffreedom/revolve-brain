@@ -17,12 +17,14 @@
 *
 */
 
+#include <string>
 #include <unistd.h>
 
 #include "resource.h"
 #include "util.h"
 
-#include "std.h" // Must be included first. Precompiled header with standard library includes.
+// Must be included first. Precompiled header with standard library includes.
+#include "std.h"
 
 //using namespace std;
 
@@ -45,5 +47,4 @@ namespace NEAT
 
     return std::string(home) + "/res/" + name;
   }
-
 }

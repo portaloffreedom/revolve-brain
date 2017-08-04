@@ -17,6 +17,8 @@
 *
 */
 
+#include <algorithm>
+
 #include "network/network.h"
 #include "speciesorganism.h"
 #include "species.h"
@@ -43,12 +45,11 @@ SpeciesOrganism::~SpeciesOrganism()
 {
 }
 
-void
-SpeciesOrganism::init(int gen)
+void SpeciesOrganism::init(int gen)
 {
   Organism::init(gen);
 
-  species = nullptr;  //Start it in no Species
+  species = nullptr;  // Start it in no Species
   adjusted_fitness = 0.0;
   expected_offspring = 0;
   eliminate = false;

@@ -17,8 +17,10 @@
 *
 */
 
-#include <sstream>
 #include <iostream>
+#include <map>
+#include <sstream>
+#include <string>
 
 #include "LinearNeuron.h"
 
@@ -52,7 +54,8 @@ namespace revolve
       {
         auto inConnection = it->second;
         inputValue +=
-                inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+                inConnection->GetInputNeuron()->GetOutput()
+                * inConnection->GetWeight();
       }
 
       double result = this->gain_ * (inputValue - this->bias_);

@@ -17,6 +17,9 @@
 *
 */
 
+#include <string>
+#include <vector>
+
 #include "staticexperiment.h"
 
 using namespace NEAT;
@@ -27,45 +30,49 @@ create_tests(const std::vector<std::string> &sentences,
 
 static struct CfgInit
 {
-    CfgInit()
-    {
-      create_static_experiment("cfg-XSX",
-                               []()
+  CfgInit()
+  {
+    create_static_experiment("cfg-XSX",
+                             []()
+                             {
+                               // S -> aSa
+                               // S -> bSb
+                               // S -> \0
+                               std::vector<std::string> sentences;
+                               append(sentences,
+                                      permute_repeat("ab", 2));
+                               append(sentences,
+                                      permute_repeat("ab", 4));
+
+                               std::vector<bool> is_grammatical;
+                               for (std::string &s: sentences)
                                {
-                                   // S -> aSa
-                                   // S -> bSb
-                                   // S -> \0
-                                   std::vector<std::string> sentences;
-                                   append(sentences,
-                                          permute_repeat("ab",
-                                                         2));
-                                   append(sentences,
-                                          permute_repeat("ab",
-                                                         4));
-
-                                   std::vector<bool> is_grammatical;
-                                   for (std::string &s: sentences) {
-                                     size_t n = s.size();
-                                     if (n % 2 != 0) {
-                                       is_grammatical.push_back(false);
-                                     } else {
-                                       bool mirrored = true;
-                                       for (size_t i = 0; mirrored && (i < n / 2); i++) {
-                                         mirrored = s[i] == s[n - 1 - i];
-                                       }
-                                       is_grammatical.push_back(mirrored);
-                                     }
+                                 size_t n = s.size();
+                                 if (n % 2 != 0)
+                                 {
+                                   is_grammatical.push_back(false);
+                                 }
+                                 else
+                                 {
+                                   bool mirrored = true;
+                                   for (size_t i = 0;
+                                        mirrored && (i < n / 2); i++)
+                                   {
+                                     mirrored = s[i] == s[n - 1 - i];
                                    }
+                                   is_grammatical.push_back(mirrored);
+                                 }
+                               }
 
-                                   for (size_t i = 0; i < sentences.size(); i++) {
-                                     std::cout << sentences[i] << ": " << is_grammatical[i] << std::endl;
-                                   }
+                               for (size_t i = 0; i < sentences.size(); i++)
+                               {
+                                 std::cout << sentences[i] << ": "
+                                         << is_grammatical[i] << std::endl;
+                               }
 
-                                   return ::create_tests(sentences,
-                                                         is_grammatical);
-                               });
-    }
-} init;
+                               return ::create_tests(sentences, is_grammatical);
+                             });
+  }} init;
 
 static std::vector<Test>
 create_tests(const std::vector<std::string> &sentences,
@@ -84,25 +91,31 @@ create_tests(const std::vector<std::string> &sentences,
   const real_t weight_delay = 0;
 
   size_t ncorrect = 0;
-  for (bool x: is_grammatical) {
-    if (x) {
+  for (bool x: is_grammatical)
+  {
+    if (x)
+    {
       ncorrect++;
     }
   }
-  std::cout << "ncorrect = " << ncorrect << " / " << sentences.size() << std::endl;
+  std::cout << "ncorrect = " << ncorrect
+          << " / " << sentences.size() << std::endl;
 
   const real_t weight_query_correct = 1.0 / ncorrect;
   const real_t weight_query_incorrect = 1.0 / (sentences.size() - ncorrect);
 
   std::vector<Test> tests;
-  for (size_t isentence = 0; isentence < sentences.size(); isentence++) {
+  for (size_t isentence = 0; isentence < sentences.size(); isentence++)
+  {
     const std::string &sentence = sentences[isentence];
     std::vector<Step> steps;
 
-    for (size_t ielement = 0; ielement < sentence.size(); ielement++) {
+    for (size_t ielement = 0; ielement < sentence.size(); ielement++)
+    {
       const real_t *X;
 
-      switch (sentence[ielement]) {
+      switch (sentence[ielement])
+      {
         case 'a':
           X = A;
           break;
@@ -115,7 +128,8 @@ create_tests(const std::vector<std::string> &sentences,
         case 'd':
           X = D;
           break;
-        default: panic();
+        default:
+        panic();
       }
 
       real_t x = X[0];
@@ -129,9 +143,12 @@ create_tests(const std::vector<std::string> &sentences,
     }
 
     // End of sentence
-    if (is_grammatical[isentence]) {
+    if (is_grammatical[isentence])
+    {
       steps.push_back({{_, _, _, Q}, {1.0}, weight_query_correct});
-    } else {
+    }
+    else
+    {
       steps.push_back({{_, _, _, Q}, {0.0}, weight_query_incorrect});
     }
 

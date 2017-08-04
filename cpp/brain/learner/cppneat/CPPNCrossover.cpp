@@ -17,13 +17,15 @@
 *
 */
 
-#include "CPPNCrossover.h"
-
 #include <random>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "CPPNCrossover.h"
 
 namespace cppneat
 {
-
   GeneticEncodingPtr
   Crossover::crossover(GeneticEncodingPtr genotype_more_fit,
                        GeneticEncodingPtr genotype_less_fit)
@@ -50,11 +52,13 @@ namespace cppneat
         if (uniform(mt) < 0.5)
         {
           child_genes.push_back(pair.first);
-        } else
+        }
+        else
         {
           child_genes.push_back(pair.second);
         }
-      } else if (pair.first != nullptr)
+      }
+      else if (pair.first != nullptr)
       {
         child_genes.push_back(pair.first);
       }
@@ -68,15 +72,16 @@ namespace cppneat
         {
           child_genotype->add_neuron_gene(
                   boost::dynamic_pointer_cast<NeuronGene>(gene));
-        } else if (gene->gene_type == Gene::CONNECTION_GENE)
+        }
+        else if (gene->gene_type == Gene::CONNECTION_GENE)
         {
           child_genotype->add_connection_gene(
-                  boost::dynamic_pointer_cast<ConnectionGene>(gene)
-          );
+                  boost::dynamic_pointer_cast<ConnectionGene>(gene));
         }
       }
       return child_genotype;
-    } else
+    }
+    else
     {
       // what helps us tremendously here is the fact that a gene is only in the
       // child if it is in the more fit parent therefore we can use the same
@@ -91,11 +96,11 @@ namespace cppneat
                   genotype_more_fit->convert_in_to_layer_index(gene->getInnovNumber());
           genotype_more_fit->layers_[index.first][index.second] =
                   boost::dynamic_pointer_cast<NeuronGene>(gene);
-        } else if (gene->gene_type == Gene::CONNECTION_GENE)
+        }
+        else if (gene->gene_type == Gene::CONNECTION_GENE)
         {
           genotype_more_fit->add_connection_gene(
-                  boost::dynamic_pointer_cast<ConnectionGene>(gene)
-          );
+                  boost::dynamic_pointer_cast<ConnectionGene>(gene));
         }
       }
       return genotype_more_fit;

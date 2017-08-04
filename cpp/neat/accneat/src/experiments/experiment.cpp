@@ -17,6 +17,10 @@
 *
 */
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "experiment.h"
 #include "util/util.h"
 

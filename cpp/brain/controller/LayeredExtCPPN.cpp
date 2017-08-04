@@ -19,6 +19,10 @@
 
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graphviz.hpp>
 
@@ -28,19 +32,18 @@ namespace revolve
 {
   namespace brain
   {
-    LayeredExtNNController::LayeredExtNNController(std::string modelName,
-                                                   boost::shared_ptr<LayeredExtNNConfig> Config,
-                                                   const std::vector<ActuatorPtr> &actuators,
-                                                   const std::vector<SensorPtr> &sensors)
+    LayeredExtNNController::LayeredExtNNController(
+            std::string modelName,
+            boost::shared_ptr<LayeredExtNNConfig> Config,
+            const std::vector<ActuatorPtr> &actuators,
+            const std::vector<SensorPtr> &sensors)
+            : modelName_(modelName)
+              , layers_(Config->layers_)
+              , outputPositionMap_(Config->outputPositionMap_)
+              , inputPositionMap_(Config->inputPositionMap_)
+              , idToNeuron_ (Config->idToNeuron_)
+              , connections_(Config->connections_)
     {
-      modelName_ = modelName;
-
-      layers_ = Config->layers_;
-      outputPositionMap_ = Config->outputPositionMap_;
-      inputPositionMap_ = Config->inputPositionMap_;
-      idToNeuron_ = Config->idToNeuron_;
-      connections_ = Config->connections_;
-
       size_t p = 0;
       for (auto sensor : sensors)
       {
@@ -125,8 +128,8 @@ namespace revolve
       return Config;
     }
 
-    void
-    LayeredExtNNController::setGenotype(boost::shared_ptr<LayeredExtNNConfig> Config)
+    void LayeredExtNNController::setGenotype(
+            boost::shared_ptr<LayeredExtNNConfig> Config)
     {
       layers_ = Config->layers_;
       outputPositionMap_ = Config->outputPositionMap_;
@@ -161,7 +164,8 @@ namespace revolve
       {
         std::stringstream nodeName;
         nodeName
-                << allNeurons_[i]->Id() + " of type: " + allNeurons_[i]->getType()
+                << allNeurons_[i]->Id() + " of type: "
+                   + allNeurons_[i]->getType()
                 << std::endl;
         for (std::pair<std::string, double>
                   param : allNeurons_[i]->getNeuronParameters())

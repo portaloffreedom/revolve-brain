@@ -13,13 +13,12 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+ * Date: March 15, 2017
 *
 */
 
-//
-// Created by matteo on 3/15/17.
-//
+#include <vector>
 
 #include "GenericLearnerBrain.h"
 
@@ -28,13 +27,11 @@ using namespace revolve::brain;
 GenericLearnerBrain::GenericLearnerBrain(std::unique_ptr<BaseLearner> learner)
     : learner(std::move(learner))
 {
-
 }
 
 GenericLearnerBrain::GenericLearnerBrain(BaseLearner *learner)
     : learner(learner)
 {
-
 }
 
 void GenericLearnerBrain::update(const std::vector<ActuatorPtr> &actuators,

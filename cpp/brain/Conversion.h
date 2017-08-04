@@ -44,7 +44,7 @@ namespace revolve
 
     extern std::map<int, size_t> OutputMap;
 
-    void SetBrainSpec(bool hyperneat);
+    void SetBrainSpec(bool _hyperNeat);
 
     boost::shared_ptr<CPPNConfig>
     convertForController(cppneat::GeneticEncodingPtr genotype);
@@ -101,7 +101,7 @@ namespace revolve
     cppneat::GeneticEncodingPtr get_hyper_neat_net_splines();
 
     PolicyPtr
-    convertForSplinesFromHyper(cppneat::GeneticEncodingPtr genotype);
+    convertForSplinesFromHyper(cppneat::GeneticEncodingPtr _genotype);
 
     cppneat::GeneticEncodingPtr
     convertForHyperFromSplines(PolicyPtr policy);

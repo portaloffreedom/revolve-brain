@@ -19,6 +19,8 @@
 
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
 
 #include "OscillatorNeuron.h"
 
@@ -26,8 +28,9 @@ namespace revolve
 {
   namespace brain
   {
-    OscillatorNeuron::OscillatorNeuron(const std::string &id,
-                                       const std::map<std::string, double> &params)
+    OscillatorNeuron::OscillatorNeuron(
+            const std::string &id,
+            const std::map<std::string, double> &params)
             : Neuron(id)
     {
       if (not params.count("rv:period")

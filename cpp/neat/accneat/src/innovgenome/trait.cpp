@@ -33,15 +33,18 @@
    limitations under the License.
 */
 
-#include "trait.h"
 #include <sstream>
+
+#include "trait.h"
 
 using namespace NEAT;
 
 Trait::Trait()
 {
   for (size_t count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
     params[count] = 0;
+  }
   trait_id = 0;
 }
 
@@ -70,7 +73,9 @@ Trait::Trait(int id,
 Trait::Trait(const Trait &t)
 {
   for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
     params[count] = (t.params)[count];
+  }
 
   trait_id = t.trait_id;
 }
@@ -79,36 +84,36 @@ Trait::Trait(const Trait &t)
 Trait::Trait(Trait *t)
 {
   for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
     params[count] = (t->params)[count];
+  }
 
   trait_id = t->trait_id;
 }
 
-
 Trait::Trait(const char *argline)
 {
-
   std::stringstream ss(argline);
-  //Read in trait id
-  //   std::string curword;
-  //char delimiters[] = " \n";
-  //int curwordnum = 0;
+  // Read in trait id
+  //    std::string curword;
+  // char delimiters[] = " \n";
+  // int curwordnum = 0;
 
-  //strcpy(curword, env->getUnit(argline, curwordnum++, delimiters));
+  // strcpy(curword, env->getUnit(argline, curwordnum++, delimiters));
 
-//    trait_id = atoi(curword);
+  //    trait_id = atoi(curword);
   ss >> trait_id;
 
-  //std::cout << ss.str() << " trait_id: " << trait_id << std::endl;
+  // std::cout << ss.str() << " trait_id: " << trait_id << std::endl;
 
-  //IS THE STOPPING CONDITION CORRECT?  ALERT
-  for (int count = 0; count < NUM_TRAIT_PARAMS; count++) {
-    //strcpy(curword, env->getUnit(argline, curwordnum++, delimiters));
-    //params[count] = atof(curword);
+  // IS THE STOPPING CONDITION CORRECT?  ALERT
+  for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
+    // strcpy(curword, env->getUnit(argline, curwordnum++, delimiters));
+    // params[count] = atof(curword);
     ss >> params[count];
-    //iFile>>params[count];
+    // iFile>>params[count];
   }
-
 }
 
 Trait::Trait(const Trait &t1,
@@ -116,40 +121,54 @@ Trait::Trait(const Trait &t1,
 {
   trait_id = t1.trait_id;
   for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
     params[count] = (t1.params[count] + t2.params[count]) / 2.0;
+  }
 }
 
-void Trait::print_to_file(std::ostream &outFile) const {
+void Trait::print_to_file(std::ostream &outFile) const
+{
   outFile << "trait " << trait_id << " ";
   for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
     outFile << params[count] << " ";
+  }
 
   outFile << std::endl;
 }
 
-void
-Trait::mutate(rng_t &rng)
+void Trait::mutate(rng_t &rng)
 {
-  for (int count = 0; count < NUM_TRAIT_PARAMS; count++) {
-    if (rng.prob() > env->trait_param_mut_prob) {
+  for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
+    if (rng.prob() > env->trait_param_mut_prob)
+    {
       params[count] += (rng.posneg() * rng.prob()) * env->trait_mutation_power;
-      if (params[count] < 0) params[count] = 0;
-      if (params[count] > 1.0) params[count] = 1.0;
+      if (params[count] < 0)
+      { params[count] = 0; }
+      if (params[count] > 1.0)
+      { params[count] = 1.0; }
     }
   }
 }
 
-bool YAML::convert<NEAT::Trait>::decode(const YAML::Node &node, NEAT::Trait &rhs)
+bool YAML::convert<NEAT::Trait>::decode(
+        const YAML::Node &node,
+        NEAT::Trait &rhs)
 {
   rhs.trait_id = node["id"].as<int>();
   Node yaml_params = node["params"];
 
-  if (not yaml_params.IsSequence() || yaml_params.size() != NUM_TRAIT_PARAMS) {
+  if (not yaml_params.IsSequence()
+      || yaml_params.size() != NUM_TRAIT_PARAMS)
+  {
     return false;
   }
 
   for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
     rhs.params[count] = yaml_params[count].as<real_t>();
+  }
 
   return true;
 }
@@ -160,7 +179,9 @@ YAML::Node YAML::convert<NEAT::Trait>::encode(const NEAT::Trait &rhs)
   node["id"] = rhs.trait_id;
   Node yaml_params = node["params"];
   for (int count = 0; count < NUM_TRAIT_PARAMS; count++)
+  {
     yaml_params.push_back(rhs.params[count]);
+  }
 
   return node;
 }

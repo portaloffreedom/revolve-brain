@@ -72,7 +72,7 @@ namespace NEAT
   };
 
   extern Population *debug_population;
-} // namespace NEAT
+}  // namespace NEAT
 
 #endif
 

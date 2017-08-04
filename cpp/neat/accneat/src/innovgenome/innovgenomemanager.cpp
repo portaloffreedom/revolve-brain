@@ -17,6 +17,9 @@
 *
 */
 
+#include <string>
+#include <vector>
+
 #include "innovgenome.h"
 #include "innovgenomemanager.h"
 #include "util/util.h"
@@ -38,7 +41,8 @@ InnovGenomeManager::InnovGenomeManager(const std::string &robot_name)
     search_phase = COMPLEXIFY;
     search_phase_start = 1;
     max_phase_duration = MAX_COMPLEXIFY_PHASE_DURATION;
-  } else
+  }
+  else
   {
     search_phase = UNDEFINED;
     search_phase_start = -1;
@@ -95,7 +99,7 @@ InnovGenomeManager::create_seed_generation(size_t ngenomes,
   {
     InnovGenome *g = to_innov(*genomes.back());
 
-    //Keep a record of the innovation and node number we are on
+    // Keep a record of the innovation and node number we are on
     innovations.init(g->get_last_node_id(),
                      g->get_last_gene_innovnum());
   }
@@ -106,7 +110,8 @@ InnovGenomeManager::create_seed_generation(size_t ngenomes,
 bool InnovGenomeManager::are_compatible(Genome &genome1,
                                         Genome &genome2)
 {
-  return to_innov(genome1)->compatibility(to_innov(genome2)) < env->compat_threshold;
+  return to_innov(genome1)->compatibility(
+          to_innov(genome2)) < env->compat_threshold;
 }
 
 void InnovGenomeManager::clone(Genome &orig,
@@ -121,18 +126,19 @@ void InnovGenomeManager::mate(Genome &genome1,
                               real_t fitness1,
                               real_t fitness2)
 {
-
   if (not is_mate_allowed())
   {
     if (fitness1 > fitness2)
     {
       clone(genome1, offspring);
-    } else
+    }
+    else
     {
       clone(genome2, offspring);
     }
     mutate(offspring, MUTATE_OP_ANY);
-  } else
+  }
+  else
   {
     InnovGenome::mate(to_innov(genome1),
                       to_innov(genome2),
@@ -142,11 +148,10 @@ void InnovGenomeManager::mate(Genome &genome1,
 
     // Determine whether to mutate the baby's InnovGenome
     // This is done randomly or if the genome1 and genome2 are the same organism
-    if (not offspring.rng.under(env->mate_only_prob) ||
-        (genome2.genome_id == genome1.genome_id) ||
-        (to_innov(genome2)->compatibility(to_innov(genome1)) == 0.0))
+    if (not offspring.rng.under(env->mate_only_prob)
+        || (genome2.genome_id == genome1.genome_id)
+        || (to_innov(genome2)->compatibility(to_innov(genome1)) == 0.0))
     {
-
       mutate(offspring, MUTATE_OP_ANY);
     }
   }
@@ -169,13 +174,15 @@ void InnovGenomeManager::mutate(Genome &genome_,
       if (not allow_add && !allow_del)
       {
         mutate(genome_, MUTATE_OP_WEIGHTS);
-      } else
+      }
+      else
       {
         if (not allow_del || genome_.rng.boolean())
         {
           genome->mutate_add_link(create_innov_func(genome_),
                                   env->newlink_tries);
-        } else
+        }
+        else
         {
           genome->mutate_delete_link();
         }
@@ -193,19 +200,23 @@ void InnovGenomeManager::mutate(Genome &genome_,
                 env->search_type != GeneticSearchType::COMPLEXIFY;
         genome->mutate_add_node(create_innov_func(genome_),
                                 delete_split_link);
-      } else if (allow_add && op.prob_case(env->mutate_add_link_prob))
+      }
+      else if (allow_add && op.prob_case(env->mutate_add_link_prob))
       {
         genome->mutate_add_link(create_innov_func(genome_),
                                 env->newlink_tries);
-      } else if (allow_del && op.prob_case(env->mutate_delete_link_prob))
+      }
+      else if (allow_del && op.prob_case(env->mutate_delete_link_prob))
       {
         genome->mutate_delete_link();
-      } else if (allow_del && op.prob_case(env->mutate_delete_node_prob))
+      }
+      else if (allow_del && op.prob_case(env->mutate_delete_node_prob))
       {
         genome->mutate_delete_node();
-      } else
+      }
+      else
       {
-        //Only do other mutations when not doing sturctural mutations
+        // Only do other mutations when not doing sturctural mutations
         if (rng.under(env->mutate_random_trait_prob))
         {
           genome->mutate_random_trait();

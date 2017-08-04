@@ -17,26 +17,27 @@
 *
 */
 
+#include <algorithm>
 #include <assert.h>
+#include <vector>
 
 // Must be included first. Precompiled header with standard library includes.
 #include "std.h"
-
 #include "rng.h"
 
 using namespace NEAT;
 using namespace std;
 
-static bool
-equals(real_t x,
+static bool equals(real_t x,
        real_t y)
 {
   return abs((x) - (y)) / real_t(y) < 0.01;
 }
 
 #define assert_equals(x, y)                                                    \
-    if( !equals(x,y) ) {                                                       \
-        cerr << __FILE__ << ":" << __LINE__ << ": " << x << " != " << y << endl; \
+    if ( not equals(x, y) ) {                                                  \
+        cerr << __FILE__ << ":"                                                \
+        << __LINE__ << ": " << x << " != " << y << endl;                       \
         exit(1);                                                               \
     }
 
@@ -48,7 +49,7 @@ equals(real_t x,
 #define assert_nequals_vec(x, y)                                               \
     for (size_t i = 0; i < x.size(); i++) {                                    \
         if (not equals(x[i], y[i])) break;                                     \
-        if(i == x.size() - 1) {                                                \
+        if (i == x.size() - 1) {                                               \
             cerr << __FILE__ << ":" << __LINE__ << ": vectors equal" << endl;  \
             exit(1);                                                           \
         }                                                                      \
@@ -80,7 +81,6 @@ void rng_t::test()
       y = {rng2.prob(), rng2.prob(), rng2.prob()};
       assert_nequals_vec(x, y);
     }
-
   }
 
   // element

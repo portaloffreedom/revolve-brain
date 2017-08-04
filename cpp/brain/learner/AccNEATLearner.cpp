@@ -20,6 +20,9 @@
 
 #include <ctime>
 #include <fstream>
+#include <limits>
+#include <string>
+#include <vector>
 
 #include "brain/controller/AccNEATCPPNController.h"
 
@@ -57,9 +60,8 @@ void AccNEATLearner::initAsyncNeat()
   std::unique_ptr<AsyncNeat> neat(new AsyncNeat(
           (unsigned int)n_inputs,
           (unsigned int)n_outputs,
-          (int)std::time(0), // random seed,
-          robot_name
-  ));
+          (int)std::time(0),  // random seed,
+          robot_name));
   this->neat = std::move(neat);
 }
 
@@ -67,11 +69,9 @@ BaseController *AccNEATLearner::update(const std::vector<SensorPtr> &sensors,
                                        double t,
                                        double step)
 {
-
   // Evaluate policy on certain time limit
   if ((t - start_eval_time) > EVALUATION_TIME)
   {
-
     // check if to stop the experiment. Negative value for MAX_EVALUATIONS will
     // never stop the experiment
     if (MAX_EVALUATIONS > 0 && generation_counter > MAX_EVALUATIONS)
@@ -121,8 +121,7 @@ BaseController *AccNEATLearner::create_new_controller(double fitness)
   }
   current_evalaution = neat->getEvaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
-          current_evalaution->getOrganism()->net.get()
-  );
+          current_evalaution->getOrganism()->net.get());
 
   AccNEATCPPNController
           *controller = (AccNEATCPPNController *)active_controller.get();
@@ -133,7 +132,7 @@ BaseController *AccNEATLearner::create_new_controller(double fitness)
 
 float AccNEATLearner::getFitness()
 {
-  //Calculate fitness for current policy
+  // Calculate fitness for current policy
   float fitness = (float)evaluator->fitness();
   return fitness;
 }

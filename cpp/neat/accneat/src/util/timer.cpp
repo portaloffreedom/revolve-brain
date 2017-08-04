@@ -17,49 +17,47 @@
 *
 */
 
-#include "std.h" // Must be included first. Precompiled header with standard library includes.
-#include "timer.h"
+#include <algorithm>
 #include <assert.h>
 #include <sys/time.h>
+#include <vector>
+
+// Must be included first. Precompiled header with standard library includes.
+#include "std.h"
+#include "timer.h"
 
 using namespace NEAT;
 using namespace std;
 
 vector<Timer *> Timer::timers;
 
-static double
-seconds()
+static double seconds()
 {
   struct timeval tv;
-  gettimeofday(&tv,
-               NULL);
+  gettimeofday(&tv, NULL);
 
   return double(tv.tv_sec + tv.tv_usec / 1000000.0);
 }
 
-Timer::Timer(const char *name) :
-        _name(name)
+Timer::Timer(const char *name)
+        : _name(name)
 {
   timers.push_back(this);
 }
 
 Timer::~Timer()
 {
-  timers.erase(find(timers.begin(),
-                    timers.end(),
-                    this));
+  timers.erase(find(timers.begin(), timers.end(), this));
 }
 
-void
-Timer::start()
+void Timer::start()
 {
   assert(_start == 0.0);
 
   _start = seconds();
 }
 
-void
-Timer::stop()
+void Timer::stop()
 {
   assert(_start != 0.0);
 
@@ -67,36 +65,36 @@ Timer::stop()
   _recent = t;
   _start = 0.0;
 
-  if (_n == 0) {
+  if (_n == 0)
+  {
     _min = _max = t;
-  } else {
-    _min = min(_min,
-               t);
-    _max = max(_max,
-               t);
+  }
+  else
+  {
+    _min = min(_min, t);
+    _max = max(_max, t);
   }
   _total += t;
   _n++;
 }
 
-void
-Timer::report()
+void Timer::report()
 {
-  for (Timer *t: timers) {
-    cout
-            << t->_name
-            << ": n="
-            << t->_n
-            << ", recent="
-            << t->_recent
-            << ", mean="
-            << (t->_total / t->_n)
-            << ", min="
-            << t->_min
-            << ", max="
-            << t->_max
-            << ", total="
-            << t->_total
-            << endl;
+  for (Timer *t: timers)
+  {
+    cout << t->_name
+         << ": n="
+         << t->_n
+         << ", recent="
+         << t->_recent
+         << ", mean="
+         << (t->_total / t->_n)
+         << ", min="
+         << t->_min
+         << ", max="
+         << t->_max
+         << ", total="
+         << t->_total
+         << endl;
   }
 }

@@ -92,7 +92,6 @@ namespace NEAT
                                   NACTIVATES_PER_INPUT);
       }
     }
-
   };
 
   template <typename Evaluator>

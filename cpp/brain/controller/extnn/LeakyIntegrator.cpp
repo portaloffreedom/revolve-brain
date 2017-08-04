@@ -19,6 +19,8 @@
 
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
 
 #include "LeakyIntegrator.h"
 
@@ -26,19 +28,17 @@ namespace revolve
 {
   namespace brain
   {
-    LeakyIntegrator::LeakyIntegrator(const std::string &id,
-                                     const std::map<std::string, double> &params)
+    LeakyIntegrator::LeakyIntegrator(
+            const std::string &id,
+            const std::map<std::string, double> &params)
             : Neuron(id)
     {
       if (not params.count("rv:bias")
           || not params.count("rv:tau"))
       {
-        std::cerr
-                << "A `"
-                << "Leaky Integrator"
-                <<
-                "` neuron requires `rv:bias` and `rv:tau` elements."
-                << std::endl;
+        std::cerr << "A `Leaky Integrator`"
+                  << " neuron requires `rv:bias` and `rv:tau` elements."
+                  << std::endl;
         throw std::runtime_error("Robot brain error");
       }
 
@@ -49,7 +49,6 @@ namespace revolve
       this->stateDeriv_ = 0;
       this->state_ = 0;
     }
-
 
     double LeakyIntegrator::CalculateOutput(double t)
     {
@@ -64,12 +63,13 @@ namespace revolve
       double inputValue = 0;
 
       // Calculate the input value
-      for (auto it =
-              this->incomingConnections_.begin(); it != this->incomingConnections_.end(); ++it)
+      for (auto it = this->incomingConnections_.begin();
+           it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
         inputValue +=
-                inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+                inConnection->GetInputNeuron()->GetOutput()
+                * inConnection->GetWeight();
       }
 
       stateDeriv_ = (-state_ + inputValue) / tau_;

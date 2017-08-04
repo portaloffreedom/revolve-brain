@@ -33,10 +33,12 @@
    limitations under the License.
 */
 
+#include <algorithm>
+#include <iostream>
+
 #include "genomemanager.h"
 #include "network/network.h"
 #include "organism.h"
-#include <iostream>
 
 using namespace NEAT;
 
@@ -53,7 +55,7 @@ Organism::Organism(const Genome &genome)
   *this->genome = genome;
   this->net = std::unique_ptr<Network>(Network::create());
 
-  //Note: We're in the base class constructor, so a derived class' init() won't
+  // Note: We're in the base class constructor, so a derived class' init() won't
   //      be called. The derived class' constructor must also call init().
   init(0);
 }
@@ -74,14 +76,14 @@ Organism &Organism::operator=(const Organism &other)
   return *this;
 }
 
-//void
-//Organism::write(std::ostream &out) const
-//{
-//  out << "/* Organism #" << population_index << " "
-//      << "Fitness: " << eval.fitness << " "
-//      << "Error: " << eval.error << " */" << std::endl;
-//  genome->print(out);
-//}
+// void
+// Organism::write(std::ostream &out) const
+// {
+//   out << "/* Organism #" << population_index << " "
+//       << "Fitness: " << eval.fitness << " "
+//       << "Error: " << eval.error << " */" << std::endl;
+//   genome->print(out);
+// }
 
 void Organism::copy_into(Organism &dst) const
 {

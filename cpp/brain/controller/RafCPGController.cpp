@@ -19,6 +19,9 @@
 
 #include <fstream>
 #include <iostream>
+#include <utility>
+#include <string>
+#include <vector>
 
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graphviz.hpp>
@@ -29,22 +32,21 @@ namespace revolve
 {
   namespace brain
   {
-    RafCPGController::RafCPGController(std::string model_name,
-                                       CPPNConfigPtr _config,
-                                       const std::vector<ActuatorPtr> &actuators,
-                                       const std::vector<SensorPtr> &sensors)
+    RafCPGController::RafCPGController(
+            std::string model_name,
+            CPPNConfigPtr _config,
+            const std::vector<ActuatorPtr> &actuators,
+            const std::vector<SensorPtr> &sensors)
+            : modelName_(model_name)
+              , allNeurons_(_config->allNeurons_)
+              , inputNeurons_(_config->inputNeurons_)
+              , outputNeurons_(_config->outputNeurons_)
+              , hiddenNeurons_(_config->hiddenNeurons_)
+              , outputPositionMap_(_config->outputPositionMap_)
+              , inputPositionMap_(_config->inputPositionMap_)
+              , idToNeuron_(_config->idToNeuron_)
+              , connections_(_config->connections_)
     {
-      modelName_ = model_name;
-
-      allNeurons_ = _config->allNeurons_;
-      inputNeurons_ = _config->inputNeurons_;
-      outputNeurons_ = _config->outputNeurons_;
-      hiddenNeurons_ = _config->hiddenNeurons_;
-      outputPositionMap_ = _config->outputPositionMap_;
-      inputPositionMap_ = _config->inputPositionMap_;
-      idToNeuron_ = _config->idToNeuron_;
-      connections_ = _config->connections_;
-
       size_t p = 0;
       for (auto sensor : sensors)
       {

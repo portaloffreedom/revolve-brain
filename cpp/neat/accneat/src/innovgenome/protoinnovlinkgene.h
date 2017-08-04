@@ -27,7 +27,7 @@ namespace NEAT
   class ProtoInnovLinkGene
   {
     InnovGenome *_genome = nullptr;
-    //todo: does this have to be a InnovLinkGene* now?
+    // TODO: does this have to be a InnovLinkGene* now?
     InnovLinkGene *_gene = nullptr;
     InnovNodeGene *_in = nullptr;
     InnovNodeGene *_out = nullptr;

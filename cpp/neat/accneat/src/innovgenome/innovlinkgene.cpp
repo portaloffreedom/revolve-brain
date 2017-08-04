@@ -33,6 +33,8 @@
   limitations under the License.
 */
 
+#include <string>
+
 #include "innovlinkgene.h"
 
 using namespace NEAT;
@@ -57,11 +59,9 @@ InnovLinkGene::InnovLinkGene(real_t w,
           , creator_name(creator_name)
           , creator_index(creator_index)
 {
-
 }
 
-
-//Construct a gene with a trait
+// Construct a gene with a trait
 InnovLinkGene::InnovLinkGene(int trait_id,
                              real_t w,
                              int inode_id,
@@ -87,21 +87,18 @@ InnovLinkGene::InnovLinkGene(InnovLinkGene *g,
                              int trait_id,
                              int inode_id,
                              int onode_id)
+        : innovation_num(g->innovation_num)
+          , enable(g->enable)
+          , frozen(g->frozen)
+          , mutation_num(g->mutation_num)
+          , creator_name(g->creator_name)
+          , creator_index(g->creator_index)
+          , _weight(g->_weight)
+          , _in_node_id(inode_id)
+          , _out_node_id(onode_id)
+          , _is_recurrent(g->_is_recurrent)
+          , _trait_id(trait_id)
 {
-  _weight = g->_weight;
-  _in_node_id = inode_id;
-  _out_node_id = onode_id;
-  _is_recurrent = g->_is_recurrent;
-  _trait_id = trait_id;
-
-  innovation_num = g->innovation_num;
-  mutation_num = g->mutation_num;
-  enable = g->enable;
-
-  frozen = g->frozen;
-
-  creator_name = g->creator_name;
-  creator_index = g->creator_index;
 }
 
 InnovLinkGene::InnovLinkGene(const InnovLinkGene &gene)
@@ -135,7 +132,6 @@ bool NEAT::InnovLinkGene::operator==(const NEAT::InnovLinkGene &rhs) const
          && this->frozen == rhs.frozen;
 }
 
-
 bool YAML::convert<NEAT::InnovLinkGene>::decode(const YAML::Node &node,
                                                 NEAT::InnovLinkGene &rhs)
 {
@@ -154,8 +150,8 @@ bool YAML::convert<NEAT::InnovLinkGene>::decode(const YAML::Node &node,
   return true;
 }
 
-YAML::Node
-YAML::convert<NEAT::InnovLinkGene>::encode(const NEAT::InnovLinkGene &rhs)
+YAML::Node YAML::convert<NEAT::InnovLinkGene>::encode(
+        const NEAT::InnovLinkGene &rhs)
 {
   YAML::Node node;
 

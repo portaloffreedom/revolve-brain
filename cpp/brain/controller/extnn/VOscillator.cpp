@@ -19,6 +19,8 @@
 
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
 
 #include "VOscillator.h"
 
@@ -34,12 +36,9 @@ namespace revolve
           || not params.count("rv:tau")
           || not params.count("rv:energy"))
       {
-        std::cerr
-                << "A `"
-                << "V-Oscillator"
-                <<
-                "` neuron requires `rv:alpha`, `rv:tau` and `rv:energy` elements."
-                << std::endl;
+        std::cerr << "A ` V-Oscillator` neuron requires"
+                  << " `rv:alpha`, `rv:tau` and `rv:energy` elements."
+                  << std::endl;
         throw std::runtime_error("Robot brain error");
       }
 
@@ -73,36 +72,43 @@ namespace revolve
       // all other inputs
       double otherInputs = 0;
 
-      for (auto it =
-              this->incomingConnections_.begin(); it != this->incomingConnections_.end(); ++it)
+      for (auto it = this->incomingConnections_.begin();
+           it != this->incomingConnections_.end(); ++it)
       {
         auto socketId = it->first;
         auto inConnection = it->second;
 
-
         if (socketId == "from_x")
         {
           xInput +=
-                  inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
-        } else if (socketId == "from_x_ext")
+                  inConnection->GetInputNeuron()->GetOutput()
+                  * inConnection->GetWeight();
+        }
+        else if (socketId == "from_x_ext")
         {
           xExternal +=
-                  inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
-        } else if (socketId == "from_v_ext")
+                  inConnection->GetInputNeuron()->GetOutput()
+                  * inConnection->GetWeight();
+        }
+        else if (socketId == "from_v_ext")
         {
           vExternal +=
-                  inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
-        } else
+                  inConnection->GetInputNeuron()->GetOutput()
+                  * inConnection->GetWeight();
+        }
+        else
         {
           otherInputs +=
-                  inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+                  inConnection->GetInputNeuron()->GetOutput()
+                  * inConnection->GetWeight();
         }
-
       }
 
       stateDeriv_ =
-              (-(alpha_ / energy_) * vInput * (xInput * xInput + vInput * vInput)
-               + alpha_ * vInput - xInput + xExternal + vExternal + otherInputs) / tau_;
+              (-(alpha_ / energy_)
+               * vInput * (xInput * xInput + vInput * vInput)
+               + alpha_ * vInput - xInput + xExternal + vExternal + otherInputs)
+              / tau_;
 
       double result = vInput + deltaT * stateDeriv_;
 
@@ -118,28 +124,24 @@ namespace revolve
       return result;
     }
 
-    std::map<std::string, double>
-    VOscillator::getNeuronParameters()
+    std::map<std::string, double> VOscillator::getNeuronParameters()
     {
-      std::map<std::string, double> ret;
-      ret["rv:alpha"] = alpha_;
-      ret["rv:tau"] = tau_;
-      ret["rv:energy"] = energy_;
-      return ret;
+      std::map<std::string, double> parameters;
+      parameters["rv:alpha"] = alpha_;
+      parameters["rv:tau"] = tau_;
+      parameters["rv:energy"] = energy_;
+      return parameters;
     }
 
-    void
-    VOscillator::setNeuronParameters(std::map<std::string, double> params)
+    void VOscillator::setNeuronParameters(std::map<std::string, double> params)
     {
       if (not params.count("rv:alpha")
           || not params.count("rv:tau")
           || not params.count("rv:energy"))
       {
-        std::cerr
-                << "A"
-                << " `V-Oscillator` neuron requires"
-                << " `rv:alpha`, `rv:tau` and `rv:energy` elements."
-                << std::endl;
+        std::cerr << "A `V-Oscillator` neuron requires"
+                  << " `rv:alpha`, `rv:tau` and `rv:energy` elements."
+                  << std::endl;
         throw std::runtime_error("Robot brain error");
       }
 

@@ -35,6 +35,9 @@
 
 #ifndef ENABLE_CUDA
 
+#include <algorithm>
+#include <vector>
+
 #include "cpunetwork.h"
 #include "neat.h"
 #include "util/util.h"
@@ -98,7 +101,7 @@ void CpuNetwork::activate(size_t ncycles)
 {
   real_t act_other[dims.nnodes.all];
 
-  //Copy only input activation state.
+  // Copy only input activation state.
   std::memcpy(act_other,
               activations.data(),
               sizeof(real_t) * dims.nnodes.input);
@@ -107,7 +110,6 @@ void CpuNetwork::activate(size_t ncycles)
 
   for (size_t icycle = 0; icycle < ncycles; icycle++)
   {
-
     for (size_t i = dims.nnodes.input; i < dims.nnodes.all; i++)
     {
       NetNode &node = nodes[i];

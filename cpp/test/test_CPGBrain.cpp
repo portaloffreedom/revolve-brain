@@ -20,6 +20,8 @@
 
 #include <iostream>
 #include <random>
+#include <string>
+#include <vector>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -53,8 +55,7 @@ int main()
           "robot_test",
           testEvaluator,
           actuators.size(),
-          sensors.size()
-  );
+          sensors.size());
 
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -66,8 +67,6 @@ int main()
     testBrain.test_update(actuators, sensors, time, delta_time);
     delta_time = dis(gen);
   }
-
-
 }
 
 TestCPGBrain::TestCPGBrain(std::string robot_name,
@@ -79,14 +78,13 @@ TestCPGBrain::TestCPGBrain(std::string robot_name,
                                    n_actuators,
                                    n_sensors)
 {
-
 }
 
-void
-TestCPGBrain::test_update(const std::vector<revolve::brain::ActuatorPtr> &actuators,
-                          const std::vector<revolve::brain::SensorPtr> &sensors,
-                          double t,
-                          double step)
+void TestCPGBrain::test_update(
+        const std::vector<revolve::brain::ActuatorPtr> &actuators,
+        const std::vector<revolve::brain::SensorPtr> &sensors,
+        double t,
+        double step)
 {
   this->update(actuators, sensors, t, step);
 }

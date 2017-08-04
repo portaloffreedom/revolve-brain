@@ -18,6 +18,8 @@
 *
 */
 
+#include <string>
+
 #include "PythonListWrap.h"
 
 #include "CPGBrain_python.h"

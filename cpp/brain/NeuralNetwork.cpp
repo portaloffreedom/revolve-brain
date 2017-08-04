@@ -18,6 +18,8 @@
 */
 
 #include <set>
+#include <string>
+#include <vector>
 
 #include "NeuralNetwork.h"
 
@@ -63,11 +65,12 @@ NeuralNetwork::NeuralNetwork(std::string modelName,
   // create a map of all neurons, telling us how many there are for each
   // type, and what their properties are. We then iterate all sensors and
   // motors, creating the adequate neurons in place as we do so.
-  //TODO
+  // TODO
 }
 
 NeuralNetwork::~NeuralNetwork()
-{}
+{
+}
 
 void NeuralNetwork::step(double time)
 {

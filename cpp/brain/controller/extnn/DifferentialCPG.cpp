@@ -19,7 +19,9 @@
 
 #include <cmath>
 #include <iostream>
+#include <map>
 #include <sstream>
+#include <string>
 
 #include "DifferentialCPG.h"
 
@@ -27,9 +29,9 @@ namespace revolve
 {
   namespace brain
   {
-
-    DifferentialCPG::DifferentialCPG(const std::string &id,
-                                     const std::map<std::string, double> &params)
+    DifferentialCPG::DifferentialCPG(
+            const std::string &id,
+            const std::map<std::string, double> &params)
             : Neuron(id)
     {
       if (not params.count("rv:bias"))
@@ -58,12 +60,13 @@ namespace revolve
 
       double inputValue = 0;
 
-      for (auto it =
-              this->incomingConnections_.begin(); it != this->incomingConnections_.end(); ++it)
+      for (auto it = this->incomingConnections_.begin();
+           it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
         inputValue +=
-                inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+                inConnection->GetInputNeuron()->GetOutput()
+                * inConnection->GetWeight();
       }
 
       double state_deriv = inputValue - this->bias_;
@@ -73,10 +76,10 @@ namespace revolve
 
       // limit output:
       // if (result > maxOut) {
-      // 	result = maxOut;
+      //  result = maxOut;
       // }
       // else if (result < -maxOut) {
-      // 	result = -maxOut;
+      //  result = -maxOut;
       // }
 
       // saturate output:

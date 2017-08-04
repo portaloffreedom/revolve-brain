@@ -17,6 +17,9 @@
 *
 */
 
+#include <map>
+#include <string>
+
 #include "InputNeuron.h"
 
 namespace revolve

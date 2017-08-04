@@ -19,6 +19,8 @@
 
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
 
 #include "SigmoidNeuron.h"
 
@@ -53,7 +55,8 @@ namespace revolve
       {
         auto inConnection = it->second;
         inputValue +=
-                inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+                inConnection->GetInputNeuron()->GetOutput()
+                * inConnection->GetWeight();
       }
 
       return 1.0 / (1.0 + exp(-this->gain_ * (inputValue - this->bias_)));

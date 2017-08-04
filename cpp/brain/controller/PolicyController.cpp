@@ -116,7 +116,7 @@ void PolicyController::setPhenotype(PolicyPtr policy)
   policy_ = policy;
   update_cache();
   cycle_start_time_ = -1;
-  //TODO:: make sure the current time in cycle is correct.
+  // TODO:: make sure the current time in cycle is correct.
 }
 
 void PolicyController::update_cache()
@@ -186,21 +186,24 @@ void PolicyController::InterpolateCubic(Policy *const source_y,
   delete[] x;
 }
 
-PolicyController *PolicyController::GenerateRandomController(double noise_sigma,
-                                                             size_t n_actuators,
-                                                             size_t n_spline_points,
-                                                             size_t interpolation_cache_size)
+PolicyController *PolicyController::GenerateRandomController(
+        double noise_sigma,
+        size_t n_actuators,
+        size_t n_spline_points,
+        size_t interpolation_cache_size)
 {
   std::random_device rd;
   std::mt19937 mt(rd());
   std::normal_distribution<double> dist(0, noise_sigma);
 
-  PolicyController *controller = new PolicyController(n_actuators,
-                                                      interpolation_cache_size);
+  PolicyController *controller =
+          new PolicyController(n_actuators, interpolation_cache_size);
 
   // Init first random controller
   if (not controller->policy_)
+  {
     controller->policy_ = std::make_shared<Policy>(n_actuators);
+  }
 
   for (size_t i = 0; i < n_actuators; i++)
   {
@@ -214,7 +217,9 @@ PolicyController *PolicyController::GenerateRandomController(double noise_sigma,
 
   // Init of empty cache
   if (not controller->interpolation_cache_)
+  {
     controller->interpolation_cache_ = std::make_shared<Policy>(n_actuators);
+  }
 
   for (size_t i = 0; i < n_actuators; i++)
   {

@@ -32,32 +32,34 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+#include <vector>
+
 #include "population.h"
-#include "species/speciespopulation.h"
 #include "multinnspecies/multinnspeciespopulation.h"
+#include "species/speciespopulation.h"
 #include "util/util.h"
 
 using namespace NEAT;
-using namespace std;
+// using namespace std;
 
 Population *NEAT::debug_population = nullptr;
 
-Population *
-Population::create(rng_t rng,
-                   vector<unique_ptr<Genome>> &seeds)
+Population *Population::create(rng_t rng,
+                               std::vector<std::unique_ptr<Genome>> &seeds)
 {
   Population *result;
 
-  switch (env->population_type) {
+  switch (env->population_type)
+  {
     case PopulationType::SPECIES:
-      result = new SpeciesPopulation(rng,
-                                     seeds);
+      result = new SpeciesPopulation(rng, seeds);
       break;
     case PopulationType::MULTI_NN_SPECIES:
-      result = new MultiNNSpeciesPopulation(rng,
-                                            seeds);
+      result = new MultiNNSpeciesPopulation(rng, seeds);
       break;
-    default: panic();
+    default:
+    panic();
   }
 
   debug_population = result;

@@ -29,7 +29,6 @@ namespace cppneat
   class ConnectionGene
           : public Gene
   {
-
     public:
     /// \brief
     ConnectionGene(int mark_to,

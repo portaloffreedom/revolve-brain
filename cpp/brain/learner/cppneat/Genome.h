@@ -41,7 +41,8 @@ namespace cppneat
               , enabled(enabled)
               , parent_name(parent_name)
               , parent_index(parent_index)
-    {}
+    {
+    }
 
     virtual inline size_t getInnovNumber()
     {

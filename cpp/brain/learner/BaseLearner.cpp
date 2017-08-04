@@ -17,6 +17,9 @@
 *
 */
 
+#include <string>
+#include <vector>
+
 #include "BaseLearner.h"
 
 using namespace revolve::brain;

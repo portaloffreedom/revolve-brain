@@ -17,37 +17,42 @@
 *
 */
 
+#include <random>
+#include <string>
+
+#include <gsl/gsl_spline.h>
+
 #include "SplineController.h"
 
 using namespace revolve::brain;
 
-#include <gsl/gsl_spline.h>
-#include <random>
+/// \brief seconds
+const double SplineController::CYCLE_LENGTH = 5;
 
-const double SplineController::CYCLE_LENGTH = 5; // seconds
-const unsigned int
-        SplineController::INTERPOLATION_CACHE_SIZE = 100; // number of data
+/// \brief number of data
+const unsigned int SplineController::INTERPOLATION_CACHE_SIZE = 100;
 
 SplineController *
 SplineController::GenerateRandomController(
         double noise_sigma,
         unsigned int n_actuators,
         unsigned int n_spline_points,
-        unsigned int interpolation_cache_size
-)
+        unsigned int interpolation_cache_size)
 {
   std::random_device rd;
   std::mt19937 mt(rd());
-  std::normal_distribution<double> dist(0,
-                                        noise_sigma);
+  std::normal_distribution<double> dist(0, noise_sigma);
 
-  SplineController *controller = new SplineController(n_actuators,
-                                                      n_spline_points,
-                                                      interpolation_cache_size);
+  SplineController *controller =
+          new SplineController(n_actuators,
+                               n_spline_points,
+                               interpolation_cache_size);
 
   // Init first random controller
   if (not controller->policy)
+  {
     controller->policy = std::make_shared<Policy>(n_actuators);
+  }
 
   for (unsigned int i = 0; i < n_actuators; i++)
   {
@@ -61,24 +66,24 @@ SplineController::GenerateRandomController(
 
   // Init of empty cache
   if (not controller->interpolation_cache)
+  {
     controller->interpolation_cache = std::make_shared<Policy>(n_actuators);
+  }
 
   for (unsigned int i = 0; i < n_actuators; i++)
   {
-    controller->interpolation_cache->at(i).resize(controller->interpolation_cache_size,
-                                                  0);
+    controller->interpolation_cache->at(i)
+              .resize(controller->interpolation_cache_size, 0);
   }
 
   controller->update_cache();
   return controller;
 }
 
-
 SplineController::SplineController(unsigned int n_actuators,
                                    unsigned int n_spline_points,
                                    unsigned int interpolation_cache_size)
-        :
-        n_actuators(n_actuators)
+        : n_actuators(n_actuators)
         , n_spline_points(n_spline_points)
         , interpolation_cache_size(interpolation_cache_size)
         , interpolation_cache(nullptr)
@@ -87,8 +92,7 @@ SplineController::SplineController(unsigned int n_actuators,
   this->policy = std::make_shared<Policy>(n_actuators);
   for (unsigned int i = 0; i < n_actuators; i++)
   {
-    Spline spline(n_spline_points,
-                  0);
+    Spline spline(n_spline_points, 0);
     this->policy->at(i) = spline;
   }
 
@@ -97,11 +101,9 @@ SplineController::SplineController(unsigned int n_actuators,
 
   for (unsigned int i = 0; i < n_actuators; i++)
   {
-    interpolation_cache->at(i).resize(interpolation_cache_size,
-                                      0);
+    interpolation_cache->at(i).resize(interpolation_cache_size, 0);
   }
 }
-
 
 SplineController::SplineController(unsigned int n_actuators,
                                    unsigned int n_spline_points)
@@ -109,37 +111,34 @@ SplineController::SplineController(unsigned int n_actuators,
         SplineController(n_actuators,
                          n_spline_points,
                          INTERPOLATION_CACHE_SIZE)
-{}
-
+{
+}
 
 SplineController::~SplineController()
-{}
+{
+}
 
-void
-SplineController::update(const std::vector<ActuatorPtr> &actuators,
+void SplineController::update(const std::vector<ActuatorPtr> &actuators,
                          const std::vector<SensorPtr> &sensors,
                          double t,
                          double step)
 {
   // generate outputs
   double *output_vector = new double[n_actuators];
-  this->generateOutput(t,
-                       output_vector);
+  this->generateOutput(t, output_vector);
 
   // Send new signals to the actuators
   unsigned int p = 0;
   for (auto actuator: actuators)
   {
-    actuator->update(&output_vector[p],
-                     step);
+    actuator->update(&output_vector[p], step);
     p += actuator->outputs();
   }
 
   delete[] output_vector;
 }
 
-void
-SplineController::generateOutput(const double time,
+void SplineController::generateOutput(const double time,
                                  double *output_vector)
 {
   if (cycle_start_time < 0)
@@ -172,15 +171,13 @@ SplineController::generateOutput(const double time,
   }
 }
 
-void
-SplineController::update_cache()
+void SplineController::update_cache()
 {
   this->Interpolate_cubic(policy.get(),
                           interpolation_cache.get());
 }
 
-void
-SplineController::Interpolate_cubic(Policy *const source_y,
+void SplineController::Interpolate_cubic(Policy *const source_y,
                                     Policy *destination_y)
 {
   const unsigned int source_y_internal_size = (*source_y)[0].size();
@@ -195,8 +192,7 @@ SplineController::Interpolate_cubic(Policy *const source_y,
 
   gsl_interp_accel *acc = gsl_interp_accel_alloc();
   const gsl_interp_type *t = gsl_interp_cspline_periodic;
-  gsl_spline *spline = gsl_spline_alloc(t,
-                                        N);
+  gsl_spline *spline = gsl_spline_alloc(t, N);
 
   // init x
   double step_size = CYCLE_LENGTH / source_y_internal_size;
@@ -227,16 +223,11 @@ SplineController::Interpolate_cubic(Policy *const source_y,
     // make last equal to first
     y[N - 1] = y[0];
 
-    gsl_spline_init(spline,
-                    x,
-                    y,
-                    N);
+    gsl_spline_init(spline, x, y, N);
 
     for (unsigned int i = 0; i < destination_y_internal_size; i++)
     {
-      destination_y_line[i] = gsl_spline_eval(spline,
-                                              x_new[i],
-                                              acc);
+      destination_y_line[i] = gsl_spline_eval(spline, x_new[i], acc);
     }
   }
 

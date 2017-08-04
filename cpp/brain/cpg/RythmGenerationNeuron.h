@@ -56,8 +56,9 @@ namespace revolve
         virtual ~RythmGenerationNeuron();
 
         /// \brief  Update the rythm generator to the step (t+1)
-        /// \param inputs std::vector<real_t> of size 1 + weight_neigbours.size()
-        /// contaning the phi of the coupled RythmGenerationNeuron
+        /// \param inputs std::vector<real_t> of size
+        /// 1 + weight_neigbours.size() contaning the phi of the coupled
+        /// RythmGenerationNeuron
         /// \param delta_time time passed since the last update. Value in
         /// seconds expected to be positive and relativly small. Big time steps
         /// could have weird effects on the network.

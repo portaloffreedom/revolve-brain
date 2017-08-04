@@ -18,6 +18,9 @@
 *
 */
 
+#include <string>
+#include <vector>
+
 #include "network/cpu/cpunetwork.h"
 
 #include "brain/controller/CPGController.h"
@@ -28,15 +31,16 @@ using namespace revolve::brain;
 
 const size_t HyperAccNEATLearner_CPGController::CPPN_OUTPUT_SIZE = 4;
 
-HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(const std::string &robot_name,
-                                                                     const EvaluatorPtr &evaluator,
-                                                                     const size_t n_inputs,
-                                                                     const size_t n_outputs,
-                                                                     const size_t n_coordinates,
-                                                                     const std::vector<std::vector<bool>> &connections_active,
-                                                                     const std::vector<std::vector<float>> &cpgs_coordinates,
-                                                                     const float evaluationTime,
-                                                                     const long maxEvaluations)
+HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(
+        const std::string &robot_name,
+        const EvaluatorPtr &evaluator,
+        const size_t n_inputs,
+        const size_t n_outputs,
+        const size_t n_coordinates,
+        const std::vector<std::vector<bool>> &connections_active,
+        const std::vector<std::vector<float>> &cpgs_coordinates,
+        const float evaluationTime,
+        const long maxEvaluations)
         : AccNEATLearner(robot_name,
                          evaluator,
                          (n_coordinates + 1) * 2,
@@ -56,8 +60,7 @@ HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(const std::
     assert(cpg_coordinates.size() == n_coordinates);
 
   std::unique_ptr<CPGController> controller(
-          new CPGController(n_inputs, n_outputs)
-  );
+          new CPGController(n_inputs, n_outputs));
 
   this->active_controller = std::move(controller);
 
@@ -66,8 +69,8 @@ HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(const std::
   AsyncNeat::SetRecurOnlyProb(0);
 }
 
-BaseController *
-HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
+BaseController *HyperAccNEATLearner_CPGController::create_new_controller(
+        double fitness)
 {
   if (current_evalaution)
   {
@@ -76,14 +79,13 @@ HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
   }
   current_evalaution = neat->getEvaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
-          current_evalaution->getOrganism()->net.get()
-  );
+          current_evalaution->getOrganism()->net.get());
 
   CPGController *controller = (CPGController *)active_controller.get();
 
   size_t x = 0;
-  for (auto cpg_it =
-          controller->beginCPGNetwork(); cpg_it != controller->endCPGNetwork(); cpg_it++)
+  for (auto cpg_it = controller->beginCPGNetwork();
+       cpg_it != controller->endCPGNetwork(); cpg_it++)
   {
     cpg::CPGNetwork *cpg = (*cpg_it);
 
@@ -91,8 +93,8 @@ HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
     for (size_t i = 0; i < n_coordinates - 1; i++)
     {
       auto c = cpgs_coordinates[x][i];
-      cppn->load_sensor(i, c); //start
-      cppn->load_sensor(n_coordinates + i, c); //end
+      cppn->load_sensor(i, c);  // start
+      cppn->load_sensor(n_coordinates + i, c);  // end
     }
 
     /* repeat for both z coordinates
@@ -104,8 +106,8 @@ HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
     for (int z = -1; z <= 1; z += 2)
     {
       // LOAD z input coordinate
-      cppn->load_sensor(n_coordinates - 1, z); //start
-      cppn->load_sensor(n_coordinates * 2 - 1, z); //end
+      cppn->load_sensor(n_coordinates - 1, z);  // start
+      cppn->load_sensor(n_coordinates * 2 - 1, z);  // end
 
 
       // ACTIVATE CPPN
@@ -129,27 +131,28 @@ HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
        */
 
       if (z < 0)
-      { //E
+      {  // E
         // Rhythm generator parameters
-//        cpg->setRGEWeightPercentage(output[0]);    //1
-        cpg->setRGEAmplitudePercentage(output[0]); //2
-        cpg->setRGECPercentage(output[1]);         //3
-//        cpg->setRGEOffsetPercentage(output[3]);    //4
+//        cpg->setRGEWeightPercentage(output[0]);    // 1
+        cpg->setRGEAmplitudePercentage(output[0]);   // 2
+        cpg->setRGECPercentage(output[1]);           // 3
+//        cpg->setRGEOffsetPercentage(output[3]);    // 4
 
         // Pattern Formation parameters
-        cpg->setPFEAlphaPercentage(output[2]); //5
-        cpg->setPFEThetaPercentage(output[3]); //6
-      } else
-      { //F
+        cpg->setPFEAlphaPercentage(output[2]);  // 5
+        cpg->setPFEThetaPercentage(output[3]);  // 6
+      }
+      else
+      {  // F
         // Rhythm generator parameters
-//        cpg->setRGFWeightPercentage(output[0]);    //1
-        cpg->setRGFAmplitudePercentage(output[0]); //2
-        cpg->setRGFCPercentage(output[1]);         //3
-//        cpg->setRGFOffsetPercentage(output[3]);    //4
+//        cpg->setRGFWeightPercentage(output[0]);    // 1
+        cpg->setRGFAmplitudePercentage(output[0]);   // 2
+        cpg->setRGFCPercentage(output[1]);           // 3
+//        cpg->setRGFOffsetPercentage(output[3]);    // 4
 
         // Pattern Formation parameters
-        cpg->setPFFAlphaPercentage(output[2]); //5
-        cpg->setPFFThetaPercentage(output[3]); //6
+        cpg->setPFFAlphaPercentage(output[2]);  // 5
+        cpg->setPFFThetaPercentage(output[3]);  // 6
       }
     }
 
@@ -158,8 +161,8 @@ HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
     for (int z = -1; z <= 1; z += 2)
     {
       // LOAD z input coordinate
-      cppn->load_sensor(n_coordinates - 1, z); //start
-      cppn->load_sensor(n_coordinates * 2 - 1, z); //end
+      cppn->load_sensor(n_coordinates - 1, z);  // start
+      cppn->load_sensor(n_coordinates * 2 - 1, z);  // end
 
       /* Rhythm generator connection weights
        *
@@ -181,7 +184,7 @@ HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
         for (size_t i = 0; i < n_coordinates - 1; i++)
         {
           auto c = cpgs_coordinates[y][i];
-          cppn->load_sensor(i, c); //start
+          cppn->load_sensor(i, c);  // start
         }
 
         // ACTIVATE CPPN
@@ -193,13 +196,15 @@ HyperAccNEATLearner_CPGController::create_new_controller(double fitness)
           // set connection
           // (first connection is the weight)
           if (z < 0)
-          {// E
+          {  // E
             cpg->setRGEWeightNeighbourPercentage(output[0], y);
-          } else
+          }
+          else
           {
             cpg->setRGFWeightNeighbourPercentage(output[0], y);
           }
-        } else
+        }
+        else
         {
           // set connection weight to 0 to truncate connection
           cpg->setRGEWeightNeighbour(0, y);
