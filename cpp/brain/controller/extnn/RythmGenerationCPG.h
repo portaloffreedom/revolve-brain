@@ -22,6 +22,10 @@
 #ifndef TOL_REVOLVE_RYTHMGENERATIONCPG_H
 #define TOL_REVOLVE_RYTHMGENERATIONCPG_H
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
@@ -29,7 +33,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class RythmGenerationCPG
             : public Neuron
     {
@@ -87,9 +90,7 @@ namespace revolve
       /// \brief offset dims shape of the final output signal to the starting
       /// position [-0.1, 0.1]
       protected: double offset;
-
     };
-
   }
 }
 

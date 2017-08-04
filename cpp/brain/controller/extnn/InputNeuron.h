@@ -13,12 +13,15 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTNEURON_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTNEURON_H_
+
+#include <map>
+#include <string>
 
 #include "ENeuron.h"
 
@@ -26,7 +29,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class InputNeuron
             : public Neuron
     {
@@ -56,9 +58,9 @@ namespace revolve
       /// \brief
       std::string getType() override;
 
+      protected:
       /// \brief input of the neuron
-      protected: double input_;
-
+      double input_;
     };
   }
 }

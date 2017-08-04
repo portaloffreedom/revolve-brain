@@ -62,15 +62,13 @@ Organism::~Organism()
 {
 }
 
-void
-Organism::init(int gen)
+void Organism::init(int gen)
 {
   generation = gen;
   eval.reset();
 }
 
-Organism &
-Organism::operator=(const Organism &other)
+Organism &Organism::operator=(const Organism &other)
 {
   other.copy_into(*this);
   return *this;
@@ -85,8 +83,7 @@ Organism::operator=(const Organism &other)
 //  genome->print(out);
 //}
 
-void
-Organism::copy_into(Organism &dst) const
+void Organism::copy_into(Organism &dst) const
 {
 #define copy(field) dst.field = this->field;
 
@@ -97,7 +94,6 @@ Organism::copy_into(Organism &dst) const
 
   // Networks must be regenerated.
   dst.net = std::unique_ptr<Network>(Network::create());
-
 
 #undef copy
 }

@@ -22,6 +22,7 @@
 
 #include <list>
 #include <memory>
+#include <string>
 
 #include "organism.h"
 #include "population.h"

@@ -20,6 +20,9 @@
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTDEPENDENTOSCILLATORNEURON_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_INPUTDEPENDENTOSCILLATORNEURON_H_
 
+#include <map>
+#include <string>
+
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
@@ -44,20 +47,26 @@ namespace revolve
       /// \return the output of the neuron at time t
       double CalculateOutput(double t) override;
 
+      /// \brief
       std::map<std::string, double> getNeuronParameters() override;
 
+      /// \brief
       void setNeuronParameters(std::map<std::string, double> params) override;
 
+      /// \brief
       std::string getType() override;
 
       /// \brief period of the oscillation of the neuron
-      protected: double period_;
+      protected:
+      double period_;
 
       /// \brief current phase offset of the oscillation of the neuron
-      protected: double phaseOffset_;
+      protected:
+      double phaseOffset_;
 
       /// \brief gain of the neuron
-      protected: double gain_;
+      protected:
+      double gain_;
     };
 
   }

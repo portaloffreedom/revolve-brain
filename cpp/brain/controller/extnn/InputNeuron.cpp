@@ -48,7 +48,6 @@ namespace revolve
 
     void InputNeuron::setNeuronParameters(std::map<std::string, double> params)
     {
-
     }
 
     std::string InputNeuron::getType()

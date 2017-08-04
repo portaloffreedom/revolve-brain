@@ -20,6 +20,9 @@
 #ifndef REVOLVE_GAZEBO_BRAIN_XOSCILLATOR_H_
 #define REVOLVE_GAZEBO_BRAIN_XOSCILLATOR_H_
 
+#include <map>
+#include <string>
+
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
@@ -27,7 +30,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class XOscillator
             : public Neuron
     {
@@ -59,7 +61,6 @@ namespace revolve
       /// \brief
       protected: double stateDeriv_;
     };
-
   }
 }
 

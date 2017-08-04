@@ -13,78 +13,90 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: March 13, 2017
 *
 */
 
-//
-// Created by matteo on 3/13/17.
-//
-
 #ifndef REVOLVE_BRAIN_ACCNEATLEARNER_H
 #define REVOLVE_BRAIN_ACCNEATLEARNER_H
+
+#include <string>
+#include <vector>
 
 #include "neat/AsyncNEAT.h"
 #include "brain/Evaluator.h"
 #include "BaseLearner.h"
 
-namespace revolve { namespace brain {
+namespace revolve
+{
+  namespace brain
+  {
+    class AccNEATLearner
+            : public BaseLearner
+    {
+      public:  // METHODS
+      /// \brief
+      AccNEATLearner(const std::string &robot_name,
+                     EvaluatorPtr evaluator,
+                     size_t n_inputs,
+                     size_t n_outputs,
+                     const float evaluationTime,
+                     const long maxEvaluations = -1);
 
-    class AccNEATLearner : public BaseLearner {
-    public: // METHODS
-        AccNEATLearner(const std::string &robot_name,
-                       EvaluatorPtr evaluator,
-                       size_t n_inputs,
-                       size_t n_outputs,
-                       const float evaluationTime,
-                       const long maxEvaluations = -1);
+      /// \brief
+      virtual ~AccNEATLearner();
 
-        virtual ~AccNEATLearner();
+      /// \brief
+      virtual BaseController *update(const std::vector<SensorPtr> &sensors,
+                                     double t,
+                                     double step) override;
 
+      protected:
+      /// \brief
+      virtual BaseController *create_new_controller(double fitness) override;
 
-        virtual BaseController *
-        update(const std::vector<SensorPtr> &sensors,
-               double t,
-               double step) override;
+      /// \brief
+      float getFitness();
 
-    protected:
-        virtual BaseController * create_new_controller(double fitness) override;
+      private:
+      /// \brief
+      void initAsyncNeat();
 
-        float getFitness();
+      /// \brief
+      void writeCurrent(double fitness);
 
-    private:
-        void initAsyncNeat();
+      protected: // VARIABLES
+      /// \brief
+      EvaluatorPtr evaluator;
 
-    void writeCurrent(double fitness);
+      /// \brief
+      size_t n_inputs, n_outputs;
 
-    protected: // VARIABLES
+      /// \brief
+      unsigned int generation_counter;
 
-        EvaluatorPtr evaluator;
-        size_t n_inputs, n_outputs;
+      /// \brief
+      double start_eval_time;
 
-        unsigned int generation_counter;
-        double start_eval_time;
+      /// \brief
+      std::unique_ptr<AsyncNeat> neat;
 
-        std::unique_ptr<AsyncNeat> neat;
-        std::shared_ptr<NeatEvaluation> current_evalaution;
+      /// \brief
+      std::shared_ptr<NeatEvaluation> current_evalaution;
 
-        /**
-         * Number of evaluations before the program quits. Usefull to do long run
-         * tests. If negative (default value), it will never stop.
-         *
-         * Default value -1
-         */
-        const long MAX_EVALUATIONS; //= -1; // max number of evaluations
+      /// \brief Number of evaluations before the program quits. Usefull to do long run
+      /// tests. If negative (default value), it will never stop.
+      ///
+      /// Default value -1 //= -1; // max number of evaluations
+      const long MAX_EVALUATIONS;
 
-        /**
-         * How long should an evaluation lasts (in seconds)
-         *
-         * 30 seconds is usually a good value
-         */
-        double EVALUATION_TIME;
+      /// \brief How long should an evaluation lasts (in seconds)
+      ///
+      /// 30 seconds is usually a good value
+      double EVALUATION_TIME;
     };
-
-}}
-
+  }
+}
 
 #endif  // REVOLVE_BRAIN_ACCNEATLEARNER_H

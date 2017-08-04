@@ -17,6 +17,9 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_UTIL_STD_H_
+#define CPP_NEAT_ACCNEAT_SRC_UTIL_STD_H_
+
 #include <algorithm>
 #include <functional>
 #include <cctype>
@@ -35,3 +38,5 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
+#endif

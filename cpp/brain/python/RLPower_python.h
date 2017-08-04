@@ -20,35 +20,38 @@
 #ifndef REVOLVE_BRAIN_RLPOWER_PYTHON_H
 #define REVOLVE_BRAIN_RLPOWER_PYTHON_H
 
-#include "brain/RLPower.h"
-#include <boost/python/object.hpp>
-#include <boost/python/list.hpp>
 #include <string>
 
-namespace revolve {
-namespace brain {
+#include <boost/python/object.hpp>
+#include <boost/python/list.hpp>
 
-class RLPower_python
-        : public revolve::brain::RLPower
+#include "brain/RLPower.h"
+
+namespace revolve
 {
-public:
-    RLPower_python(std::string robot_name,
-                   const boost::python::object &conf,
-                   revolve::brain::EvaluatorPtr evaluator,
-                   unsigned int n_actuators,
-                   unsigned int n_sensors);
+  namespace brain
+  {
+    class RLPower_python
+            : public revolve::brain::RLPower
+    {
+      public:
+      /// \brief
+      RLPower_python(std::string robot_name,
+                     const boost::python::object &conf,
+                     revolve::brain::EvaluatorPtr evaluator,
+                     unsigned int n_actuators,
+                     unsigned int n_sensors);
 
-    void
-    update(boost::python::list &actuators,
-           const boost::python::list &sensors,
-           double t,
-           double step);
+      /// \brief
+      void update(boost::python::list &actuators,
+                  const boost::python::list &sensors,
+                  double t,
+                  double step);
 
-    static RLPower::Config
-    create_config(const boost::python::object &conf);
-};
-
-}
+      /// \brief
+      static RLPower::Config create_config(const boost::python::object &conf);
+    };
+  }
 }
 
 #endif  //  REVOLVE_BRAIN_RLPOWER_PYTHON_H

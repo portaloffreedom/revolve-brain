@@ -17,23 +17,23 @@
 *
 */
 
-#include "Conversion.h"
-
 #include <fstream>
 
-//dbg_plot
-
+// dbg_plot
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graphviz.hpp>
+
+#include "Conversion.h"
 
 namespace revolve
 {
   namespace brain
   {
+    std::map<boost::shared_ptr<CPPNConfig>, cppneat::GeneticEncodingPtr>
+            known_genotypes;
 
-    std::map<boost::shared_ptr<CPPNConfig>, cppneat::GeneticEncodingPtr> known_genotypes;
-
-    std::map<cppneat::Neuron::Ntype, cppneat::Neuron::NeuronTypeSpec> brain_spec;
+    std::map<cppneat::Neuron::Ntype, cppneat::Neuron::NeuronTypeSpec>
+            brain_spec;
 
     std::map<int, size_t> InputMap;
 
@@ -191,8 +191,10 @@ namespace revolve
     convertForController(cppneat::GeneticEncodingPtr genotype)
     {
       assert(!genotype->is_layered_);
-      std::vector<cppneat::NeuronGenePtr> neuron_genes = genotype->neuron_genes_;
-      std::vector<cppneat::ConnectionGenePtr> connection_genes = genotype->connection_genes_;
+      std::vector<cppneat::NeuronGenePtr>
+              neuron_genes = genotype->neuron_genes_;
+      std::vector<cppneat::ConnectionGenePtr>
+              connection_genes = genotype->connection_genes_;
 
       std::map<int, NeuronPtr> innov_number_to_neuron;
 
@@ -201,7 +203,8 @@ namespace revolve
       {
         NeuronPtr newNeuron;
         std::string neuronId = neuron_gene->neuron->neuron_id;
-        std::map<std::string, double> neuron_params = neuron_gene->neuron->neuron_params;
+        std::map<std::string, double>
+                neuron_params = neuron_gene->neuron->neuron_params;
 
         switch (neuron_gene->neuron->layer)
         {
@@ -209,7 +212,8 @@ namespace revolve
           {
             newNeuron.reset(new InputNeuron(neuronId, neuron_params));
             config->inputNeurons_.push_back(newNeuron);
-            config->inputPositionMap_[newNeuron] = InputMap[neuron_gene->getInnovNumber()];
+            config->inputPositionMap_[newNeuron] =
+                    InputMap[neuron_gene->getInnovNumber()];
             break;
           }
           case cppneat::Neuron::HIDDEN_LAYER:
@@ -285,7 +289,8 @@ namespace revolve
               }
               case cppneat::Neuron::RYTHM_GENERATOR_CPG:
               {
-                newNeuron.reset(new RythmGenerationCPG(neuronId, neuron_params));
+                newNeuron.reset(new RythmGenerationCPG(neuronId,
+                                                       neuron_params));
                 break;
               }
               case cppneat::Neuron::BIAS:
@@ -300,7 +305,8 @@ namespace revolve
               }
               case cppneat::Neuron::INPUT_OSCILLATOR:
               {
-                newNeuron.reset(new InputDependentOscillatorNeuron(neuronId, neuron_params));
+                newNeuron.reset(new InputDependentOscillatorNeuron(neuronId,
+                                                                   neuron_params));
                 break;
               }
               default:
@@ -310,7 +316,8 @@ namespace revolve
 
             }
             config->outputNeurons_.push_back(newNeuron);
-            config->outputPositionMap_[newNeuron] = OutputMap[neuron_gene->getInnovNumber()];
+            config->outputPositionMap_[newNeuron] =
+                    OutputMap[neuron_gene->getInnovNumber()];
             break;
           }
           default:
@@ -370,8 +377,10 @@ namespace revolve
     convertForLayeredExtNN(cppneat::GeneticEncodingPtr genotype)
     {
       assert(genotype->is_layered_);
-      std::vector<std::vector<cppneat::NeuronGenePtr>> layers = genotype->layers_;
-      std::vector<cppneat::ConnectionGenePtr> connection_genes = genotype->connection_genes_;
+      std::vector<std::vector<cppneat::NeuronGenePtr>>
+              layers = genotype->layers_;
+      std::vector<cppneat::ConnectionGenePtr>
+              connection_genes = genotype->connection_genes_;
 
       std::map<int, NeuronPtr> neuron_inovation_numbers;
 
@@ -385,7 +394,8 @@ namespace revolve
         {
           NeuronPtr new_neuron;
           std::string neuronId = neuron_gene->neuron->neuron_id;
-          std::map<std::string, double> neuron_params = neuron_gene->neuron->neuron_params;
+          std::map<std::string, double>
+                  neuron_params = neuron_gene->neuron->neuron_params;
 
           switch (neuron_gene->neuron->layer)
           {
@@ -393,7 +403,8 @@ namespace revolve
             {
               new_neuron.reset(new InputNeuron(neuronId, neuron_params));
               cppn->layers_[i].push_back(new_neuron);
-              cppn->inputPositionMap_[new_neuron] = InputMap[neuron_gene->getInnovNumber()];
+              cppn->inputPositionMap_[new_neuron] =
+                      InputMap[neuron_gene->getInnovNumber()];
               break;
             }
             case cppneat::Neuron::HIDDEN_LAYER:
@@ -499,7 +510,8 @@ namespace revolve
 
               }
               cppn->layers_[i].push_back(new_neuron);
-              cppn->outputPositionMap_[new_neuron] = OutputMap[neuron_gene->getInnovNumber()];
+              cppn->outputPositionMap_[new_neuron] =
+                      OutputMap[neuron_gene->getInnovNumber()];
               break;
             }
             default:
@@ -513,7 +525,8 @@ namespace revolve
       }
       for (cppneat::ConnectionGenePtr connection_gene : connection_genes)
       {
-        NeuronPtr destination_neuron = neuron_inovation_numbers[connection_gene->mark_to];
+        NeuronPtr destination_neuron =
+                neuron_inovation_numbers[connection_gene->mark_to];
         NeuralConnectionPtr newConnection(
                 new NeuralConnection(neuron_inovation_numbers[connection_gene->mark_from],
                                      destination_neuron,
@@ -533,7 +546,8 @@ namespace revolve
       boost::adjacency_list<> graph(conf->allNeurons_.size());
       for (size_t i = 0; i < conf->allNeurons_.size(); i++)
       {
-        std::vector<std::pair<std::string, NeuralConnectionPtr>> connectionsToAdd =
+        std::vector<std::pair<std::string, NeuralConnectionPtr>>
+                connectionsToAdd =
                 conf->allNeurons_[i]->getIncomingConnections();
 
         for (auto connectionToAdd : connectionsToAdd)
@@ -560,7 +574,8 @@ namespace revolve
         }
         if (include_coordinates)
         {
-          std::tuple<int, int, int> coord = neuron_coordinates[conf->allNeurons_[i]->Id()];
+          std::tuple<int, int, int>
+                  coord = neuron_coordinates[conf->allNeurons_[i]->Id()];
           nodeName << "(x,y,z) = (" << std::get<0>(coord)
                    << "," << std::get<1>(coord)
                    << "," << std::get<2>(coord)
@@ -584,8 +599,10 @@ namespace revolve
       {
         NeuronPtr src_neuron = connection->GetInputNeuron();
         NeuronPtr dst_neuron = connection->GetOutputNeuron();
-        std::tuple<int, int, int> coord_src = neuron_coordinates[src_neuron->Id()];
-        std::tuple<int, int, int> coord_dst = neuron_coordinates[dst_neuron->Id()];
+        std::tuple<int, int, int>
+                coord_src = neuron_coordinates[src_neuron->Id()];
+        std::tuple<int, int, int>
+                coord_dst = neuron_coordinates[dst_neuron->Id()];
         for (NeuronPtr neuron : cppn->layers_[0])
         {
           //could be faster by neuron->Id()[6] but less easy to read

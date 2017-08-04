@@ -12,20 +12,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Description: Brain class for the default Neural Network as specified by
+*              Revolve. This is loosely based on the neural network
+*              code provided with the Robogen framework.
+* Author: Elte Hupkes
 *
 */
-
-/*
- * Brain class for the default Neural Network as specified by
- * Revolve. This is loosely based on the neural network
- * code provided with the Robogen framework.
- *
- * TODO Proper license attribution
- *
- * @author Elte Hupkes
- */
 
 #ifndef REVOLVEBRAIN_BRAIN_NEURALNETWORK_H_
 #define REVOLVEBRAIN_BRAIN_NEURALNETWORK_H_
@@ -52,136 +44,110 @@
 // (bias, tau, gain) or (phase offset, period, gain)
 #define MAX_NEURON_PARAMS 3
 
-namespace revolve {
-namespace brain {
-
-/**
- * Copied from NeuronRepresentation.h
- */
-enum neuronType
+namespace revolve
 {
-    INPUT,
-    SIMPLE,
-    SIGMOID,
-    CTRNN_SIGMOID,
-    OSCILLATOR,
-    SUPG
-};
+  namespace brain
+  {
+    /// \brief Copied from NeuronRepresentation.h
+    enum neuronType
+    {
+      INPUT,
+      SIMPLE,
+      SIGMOID,
+      CTRNN_SIGMOID,
+      OSCILLATOR,
+      SUPG
+    };
 
-class NeuralNetwork
-        : public Brain
-{
-public:
-    NeuralNetwork();
+    class NeuralNetwork
+            : public Brain
+    {
+      public:
+      /// \brief
+      NeuralNetwork();
 
-    /**
-     /// \param Name of the robot
-     /// \param The brain node
-     /// \param Reference to motor list, which might be reordered
-     /// \param Reference to the sensor list, which might be reordered
-     */
-    NeuralNetwork(std::string modelName,
-                  std::vector<ActuatorPtr> &actuators,
-                  std::vector<SensorPtr> &sensors);
+      /// \param Name of the robot
+      /// \param The brain node
+      /// \param Reference to motor list, which might be reordered
+      /// \param Reference to the sensor list, which might be reordered
+      NeuralNetwork(std::string modelName,
+                    std::vector<ActuatorPtr> &actuators,
+                    std::vector<SensorPtr> &sensors);
 
-    virtual ~NeuralNetwork() override;
+      /// \brief
+      virtual ~NeuralNetwork() override;
 
-    /**
-  /// \param Motor list
-  /// \param Sensor list
-  */
-    virtual void
-    update(const std::vector<ActuatorPtr> &actuators,
-           const std::vector<SensorPtr> &sensors,
-           double t,
-           double step) override;
 
-protected:
-    /**
-     * Steps the neural network
-     */
-    void
-    step(double time);
+      /// \param Motor list
+      /// \param Sensor list
+      virtual void update(const std::vector<ActuatorPtr> &actuators,
+                          const std::vector<SensorPtr> &sensors,
+                          double t,
+                          double step) override;
 
-    // Mutex for stepping / updating the network
-    boost::mutex networkMutex_;
+      protected:
+      /// \brief Steps the neural network
+      void step(double time);
 
-    /**
-     * Connection weights, separated into three arrays for convenience. Note
-     * that only output and hidden neurons are weight targets.
-     *
-     * Weights are stored with gaps, meaning that every neuron holds entries for
-     * the maximum possible number of connections. This makes restructuring the
-     * weights arrays when a hidden neuron is removed slightly less cumbersome.
-     */
-    double inputWeights_[MAX_INPUT_NEURONS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
-    double outputWeights_[MAX_OUTPUT_NEURONS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
-    double hiddenWeights_[MAX_HIDDEN_NEURONS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
+      /// \brief Mutex for stepping / updating the network
+      boost::mutex networkMutex_;
 
-    // Unlike weights, types, params and current states are stored without
-    // gaps, meaning the first `m` entries are for output neurons, followed
-    // by `n` entries for hidden neurons. If a hidden neuron is removed,
-    // the items beyond it are moved back.
-    /**
-     * Type of each non-input neuron
-     */
-    unsigned int types_[(MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
+      /// \brief Connection weights, separated into three arrays for
+      /// convenience. Note that only output and hidden neurons are weight
+      /// targets. Weights are stored with gaps, meaning that every neuron holds
+      /// entries for the maximum possible number of connections. This makes
+      /// restructuring the weights arrays when a hidden neuron is removed
+      /// slightly less cumbersome.
+      double inputWeights_[
+              MAX_INPUT_NEURONS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
+      double outputWeights_[
+              MAX_OUTPUT_NEURONS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
+      double hiddenWeights_[
+              MAX_HIDDEN_NEURONS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
 
-    /**
-     * Params for hidden and output neurons, quantity depends on the type of
-     * neuron
-     */
-    double params_[MAX_NEURON_PARAMS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
+      // Unlike weights, types, params and current states are stored without
+      // gaps, meaning the first `m` entries are for output neurons, followed
+      // by `n` entries for hidden neurons. If a hidden neuron is removed,
+      // the items beyond it are moved back.
 
-    /**
-     * Output states arrays for the current state and the next state.
-     */
-    double state1_[MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS];
-    double state2_[MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS];
+      /// \brief  Type of each non-input neuron
+      unsigned int types_[(MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
 
-    /**
-     * One input state for each input neuron
-     */
-    double input_[MAX_INPUT_NEURONS];
+      /// \brief  Params for hidden and output neurons, quantity depends on the
+      /// type of neuron
+      double params_[
+              MAX_NEURON_PARAMS * (MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
 
-    /**
-     * Used to determine the current state array. False = state1,
-     * true = state2.
-     */
-    bool flipState_;
+      /// \brief  Output states arrays for the current state and the next state.
+      double state1_[MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS];
+      double state2_[MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS];
 
-    /**
-     * Stores the type of each neuron ID
-     */
-    std::map<std::string, std::string> layerMap_;
+      /// \brief  One input state for each input neuron
+      double input_[MAX_INPUT_NEURONS];
 
-    /**
-     * Stores the position of each neuron ID, relative to its type
-     */
-    std::map<std::string, unsigned int> positionMap_;
+      /// \brief  Used to determine the current state array. False = state1,
+      /// true = state2.
+      bool flipState_;
 
-    /**
-     * The number of inputs
-     */
-    unsigned int nInputs_;
+      /// \brief  Stores the type of each neuron ID
+      std::map<std::string, std::string> layerMap_;
 
-    /**
-     * The number of outputs
-     */
-    unsigned int nOutputs_;
+      /// \brief  Stores the position of each neuron ID, relative to its type
+      std::map<std::string, unsigned int> positionMap_;
 
-    /**
-     * The number of hidden units
-     */
-    unsigned int nHidden_;
+      /// \brief  The number of inputs
+      unsigned int nInputs_;
 
-    /**
-     * The number of non-inputs (i.e. nOutputs + nHidden)
-     */
-    unsigned int nNonInputs_;
-};
+      /// \brief  The number of outputs
+      unsigned int nOutputs_;
 
-}
+      /// \brief  The number of hidden units
+      unsigned int nHidden_;
+
+      /// \brief  The number of non-inputs (i.e. nOutputs + nHidden)
+      unsigned int nNonInputs_;
+    };
+  }
 }
 
 

@@ -17,9 +17,16 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_UTIL_RESOURCE_H_
+#define CPP_NEAT_ACCNEAT_SRC_UTIL_RESOURCE_H_
+
 #pragma once
 
-namespace NEAT {
-std::string
-find_resource(const std::string &name);
+#include <string>
+
+namespace NEAT
+{
+  std::string find_resource(const std::string &name);
 }
+
+#endif

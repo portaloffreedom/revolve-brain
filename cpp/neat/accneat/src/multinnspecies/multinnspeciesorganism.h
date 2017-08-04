@@ -17,37 +17,56 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_MULTINNSPECIES_MULTINNSPECIESORGANISM_H_
+#define CPP_NEAT_ACCNEAT_SRC_MULTINNSPECIES_MULTINNSPECIESORGANISM_H_
+
 #pragma once
 
 #include "organism.h"
 
-namespace NEAT {
-
-class MultiNNSpeciesOrganism
-        : public Organism
+namespace NEAT
 {
-public:
-    class MultiNNSpecies *species;  //The Organism's Species
-    real_t adjusted_fitness;
-    real_t expected_offspring; //Number of children this Organism may have
-    bool eliminate;  //Marker for destruction of inferior Organisms
-    bool champion; //Marks the species champ
-    int super_champ_offspring;  //Number of reserved offspring for a population leader
+  class MultiNNSpeciesOrganism
+          : public Organism
+  {
+    public:
+    /// \brief The Organism's Species
+    class MultiNNSpecies *species;
 
+    /// \brief
+    real_t adjusted_fitness;
+
+    /// \brief Number of children this Organism may have
+    real_t expected_offspring;
+
+    /// \brief Marker for destruction of inferior Organisms
+    bool eliminate;
+
+    /// \brief Marks the species champ
+    bool champion;
+
+    /// \brief Number of reserved offspring for a population leader
+    int super_champ_offspring;
+
+    /// \brief
     MultiNNSpeciesOrganism(const MultiNNSpeciesOrganism &other);
 
+    /// \brief
     MultiNNSpeciesOrganism(const Genome &genome);
 
+    /// \brief
     virtual ~MultiNNSpeciesOrganism();
 
-    virtual void
-    init(int gen) override;
+    /// \brief
+    virtual void init(int gen) override;
 
-protected:
-    virtual void
-    copy_into(Organism &dst) const override;
+    protected:
+    /// \brief
+    virtual void copy_into(Organism &dst) const override;
 
-    std::vector<std::unique_ptr<Network>> nets;  //The Organism's phenotype, second part
-};
-
+    /// \brief The Organism's phenotype, second part
+    std::vector<std::unique_ptr<Network>> nets;
+  };
 }
+
+#endif

@@ -70,7 +70,8 @@ namespace revolve
 
     void LinearNeuron::setNeuronParameters(std::map<std::string, double> params)
     {
-      if (not params.count("rv:bias") || not params.count("rv:gain"))
+      if (not params.count("rv:bias")
+          || not params.count("rv:gain"))
       {
         std::cerr
                 << "A `"
@@ -81,7 +82,6 @@ namespace revolve
         throw std::runtime_error("Robot brain error");
       }
       this->bias_ = params.find("rv:bias")->second;
-
       this->gain_ = params.find("rv:gain")->second;
     }
 

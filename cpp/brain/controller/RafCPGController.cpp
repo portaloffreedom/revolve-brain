@@ -29,8 +29,6 @@ namespace revolve
 {
   namespace brain
   {
-
-
     RafCPGController::RafCPGController(std::string model_name,
                                        CPPNConfigPtr _config,
                                        const std::vector<ActuatorPtr> &actuators,
@@ -72,7 +70,7 @@ namespace revolve
                                   double t,
                                   double step)
     {
-      //boost::mutex::scoped_lock lock(networkMutex_);
+      // boost::mutex::scoped_lock lock(networkMutex_);
 
       // Read sensor data into the input buffer
       size_t p = 0;
@@ -182,6 +180,5 @@ namespace revolve
       boost::write_graphviz(write_to, graph, boost::make_label_writer(names));
       delete[] names;
     }
-
   }
 }

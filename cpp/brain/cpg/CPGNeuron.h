@@ -13,22 +13,20 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+ * Date: November 1, 2016
 *
 */
-
-//
-// Created by matteo on 01/11/16.
-//
 
 #ifndef REVOLVE_BRAIN_CPGNEURON_H
 #define REVOLVE_BRAIN_CPGNEURON_H
 
-#include "CPGTypes.h"
 #include <vector>
 #include <string>
 #include <sstream>
 #include <exception>
+
+#include "CPGTypes.h"
 
 namespace revolve
 {
@@ -36,20 +34,22 @@ namespace revolve
   {
     namespace cpg
     {
-
       class Neuron
       {
         public:
         /// \brief Virtual function to standardize all neurons
         /// \param inputs std::vector<real> containing the neuron inputs
-        /// \param delta_time time passed since the last update. Value in seconds expected to be
-        /// positive and relativly small. Big time steps could have weird effects on the network.
-        /// \throws should throw invalid_input_exception if input vector is not of the correct size
+        /// \param delta_time time passed since the last update. Value in
+        /// seconds expected to be positive and relativly small. Big time steps
+        /// could have weird effects on the network.
+        /// \throws should throw invalid_input_exception if input vector is not
+        /// of the correct size
         /// \return std::vector<real> containing the network output
         virtual std::vector<real_t> update(std::vector<real_t> inputs,
                                            real_t delta_time) = 0;
 
-        /// \brief Exception for update function, in case the input vector is not ok for the neuron
+        /// \brief Exception for update function, in case the input vector is
+        /// not ok for the neuron
         class invalid_input_exception
                 : public std::exception
         {
@@ -106,9 +106,12 @@ namespace revolve
                                             real_t range_end)
         {
           if (percentage > 1)
+          {
             return range_end;
-          else if (percentage < 0)
+          } else if (percentage < 0)
+          {
             return range_start;
+          }
 
           real_t range = range_end - range_start;
           real_t distance = percentage * range;
@@ -120,16 +123,18 @@ namespace revolve
                                           real_t range_end)
         {
           if (value > range_end)
+          {
             return 1;
-          else if (value < range_start)
+          } else if (value < range_start)
+          {
             return 0;
+          }
 
           real_t range = range_end - range_start;
           value = value - range_start;
           return value / range;
         }
       };
-
     }
   }
 }

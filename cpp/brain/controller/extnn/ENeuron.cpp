@@ -17,14 +17,14 @@
 *
 */
 
-#include "ENeuron.h"
 #include <iostream>
+
+#include "ENeuron.h"
 
 namespace revolve
 {
   namespace brain
   {
-
     Neuron::Neuron(const std::string &id)
     {
       this->output_ = 0;

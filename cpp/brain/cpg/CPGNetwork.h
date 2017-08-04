@@ -21,7 +21,9 @@
 #ifndef REVOLVE_BRAIN_CPGNETWORK_H
 #define REVOLVE_BRAIN_CPGNETWORK_H
 
+#include <limits>
 #include <memory>
+#include <vector>
 
 #include "MotoNeuron.h"
 #include "PatternFormationNeuron.h"
@@ -33,7 +35,6 @@ namespace revolve
   {
     namespace cpg
     {
-
       class CPGNetwork
       {
         public:
@@ -44,30 +45,38 @@ namespace revolve
         };
 
         public:
+        /// \brief
         CPGNetwork(unsigned int n_sensors,
                    unsigned int n_connections);
 
+        /// \brief
         virtual ~CPGNetwork();
 
         /// \brief calculates next output of the network
         /// Updates the network to the new steps and returns the next result
         /// \param sensor_readings vector containing sensor readings
         /// \param step time passed since last update
-        /// \return revolve::brain::cpg::real_t output for the network after the update
+        /// \return revolve::brain::cpg::real_t output for the network after
+        /// the update
         real_t update(const std::vector<real_t> &sensor_readings,
                       double step);
 
         // GETTERS and SETTERS
 
         // Genome getter and setters
+        /// \brief
         std::shared_ptr<std::vector<real_t>> get_genome();
 
+        /// \brief
         const std::shared_ptr<const std::vector<real_t>> get_genome() const;
 
+        /// \brief
         void set_genome(std::vector<real_t>);
 
+        /// \brief
         void update_genome();
 
+        /// \brief
         struct Limit
         {
           real_t lower;
@@ -91,133 +100,241 @@ namespace revolve
           }
         };
 
+        /// \brief
         const std::vector<Limit> &get_genome_limits();
 
+        /// \brief
         void addConnection(CPGNetwork *new_connection)
         {
           connections.push_back(new_connection);
         }
 
-        // setting raw values
+        /// \brief setting raw values
         void setRGEWeight(real_t value)
-        { rge->setWeight(value); }
+        {
+          rge->setWeight(value);
+        }
 
+        /// \brief
         void setRGFWeight(real_t value)
-        { rgf->setWeight(value); }
+        {
+          rgf->setWeight(value);
+        }
 
+        /// \brief
         void setRGEWeightNeighbour(real_t value,
                                    size_t index)
-        { rge->setWeightNeighbour(value, index); }
+        {
+          rge->setWeightNeighbour(value, index);
+        }
 
+        /// \brief
         void setRGFWeightNeighbour(real_t value,
                                    size_t index)
-        { rgf->setWeightNeighbour(value, index); }
+        {
+          rgf->setWeightNeighbour(value, index);
+        }
 
+        /// \brief
         void setRGEC(real_t value)
-        { rge->setC(value); }
+        {
+          rge->setC(value);
+        }
 
+        /// \brief
         void setRGFC(real_t value)
-        { rgf->setC(value); }
+        {
+          rgf->setC(value);
+        }
 
+        /// \brief
         void setRGEAmplitude(real_t value)
-        { rge->setAmplitude(value); }
+        {
+          rge->setAmplitude(value);
+        }
 
+        /// \brief
         void setRGFAmplitude(real_t value)
-        { rgf->setAmplitude(value); }
+        {
+          rgf->setAmplitude(value);
+        }
 
+        /// \brief
         void setRGEOffset(real_t value)
-        { rge->setOffset(value); }
+        {
+          rge->setOffset(value);
+        }
 
+        /// \brief
         void setRGFOffset(real_t value)
-        { rgf->setOffset(value); }
+        {
+          rgf->setOffset(value);
+        }
 
+        /// \brief
         void setPFEAlpha(real_t value)
-        { pfe->setAlpha(value); }
+        {
+          pfe->setAlpha(value);
+        }
 
+        /// \brief
         void setPFFAlpha(real_t value)
-        { pff->setAlpha(value); }
+        {
+          pff->setAlpha(value);
+        }
 
+        /// \brief
         void setPFETheta(real_t value)
-        { pfe->setTheta(value); }
+        {
+          pfe->setTheta(value);
+        }
 
+        /// \brief
         void setPFFTheta(real_t value)
-        { pff->setTheta(value); }
+        {
+          pff->setTheta(value);
+        }
 
-
-        // setting percentage values
+        /// \brief setting percentage values
         void setRGEWeightPercentage(real_t value)
-        { rge->setWeightPercentage(value); }
+        {
+          rge->setWeightPercentage(value);
+        }
 
+        /// \brief
         void setRGFWeightPercentage(real_t value)
-        { rgf->setWeightPercentage(value); }
+        {
+          rgf->setWeightPercentage(value);
+        }
 
+        /// \brief
         void setRGEWeightNeighbourPercentage(real_t value,
                                              size_t index)
-        { rge->setWeightNeighbourPercentage(value, index); }
+        {
+          rge->setWeightNeighbourPercentage(value, index);
+        }
 
+        /// \brief
         void setRGFWeightNeighbourPercentage(real_t value,
                                              size_t index)
-        { rgf->setWeightNeighbourPercentage(value, index); }
+        {
+          rgf->setWeightNeighbourPercentage(value, index);
+        }
 
+        /// \brief
         void setRGECPercentage(real_t value)
-        { rge->setCPercentage(value); }
+        {
+          rge->setCPercentage(value);
+        }
 
+        /// \brief
         void setRGFCPercentage(real_t value)
-        { rgf->setCPercentage(value); }
+        {
+          rgf->setCPercentage(value);
+        }
 
+        /// \brief
         void setRGEAmplitudePercentage(real_t value)
-        { rge->setAmplitudePercentage(value); }
+        {
+          rge->setAmplitudePercentage(value);
+        }
 
+        /// \brief
         void setRGFAmplitudePercentage(real_t value)
-        { rgf->setAmplitudePercentage(value); }
+        {
+          rgf->setAmplitudePercentage(value);
+        }
 
+        /// \brief
         void setRGEOffsetPercentage(real_t value)
-        { rge->setOffsetPercentage(value); }
+        {
+          rge->setOffsetPercentage(value);
+        }
 
+        /// \brief
         void setRGFOffsetPercentage(real_t value)
-        { rgf->setOffsetPercentage(value); }
+        {
+          rgf->setOffsetPercentage(value);
+        }
 
+        /// \brief
         void setPFEAlphaPercentage(real_t value)
-        { pfe->setAlphaPercentage(value); }
+        {
+          pfe->setAlphaPercentage(value);
+        }
 
+        /// \brief
         void setPFFAlphaPercentage(real_t value)
-        { pff->setAlphaPercentage(value); }
+        {
+          pff->setAlphaPercentage(value);
+        }
 
+        /// \brief
         void setPFEThetaPercentage(real_t value)
-        { pfe->setThetaPercentage(value); }
+        {
+          pfe->setThetaPercentage(value);
+        }
 
+        /// \brief
         void setPFFThetaPercentage(real_t value)
-        { pff->setThetaPercentage(value); }
+        {
+          pff->setThetaPercentage(value);
+        }
 
         protected:
+        /// \brief
         void updateRythmGeneration(real_t step);
 
+        /// \brief
         void updatePatternFormation(const std::vector<real_t> &sensor_readings,
                                     real_t step);
 
+        /// \brief
         void updateMotoNeuron(real_t step);
 
         protected:
-
+        /// \brief
         RythmGenerationNeuron *rge;
+
+        /// \brief
         RythmGenerationNeuron *rgf;
+
+        /// \brief
         PatternFormationNeuron *pfe;
+
+        /// \brief
         PatternFormationNeuron *pff;
+
+        /// \brief
         MotoNeuron *mn;
 
+        /// \brief
         real_t rge_out;
+
+        /// \brief
         real_t rgf_out;
+
+        /// \brief
         real_t pfe_out;
+
+        /// \brief
         real_t pff_out;
+
+        /// \brief
         real_t mn_out;
 
+        /// \brief
         const unsigned int n_connections;
+
+        /// \brief
         std::vector<CPGNetwork *> connections;
 
+        /// \brief
         std::shared_ptr<std::vector<real_t>> genome;
+
+        /// \brief
         std::vector<Limit> genome_limits;
       };
-
     }
   }
 }

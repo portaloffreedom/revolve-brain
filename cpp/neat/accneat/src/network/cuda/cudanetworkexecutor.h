@@ -17,62 +17,67 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_NETWORK_CUDA_CUDANETWORKEXECUTOR_H_
+#define CPP_NEAT_ACCNEAT_SRC_NETWORK_CUDA_CUDANETWORKEXECUTOR_H_
+
 #pragma once
 
 #include "network/networkexecutor.h"
 #include "cudanetworkbatch.h"
 
-namespace NEAT {
-
-//---
-//--- CLASS CudaNetworkExecutor
-//---
-template <typename Evaluator>
-class CudaNetworkExecutor
-        : public NetworkExecutor<Evaluator>
+namespace NEAT
 {
+  //---
+  //--- CLASS CudaNetworkExecutor
+  //---
+  template <typename Evaluator>
+  class CudaNetworkExecutor
+          : public NetworkExecutor<Evaluator>
+  {
     std::vector<class CudaNetworkBatch<Evaluator> *> batches;
-public:
+
+    public:
     CudaNetworkExecutor()
     {
       int ndevices;
       xcuda(cudaGetDeviceCount(&ndevices));
-      errif(ndevices == 0,
-            "No Cuda devices found!");
+      errif(ndevices == 0, "No Cuda devices found!");
       batches.resize(ndevices);
-      for (int i = 0; i < ndevices; i++) {
+      for (int i = 0; i < ndevices; i++)
+      {
         batches[i] = new CudaNetworkBatch<Evaluator>(i);
       }
     }
 
     virtual ~CudaNetworkExecutor()
     {
-      for (size_t i = 0; i < batches.size(); i++) {
+      for (size_t i = 0; i < batches.size(); i++)
+      {
         delete batches[i];
       }
     }
 
-    virtual void
-    configure(const typename Evaluator::Config *config,
-              size_t len)
+    virtual void configure(const typename Evaluator::Config *config,
+                           size_t len)
     {
-      for (size_t i = 0; i < batches.size(); i++) {
+      for (size_t i = 0; i < batches.size(); i++)
+      {
         batches[i]->configure(config,
                               len);
       }
     }
 
-    virtual void
-    execute(class Network **nets_,
-            OrganismEvaluation *results,
-            size_t nnets)
+    virtual void execute(class Network **nets_,
+                         OrganismEvaluation *results,
+                         size_t nnets)
     {
       CudaNetwork **nets = (CudaNetwork **)nets_;
       size_t nbatches = batches.size();
       uint batch_size = nnets / nbatches;
 
 #pragma omp parallel for
-      for (size_t ibatch = 0; ibatch < nbatches; ibatch++) {
+      for (size_t ibatch = 0; ibatch < nbatches; ibatch++)
+      {
         size_t inet = ibatch * batch_size;
         size_t n = batch_size;
         if (ibatch == nbatches - 1)
@@ -86,13 +91,14 @@ public:
 
     }
 
-};
+  };
 
-template <typename Evaluator>
-inline NetworkExecutor <Evaluator> *
-NetworkExecutor<Evaluator>::create()
-{
-  return new CudaNetworkExecutor<Evaluator>();
-}
+  template <typename Evaluator>
+  inline NetworkExecutor<Evaluator> *NetworkExecutor<Evaluator>::create()
+  {
+    return new CudaNetworkExecutor<Evaluator>();
+  }
 
-} // namespace NEAT
+}  // namespace NEAT
+
+#endif

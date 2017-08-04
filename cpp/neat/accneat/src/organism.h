@@ -32,55 +32,67 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+#ifndef CPP_NEAT_ACCNEAT_SRC_ORGANISM_H_
+#define CPP_NEAT_ACCNEAT_SRC_ORGANISM_H_
+
 #pragma once
+
+#include <memory>
 
 #include "genome.h"
 #include "network/network.h"
 
-#include <memory>
-
-namespace NEAT {
-
-// ---------------------------------------------
-// ORGANISM CLASS:
-//   Organisms are Genomes and Networks with fitness
-//   information
-//   i.e. The genotype and phenotype together
-// ---------------------------------------------
-class Organism
+namespace NEAT
 {
-public:
-    size_t population_index; //Unique within the population,always in [0, env->pop_size).
-    //Provides client with convenient storage of associated
-    //data in an array.
+  /// \brief ORGANISM CLASS:
+  ///   Organisms are Genomes and Networks with fitness
+  ///   information
+  ///   i.e. The genotype and phenotype together
+  class Organism
+  {
+    public:
+    /// \brief Unique within the population,always in [0, env->pop_size).
+    size_t population_index;
 
+    /// \briefProvides client with convenient storage of associated
+    /// data in an array.
     OrganismEvaluation eval;
-    std::unique_ptr<Genome> genome; //The Organism's genotype
-    std::unique_ptr<Network> net;  //The Organism's phenotype
-    int generation;  //Tells which generation this Organism is from
 
+    /// \brief The Organism's genotype
+    std::unique_ptr<Genome> genome;
+
+    /// \brief The Organism's phenotype
+    std::unique_ptr<Network> net;
+
+    /// \brief Tells which generation this Organism is from
+    int generation;
+
+    /// \brief
     Organism(const Organism &other);
 
+    /// \brief
     Organism(const Genome &genome);
 
+    /// \brief
     virtual ~Organism();
 
-    virtual void
-    init(int gen);
+    /// \brief
+    virtual void init(int gen);
 
-    Organism &
-    operator=(const Organism &other);
+    /// \brief
+    Organism &operator=(const Organism &other);
 
-//    virtual void
-//    write(std::ostream &out) const;
-
-protected:
+    //    virtual void
+    //    write(std::ostream &out) const;
+    protected:
+    /// \brief
     Organism()
     {}
 
-    virtual void
-    copy_into(Organism &dst) const;
-};
+    /// \brief
+    virtual void copy_into(Organism &dst) const;
+  };
+}   // namespace NEAT
 
-} // namespace NEAT
-
+#endif

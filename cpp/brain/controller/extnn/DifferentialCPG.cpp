@@ -17,11 +17,11 @@
 *
 */
 
-#include "DifferentialCPG.h"
-
 #include <cmath>
 #include <iostream>
 #include <sstream>
+
+#include "DifferentialCPG.h"
 
 namespace revolve
 {
@@ -112,7 +112,5 @@ namespace revolve
     {
       return "DifferentialCPG";
     }
-
-
   }
 }

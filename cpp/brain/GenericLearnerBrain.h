@@ -13,13 +13,10 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: March 15, 2017
 *
 */
-
-//
-// Created by matteo on 3/15/17.
-//
 
 #ifndef REVOLVE_BRAIN_GENERICLEARNERBRAIN_H
 #define REVOLVE_BRAIN_GENERICLEARNERBRAIN_H
@@ -27,24 +24,36 @@
 #include "brain/learner/BaseLearner.h"
 #include "Brain.h"
 
-namespace revolve { namespace brain {
-
-    class GenericLearnerBrain : public Brain {
-    public:
+namespace revolve
+{
+  namespace brain
+  {
+    class GenericLearnerBrain
+            : public Brain
+    {
+      public:
 
       using Brain::update;
 
-        GenericLearnerBrain(std::unique_ptr<BaseLearner> learner);
-        GenericLearnerBrain(BaseLearner *learner);
+      /// \brief
+      GenericLearnerBrain(std::unique_ptr<BaseLearner> learner);
 
-        void update(const std::vector<ActuatorPtr> &actuators, const std::vector<SensorPtr> &sensors, double t,
-                    double step) override;
+      /// \brief
+      GenericLearnerBrain(BaseLearner *learner);
 
-    private:
-        std::unique_ptr<BaseLearner> learner;
+      /// \brief
+      void update(const std::vector<ActuatorPtr> &actuators,
+                  const std::vector<SensorPtr> &sensors,
+                  double t,
+                  double step) override;
+
+      private:
+      /// \brief
+      std::unique_ptr<BaseLearner> learner;
     };
 
-}}
+  }
+}
 
 
 #endif  // REVOLVE_BRAIN_GENERICLEARNERBRAIN_H}}

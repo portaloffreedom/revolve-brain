@@ -13,12 +13,15 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_SIGMOIDNEURON_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_SIGMOIDNEURON_H_
+
+#include <map>
+#include <string>
 
 #include "ENeuron.h"
 #include "NeuralConnection.h"
@@ -27,7 +30,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class SigmoidNeuron
             : public Neuron
     {
@@ -44,10 +46,13 @@ namespace revolve
       /// \return the output of the neuron at time t
       double CalculateOutput(double t) override;
 
+      /// \brief
       std::map<std::string, double> getNeuronParameters() override;
 
+      /// \brief
       void setNeuronParameters(std::map<std::string, double> params) override;
 
+      /// \brief
       std::string getType() override;
 
       /// \brief gain of the neuron
@@ -56,7 +61,6 @@ namespace revolve
       /// \brief bias of the neuron
       protected: double bias_;
     };
-
   }
 }
 

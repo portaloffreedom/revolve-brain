@@ -17,11 +17,12 @@
 *
 */
 
-#include "RLPower_python.h"
-
-#include "PythonListWrap.h"
-#include "object.h"
 #include <boost/python/import.hpp>
+
+#include "object.h"
+#include "PythonListWrap.h"
+
+#include "RLPower_python.h"
 
 using namespace revolve::brain;
 

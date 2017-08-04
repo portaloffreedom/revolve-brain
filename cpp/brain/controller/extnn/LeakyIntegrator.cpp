@@ -17,19 +17,21 @@
 *
 */
 
-#include "LeakyIntegrator.h"
 #include <cmath>
 #include <iostream>
+
+#include "LeakyIntegrator.h"
 
 namespace revolve
 {
   namespace brain
   {
     LeakyIntegrator::LeakyIntegrator(const std::string &id,
-                                     const std::map<std::string, double> &params) :
-            Neuron(id)
+                                     const std::map<std::string, double> &params)
+            : Neuron(id)
     {
-      if (not params.count("rv:bias") || not params.count("rv:tau"))
+      if (not params.count("rv:bias")
+          || not params.count("rv:tau"))
       {
         std::cerr
                 << "A `"
@@ -100,10 +102,8 @@ namespace revolve
         throw std::runtime_error("Robot brain error");
       }
 
-      this->bias_ = params.find("rv:bias")
-                          ->second;
-      this->tau_ = params.find("rv:tau")
-                         ->second;
+      this->bias_ = params.find("rv:bias")->second;
+      this->tau_ = params.find("rv:tau")->second;
 
       this->stateDeriv_ = 0;
       this->state_ = 0;

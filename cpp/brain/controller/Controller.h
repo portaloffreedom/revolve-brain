@@ -12,22 +12,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
+* Description: Specifies a utility `Contoller` base class, which is supposed to
+*              control the robot according to a given genome.
 * Author: TODO <Add proper author>
 *
 */
 
-/*
- * Specifies a utility `Contoller` base class, which is supposed to control the robot according to a given genome.
- */
-
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_CONTROLLER_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_CONTROLLER_H_
 
-#include "brain/Actuator.h"
-#include "brain/Sensor.h"
 #include <vector>
 
+#include "brain/Actuator.h"
+#include "brain/Sensor.h"
 
 namespace revolve
 {
@@ -39,7 +36,7 @@ namespace revolve
       public:
 
       virtual ~Controller()
-      {};
+      {}
 
       /// \brief Get method for the genome
       /// \return current genome
