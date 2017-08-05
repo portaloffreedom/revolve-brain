@@ -35,6 +35,7 @@
 
 #ifndef ENABLE_CUDA
 
+#include <cstring>
 #include <algorithm>
 #include <vector>
 
