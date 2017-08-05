@@ -17,6 +17,8 @@
 *
 */
 
+#include <vector>
+
 #include "staticexperiment.h"
 
 using namespace NEAT;

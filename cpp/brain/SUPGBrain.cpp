@@ -21,9 +21,7 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
-#include <limits>
 #include <sstream>
-#include <string>
 #include <vector>
 
 #include <innovgenome/innovgenome.h>
@@ -87,7 +85,7 @@ double SUPGBrain::GetCYCLE_LENGTHenv()
 revolve::brain::SUPGBrain::SUPGBrain(EvaluatorPtr evaluator)
         : neuron_coordinates(0)
           , evaluator(evaluator)
-          , start_eval_time(std::numeric_limits<double>::lowest())
+          , start_eval_time(std::numeric_limits< double >::lowest())
           , generation_counter(0)
           , MAX_EVALUATIONS(GetMAX_EVALUATIONSenv())
           , FREQUENCY_RATE(GetFREQUENCY_RATEenv())
@@ -95,15 +93,16 @@ revolve::brain::SUPGBrain::SUPGBrain(EvaluatorPtr evaluator)
 {
 }
 
-SUPGBrain::SUPGBrain(const std::string &robot_name,
-                     EvaluatorPtr evaluator,
-                     const std::vector<std::vector<float> > &neuron_coordinates,
-                     const std::vector<ActuatorPtr> &actuators,
-                     const std::vector<SensorPtr> &sensors)
+SUPGBrain::SUPGBrain(
+        const std::string &robot_name,
+        EvaluatorPtr evaluator,
+        const std::vector< std::vector< float > > &neuron_coordinates,
+        const std::vector< ActuatorPtr > &actuators,
+        const std::vector< SensorPtr > &sensors)
         : neuron_coordinates(neuron_coordinates)
           , evaluator(evaluator)
           , robot_name(robot_name)
-          , start_eval_time(std::numeric_limits<double>::lowest())
+          , start_eval_time(std::numeric_limits< double >::lowest())
           , generation_counter(0)
           , MAX_EVALUATIONS(GetMAX_EVALUATIONSenv())
           , FREQUENCY_RATE(GetFREQUENCY_RATEenv())
@@ -144,7 +143,7 @@ SUPGBrain::SUPGBrain(const std::string &robot_name,
 
 void SUPGBrain::init_async_neat()
 {
-  std::unique_ptr<AsyncNeat> neat(new AsyncNeat(
+  std::unique_ptr< AsyncNeat > neat(new AsyncNeat(
           SUPGNeuron::GetDimensionInput(n_inputs, neuron_coordinates[0].size()),
           SUPGNeuron::GetDimensionOutput(n_outputs),
           std::time(0),
@@ -152,20 +151,18 @@ void SUPGBrain::init_async_neat()
   this->neat = std::move(neat);
 }
 
-void SUPGBrain::update(const std::vector<ActuatorPtr> &actuators,
-                       const std::vector<SensorPtr> &sensors,
+void SUPGBrain::update(const std::vector< ActuatorPtr > &actuators,
+                       const std::vector< SensorPtr > &sensors,
                        double t,
                        double step)
 {
-  this->update<std::vector<ActuatorPtr>, std::vector<SensorPtr>>(actuators,
-                                                                 sensors,
-                                                                 t,
-                                                                 step);
+  this->update< std::vector< ActuatorPtr >, std::vector< SensorPtr > >(
+          actuators, sensors, t, step);
 }
 
 double SUPGBrain::getFitness()
 {
-  //Calculate fitness for current policy
+  // Calculate fitness for current policy
   double fitness = evaluator->fitness();
   std::cout << "Evaluating gait, fitness = " << fitness << std::endl;
   return fitness;
@@ -189,31 +186,30 @@ void SUPGBrain::nextBrain()
     how_many_neurons = neurons.size();
     current_evalaution->finish(getFitness());
 
-    //         // temporary genome save & load test
-    //         {
-    //             std::fstream genome_save;
-    //             genome_save.open("/tmp/genome.yaml", std::ios::out);
-    //             current_evalaution->getOrganism()->genome->save(genome_save);
-    //         }
+    // // temporary genome save & load test
+    // {
+    //   std::fstream genome_save;
+    //   genome_save.open("/tmp/genome.yaml", std::ios::out);
+    //   current_evalaution->getOrganism()->genome->save(genome_save);
+    // }
 
-    //         {
-    //             std::fstream genome_load;
-    //             genome_load.open("/tmp/genome.yaml", std::ios::in);
-    //             NEAT::InnovGenome genome;
-    //             genome.load(genome_load);
-    //         }
+    // {
+    //   std::fstream genome_load;
+    //   genome_load.open("/tmp/genome.yaml", std::ios::in);
+    //   NEAT::InnovGenome genome;
+    //   genome.load(genome_load);
+    // }
   }
 
   current_evalaution = neat->getEvaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
-          current_evalaution->getOrganism()->net.get()
-  );
+          current_evalaution->getOrganism()->net.get());
 
   for (unsigned int i = 0; i < how_many_neurons; i++)
   {
     if (init_supgs)
     {
-      neurons.push_back(std::unique_ptr<SUPGNeuron>(
+      neurons.push_back(std::unique_ptr< SUPGNeuron >(
               new SUPGNeuron(cppn, neuron_coordinates[i], CYCLE_LENGTH)));
     }
     else
@@ -234,17 +230,13 @@ void SUPGBrain::learner(double t)
     if (SUPGBrain::MAX_EVALUATIONS > 0
         && generation_counter > SUPGBrain::MAX_EVALUATIONS)
     {
-      std::cout
-              << "Max Evaluations (" << SUPGBrain::MAX_EVALUATIONS
-              << ") reached. stopping now." << std::endl;
+      std::cout << "Max Evaluations (" << SUPGBrain::MAX_EVALUATIONS
+                << ") reached. stopping now." << std::endl;
       std::exit(0);
     }
     generation_counter++;
-    std::cout
-            << "################# EVALUATING NEW BRAIN (generation "
-            << generation_counter
-            << " )"
-            << std::endl;
+    std::cout << "################# EVALUATING NEW BRAIN (generation "
+              << generation_counter << " )" << std::endl;
     this->nextBrain();
     start_eval_time = t;
     evaluator->start();

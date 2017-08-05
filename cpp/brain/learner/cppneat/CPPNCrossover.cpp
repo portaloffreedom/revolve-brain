@@ -93,7 +93,8 @@ namespace cppneat
         if (gene->gene_type == Gene::NEURON_GENE)
         {
           std::pair<unsigned int, unsigned int> index =
-                  genotype_more_fit->convert_in_to_layer_index(gene->getInnovNumber());
+                  genotype_more_fit->convert_in_to_layer_index(
+                          gene->getInnovNumber());
           genotype_more_fit->layers_[index.first][index.second] =
                   boost::dynamic_pointer_cast<NeuronGene>(gene);
         }

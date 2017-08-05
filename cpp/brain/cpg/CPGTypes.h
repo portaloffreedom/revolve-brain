@@ -13,25 +13,23 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: November 1, 2016
 *
 */
-
-//
-// Created by matteo on 01/11/16.
-//
 
 #ifndef REVOLVE_BRAIN_CPGTYPES_H
 #define REVOLVE_BRAIN_CPGTYPES_H
 
-namespace revolve {
-namespace brain {
-namespace cpg {
-
-typedef float real_t;
-
-}
-}
+namespace revolve
+{
+  namespace brain
+  {
+    namespace cpg
+    {
+      typedef float real_t;
+    }
+  }
 }
 
 #endif  // REVOLVE_BRAIN_CPGTYPES_H

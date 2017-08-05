@@ -213,7 +213,8 @@ void RythmGenerationNeuron::setOffset(real_t offset)
 
 // FROM PERCENTAGE ------------------------------------------------------------
 /////////////////////////////////////////////////
-real_t rbc::RythmGenerationNeuron::calculateWeightFromPercentage(real_t weight) const
+real_t rbc::RythmGenerationNeuron::calculateWeightFromPercentage(
+        real_t weight) const
 {
   return percentage_from_range(weight, WEIGHT_MIN, WEIGHT_MAX);
 }

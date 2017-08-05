@@ -168,9 +168,8 @@ namespace revolve
       for (size_t i = 0; i < allNeurons_.size(); ++i)
       {
         std::stringstream nodeName;
-        nodeName
-                << allNeurons_[i]->Id() + " of type: " + allNeurons_[i]->getType()
-                << std::endl;
+        nodeName << allNeurons_[i]->Id() + " of type: "
+                    + allNeurons_[i]->getType() << std::endl;
         for (std::pair<std::string, double>
                   param : allNeurons_[i]->getNeuronParameters())
         {

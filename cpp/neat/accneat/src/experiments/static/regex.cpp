@@ -26,13 +26,11 @@
 using namespace NEAT;
 using namespace std;
 
-static vector<Test>
-create_tests_1bit(const char *grammar,
-                  const vector<string> &sentences);
+static vector<Test> create_tests_1bit(const char *grammar,
+                                      const vector<string> &sentences);
 
-static vector<Test>
-create_tests_2bit(const char *grammar,
-                  const vector<string> &sentences);
+static vector<Test> create_tests_2bit(const char *grammar,
+                                      const vector<string> &sentences);
 
 static struct RegexInit
 {
@@ -145,13 +143,12 @@ static vector<Test> create_tests_2bit(const char *grammar,
   const real_t weight_seq = 0;
   const real_t weight_delay = 0;
 
-  std::regex regex_grammar{grammar};
+  std::regex regex_grammar({grammar});
 
   size_t ncorrect = 0;
   for (const string &sentence: sentences)
   {
-    if (regex_match(sentence,
-                    regex_grammar))
+    if (regex_match(sentence, regex_grammar))
     {
       ncorrect++;
     }
@@ -199,8 +196,7 @@ static vector<Test> create_tests_2bit(const char *grammar,
     }
 
     // End of sentence
-    if (regex_match(sentence,
-                    regex_grammar))
+    if (regex_match(sentence, regex_grammar))
     {
       steps.push_back({{_, _, _, Q}, {1.0}, weight_query_correct});
     }
@@ -214,4 +210,3 @@ static vector<Test> create_tests_2bit(const char *grammar,
 
   return tests;
 }
-

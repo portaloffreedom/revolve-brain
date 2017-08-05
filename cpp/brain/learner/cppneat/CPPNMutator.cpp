@@ -20,6 +20,8 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <utility>
+#include <string>
 #include <vector>
 
 #include <yaml-cpp/yaml.h>
@@ -364,7 +366,6 @@ namespace cppneat
       // spec.epsilon);
       //    }
       params[spec.name] = normal(generator);
-
     }
     return params;
   }

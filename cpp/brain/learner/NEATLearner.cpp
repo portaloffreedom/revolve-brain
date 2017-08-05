@@ -21,6 +21,8 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <utility>
+#include <string>
 #include <vector>
 
 #include <yaml-cpp/yaml.h>
@@ -426,8 +428,8 @@ namespace cppneat
             is_new_layer = false;
           }
         }
-        for (unsigned int i =
-                0; i < yaml_file[first]["brain"]["connection_genes"].size(); i++)
+        for (size_t i = 0;
+             i < yaml_file[first]["brain"]["connection_genes"].size(); i++)
         {
           YAML::Node connection =
                   yaml_file[first]["brain"]["connection_genes"][i]["con_1"];

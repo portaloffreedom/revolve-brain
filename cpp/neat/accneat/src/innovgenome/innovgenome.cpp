@@ -1268,7 +1268,6 @@ void InnovGenome::mate_multipoint_avg(InnovGenome *genome1,
     curgene2 = newlinks.begin();
     while ((curgene2 != newlinks.end()))
     {
-
       if (((curgene2->in_node_id() == protogene.gene()->in_node_id()) &&
            (curgene2->out_node_id() == protogene.gene()->out_node_id()) &&
            (curgene2->is_recurrent() == protogene.gene()->is_recurrent())) ||
@@ -1386,7 +1385,6 @@ void InnovGenome::mate_multipoint_avg(InnovGenome *genome1,
                               new_onode.node_id);
 
       newlinks.push_back(newgene);
-
     }  // End if which checked for link duplicationb
   }
 }

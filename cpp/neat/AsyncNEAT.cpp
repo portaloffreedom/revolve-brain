@@ -46,7 +46,7 @@ AsyncNeat::AsyncNeat(unsigned int n_inputs,
                                         "AsyncNeat::CleanUp() after finised "
                                         "using all AsyncNEAT objects]");
   }
-  NEAT::rng_t rng{rng_seed};
+  NEAT::rng_t rng({rng_seed});
   NEAT::rng_t rng_exp(rng.integer());
   std::vector<std::unique_ptr<NEAT::Genome>> genomes =
           NEAT::env->genome_manager->create_seed_generation(NEAT::env->pop_size,

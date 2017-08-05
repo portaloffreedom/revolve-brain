@@ -19,6 +19,7 @@
 */
 
 #include <cmath>
+#include <vector>
 
 #include "PatternFormationNeuron.h"
 

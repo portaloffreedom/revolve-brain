@@ -17,6 +17,9 @@
 *
 */
 
+#include <string>
+#include <vector>
+
 #include "SUPGNeuron.h"
 #include "innovgenome/innovgenome.h"
 
@@ -58,15 +61,14 @@ SUPGGenomeManager::create_seed_generation(size_t ngenomes,
   //     std::cout << "link: " << node_id_input + SUPGNeuron::TIMER
   //     << " → " << node_id_output + 2 + output_id << std::endl;
   start_genome.add_link(start_genome.links,
-                        NEAT::InnovLinkGene(rng.element(start_genome.traits)
-                                               .trait_id,
-                                            rng.prob(),
-                                            node_id_input + SUPGNeuron::TIMER,
-                                            node_id_output + 2,
-                                            false,
-                                            start_genome.get_last_gene_innovnum(),
-                                            0.0, robot_name, -1)
-  );
+                        NEAT::InnovLinkGene(
+                                rng.element(start_genome.traits).trait_id,
+                                rng.prob(),
+                                node_id_input + SUPGNeuron::TIMER,
+                                node_id_output + 2,
+                                false,
+                                start_genome.get_last_gene_innovnum(),
+                                0.0, robot_name, -1));
   //         }
   // FINISHED MODIFICATION
 

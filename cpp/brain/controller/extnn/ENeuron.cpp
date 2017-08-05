@@ -18,6 +18,8 @@
 */
 
 #include <iostream>
+#include <utility>
+#include <string>
 #include <vector>
 
 #include "ENeuron.h"

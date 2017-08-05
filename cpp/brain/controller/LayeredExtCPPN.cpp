@@ -41,7 +41,7 @@ namespace revolve
               , layers_(Config->layers_)
               , outputPositionMap_(Config->outputPositionMap_)
               , inputPositionMap_(Config->inputPositionMap_)
-              , idToNeuron_ (Config->idToNeuron_)
+              , idToNeuron_(Config->idToNeuron_)
               , connections_(Config->connections_)
     {
       size_t p = 0;

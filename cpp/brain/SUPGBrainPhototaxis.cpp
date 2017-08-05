@@ -19,6 +19,7 @@
 
 #include <cmath>
 #include <functional>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -59,8 +60,7 @@ void SUPGBrainPhototaxis::update(const std::vector< ActuatorPtr > &actuators,
                                  double t,
                                  double step)
 {
-//     std::cout << "SENSORS-Size: " << sensors.size() << std::endl;
-  //SUPGBrain::update(actuators, sensors, t, step);
+  // SUPGBrain::update(actuators, sensors, t, step);
   this->learner(t);
   SUPGBrain::controller< const std::vector< ActuatorPtr >,
                          const std::vector< SensorPtr >>(

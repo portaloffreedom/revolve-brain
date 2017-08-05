@@ -80,7 +80,7 @@ CPGNetwork::CPGNetwork(unsigned int n_sensors,
           {pff->THETA_MIN,     pff->THETA_MAX},
 
           // MotoNeuron
-          //NONE
+          // NONE
   };
 
   for (size_t i = 0; i < n_connections; ++i)

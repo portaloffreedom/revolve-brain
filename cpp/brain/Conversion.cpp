@@ -516,7 +516,6 @@ namespace revolve
                 {
                   throw std::runtime_error("Unknown neuron type converted");
                 }
-
               }
               cppn->layers_[i].push_back(new_neuron);
               cppn->outputPositionMap_[new_neuron] =

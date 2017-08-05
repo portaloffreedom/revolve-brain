@@ -18,6 +18,7 @@
 */
 
 #include <random>
+#include <vector>
 
 #include <gsl/gsl_spline.h>
 
@@ -116,7 +117,7 @@ void PolicyController::setPhenotype(PolicyPtr policy)
   policy_ = policy;
   update_cache();
   cycle_start_time_ = -1;
-  // TODO:: make sure the current time in cycle is correct.
+  // TODO: make sure the current time in cycle is correct.
 }
 
 void PolicyController::update_cache()

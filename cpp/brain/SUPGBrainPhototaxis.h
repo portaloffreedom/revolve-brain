@@ -40,24 +40,24 @@ namespace revolve
               const std::string &robot_name,
               EvaluatorPtr evaluator,
               std::function
-                      <boost::shared_ptr
-                               <FakeLightSensor>
-                               (std::vector<float> coordinates)>
+                      < boost::shared_ptr
+                                < FakeLightSensor >
+                                (std::vector< float > coordinates) >
               _light_constructor_left,
               std::function
-                      <boost::shared_ptr
-                               <FakeLightSensor>
-                               (std::vector<float> coordinates)>
+                      < boost::shared_ptr
+                                < FakeLightSensor >
+                                (std::vector< float > coordinates) >
               _light_constructor_right,
               double light_radius_distance,
-              const std::vector<std::vector<float> > &neuron_coordinates,
-              const std::vector<ActuatorPtr> &actuators,
-              const std::vector<SensorPtr> &sensors);
+              const std::vector< std::vector< float > > &neuron_coordinates,
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors);
 
       using SUPGBrain::update;
 
-      virtual void update(const std::vector<ActuatorPtr> &actuators,
-                          const std::vector<SensorPtr> &sensors,
+      virtual void update(const std::vector< ActuatorPtr > &actuators,
+                          const std::vector< SensorPtr > &sensors,
                           double t,
                           double step) override;
 
@@ -82,15 +82,18 @@ namespace revolve
         END = 5,
       } phase;
 
-      std::function<boost::shared_ptr
-                            <FakeLightSensor>(std::vector<float> coordinates)>
-              light_constructor_left,
-              light_constructor_right;
+      std::function< boost::shared_ptr< FakeLightSensor >(
+              std::vector< float > coordinates) > light_constructor_left;
 
-      boost::shared_ptr<FakeLightSensor> current_light_left,
-              current_light_right;
+      std::function< boost::shared_ptr< FakeLightSensor >(
+              std::vector< float > coordinates) > light_constructor_right;
+
+      boost::shared_ptr< FakeLightSensor > current_light_left;
+
+      boost::shared_ptr< FakeLightSensor > current_light_right;
 
       double light_radius_distance;
+
       double partial_fitness;
     };
   }

@@ -17,6 +17,7 @@
 *
 */
 
+#include <cstring>
 #include <set>
 #include <string>
 #include <vector>
@@ -33,18 +34,17 @@ NeuralNetwork::NeuralNetwork()
           , nNonInputs_(0)
 {
   // Initialize weights, input and states to zero by default
-  memset(inputWeights_, 0, sizeof(inputWeights_));
-  memset(outputWeights_, 0, sizeof(outputWeights_));
-  memset(hiddenWeights_, 0, sizeof(hiddenWeights_));
-  memset(state1_, 0, sizeof(state1_));
-  memset(state2_, 0, sizeof(state2_));
-  memset(input_, 0, sizeof(input_));
-
+  std::memset(inputWeights_, 0, sizeof(inputWeights_));
+  std::memset(outputWeights_, 0, sizeof(outputWeights_));
+  std::memset(hiddenWeights_, 0, sizeof(hiddenWeights_));
+  std::memset(state1_, 0, sizeof(state1_));
+  std::memset(state2_, 0, sizeof(state2_));
+  std::memset(input_, 0, sizeof(input_));
 }
 
 NeuralNetwork::NeuralNetwork(std::string modelName,
-                             std::vector<ActuatorPtr> &actuators,
-                             std::vector<SensorPtr> &sensors)
+                             std::vector< ActuatorPtr > &actuators,
+                             std::vector< SensorPtr > &sensors)
         : flipState_(false)
           , nInputs_(0)
           , nOutputs_(0)
@@ -52,12 +52,12 @@ NeuralNetwork::NeuralNetwork(std::string modelName,
           , nNonInputs_(0)
 {
   // Initialize weights, input and states to zero by default
-  memset(inputWeights_, 0, sizeof(inputWeights_));
-  memset(outputWeights_, 0, sizeof(outputWeights_));
-  memset(hiddenWeights_, 0, sizeof(hiddenWeights_));
-  memset(state1_, 0, sizeof(state1_));
-  memset(state2_, 0, sizeof(state2_));
-  memset(input_, 0, sizeof(input_));
+  std::memset(inputWeights_, 0, sizeof(inputWeights_));
+  std::memset(outputWeights_, 0, sizeof(outputWeights_));
+  std::memset(hiddenWeights_, 0, sizeof(hiddenWeights_));
+  std::memset(state1_, 0, sizeof(state1_));
+  std::memset(state2_, 0, sizeof(state2_));
+  std::memset(input_, 0, sizeof(input_));
 
   // We now setup the neural network and its parameters. The end result
   // of this operation should be that we can iterate/update all sensors in
@@ -87,7 +87,8 @@ void NeuralNetwork::step(double time)
   {
     curState = state2_;
     nextState = state1_;
-  } else
+  }
+  else
   {
     curState = state1_;
     nextState = state2_;
@@ -166,8 +167,8 @@ void NeuralNetwork::step(double time)
   flipState_ = !flipState_;
 }
 
-void NeuralNetwork::update(const std::vector<ActuatorPtr> &actuators,
-                           const std::vector<SensorPtr> &sensors,
+void NeuralNetwork::update(const std::vector< ActuatorPtr > &actuators,
+                           const std::vector< SensorPtr > &sensors,
                            double t,
                            double step)
 {

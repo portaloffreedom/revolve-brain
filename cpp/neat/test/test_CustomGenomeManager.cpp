@@ -116,7 +116,7 @@ class TestGenomeManager
     {
       NEAT::InnovGenome *g = to_innov(*genomes.back());
 
-      //Keep a record of the innovation and node number we are on
+      // Keep a record of the innovation and node number we are on
       innovations.init(g->get_last_node_id(), g->get_last_gene_innovnum());
     }
 

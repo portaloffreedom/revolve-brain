@@ -203,7 +203,7 @@ int main(int argc,
     trap("No such experiment: " << experiment_name);
   }
 
-  rng_t rng{rng_seed};
+  rng_t rng({rng_seed});
   exp->run(rng, maxgens);
 
   return (0);

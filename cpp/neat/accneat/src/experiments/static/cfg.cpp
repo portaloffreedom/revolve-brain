@@ -83,9 +83,9 @@ create_tests(const std::vector<std::string> &sentences,
   const real_t C[] = {1.0, 0.0};
   const real_t D[] = {1.0, 1.0};
 
-  const real_t S = 1.0; // Signal
-  const real_t Q = 1.0; // Query
-  const real_t _ = 0.0; // Null
+  const real_t S = 1.0;  // Signal
+  const real_t Q = 1.0;  // Query
+  const real_t _ = 0.0;  // Null
 
   const real_t weight_seq = 0;
   const real_t weight_delay = 0;

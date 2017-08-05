@@ -613,15 +613,19 @@ namespace cppneat
   {
       if (not layered)
       {
-          for (ConnectionGenePtr connection_gene : connection_genes) {
+          for (ConnectionGenePtr connection_gene : connection_genes)
+           {
               if (not neuron_exists(connection_gene->mark_from)
-              || not neuron_exists(connection_gene->mark_to)) {
-                  if (not neuron_exists(connection_gene->mark_from)) {
+              || not neuron_exists(connection_gene->mark_to))
+               {
+                  if (not neuron_exists(connection_gene->mark_from))
+                   {
                       std::cerr << "neuron with mark "
                       << connection_gene->mark_from
                        << " doesnt exist" <<std::endl;
                   }
-                  if (not neuron_exists(connection_gene->mark_to)) {
+                  if (not neuron_exists(connection_gene->mark_to))
+                   {
                       std::cerr << "neuron with mark "
                        << connection_gene->mark_to
                        << " doesnt exist" <<std::endl;
@@ -629,23 +633,27 @@ namespace cppneat
                   return false;
               }
           }
-      } else {
-          for (ConnectionGenePtr connection_gene : connection_genes) {
+      } else
+      {
+          for (ConnectionGenePtr connection_gene : connection_genes)
+           {
               if (not neuron_exists(connection_gene->mark_from)
               || not neuron_exists(connection_gene->mark_to)) {
-                  if (not neuron_exists(connection_gene->mark_from)) {
+                  if (not neuron_exists(connection_gene->mark_from))
+                  {
                       std::cerr << "neuron with mark "
                       << connection_gene->mark_from
                       << " doesnt exist" <<std::endl;
                   }
-                  if (not neuron_exists(connection_gene->mark_to)) {
+                  if (not neuron_exists(connection_gene->mark_to))
+                  {
                       std::cerr << "neuron with mark "
                       << connection_gene->mark_to
                       << " doesnt exist" <<std::endl;
                   }
                   return false;
               }
-              if(convert_in_to_layer_index(connection_gene->mark_from).first
+              if (convert_in_to_layer_index(connection_gene->mark_from).first
               >= convert_in_to_layer_index(connection_gene->mark_to).first) {
                   std::cerr << "layer of neuron with in "
                   << connection_gene->mark_from
