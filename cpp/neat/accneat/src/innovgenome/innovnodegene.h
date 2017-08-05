@@ -34,11 +34,10 @@
    limitations under the License.
 */
 
-#ifndef CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVGENOME_H_
-#define CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVGENOME_H_
+#ifndef CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVNODEGENOME_H_
+#define CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVNODEGENOME_H_
 
 #pragma once
-
 
 #include <assert.h>
 #include <iostream>
