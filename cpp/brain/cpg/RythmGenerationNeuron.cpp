@@ -19,19 +19,22 @@
 */
 
 #include <cmath>
+#include <vector>
 
 #include "RythmGenerationNeuron.h"
 
 using namespace revolve::brain::cpg;
+namespace rbc = revolve::brain::cpg;
 
 /////////////////////////////////////////////////
-RythmGenerationNeuron::RythmGenerationNeuron(real_t weight,
-                                             std::vector<real_t> weight_neigbours,
-                                             real_t c,
-                                             real_t amplitude,
-                                             real_t offset)
+RythmGenerationNeuron::RythmGenerationNeuron(
+        real_t weight,
+        std::vector<real_t> weight_neigbours,
+        real_t c,
+        real_t amplitude,
+        real_t offset)
         : phi(1)
-        , weight_neigbours(weight_neigbours)
+          , weight_neigbours(weight_neigbours)
 {
   setWeight(weight);
   setC(c);
@@ -42,7 +45,6 @@ RythmGenerationNeuron::RythmGenerationNeuron(real_t weight,
 /////////////////////////////////////////////////
 RythmGenerationNeuron::~RythmGenerationNeuron()
 {
-
 }
 
 /////////////////////////////////////////////////
@@ -60,7 +62,7 @@ std::vector<real_t> RythmGenerationNeuron::update(std::vector<real_t> inputs,
             << inputs.size();
     throw invalid_input_exception(ss.str());
   }
-//     real_t otherPhi = inputs[0];
+  //  real_t otherPhi = inputs[0];
 
   // creating output value from previous phi
   real_t _output = output();
@@ -99,11 +101,11 @@ real_t RythmGenerationNeuron::nextPhi(const std::vector<real_t> &inputs,
   // create phi(t+1)
   real_t new_phi = thisPhi + deltaPhi;
 
-  //TODO compensate for phi error
-//    if (new_phi > PI*2)
-//        new_phi -= PI*2;
-//    else if (new_phi < -PI*2)
-//        new_phi += PI*2;
+  // TODO compensate for phi error
+  //    if (new_phi > PI*2)
+  //        new_phi -= PI*2;
+  //    else if (new_phi < -PI*2)
+  //        new_phi += PI*2;
   return new_phi;
 }
 
@@ -139,7 +141,9 @@ real_t RythmGenerationNeuron::getWeightNeighbour(size_t index) const
 void RythmGenerationNeuron::setWeight(real_t weight)
 {
   if (weight < WEIGHT_MIN || weight > WEIGHT_MAX)
+  {
     throw invalid_parameter("weight", weight, WEIGHT_MIN, WEIGHT_MAX);
+  }
   RythmGenerationNeuron::weight = weight;
 }
 
@@ -149,7 +153,9 @@ void RythmGenerationNeuron::setWeightNeighbour(real_t weight,
                                                size_t index)
 {
   if (weight < WEIGHT_MIN || weight > WEIGHT_MAX)
+  {
     throw invalid_parameter("weight", weight, WEIGHT_MIN, WEIGHT_MAX);
+  }
   RythmGenerationNeuron::weight_neigbours[index] = weight;
 }
 
@@ -163,7 +169,9 @@ real_t RythmGenerationNeuron::getC() const
 void RythmGenerationNeuron::setC(real_t c)
 {
   if (c < C_MIN || c > C_MAX)
+  {
     throw invalid_parameter("c", c, C_MIN, C_MAX);
+  }
   RythmGenerationNeuron::c = c;
 }
 
@@ -177,10 +185,12 @@ real_t RythmGenerationNeuron::getAmplitude() const
 void RythmGenerationNeuron::setAmplitude(real_t amplitude)
 {
   if (amplitude < AMPLITUDE_MIN || amplitude > AMPLITUDE_MAX)
+  {
     throw invalid_parameter("amplitude",
                             amplitude,
                             AMPLITUDE_MIN,
                             AMPLITUDE_MAX);
+  }
   RythmGenerationNeuron::amplitude = amplitude;
 }
 
@@ -194,44 +204,45 @@ real_t RythmGenerationNeuron::getOffset() const
 void RythmGenerationNeuron::setOffset(real_t offset)
 {
   if (offset < OFFSET_MIN || offset > OFFSET_MAX)
+  {
     throw invalid_parameter("offset", offset, OFFSET_MIN, OFFSET_MAX);
+  }
   RythmGenerationNeuron::offset = offset;
 }
 
 
 // FROM PERCENTAGE ------------------------------------------------------------
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateWeightFromPercentage(real_t weight) const
+real_t rbc::RythmGenerationNeuron::calculateWeightFromPercentage(real_t weight) const
 {
   return percentage_from_range(weight, WEIGHT_MIN, WEIGHT_MAX);
 }
 
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateWeightNeighbourFromPercentage(real_t weight,
-                                                                                   size_t index) const
+real_t rbc::RythmGenerationNeuron::calculateWeightNeighbourFromPercentage(
+        real_t weight,
+        size_t index) const
 {
   return percentage_from_range(weight_neigbours[index], WEIGHT_MIN, WEIGHT_MAX);
 }
 
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateCFromPercentage(real_t c) const
+real_t rbc::RythmGenerationNeuron::calculateCFromPercentage(
+        real_t c) const
 {
   return percentage_from_range(c, C_MIN, C_MAX);
 }
 
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateAmplitudeFromPercentage(real_t amplitude) const
+real_t rbc::RythmGenerationNeuron::calculateAmplitudeFromPercentage(
+        real_t amplitude) const
 {
   return percentage_from_range(amplitude, AMPLITUDE_MIN, AMPLITUDE_MAX);
 }
 
 /////////////////////////////////////////////////
 real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateOffsetFromPercentage(real_t offset) const
+rbc::RythmGenerationNeuron::calculateOffsetFromPercentage(real_t offset) const
 {
   return percentage_from_range(offset, OFFSET_MIN, OFFSET_MAX);
 }
@@ -239,37 +250,37 @@ revolve::brain::cpg::RythmGenerationNeuron::calculateOffsetFromPercentage(real_t
 
 // TO PERCENTAGE --------------------------------------------------------------
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateWeightPercentage(real_t weight) const
+real_t rbc::RythmGenerationNeuron::calculateWeightPercentage(
+        real_t weight) const
 {
   return percentage_of_range(weight, WEIGHT_MIN, WEIGHT_MAX);
 }
 
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateWeightNeighbourPercentage(real_t weight,
-                                                                               size_t index) const
+real_t rbc::RythmGenerationNeuron::calculateWeightNeighbourPercentage(
+        real_t weight,
+        size_t index) const
 {
   return percentage_of_range(weight_neigbours[index], WEIGHT_MIN, WEIGHT_MAX);
 }
 
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateCPercentage(real_t c) const
+real_t rbc::RythmGenerationNeuron::calculateCPercentage(
+        real_t c) const
 {
   return percentage_of_range(c, C_MIN, C_MAX);
 }
 
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateAmplitudePercentage(real_t amplitude) const
+real_t rbc::RythmGenerationNeuron::calculateAmplitudePercentage(
+        real_t amplitude) const
 {
   return percentage_of_range(amplitude, AMPLITUDE_MIN, AMPLITUDE_MAX);
 }
 
 /////////////////////////////////////////////////
-real_t
-revolve::brain::cpg::RythmGenerationNeuron::calculateOffsetPercentage(real_t offset) const
+real_t rbc::RythmGenerationNeuron::calculateOffsetPercentage(
+        real_t offset) const
 {
   return percentage_of_range(offset, OFFSET_MIN, OFFSET_MAX);
 }

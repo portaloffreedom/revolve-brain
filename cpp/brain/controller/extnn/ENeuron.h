@@ -20,7 +20,6 @@
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_NEURON_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_NEURON_H_
 
-//#include "Types.h"
 #include <cstdlib>
 #include <utility>
 #include <map>
@@ -29,112 +28,144 @@
 
 #include <boost/shared_ptr.hpp>
 
-//Types.h
+/// \brief Types.h
 namespace revolve
 {
   namespace brain
   {
     class Motor;
+
     class VirtualSensor;
+
     class MotorFactory;
+
     class SensorFactory;
+
     class ExtendedNeuralNetwork;
+
     class Neuron;
+
     class NeuralConnection;
 
     typedef boost::shared_ptr<ExtendedNeuralNetwork> NeuralNetworkPtr;
+
     typedef boost::shared_ptr<MotorFactory> MotorFactoryPtr;
+
     typedef boost::shared_ptr<SensorFactory> SensorFactoryPtr;
+
     typedef boost::shared_ptr<Neuron> NeuronPtr;
+
     typedef boost::shared_ptr<NeuralConnection> NeuralConnectionPtr;
   }
 }
-
 
 namespace revolve
 {
   namespace brain
   {
-
     class Neuron
     {
       /// \brief Constructor for a neuron.
       /// \param id: string to identify the neuron
       /// \return pointer to the neuron
-      public: Neuron(const std::string &id);
+      public:
+      Neuron(const std::string &id);
 
       /// \brief
-      public: virtual ~Neuron() {};
+      public:
+      virtual ~Neuron()
+      {}
 
       /// \brief Method to calculate the output of the neuron
       /// \param t: current time
       /// \return the output of the neuron at time t
-      public: virtual double CalculateOutput(double t) = 0;
+      public:
+      virtual double CalculateOutput(double t) = 0;
 
       /// \brief Add an incoming connection to the neuron.
       /// \param socketName: name of the socket the connection "arrives" at
       /// \param connection: name of the connection to be added
-      public: void AddIncomingConnection(const std::string &socketName,
-                                         NeuralConnectionPtr connection);
+      public:
+      void AddIncomingConnection(const std::string &socketName,
+                                 NeuralConnectionPtr connection);
 
       /// \brief Deletes all incoming connections
-      public: void DeleteIncomingConections();
+      public:
+      void DeleteIncomingConections();
 
       /// \brief Return the current output of the neuron
-      public: double GetOutput() const;
+      public:
+      double GetOutput() const;
 
       /// \brief Method to set the input of the neuron
       /// \param value: the value the input should be set to
-      public: virtual void SetInput(double /*value*/)
-      {};
+      public:
+      virtual void SetInput(double /*value*/)
+      {}
 
       /// \brief Calculate the output and save it for when FlipState is called
       /// \param t: current time
-      public: void Update(double t);
+      public:
+      void Update(double t);
 
       /// \brief Set the output to the already calculated new output
-      public: void FlipState();
+      public:
+      void FlipState();
 
       /// \brief Compute the id for the socket of the next imcoming neural
       /// connection
       /// \return id for the socket of the next imcoming neural connection
-      public: std::string GetSocketId() const;
+      public:
+      std::string GetSocketId() const;
 
       /// \brief Return id of the neuron
-      public: virtual const std::string &Id() const;
+      public:
+      virtual const std::string &Id() const;
 
       /// \brief
-      public: virtual std::vector<std::pair<std::string, NeuralConnectionPtr>>
+      public:
+      virtual std::vector<std::pair<std::string, NeuralConnectionPtr>>
       getIncomingConnections();
 
       /// \brief
-      public: virtual std::map<std::string, double> getNeuronParameters() = 0;
+      public:
+      virtual std::map<std::string, double> getNeuronParameters() = 0;
 
       /// \brief
-      public: virtual void setNeuronParameters(std::map<std::string, double> params) = 0;
+      public:
+      virtual void
+      setNeuronParameters(std::map<std::string, double> params) = 0;
 
       /// \brief
-      public: virtual std::string getType() = 0;
+      public:
+      virtual std::string getType() = 0;
 
       /// \brief Return phase for RythmGeneration neuron (HACK)
-      public: virtual double Phase();
+      public:
+      virtual double Phase();
 
       /// \brief reset the current activation of the neuron
-      public: virtual void reset();
+      public:
+      virtual void reset();
 
       /// \brief vector of the incoming connections and the name of their socket
-      protected: std::vector<std::pair<std::string, NeuralConnectionPtr>>
+      protected:
+      std::vector<std::pair<std::string, NeuralConnectionPtr>>
               incomingConnections_;
 
       /// \brief current output
-      protected: double output_;
+      protected:
+      double output_;
 
       /// \brief calculated output for when FlipState is called
-      protected: double newOutput_;
+      protected:
+      double newOutput_;
 
       /// \brief id of the neuron
-      protected: std::string id_;
+      protected:
+      std::string id_;
     };
   }
 }
+
 #endif  //  REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_NEURON_H_

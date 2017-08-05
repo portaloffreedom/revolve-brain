@@ -13,32 +13,32 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: March 13, 2017
 *
 */
-
-//
-// Created by matteo on 3/13/17.
-//
 
 #ifndef REVOLVE_BRAIN_ACCNEATCPPNCONTROLLER_H
 #define REVOLVE_BRAIN_ACCNEATCPPNCONTROLLER_H
 
-#include "network/cpu/cpunetwork.h"
+#include <vector>
+
 #include "BaseController.h"
+#include "network/cpu/cpunetwork.h"
 
 namespace revolve
 {
   namespace brain
   {
-
     class AccNEATCPPNController
             : public BaseController
     {
       public:
+      /// \brief
       AccNEATCPPNController(size_t n_inputs,
                             size_t n_outputs);
 
+      /// \brief
       virtual ~AccNEATCPPNController();
 
       /// \brief Update the controller to the next step and sends signals
@@ -52,28 +52,33 @@ namespace revolve
                           double t,
                           double step) override;
 
+      /// \brief
       void activate(const double *const inputs);
 
+      /// \brief
       NEAT::real_t *getOutputs()
       {
         return cppn->get_outputs();
       }
 
+      /// \brief
       void setCPPN(NEAT::CpuNetwork *cppn);
 
       protected:
+      /// \brief
       NEAT::CpuNetwork *cppn;
 
+      /// \brief
       const size_t n_inputs, n_outputs;
 
       private:
+      /// \brief
       double *inputs_vector;
 
+      /// \brief
       double *outputs_vector;
     };
-
   }
 }
-
 
 #endif  // REVOLVE_BRAIN_ACCNEATCPPNCONTROLLER_H

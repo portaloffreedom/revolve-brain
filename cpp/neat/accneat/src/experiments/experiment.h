@@ -17,44 +17,47 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_EXPERIMENT_H_
+#define CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_EXPERIMENT_H_
+
 #pragma once
 
+#include <map>
 #include <vector>
 #include <string>
-#include <map>
 
-namespace NEAT {
-
-class Experiment
+namespace NEAT
 {
-public:
-    static std::vector<std::string>
-    get_names();
+  class Experiment
+  {
+    public:
+    static std::vector<std::string> get_names();
 
-    static Experiment *
-    get(const char *name);
+    static Experiment *get(const char *name);
 
-private:
+    private:
     static std::map<std::string, Experiment *> *experiments;
 
-public:
+    public:
     virtual ~Experiment();
 
-    virtual void
-    run(class rng_t &rng,
-        int gens) = 0;
+    virtual void run(class rng_t &rng,
+                     int gens) = 0;
 
-protected:
+    protected:
     Experiment(const char *name);
 
-    const char * const get_name() const {
-        return name;
+    const char *const get_name() const
+    {
+      return name;
     }
 
-private:
+    private:
     Experiment()
     {}
 
     const char *name;
-};
+  };
 }
+
+#endif

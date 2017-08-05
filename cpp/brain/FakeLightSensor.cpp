@@ -25,27 +25,27 @@ using namespace revolve::brain;
 
 unsigned int FakeLightSensor::inputs() const
 {
-    return 1;
+  return 1;
 }
 
 double revolve::brain::FakeLightSensor::read()
 {
-    return light_attenuation(light_distance(), light_angle());
+  return light_attenuation(light_distance(), light_angle());
 }
 
-
-void FakeLightSensor::read(double* input_vector)
+void FakeLightSensor::read(double *input_vector)
 {
-    input_vector[0] = read();
+  input_vector[0] = read();
 }
 
-float revolve::brain::FakeLightSensor::light_attenuation(float distance, float angle)
+float revolve::brain::FakeLightSensor::light_attenuation(float distance,
+                                                         float angle)
 {
-    float abs_angle = std::fabs(angle);
+  float abs_angle = std::fabs(angle);
 
-    if (abs_angle > half_fov)
-        return 0;
+  if (abs_angle > half_fov)
+    return 0;
 
-    //TODO noise
-    return distance;
+  // TODO noise
+  return distance;
 }

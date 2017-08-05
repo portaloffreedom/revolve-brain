@@ -22,7 +22,10 @@
 #define REVOLVEBRAIN_BRAIN_RLPOWER_H_
 
 #include <cmath>
+#include <functional>
+#include <map>
 #include <string>
+#include <vector>
 
 #include <boost/thread/mutex.hpp>
 
@@ -33,14 +36,11 @@ namespace revolve
 {
   namespace brain
   {
-
-//    typedef std::vector<double> Spline;
-//    typedef std::vector<Spline *> Policy;
-
+    //    typedef std::vector<double> Spline;
+    //    typedef std::vector<Spline *> Policy;
     class RLPower
             : public revolve::brain::Brain
     {
-
       protected:
       struct Config;
       public:
@@ -48,8 +48,8 @@ namespace revolve
       typedef std::vector<Spline> Policy;
       typedef std::shared_ptr<Policy> PolicyPtr;
 
-// typedef const std::shared_ptr<revolve::msgs::ModifyNeuralNetwork const>
-// ConstModifyNeuralNetworkPtr;
+      // typedef const std::shared_ptr<revolve::msgs::ModifyNeuralNetwork const>
+      // ConstModifyNeuralNetworkPtr;
 
       /// \brief  The RLPower constructor reads out configuration file,
       /// deretmines which algorithm type to apply and initialises new policy.

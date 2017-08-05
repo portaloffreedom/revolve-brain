@@ -22,25 +22,23 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace revolve {
-namespace brain {
-
-class Evaluator
+namespace revolve
 {
-public:
-    virtual ~Evaluator()
-    {};
+  namespace brain
+  {
+    class Evaluator
+    {
+      public:
+      virtual ~Evaluator()
+      {}
 
-    virtual void
-    start() = 0;
+      virtual void start() = 0;
 
-    virtual double
-    fitness() = 0;
-};
+      virtual double fitness() = 0;
+    };
 
-typedef boost::shared_ptr<revolve::brain::Evaluator> EvaluatorPtr;
-
-}
+    typedef boost::shared_ptr<revolve::brain::Evaluator> EvaluatorPtr;
+  }
 }
 
 #endif  //  REVOLVEBRAIN_BRAIN_EVALUATOR_H

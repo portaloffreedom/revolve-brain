@@ -12,7 +12,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
+* Description: Class containg all information that is evolved for neurons
 * Author: Rafael Kiesel
 *
 */
@@ -24,7 +24,6 @@
 #include <string>
 #include <vector>
 
-//class containg all information that is evolved for neurons
 namespace cppneat
 {
   class Neuron

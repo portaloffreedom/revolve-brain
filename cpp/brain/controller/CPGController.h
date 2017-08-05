@@ -13,60 +13,75 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: March 13, 2017
 *
 */
-
-//
-// Created by matteo on 3/13/17.
-//
 
 #ifndef TRIANGLEOFLIFE_CPGCONTROLLER_H
 #define TRIANGLEOFLIFE_CPGCONTROLLER_H
 
-#include "brain/cpg/CPGNetwork.h"
+#include <vector>
+
 #include "BaseController.h"
+#include "brain/cpg/CPGNetwork.h"
 
-namespace revolve { namespace brain {
+namespace revolve
+{
+  namespace brain
+  {
+    class CPGController
+            : public BaseController
+    {
+      public:
+      /// \brief
+      CPGController(size_t n_inputs,
+                    size_t n_outputs);
 
-    class CPGController : public BaseController {
-    public:
-        CPGController(size_t n_inputs, size_t n_outputs);
+      /// \brief
+      virtual ~CPGController();
 
-        virtual ~CPGController();
+      /// \brief
+      void update(const std::vector<ActuatorPtr> &actuators,
+                  const std::vector<SensorPtr> &sensors,
+                  double t,
+                  double step) override;
 
-        void update(const std::vector<ActuatorPtr> &actuators,
-                    const std::vector<SensorPtr> &sensors,
-                    double t, double step) override;
+      /// \brief
+      std::vector<cpg::CPGNetwork *>::iterator beginCPGNetwork()
+      {
+        return cpgs.begin();
+      }
 
-        std::vector<cpg::CPGNetwork *>::iterator beginCPGNetwork()
-        { return cpgs.begin(); }
+      /// \brief
+      std::vector<cpg::CPGNetwork *>::iterator endCPGNetwork()
+      {
+        return cpgs.end();
+      }
 
-        std::vector<cpg::CPGNetwork *>::iterator endCPGNetwork()
-        { return cpgs.end(); }
+      protected:
+      /// \brief
+      void initRandom(float sigma);
 
-    protected:
-        void initRandom(float sigma);
+      protected:
+      /// \brief
+      size_t n_inputs, n_outputs;
 
-    protected:
-        size_t n_inputs, n_outputs;
+      /// \brieflist of cpgs
+      std::vector<cpg::CPGNetwork *> cpgs;
 
-        //list of cpgs
-        std::vector<cpg::CPGNetwork *> cpgs;
+      /// \brief Connection matrix between the different servos
+      /// First is start of the connections, second is end.
+      /// Example: connections[0][1].we is the connection starting from servo 0
+      /// and reacing servo 1 for the RythmGenerationNeurons E
+      std::vector<std::vector<cpg::CPGNetwork::Weights>> connections;
 
-        /** Connection matrix between the different servos
-         * First is start of the connections, second is end.
-         * Example: connections[0][1].we is the connection starting from servo 0
-         * and reacing servo 1 for the RythmGenerationNeurons E
-         */
-        std::vector<std::vector<cpg::CPGNetwork::Weights>> connections;
-
-        // CACHING VECTORS
-        double *inputs_vector,
-            *outputs_vector;
+      /// \brief CACHING VECTORS
+      double *inputs_vector,
+              *outputs_vector;
     };
-
-}}
+  }
+}
 
 
 #endif  // TRIANGLEOFLIFE_CPGCONTROLLER_H

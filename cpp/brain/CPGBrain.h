@@ -23,6 +23,9 @@
 
 #include <iostream>
 #include <map>
+#include <functional>
+#include <string>
+#include <vector>
 
 #include "Brain.h"
 #include "Evaluator.h"
@@ -35,13 +38,13 @@ namespace revolve
 {
   namespace brain
   {
-
     class CPGBrain
             : public revolve::brain::Brain
     {
       public:
 
       using revolve::brain::Brain::update;
+
       /// \brief CPGBrain constructor
       /// \param robot_name the robot name (for logs)
       /// \param evaluator pointer to the evaluator to evoluate the brain
@@ -61,8 +64,8 @@ namespace revolve
                           double t,
                           double step) override;
 
-      void
-      setConnections(std::vector<std::vector<cpg::CPGNetwork::Weights>> connections);
+      void setConnections(
+              std::vector<std::vector<cpg::CPGNetwork::Weights>> connections);
 
       protected:
       template <typename ActuatorContainer, typename SensorContainer>
@@ -202,11 +205,8 @@ namespace revolve
 
       /// \brief Tau deviation for self-adaptive sigma
       double sigma_tau_correction_ = 0.2;
-
     };
-
   }
 }
-
 
 #endif  // REVOLVE_BRAIN_CPGBRAIN_H

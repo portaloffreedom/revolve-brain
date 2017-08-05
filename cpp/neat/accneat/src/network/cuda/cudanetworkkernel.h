@@ -17,68 +17,64 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_NETWORK_CUDA_CUDANETWORKKERNEL_H_
+#define CPP_NEAT_ACCNEAT_SRC_NETWORK_CUDA_CUDANETWORKKERNEL_H_
+
 #pragma once
 
-namespace NEAT {
-
-//--------------------------------------------------------------------------------
-//---
-//--- GPU KERNEL CODE
-//---
-//--------------------------------------------------------------------------------
-inline __device__ void
-sum_partition(float *x,
-              int i,
-              int n,
-              float *result)
+namespace NEAT
 {
-  int stride = __popc(n) == 1 ? n >> 1 : 1 << 31 - __clz(n);
+  ////--------------------------------------------------------------------------
+  ///
+  /// GPU KERNEL CODE
+  ///
+  ////--------------------------------------------------------------------------
+  inline __device__ void sum_partition(float *x,
+                                       int i,
+                                       int n,
+                                       float *result)
+  {
+    int stride = __popc(n) == 1 ? n >> 1 : 1 << 31 - __clz(n);
 
-  if ((stride > 0) && (i + stride < n)) {
-    x[i] += x[i + stride];
-  }
-
-  __syncthreads();
-
-  stride >>= 1;
-  // max_stride necessary to keep all threads from all partitions in sync.
-  for (int max_stride = Threads_Per_Block >> 1; max_stride > 0; stride >>= 1, max_stride >>= 1) {
-    if (i < stride) {
+    if ((stride > 0) && (i + stride < n))
+    {
       x[i] += x[i + stride];
     }
+
+    __syncthreads();
+
+    stride >>= 1;
+    // max_stride necessary to keep all threads from all partitions in sync.
+    for (int max_stride = Threads_Per_Block >> 1; max_stride > 0;
+         stride >>= 1, max_stride >>= 1)
+    {
+      if (i < stride)
+      {
+        x[i] += x[i + stride];
+      }
+      __syncthreads();
+    }
+
+    if (i == 0)
+    {
+      *result += x[0];
+    }
+
     __syncthreads();
   }
 
-  if (i == 0) {
-    *result += x[0];
+  inline __device__ real_t fsigmoid(real_t activesum,
+                                    real_t slope, real_t constant)
+  {
+    // NON-SHIFTED STEEPENED
+    return (1/(1+(exp(-(slope *activesum)))));  // Compressed
   }
-
-  __syncthreads();
-}
-
-inline __device__ real_t
-
-fsigmoid(real_t
-
-activesum,
-
-real_t slope, real_t
-
-constant) {
-//NON-SHIFTED STEEPENED
-return (1/(1+(exp(-(
-
-slope *activesum
-
-))))); //Compressed
-}
 
 template <typename Evaluator>
 static __global__
-void
-cudanetwork_activate(const typename Evaluator::Config *config,
-                     RawBuffers bufs,
-                     uint ncycles)
+void cudanetwork_activate(const typename Evaluator::Config *config,
+                          RawBuffers bufs,
+                          uint ncycles)
 {
   Evaluator eval(config);
 
@@ -88,9 +84,9 @@ cudanetwork_activate(const typename Evaluator::Config *config,
   GpuState state = ((GpuState *)bufs.gpu_states)[blockIdx.x];
   uint tid = threadIdx.x;
 
-  //---
-  //--- Config shared memory
-  //---
+  ///
+  /// Config shared memory
+  ///
   extern __shared__ char __shared_buf[];
 
   // in cuda-gdb: print *((@shared float*)activation + i)
@@ -99,89 +95,107 @@ cudanetwork_activate(const typename Evaluator::Config *config,
   real_t *newactivation = activation + state.dims.nnodes.all;
   real_t *partial_activation = newactivation + state.dims.nnodes.all;
 
-  //---
-  //--- Cache link/partitions in local memory.
-  //---
+  ///
+  /// Cache link/partitions in local memory.
+  ///
   const int ncycle_its = 1 + (state.dims.nlinks - 1) / Threads_Per_Block;
 
   CudaLink local_links[Max_Links_Per_Thread];
   ActivationPartition local_partitions[Max_Links_Per_Thread];
-  for (uint ilink = tid, it = 0; it < ncycle_its; ilink += Threads_Per_Block, it++) {
+  for (uint ilink = tid, it = 0; it < ncycle_its;
+       ilink += Threads_Per_Block, it++)
+  {
     CudaLink &link = local_links[it];
     ActivationPartition &p = local_partitions[it];
-    if (ilink < state.dims.nlinks) {
-      link = links(bufs,
-                   state.offsets)[ilink];
-      p = partitions(bufs,
-                     state.offsets)[local_links[it].partition];
+    if (ilink < state.dims.nlinks)
+    {
+      link = links(bufs, state.offsets)[ilink];
+      p = partitions(bufs, state.offsets)[local_links[it].partition];
     }
   }
 
-  //---
-  //--- Process all batch steps
-  //---
-  while (eval.next_step()) {
-    //---
-    //--- Load step activations
-    //---
-    for (uint inode = tid; inode < state.dims.nnodes.all; inode += Threads_Per_Block) {
-      if (inode < state.dims.nnodes.input) {
-        //---
-        //--- Bias/Sensor node
-        //---
+  ///
+  /// Process all batch steps
+  ///
+  while (eval.next_step())
+  {
+    ///
+    /// Load step activations
+    ///
+    for (uint inode = tid; inode < state.dims.nnodes.all;
+         inode += Threads_Per_Block)
+    {
+      if (inode < state.dims.nnodes.input)
+      {
+        ///
+        /// Bias/Sensor node
+        ///
         const uint nbias = state.dims.nnodes.bias;
-        if (inode < nbias) {
-          //Bias node, so just set to 1.0
+        if (inode < nbias)
+        {
+          // Bias node, so just set to 1.0
           activation[inode] = 1.0;
-        } else {
-          //Sensor
+        }
+        else
+        {
+          // Sensor
           activation[inode] = eval.get_sensor(inode - nbias);
         }
         newactivation[inode] = activation[inode];
-      } else {
-        //---
-        //--- Output/Hidden node
-        //---
-        if (eval.clear_noninput()) {
+      }
+      else
+      {
+        ///
+        /// Output/Hidden node
+        ///
+        if (eval.clear_noninput())
+        {
           activation[inode] = 0.0;
         }
       }
     }
     __syncthreads();
 
-    //---
-    //--- For each cycle of this step.
-    //---
-    for (uint icycle = 0; icycle < ncycles; icycle++) {
-      //---
-      //--- Reset new activation noninput
-      //---
+    ///
+    /// For each cycle of this step.
+    ///
+    for (uint icycle = 0; icycle < ncycles; icycle++)
+    {
+      ///
+      /// Reset new activation noninput
+      ///
       for (uint inode = tid + state.dims.nnodes.input;
            inode < state.dims.nnodes.all;
-           inode += Threads_Per_Block) {
-
+           inode += Threads_Per_Block)
+      {
         newactivation[inode] = 0.0;
       }
 
-      //---
-      //--- Compute new activation sums
-      //---
-      for (uint ilink = tid, it = 0; it < ncycle_its; ilink += Threads_Per_Block, it++) {
+      ///
+      /// Compute new activation sums
+      ///
+      for (uint ilink = tid, it = 0; it < ncycle_its;
+           ilink += Threads_Per_Block, it++)
+      {
         float *partition_x;
         int partition_i;
         int partition_n;
         float *result;
 
-        if (ilink < state.dims.nlinks) {
+        if (ilink < state.dims.nlinks)
+        {
           CudaLink &link = local_links[it];
-          partial_activation[tid] = link.weight * activation[link.in_node_index];
+          partial_activation[tid] =
+                  link.weight * activation[link.in_node_index];
 
           ActivationPartition &p = local_partitions[it];
           partition_x = partial_activation + p.offset;
           partition_i = tid - p.offset;
           partition_n = p.len;
           result = newactivation + p.out_node_index;
-        } else {
+        }
+        else
+        {
           partition_x = NULL;
           partition_i = 1;
           partition_n = 0;
@@ -190,49 +204,46 @@ cudanetwork_activate(const typename Evaluator::Config *config,
 
         __syncthreads();
 
-        sum_partition(partition_x,
-                      partition_i,
-                      partition_n,
-                      result);
+        sum_partition(partition_x, partition_i, partition_n, result);
       }
 
-      //---
-      //--- Compute new activations from sums
-      //---
+      ///
+      /// Compute new activations from sums
+      ///
       for (uint inode = tid + state.dims.nnodes.input;
            inode < state.dims.nnodes.all;
-           inode += Threads_Per_Block) {
-
+           inode += Threads_Per_Block)
+      {
         newactivation[inode] = fsigmoid(newactivation[inode],
                                         4.924273,
                                         2.4621365);
       }
       __syncthreads();
 
-      //---
-      //--- "activation" now the current state.
-      //---
+      ///
+      /// "activation" now the current state.
+      ///
       {
         float *swap = newactivation;
         newactivation = activation;
         activation = swap;
       }
+    }  // for each cycle
 
-    } //for each cycle
-
-    //---
-    //--- Evaluate output for this step.
-    //---
+    ///
+    /// Evaluate output for this step.
+    ///
     eval.evaluate(activation + state.dims.nnodes.input);
+  }  // for each step
 
-  } //for each step
-
-  //---
-  //--- Save evaluation to output buffer in global memory
-  //---
-  if (tid == 0) {
+  ///
+  /// Save evaluation to output buffer in global memory
+  ///
+  if (tid == 0)
+  {
     ((OrganismEvaluation *)bufs.output)[blockIdx.x] = eval.result();
   }
-} // kernel
-
+}  // kernel
 }
+
+#endif

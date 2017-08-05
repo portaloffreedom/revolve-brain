@@ -13,23 +13,24 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
-#include "SigmoidNeuron.h"
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
+
+#include "SigmoidNeuron.h"
 
 namespace revolve
 {
   namespace brain
   {
-
-
     SigmoidNeuron::SigmoidNeuron(const std::string &id,
-                                 const std::map<std::string, double> &params) :
-            Neuron(id)
+                                 const std::map<std::string, double> &params)
+            : Neuron(id)
     {
       if (not params.count("rv:bias") || not params.count("rv:gain"))
       {
@@ -45,17 +46,17 @@ namespace revolve
     }
 
 
-    double
-    SigmoidNeuron::CalculateOutput(double /*t*/)
+    double SigmoidNeuron::CalculateOutput(double /*t*/)
     {
       double inputValue = 0;
 
-      for (auto it =
-              this->incomingConnections_.begin(); it != this->incomingConnections_.end(); ++it)
+      for (auto it = this->incomingConnections_.begin();
+           it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
         inputValue +=
-                inConnection->GetInputNeuron()->GetOutput() * inConnection->GetWeight();
+                inConnection->GetInputNeuron()->GetOutput()
+                * inConnection->GetWeight();
       }
 
       return 1.0 / (1.0 + exp(-this->gain_ * (inputValue - this->bias_)));
@@ -86,11 +87,9 @@ namespace revolve
       this->gain_ = params.find("rv:gain")->second;
     }
 
-
     std::string SigmoidNeuron::getType()
     {
       return "Sigmoid";
     }
-
   }
 }

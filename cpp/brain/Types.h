@@ -13,28 +13,27 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Milan Jelisavcic
+* Date: June 8, 2017
 *
 */
-
-//
-// Created by Milan Jelisavcic on 8.7.17..
-//
 
 #ifndef TOL_REVOLVE_TYPES_H
 #define TOL_REVOLVE_TYPES_H
 
-namespace revolve {
-namespace brain {
+namespace revolve
+{
+  namespace brain
+  {
+    struct CPPNConfig;
 
-struct CPPNConfig;
+    class RafCPGController;
 
-class RafCPGController;
+    typedef boost::shared_ptr<revolve::brain::CPPNConfig> CPPNConfigPtr;
 
-typedef boost::shared_ptr<revolve::brain::CPPNConfig> CPPNConfigPtr;
-typedef boost::shared_ptr<revolve::brain::RafCPGController> RafCPGControllerPtr;
-
-}
+    typedef boost::shared_ptr<revolve::brain::RafCPGController>
+            RafCPGControllerPtr;
+  }
 }
 
 #endif  // TOL_REVOLVE_TYPES_H

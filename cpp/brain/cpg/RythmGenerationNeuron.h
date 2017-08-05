@@ -21,6 +21,8 @@
 #ifndef REVOLVE_BRAIN_RYTHMGENERATIONNEURON_H
 #define REVOLVE_BRAIN_RYTHMGENERATIONNEURON_H
 
+#include <vector>
+
 #include "CPGNeuron.h"
 
 namespace revolve
@@ -29,7 +31,6 @@ namespace revolve
   {
     namespace cpg
     {
-
       class RythmGenerationNeuron
               : public revolve::brain::cpg::Neuron
       {
@@ -51,12 +52,13 @@ namespace revolve
                               real_t amplitude,
                               real_t offset);
 
+        /// \brief
         virtual ~RythmGenerationNeuron();
 
-
         /// \brief  Update the rythm generator to the step (t+1)
-        /// \param inputs std::vector<real_t> of size 1 + weight_neigbours.size()
-        /// contaning the phi of the coupled RythmGenerationNeuron
+        /// \param inputs std::vector<real_t> of size
+        /// 1 + weight_neigbours.size() contaning the phi of the coupled
+        /// RythmGenerationNeuron
         /// \param delta_time time passed since the last update. Value in
         /// seconds expected to be positive and relativly small. Big time steps
         /// could have weird effects on the network.
@@ -83,7 +85,6 @@ namespace revolve
         real_t nextPhi(const std::vector<real_t> &inputs,
                        real_t delta_time) const;
 
-
         /// \brief  Calculates the output value of the neuron using the current
         /// phi value
         /// \return the output value of the RythmGenerationNeuron
@@ -95,6 +96,7 @@ namespace revolve
         /// \return current phi value
         real_t getPhi() const;
 
+        /// \brief
         real_t getWeight() const;
 
         /// \brief the weight that determines the shape [0, 1.0]
@@ -104,10 +106,13 @@ namespace revolve
         /// outside the allowed domain
         real_t setWeightPercentage(real_t weight);
 
+        /// \brief
         real_t calculateWeightPercentage(real_t weight) const;
 
+        /// \brief
         real_t calculateWeightFromPercentage(real_t weight) const;
 
+        /// \brief
         real_t getWeightNeighbour(size_t index) const;
 
         /// \brief the weight that determines the shape [0, 1.0]
@@ -119,12 +124,15 @@ namespace revolve
         real_t setWeightNeighbourPercentage(real_t weight,
                                             size_t index);
 
+        /// \brief
         real_t calculateWeightNeighbourPercentage(real_t weight,
                                                   size_t index) const;
 
+        /// \brief
         real_t calculateWeightNeighbourFromPercentage(real_t weight,
                                                       size_t index) const;
 
+        /// \brief
         real_t getC() const;
 
         /// \brief the phase difference [-2, 2]
@@ -134,10 +142,13 @@ namespace revolve
         /// outside the allowed domain
         real_t setCPercentage(real_t c);
 
+        /// \brief
         real_t calculateCPercentage(real_t c) const;
 
+        /// \brief
         real_t calculateCFromPercentage(real_t c) const;
 
+        /// \brief
         real_t getAmplitude() const;
 
         /// \brief the amplitude determines influence of a flexor/extensor on
@@ -148,10 +159,13 @@ namespace revolve
         /// outside the allowed domain
         real_t setAmplitudePercentage(real_t amplitude);
 
+        /// \brief
         real_t calculateAmplitudePercentage(real_t amplitude) const;
 
+        /// \brief
         real_t calculateAmplitudeFromPercentage(real_t amplitude) const;
 
+        /// \brief
         real_t getOffset() const;
 
         /// \brief the offset dims shape of the final output signal to the
@@ -162,18 +176,35 @@ namespace revolve
         /// outside the allowed domain
         real_t setOffsetPercentage(real_t offset);
 
+        /// \brief
         real_t calculateOffsetPercentage(real_t offset) const;
 
+        /// \brief
         real_t calculateOffsetFromPercentage(real_t offset) const;
 
         public:
+        /// \brief
         const real_t WEIGHT_MIN = 0;
+
+        /// \brief
         const real_t WEIGHT_MAX = 1.0;
+
+        /// \brief
         const real_t C_MIN = -2;
+
+        /// \brief
         const real_t C_MAX = 2;
+
+        /// \brief
         const real_t AMPLITUDE_MIN = -1;
+
+        /// \brief
         const real_t AMPLITUDE_MAX = 1;
+
+        /// \brief
         const real_t OFFSET_MIN = -0.1;
+
+        /// \brief
         const real_t OFFSET_MAX = 0.1;
 
         protected:
@@ -201,7 +232,6 @@ namespace revolve
         /// starting position [-0.1, 0.1]
         real_t offset;
       };
-
     }
   }
 }

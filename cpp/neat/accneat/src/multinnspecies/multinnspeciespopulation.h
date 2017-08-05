@@ -32,61 +32,80 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+#ifndef CPP_NEAT_ACCNEAT_SRC_MULTINNSPECIES_MULTINNSPECIESPOPULATION_H_
+#define CPP_NEAT_ACCNEAT_SRC_MULTINNSPECIES_MULTINNSPECIESPOPULATION_H_
+
 #pragma once
 
-#include "util/organismsbuffer.h"
-#include "population.h"
+#include <vector>
+
 #include "multinnspeciesorganism.h"
+#include "population.h"
+#include "util/organismsbuffer.h"
 
-namespace NEAT {
-
-class MultiNNSpeciesPopulation
-        : public Population
+namespace NEAT
 {
-public:
-    // Construct off of a single spawning Genome
+  class MultiNNSpeciesPopulation
+          : public Population
+  {
+    public:
+    /// \brief Construct off of a single spawning Genome
     MultiNNSpeciesPopulation(rng_t rng,
                              std::vector<std::unique_ptr<Genome>> &seeds);
 
+    /// \brief
     virtual ~MultiNNSpeciesPopulation();
 
-    virtual size_t
-    size() override;
+    /// \brief
+    virtual size_t size() override;
 
-    virtual class Organism *
-    get(size_t index) override;
+    /// \brief
+    virtual class Organism *get(size_t index) override;
 
-    virtual std::unique_ptr<Organism>
-    make_copy(size_t index) override;
+    /// \brief
+    virtual std::unique_ptr<Organism> make_copy(size_t index) override;
 
-    virtual void
-    next_generation() override;
+    /// \brief
+    virtual void next_generation() override;
 
-    virtual void
-    verify() override;
+    /// \brief
+    virtual void verify() override;
 
-//    virtual void
-//    write(std::ostream &out) override;
+    //    virtual void
+    //    write(std::ostream &out) override;
 
-private:
-    void
-    spawn();
+    private:
+    /// \brief
+    void spawn();
 
-    void
-    speciate();
+    /// \brief
+    void speciate();
 
+    /// \brief
     size_t norgs;
+
+    /// \brief
     int generation;
+
+    /// \brief
     OrganismsBuffer<MultiNNSpeciesOrganism> orgs;
 
-    std::vector<class MultiNNSpecies *> species;  // Species in the SpeciesPopulation. Note that the species should comprise all the genomes
+    /// \brief Species in the SpeciesPopulation. Note that the species should
+    /// comprise all the genomes
+    std::vector<class MultiNNSpecies *> species;
 
     // ******* Member variables used during reproduction *******
-    int last_species;  //The highest species number
+    /// \brief The highest species number
+    int last_species;
 
     // ******* When do we need to delta code? *******
-    real_t highest_fitness;  //Stagnation detector
-    int highest_last_changed; //If too high, leads to delta coding
-};
+    /// \brief Stagnation detector
+    real_t highest_fitness;
 
-} // namespace NEAT
+    /// \brief If too high, leads to delta coding
+    int highest_last_changed;
+  };
+}  // namespace NEAT
+
+#endif

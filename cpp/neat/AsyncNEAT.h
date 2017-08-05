@@ -22,6 +22,7 @@
 
 #include <list>
 #include <memory>
+#include <string>
 
 #include "organism.h"
 #include "population.h"
@@ -55,8 +56,8 @@ class AsyncNeat
   /// \brief
   virtual ~AsyncNeat();
 
-  /// \brief If it returns nullptr, wait until all evaluations are finished to get
-  /// the next generation
+  /// \brief If it returns nullptr, wait until all evaluations are finished to
+  /// get the next generation
   std::shared_ptr<NeatEvaluation> getEvaluation();
 
   /// \brief to be called before any AsyncNeat object can be used
@@ -113,16 +114,16 @@ class AsyncNeat
     NEAT::env->mutate_add_link_prob = value;
   }
 
-  /**
-   * Set the prob. that a link mutation which doesn't have to be recurrent will be made recurrent
-   /// \param prob new probability
-   */
+  /// \brief Set the prob. that a link mutation which doesn't have to be
+  /// recurrent will be made recurrent
+  /// \param prob new probability
   static void SetRecurProb(NEAT::real_t prob)
   {
     NEAT::env->recur_prob = prob;
   }
 
-  /// \brief Set the probability of forcing selection of ONLY links that are naturally recurrent
+  /// \brief Set the probability of forcing selection of ONLY links that are
+  /// naturally recurrent
   /// \param prob new probability
   static void SetRecurOnlyProb(NEAT::real_t prob)
   {

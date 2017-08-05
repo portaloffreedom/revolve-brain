@@ -13,39 +13,42 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Matteo De Carlo
+* Date: September 11, 2016
 *
 */
-
-//
-// Created by matteo on 09/11/16.
-//
 
 #ifndef REVOLVE_BRAIN_CPGBRAIN_PYTHON_H
 #define REVOLVE_BRAIN_CPGBRAIN_PYTHON_H
 
-#include "brain/CPGBrain.h"
+#include <string>
+#include <vector>
+
 #include <boost/python/list.hpp>
-#include <vector>
-#include <vector>
 
-namespace revolve {
-namespace brain {
+#include "brain/CPGBrain.h"
 
-class CPGBrain_python : public revolve::brain::CPGBrain
+namespace revolve
 {
-public:
-    CPGBrain_python(std::string robot_name,
-                    EvaluatorPtr evaluator,
-                    unsigned int n_actuators,
-                    unsigned int n_sensors);
+  namespace brain
+  {
+    class CPGBrain_python
+            : public revolve::brain::CPGBrain
+    {
+      public:
+      /// \brief
+      CPGBrain_python(std::string robot_name,
+                      EvaluatorPtr evaluator,
+                      unsigned int n_actuators,
+                      unsigned int n_sensors);
 
-    void update(boost::python::list& actuators,
-                const boost::python::list& sensors,
-                double t, double step);
-};
-
-}
+      /// \brief
+      void update(boost::python::list &actuators,
+                  const boost::python::list &sensors,
+                  double t,
+                  double step);
+    };
+  }
 }
 
 

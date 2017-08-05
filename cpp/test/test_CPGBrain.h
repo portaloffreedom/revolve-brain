@@ -42,4 +42,4 @@ class TestCPGBrain
 };
 
 
-#endif  //REVOLVE_BRAIN_TESTCPGBRAIN_H
+#endif  // REVOLVE_BRAIN_TESTCPGBRAIN_H

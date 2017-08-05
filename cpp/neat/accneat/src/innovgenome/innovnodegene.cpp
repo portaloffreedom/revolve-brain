@@ -32,16 +32,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-#include "innovnodegene.h"
+
 #include <sstream>
+#include <string>
+
+#include "innovnodegene.h"
 
 using namespace NEAT;
 
 InnovNodeGene::InnovNodeGene(const std::string &robot_name)
-  : creator_name(robot_name)
-  , creator_index(-1)
+        : creator_name(robot_name)
+          , creator_index(-1)
 {
-
 }
 
 InnovNodeGene::InnovNodeGene(nodetype ntype,
@@ -49,12 +51,12 @@ InnovNodeGene::InnovNodeGene(nodetype ntype,
                              const std::string &robot_name,
                              const std::string &creator_name,
                              const int creator_index)
-  : creator_name(creator_name)
-  , creator_index(creator_index)
-  , type(ntype)
-  , node_id(nodeid)
-  , frozen(false)
-  , trait_id(1)
+        : creator_name(creator_name)
+          , creator_index(creator_index)
+          , type(ntype)
+          , node_id(nodeid)
+          , frozen(false)
+          , trait_id(1)
 {
 }
 
@@ -73,7 +75,8 @@ InnovNodeGene::~InnovNodeGene()
 {
 }
 
-bool YAML::convert<NEAT::InnovNodeGene>::decode(const YAML::Node &node, InnovNodeGene &rhs)
+bool YAML::convert<NEAT::InnovNodeGene>::decode(const YAML::Node &node,
+                                                InnovNodeGene &rhs)
 {
   rhs.node_id = node["node_id"].as<int>();
   rhs.set_trait_id(node["trait_id"].as<int>());

@@ -22,26 +22,25 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace revolve {
-namespace brain {
-
-class Actuator
+namespace revolve
 {
-public:
-    virtual ~Actuator()
-    {}
+  namespace brain
+  {
+    class Actuator
+    {
+      public:
 
-    virtual void
-    update(double *output_vector,
-           double step) = 0;
+      virtual ~Actuator()
+      {}
 
-    virtual unsigned int
-    outputs() const = 0;
-};
+      virtual void update(double *output_vector,
+                          double step) = 0;
 
-typedef boost::shared_ptr<Actuator> ActuatorPtr;
+      virtual unsigned int outputs() const = 0;
+    };
 
-}
+    typedef boost::shared_ptr<Actuator> ActuatorPtr;
+  }
 }
 
 

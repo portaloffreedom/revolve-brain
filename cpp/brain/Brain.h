@@ -36,10 +36,10 @@ namespace revolve
       public:
       Brain()
               : is_offline_(false)
-      {};
+      {}
 
       virtual ~Brain()
-      {};
+      {}
 
       /// \brief Update step called for the brain.
       /// \param actuators List of actuators
@@ -52,16 +52,16 @@ namespace revolve
                           double step) = 0;
 
 
-      /// \brief If offline, the robot won't update his controller. This is delegated to
-      /// a supervisor.
+      /// \brief If offline, the robot won't update his controller. This is
+      /// delegated to a supervisor.
       /// \return true if the brain is offline
       bool isOffline() const
       {
         return this->is_offline_;
       }
 
-      /// \brief If offline, the robot won't update his controller. This is delegated to
-      /// a supervisor
+      /// \brief If offline, the robot won't update his controller. This is
+      /// delegated to a supervisor
       /// \param offline set offline mode on or off
       virtual void setOffline(const bool is_offline)
       {

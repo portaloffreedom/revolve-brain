@@ -17,29 +17,32 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_GENOMEMANAGER_H_
+#define CPP_NEAT_ACCNEAT_SRC_GENOMEMANAGER_H_
+
 #pragma once
+
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "neat.h"
 #include "util/rng.h"
-#include <memory>
-#include <map>
-#include <vector>
 
-namespace NEAT {
-
-class Genome;
-
-class GenomeManager
+namespace NEAT
 {
-public:
-    static GenomeManager *
-    create(const std::string &robot_name);
+  class Genome;
+
+  class GenomeManager
+  {
+    public:
+    static GenomeManager *create(const std::string &robot_name);
 
     virtual ~GenomeManager()
     {}
 
-    virtual std::unique_ptr<Genome>
-    make_default() = 0;
+    virtual std::unique_ptr<Genome> make_default() = 0;
 
     virtual std::vector<std::unique_ptr<Genome>>
     create_seed_generation(size_t ngenomes,
@@ -50,34 +53,30 @@ public:
                            size_t nhidden,
                            const std::string &robot_name) = 0;
 
-    virtual bool
-    are_compatible(Genome &genome1,
-                   Genome &genome2) = 0;
+    virtual bool are_compatible(Genome &genome1,
+                                Genome &genome2) = 0;
 
-    virtual void
-    clone(Genome &orig,
-          Genome &clone) = 0;
+    virtual void clone(Genome &orig,
+                       Genome &clone) = 0;
 
-    virtual void
-    mate(Genome &genome1,
-         Genome &genome2,
-         Genome &offspring,
-         real_t fitness1,
-         real_t fitness2) = 0;
+    virtual void mate(Genome &genome1,
+                      Genome &genome2,
+                      Genome &offspring,
+                      real_t fitness1,
+                      real_t fitness2) = 0;
 
     enum MutationOperation
     {
-        MUTATE_OP_WEIGHTS,
-        MUTATE_OP_STRUCTURE,
-        MUTATE_OP_ANY
+      MUTATE_OP_WEIGHTS,
+      MUTATE_OP_STRUCTURE,
+      MUTATE_OP_ANY
     };
 
-    virtual void
-    mutate(Genome &genome,
-           MutationOperation op = MUTATE_OP_ANY) = 0;
+    virtual void mutate(Genome &genome,
+                        MutationOperation op = MUTATE_OP_ANY) = 0;
 
-    virtual void
-    finalize_generation(bool new_fittest) = 0;
-};
-
+    virtual void finalize_generation(bool new_fittest) = 0;
+  };
 }
+
+#endif

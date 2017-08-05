@@ -21,6 +21,8 @@
 #define REVOLVEBRAIN_BRAIN_LEARNER_RLPOWERLEARNER_H_
 
 #include <cmath>
+#include <functional>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -141,9 +143,12 @@ namespace revolve
       /// \brief Load saved policy from JSON file
       void loadPolicy(std::string const policy_path);
 
-      /// \brief Generate interpolated spline based on number of sampled control points in 'source_y'
-      /// \param source_y: set of control points over which interpolation is generated
-      /// \param destination_y: set of interpolated control points (default 100 points)
+      /// \brief Generate interpolated spline based on number of sampled control
+      /// points in 'source_y'
+      /// \param source_y: set of control points over which interpolation is
+      /// generated
+      /// \param destination_y: set of interpolated control points
+      /// (default 100 points)
       void interpolateCubic(Policy *const source_y,
                             Policy *destination_y);
 

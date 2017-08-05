@@ -21,6 +21,8 @@
 #ifndef REVOLVE_BRAIN_PATTERNFORMATIONNEURON_H
 #define REVOLVE_BRAIN_PATTERNFORMATIONNEURON_H
 
+#include <vector>
+
 #include "CPGNeuron.h"
 #include "../Sensor.h"
 
@@ -30,7 +32,6 @@ namespace revolve
   {
     namespace cpg
     {
-
       class PatternFormationNeuron
               : public revolve::brain::cpg::Neuron
       {

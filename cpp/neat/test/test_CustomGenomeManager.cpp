@@ -17,10 +17,11 @@
 *
 */
 
-#include <limits>
-#include <vector>
 #include <cmath>
 #include <iostream>
+#include <limits>
+#include <string>
+#include <vector>
 
 #include "innovgenome/innovgenomemanager.h"
 #include "innovgenome/innovgenome.h"
@@ -42,7 +43,9 @@ TestCustomGenomeManager::~TestCustomGenomeManager()
 bool TestCustomGenomeManager::test()
 {
   if (not testXOR())
+  {
     return false;
+  }
 
   return true;
 }
@@ -82,18 +85,17 @@ class TestGenomeManager
     const int node_id_output = node_id_input + ninputs;
     const int node_id_hidden = node_id_output + noutputs;
 
-    start_genome.add_link(start_genome.links,
-                          NEAT::InnovLinkGene(rng.element(start_genome.traits)
-                                                 .trait_id,
-                                              rng.prob(),
-                                              node_id_input + 0,
-                                              node_id_output + 0,
-                                              false,
-                                              start_genome.get_last_gene_innovnum(),
-                                              0.0,
-                                              test_name,
-                                              -1)
-    );
+    start_genome.add_link(
+            start_genome.links,
+            NEAT::InnovLinkGene(rng.element(start_genome.traits).trait_id,
+                                rng.prob(),
+                                node_id_input + 0,
+                                node_id_output + 0,
+                                false,
+                                start_genome.get_last_gene_innovnum(),
+                                0.0,
+                                test_name,
+                                -1));
 
     std::vector<std::unique_ptr<NEAT::Genome>> genomes;
     {
@@ -128,8 +130,7 @@ class TestGenomeManager
 bool TestCustomGenomeManager::testXOR()
 {
   AsyncNeat::Init(std::unique_ptr<NEAT::GenomeManager>(
-          new TestGenomeManager())
-  );
+          new TestGenomeManager()));
   AsyncNeat::SetSearchType(NEAT::GeneticSearchType::BLENDED);
   AsyncNeat::SetPopulationSize(10);
   AsyncNeat neat(2,
@@ -164,7 +165,6 @@ bool TestCustomGenomeManager::testXOR()
       net->activate(1);
       NEAT::real_t *outputs = net->get_outputs();
       error += std::abs(outputs[0] - expectedOutputs[test]);
-
     }
 
     if (min_error > error)

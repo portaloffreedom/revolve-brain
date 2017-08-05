@@ -46,16 +46,15 @@ namespace revolve
 {
   namespace brain
   {
-
     struct CPPNConfig
     {
-      //vector containing all neurons
+      // vector containing all neurons
       std::vector<NeuronPtr> allNeurons_;
-      //vector containing the input neurons
+      // vector containing the input neurons
       std::vector<NeuronPtr> inputNeurons_;
-      //vector containing the output neurons
+      // vector containing the output neurons
       std::vector<NeuronPtr> outputNeurons_;
-      //vector containing the hidden neurons
+      // vector containing the hidden neurons
       std::vector<NeuronPtr> hiddenNeurons_;
       // positions for indexing into the outputs_ buffer for each output neuron
       std::map<NeuronPtr, int> outputPositionMap_;
@@ -63,7 +62,7 @@ namespace revolve
       std::map<NeuronPtr, int> inputPositionMap_;
       // Map neuron id strings to Neuron objects
       std::map<std::string, NeuronPtr> idToNeuron_;
-      //vector of all the neural connections
+      // vector of all the neural connections
       std::vector<NeuralConnectionPtr> connections_;
     };
 

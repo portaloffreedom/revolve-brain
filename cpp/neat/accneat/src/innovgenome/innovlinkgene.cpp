@@ -32,8 +32,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+
+#include <string>
+
 #include "innovlinkgene.h"
-#include <sstream>
 
 using namespace NEAT;
 
@@ -45,23 +47,21 @@ InnovLinkGene::InnovLinkGene(real_t w,
                              real_t mnum,
                              const std::string &creator_name,
                              const int creator_index)
- : _weight(w)
- , _in_node_id(inode_id)
- , _out_node_id(onode_id)
- , _is_recurrent(recur)
- , _trait_id(1)
- , innovation_num(innov)
- , mutation_num(mnum)
- , enable(true)
- , frozen(false)
- , creator_name(creator_name)
- , creator_index(creator_index)
+        : _weight(w)
+          , _in_node_id(inode_id)
+          , _out_node_id(onode_id)
+          , _is_recurrent(recur)
+          , _trait_id(1)
+          , innovation_num(innov)
+          , mutation_num(mnum)
+          , enable(true)
+          , frozen(false)
+          , creator_name(creator_name)
+          , creator_index(creator_index)
 {
-
 }
 
-
-//Construct a gene with a trait
+// Construct a gene with a trait
 InnovLinkGene::InnovLinkGene(int trait_id,
                              real_t w,
                              int inode_id,
@@ -71,7 +71,14 @@ InnovLinkGene::InnovLinkGene(int trait_id,
                              real_t mnum,
                              const std::string &creator_name,
                              const int creator_index)
-  : InnovLinkGene(w, inode_id, onode_id, recur, innov, mnum, creator_name, creator_index)
+        : InnovLinkGene(w,
+                        inode_id,
+                        onode_id,
+                        recur,
+                        innov,
+                        mnum,
+                        creator_name,
+                        creator_index)
 {
   _trait_id = trait_id;
 }
@@ -80,21 +87,18 @@ InnovLinkGene::InnovLinkGene(InnovLinkGene *g,
                              int trait_id,
                              int inode_id,
                              int onode_id)
+        : innovation_num(g->innovation_num)
+          , enable(g->enable)
+          , frozen(g->frozen)
+          , mutation_num(g->mutation_num)
+          , creator_name(g->creator_name)
+          , creator_index(g->creator_index)
+          , _weight(g->_weight)
+          , _in_node_id(inode_id)
+          , _out_node_id(onode_id)
+          , _is_recurrent(g->_is_recurrent)
+          , _trait_id(trait_id)
 {
-  _weight = g->_weight;
-  _in_node_id = inode_id;
-  _out_node_id = onode_id;
-  _is_recurrent = g->_is_recurrent;
-  _trait_id = trait_id;
-
-  innovation_num = g->innovation_num;
-  mutation_num = g->mutation_num;
-  enable = g->enable;
-
-  frozen = g->frozen;
-
-  creator_name = g->creator_name;
-  creator_index = g->creator_index;
 }
 
 InnovLinkGene::InnovLinkGene(const InnovLinkGene &gene)
@@ -115,7 +119,8 @@ InnovLinkGene::~InnovLinkGene()
 {
 }
 
-bool NEAT::InnovLinkGene::operator==(const NEAT::InnovLinkGene &rhs) const {
+bool NEAT::InnovLinkGene::operator==(const NEAT::InnovLinkGene &rhs) const
+{
   return this->_weight == rhs._weight
          && this->_in_node_id == rhs._in_node_id
          && this->_out_node_id == rhs._out_node_id
@@ -127,8 +132,9 @@ bool NEAT::InnovLinkGene::operator==(const NEAT::InnovLinkGene &rhs) const {
          && this->frozen == rhs.frozen;
 }
 
-
-bool YAML::convert<NEAT::InnovLinkGene>::decode(const YAML::Node &node, NEAT::InnovLinkGene &rhs) {
+bool YAML::convert<NEAT::InnovLinkGene>::decode(const YAML::Node &node,
+                                                NEAT::InnovLinkGene &rhs)
+{
   rhs._trait_id = node["trait_id"].as<int>();
   rhs._in_node_id = node["in_node_id"].as<int>();
   rhs._out_node_id = node["out_node_id"].as<int>();
@@ -144,7 +150,9 @@ bool YAML::convert<NEAT::InnovLinkGene>::decode(const YAML::Node &node, NEAT::In
   return true;
 }
 
-YAML::Node YAML::convert<NEAT::InnovLinkGene>::encode(const NEAT::InnovLinkGene &rhs) {
+YAML::Node YAML::convert<NEAT::InnovLinkGene>::encode(
+        const NEAT::InnovLinkGene &rhs)
+{
   YAML::Node node;
 
   node["trait_id"] = rhs._trait_id;

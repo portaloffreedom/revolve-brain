@@ -12,8 +12,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Description: Class for connection genes
+* Author: Rafael Kiesel
 *
 */
 
@@ -24,14 +24,13 @@
 
 #include "Genome.h"
 
-//class for connection genes
 namespace cppneat
 {
   class ConnectionGene
           : public Gene
   {
-
     public:
+    /// \brief
     ConnectionGene(int mark_to,
                    int mark_from,
                    double weight,
@@ -41,27 +40,39 @@ namespace cppneat
                    int parent_index = -1,
                    std::string socket = "")
             : Gene(innov_number, enabled, parent_name, parent_index)
-            , mark_to(mark_to)
-            , mark_from(mark_from)
-            , weight(weight)
-            , socket(socket)
-    { this->gene_type = Gene::CONNECTION_GENE; };
+              , mark_to(mark_to)
+              , mark_from(mark_from)
+              , weight(weight)
+              , socket(socket)
+    {
+      this->gene_type = Gene::CONNECTION_GENE;
+    }
 
+    /// \brief
     ConnectionGene(ConnectionGene &copy_of)
             : Gene(copy_of.getInnovNumber(),
-                 copy_of.isEnabled(),
-                 copy_of.get_parent_name(),
-                 copy_of.get_parent_index())
-            , mark_to(copy_of.mark_to)
-            , mark_from(copy_of.mark_from)
-            , weight(copy_of.weight)
-            , socket(copy_of.socket)
-    { this->gene_type = Gene::CONNECTION_GENE; }
+                   copy_of.isEnabled(),
+                   copy_of.get_parent_name(),
+                   copy_of.get_parent_index())
+              , mark_to(copy_of.mark_to)
+              , mark_from(copy_of.mark_from)
+              , weight(copy_of.weight)
+              , socket(copy_of.socket)
+    {
+      this->gene_type = Gene::CONNECTION_GENE;
+    }
 
     public:
+    /// \brief
     int mark_to;
+
+    /// \brief
     int mark_from;
+
+    /// \brief
     double weight;
+
+    /// \brief
     std::string socket;
   };
 }

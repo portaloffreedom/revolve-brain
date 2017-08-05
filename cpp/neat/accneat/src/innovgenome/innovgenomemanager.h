@@ -17,22 +17,28 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVGENOMEMANAGER_H_
+#define CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVGENOMEMANAGER_H_
+
 #pragma once
+
+#include <string>
+#include <vector>
 
 #include "genomemanager.h"
 #include "innovation.h"
 
-namespace NEAT {
-
-class InnovGenomeManager
-        : public GenomeManager
+namespace NEAT
 {
+  class InnovGenomeManager
+          : public GenomeManager
+  {
     friend class GenomeManager;
 
-protected:
+    protected:
     InnovGenomeManager(const std::string &robot_name);
 
-public:
+    public:
     virtual ~InnovGenomeManager();
 
     virtual std::unique_ptr<Genome>
@@ -47,53 +53,51 @@ public:
                            size_t nhidden,
                            const std::string &robot_name) override;
 
-    virtual bool
-    are_compatible(Genome &genome1,
-                   Genome &genome2) override;
+    virtual bool are_compatible(Genome &genome1,
+                                Genome &genome2) override;
 
-    virtual void
-    clone(Genome &orig,
-          Genome &clone) override;
+    virtual void clone(Genome &orig,
+                       Genome &clone) override;
 
-    virtual void
-    mate(Genome &genome1,
-         Genome &genome2,
-         Genome &offspring,
-         real_t fitness1,
-         real_t fitness2) override;
+    virtual void mate(Genome &genome1,
+                      Genome &genome2,
+                      Genome &offspring,
+                      real_t fitness1,
+                      real_t fitness2) override;
 
-    virtual void
-    mutate(Genome &genome,
-           MutationOperation op = MUTATE_OP_ANY) override;
+    virtual void mutate(Genome &genome,
+                        MutationOperation op = MUTATE_OP_ANY) override;
 
-    virtual void
-    finalize_generation(bool new_fittest) override;
+    virtual void finalize_generation(bool new_fittest) override;
 
-protected:
+    protected:
     CreateInnovationFunc
+
     create_innov_func(Genome &g);
 
-    bool
-    is_mate_allowed();
+    bool is_mate_allowed();
 
-    bool
-    is_add_allowed();
+    bool is_add_allowed();
 
-    bool
-    is_delete_allowed();
+    bool is_delete_allowed();
 
     PopulationInnovations innovations;
 
     int generation;
+
     enum SearchPhase
     {
-        UNDEFINED,
-        COMPLEXIFY,
-        PRUNE
+      UNDEFINED,
+      COMPLEXIFY,
+      PRUNE
     } search_phase;
-    int search_phase_start;
-    int max_phase_duration;
-    const std::string robot_name;
-};
 
+    int search_phase_start;
+
+    int max_phase_duration;
+
+    const std::string robot_name;
+  };
 }
+
+#endif

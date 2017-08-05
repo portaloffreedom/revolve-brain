@@ -17,35 +17,53 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_SPECIES_SPECIESORGANISM_H_
+#define CPP_NEAT_ACCNEAT_SRC_SPECIES_SPECIESORGANISM_H_
+
 #pragma once
 
 #include "organism.h"
 
-namespace NEAT {
-
-class SpeciesOrganism
-        : public Organism
+namespace NEAT
 {
-public:
-    class Species *species;  //The Organism's Species
-    real_t adjusted_fitness;
-    real_t expected_offspring; //Number of children this Organism may have
-    bool eliminate;  //Marker for destruction of inferior Organisms
-    bool champion; //Marks the species champ
-    int super_champ_offspring;  //Number of reserved offspring for a population leader
+  class SpeciesOrganism
+          : public Organism
+  {
+    public:
+    /// \brief The Organism's Species
+    class Species *species;
 
+    /// \brief
+    real_t adjusted_fitness;
+
+    /// \brief Number of children this Organism may have
+    real_t expected_offspring;
+
+    /// \brief Marker for destruction of inferior Organisms
+    bool eliminate;
+
+    /// \brief Marks the species champ
+    bool champion;
+
+    /// \brief Number of reserved offspring for a population leader
+    int super_champ_offspring;
+
+    /// \brief
     SpeciesOrganism(const SpeciesOrganism &other);
 
+    /// \brief
     SpeciesOrganism(const Genome &genome);
 
+    /// \brief
     virtual ~SpeciesOrganism();
 
-    virtual void
-    init(int gen) override;
+    /// \brief
+    virtual void init(int gen) override;
 
-protected:
-    virtual void
-    copy_into(Organism &dst) const override;
-};
-
+    protected:
+    /// \brief
+    virtual void copy_into(Organism &dst) const override;
+  };
 }
+
+#endif

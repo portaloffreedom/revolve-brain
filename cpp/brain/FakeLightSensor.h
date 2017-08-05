@@ -24,36 +24,49 @@
 
 #include "Sensor.h"
 
-namespace revolve {
-namespace brain {
-
-class FakeLightSensor : public revolve::brain::Sensor
+namespace revolve
 {
-public:
-    // disable default constructor
-    FakeLightSensor() = delete;
-
-    explicit FakeLightSensor(float fov)
-        : half_fov(fov/2)
-        // TODO noise
+  namespace brain
+  {
+    class FakeLightSensor
+            : public revolve::brain::Sensor
     {
-//         std::cout << "revolve::brain::FakeLightSensor()" << std::endl;
-    }
+      public:
+      /// \brief disable default constructor
+      FakeLightSensor() = delete;
 
-    virtual double read();
-    virtual void read(double* input_vector) override;
-    virtual unsigned int inputs() const override;
+      /// \brief
+      explicit FakeLightSensor(float fov)
+              : half_fov(fov / 2)
+      // TODO noise
+      {
+        // std::cout << "revolve::brain::FakeLightSensor()" << std::endl;
+      }
 
-protected:
-    virtual double light_distance() = 0;
-    virtual double light_angle() = 0;
+      /// \brief
+      virtual double read();
 
-    virtual float light_attenuation(float distance, float angle);
+      /// \brief
+      virtual void read(double *input_vector) override;
 
-    float half_fov;
-};
+      /// \brief
+      virtual unsigned int inputs() const override;
 
-}
+      /// \brief
+      protected:
+      virtual double light_distance() = 0;
+
+      /// \brief
+      virtual double light_angle() = 0;
+
+      /// \brief
+      virtual float light_attenuation(float distance,
+                                      float angle);
+
+      /// \brief
+      float half_fov;
+    };
+  }
 }
 
 #endif  //  REVOLVE_BRAIN_FAKELIGHT_H

@@ -32,120 +32,154 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+
 #ifndef _INNOVATION_H_
 #define _INNOVATION_H_
 
-#include "neat.h"
-#include <functional>
 #include <map>
+#include <functional>
+#include <vector>
 
-namespace NEAT {
+#include "neat.h"
 
-enum innovtype
+namespace NEAT
 {
+  enum innovtype
+  {
     NEWNODE = 0,
     NEWLINK = 1
-};
+  };
 
-class InnovationId
-{
-public:
+  class InnovationId
+  {
+    public:
+    /// \brief
     innovtype innovation_type;
+
+    /// \brief
     int node_in_id;
+
+    /// \brief
     int node_out_id;
+
+    /// \brief
     int old_innov_num;
+
+    /// \brief
     bool recur_flag;
 
-    // Node
+    /// \brief Node
     InnovationId(int nin,
                  int nout,
                  int oldinnov);
 
-    // Link
+    /// \brief Link
     InnovationId(int nin,
                  int nout,
                  bool recur);
 
-    bool
-    operator<(const InnovationId &other) const;
+    bool operator<(const InnovationId &other) const;
 
-    bool
-    operator==(const InnovationId &other) const;
-};
+    bool operator==(const InnovationId &other) const;
+  };
 
-class InnovationParms
-{
-public:
+  class InnovationParms
+  {
+    public:
+    /// \brief
     real_t new_weight;
+
+    /// \brief
     int new_trait_id;
 
     InnovationParms();
 
     InnovationParms(real_t w,
                     int t);
-};
+  };
 
-class IndividualInnovation
-{
-public:
+  class IndividualInnovation
+  {
+    public:
     typedef std::function<void(const class Innovation *innov)> ApplyFunc;
 
+    /// \brief
     int population_index;
+
+    /// \brief
     InnovationId id;
+
+    /// \brief
     InnovationParms parms;
+
+    /// \brief
     ApplyFunc apply;
 
     IndividualInnovation(int population_index_,
                          InnovationId id_,
                          InnovationParms parms_,
                          ApplyFunc apply_);
-};
+  };
 
-typedef std::function<void(InnovationId id,
-                           InnovationParms parms,
-                           IndividualInnovation::ApplyFunc func)> CreateInnovationFunc;
+  typedef std::function<void(InnovationId id,
+                             InnovationParms parms,
+                             IndividualInnovation::ApplyFunc func)>
+          CreateInnovationFunc;
 
-class Innovation
-{
-public:
+  class Innovation
+  {
+    public:
+    /// \brief
     InnovationId id;
+
+    /// \brief
     InnovationParms parms;
 
-    int innovation_num1;  //The number assigned to the innovation
-    int innovation_num2;  // If this is a new node innovation, then there are 2 innovations (links) added for the new node
-    int newnode_id;  // If a new node was created, this is its node_id
+    /// \brief The number assigned to the innovation
+    int innovation_num1;
 
-    // Link
+    /// \brief If this is a new node innovation, then there are 2 innovations
+    /// (links) added for the new node
+    int innovation_num2;
+
+    /// \brief If a new node was created, this is its node_id
+    int newnode_id;
+
+    /// \brief Link
     Innovation(InnovationId id_,
                InnovationParms parms_,
                int innovation_num1_);
 
-    // Node
+    /// \brief Node
     Innovation(InnovationId id_,
                InnovationParms parms_,
                int innovation_num1_,
                int innovation_num2_,
                int newnode_id_);
-};
+  };
 
-class PopulationInnovations
-{
-    std::vector<std::vector<IndividualInnovation>> innovations;  // For holding the genetic innovations of the newest generation
+  class PopulationInnovations
+  {
+    /// \brief For holding the genetic innovations of the newest generation
+    std::vector<std::vector<IndividualInnovation>> innovations;
+
+    /// \brief
     std::map<InnovationId, std::vector<IndividualInnovation>> id2inds;
+
+    /// \brief
     int cur_node_id;
+
+    /// \brief
     int cur_innov_num;
 
-public:
-    void
-    init(int node_id,
-         int innov_num);
+    public:
+    void init(int node_id,
+              int innov_num);
 
-    void
-    add(const IndividualInnovation &innov);
+    void add(const IndividualInnovation &innov);
 
-    void
-    apply();
-};
-} // namespace NEAT
+    void apply();
+  };
+}  // namespace NEAT
 
 #endif

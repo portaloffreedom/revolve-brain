@@ -13,7 +13,7 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
@@ -55,7 +55,7 @@ namespace revolve
       std::map<NeuronPtr, int> inputPositionMap_;
       // Map neuron id strings to Neuron objects
       std::map<std::string, NeuronPtr> idToNeuron_;
-      //vector of all the neural connections
+      // vector of all the neural connections
       std::vector<NeuralConnectionPtr> connections_;
     };
 
@@ -89,7 +89,6 @@ namespace revolve
                           const std::vector<SensorPtr> &sensors,
                           double t,
                           double step);
-
 
       /// \brief Gets the weight of all the connections
       /// \return weights of all neural connections

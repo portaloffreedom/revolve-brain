@@ -28,31 +28,25 @@ namespace revolve
 {
   namespace brain
   {
-
     class BaseController
     {
       public:
-      // REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
+      /// \brief REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
       virtual ~BaseController()
       {}
 
-      /**
-       /// \brief Update the controller to the next step and sends signals
-       * to the actuators
-       *
-       /// \param actuators outputs of the controller
-       /// \param sensors inputs of the controller
-       /// \param t global time reference
-       /// \param step time since last update
-       */
-
-      virtual void
-      update(const std::vector<ActuatorPtr> &actuators,
-             const std::vector<SensorPtr> &sensors,
-             double t,
-             double step) = 0;
+      /// \brief Update the controller to the next step and sends signals
+      /// to the actuators
+      ///
+      /// \param actuators outputs of the controller
+      /// \param sensors inputs of the controller
+      /// \param t global time reference
+      /// \param step time since last update
+      virtual void update(const std::vector<ActuatorPtr> &actuators,
+                          const std::vector<SensorPtr> &sensors,
+                          double t,
+                          double step) = 0;
     };
-
   }
 }
 

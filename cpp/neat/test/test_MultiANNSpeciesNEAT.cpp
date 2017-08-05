@@ -19,6 +19,8 @@
 
 #include <cmath>
 #include <iostream>
+#include <limits>
+#include <string>
 #include <vector>
 
 #include "neat/AsyncNEAT.h"
@@ -30,12 +32,10 @@ const std::string test_name = "TestMultiNNSpeciesNeat";
 
 TestMultiNNSpeciesNeat::TestMultiNNSpeciesNeat()
 {
-
 }
 
 TestMultiNNSpeciesNeat::~TestMultiNNSpeciesNeat()
 {
-
 }
 
 bool TestMultiNNSpeciesNeat::test()
@@ -74,7 +74,7 @@ bool TestMultiNNSpeciesNeat::testXOR()
             organism->net.get());
 
     float error = 0;
-//         std::cout << std::endl;
+    // std::cout << std::endl;
     for (unsigned int test = 0; test < inputs0.size(); test++)
     {
       net->load_sensor(0, inputs0[test]);

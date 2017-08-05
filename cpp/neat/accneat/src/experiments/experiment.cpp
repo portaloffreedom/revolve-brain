@@ -17,22 +17,27 @@
 *
 */
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "experiment.h"
 #include "util/util.h"
 
 using namespace NEAT;
 
-//------------------------------
-//---
-//--- CLASS Experiment
-//---
-//------------------------------
+////------------------------
+///
+/// CLASS Experiment
+///
+////------------------------
 std::map<std::string, Experiment *> *Experiment::experiments = nullptr;
 
 Experiment *
 Experiment::get(const char *name)
 {
-  if (not experiments) {
+  if (not experiments)
+  {
     experiments = new std::map<std::string, Experiment *>();
   }
   auto it = experiments->find(name);
@@ -43,8 +48,10 @@ std::vector<std::string>
 Experiment::get_names()
 {
   std::vector<std::string> result;
-  if (experiments) {
-    for (auto &kv: *experiments) {
+  if (experiments)
+  {
+    for (auto &kv: *experiments)
+    {
       result.push_back(kv.first);
     }
   }
@@ -54,17 +61,18 @@ Experiment::get_names()
 Experiment::Experiment(const char *name)
 {
   this->name = name;
-  if (get(name) != nullptr) {
+  if (get(name) != nullptr)
+  {
     trap("Experiment already registered: " << name);
   }
-  experiments->insert(std::make_pair(name,
-                                     this));
+  experiments->insert(std::make_pair(name, this));
 }
 
 Experiment::~Experiment()
 {
   experiments->erase(name);
-  if (experiments->size() == 0) {
+  if (experiments->size() == 0)
+  {
     delete experiments;
     experiments = nullptr;
   }

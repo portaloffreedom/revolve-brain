@@ -12,14 +12,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
+* Description: Specifies a utility `SplitBrain` base class. Here the learner and
+*              controller are separeted explicitly.
 * Author: TODO <Add proper author>
 *
 */
-
-/*
- * Specifies a utility `SplitBrain` base class. Here the learner and controller are separeted explicitly.
- */
 
 #ifndef REVOLVEBRAIN_BRAIN_SPLITBRAIN_H_
 #define REVOLVEBRAIN_BRAIN_SPLITBRAIN_H_
@@ -29,27 +26,27 @@
 #include "brain/controller/Controller.h"
 #include "brain/learner/Learner.h"
 
-namespace revolve {
-namespace brain {
-
-template <typename Phenotype, typename Genotype>
-class SplitBrain
-        : public Brain
+namespace revolve
 {
-public:
+  namespace brain
+  {
+    template <typename Phenotype, typename Genotype>
+    class SplitBrain
+            : public Brain
+    {
+      public:
+      /// \brief
+      virtual ~SplitBrain()
+      {}
 
-    virtual ~SplitBrain() {};
+      protected:
+      /// \brief control responsible for the movement of the robot
+      boost::shared_ptr<Controller<Phenotype>> controller_;
 
-protected:
-
-    /// control responsible for the movement of the robot
-    boost::shared_ptr<Controller<Phenotype>> controller_;
-
-    /// learner used to get new genomes
-    boost::shared_ptr<Learner<Genotype>> learner_;
-};
-
-}
+      /// \brief learner used to get new genomes
+      boost::shared_ptr<Learner<Genotype>> learner_;
+    };
+  }
 }
 
 #endif  //  REVOLVEBRAIN_BRAIN_SPLITBRAIN_H_

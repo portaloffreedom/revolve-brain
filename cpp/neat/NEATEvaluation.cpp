@@ -20,20 +20,20 @@
 #include "NEATEvaluation.h"
 
 NeatEvaluation::NeatEvaluation(NEAT::Organism *organism)
-        :
-        organism(organism)
+        : organism(organism)
         , finished_callback(nullptr)
         , fitness(-1)
 {}
 
-void
-NeatEvaluation::finish(float fitness)
+void NeatEvaluation::finish(float fitness)
 {
-  organism->eval
-          .fitness = fitness;
+  organism->eval.fitness = fitness;
 
-  if (not finished_callback) {
-    std::cerr << "NeatEvaluation::finish() error, finish callback not setted!" << std::endl;
+  if (not finished_callback)
+  {
+    std::cerr
+            << "NeatEvaluation::finish() error, finish callback not setted!"
+            << std::endl;
     return;
   }
 

@@ -17,32 +17,44 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_UTIL_TIMER_H_
+#define CPP_NEAT_ACCNEAT_SRC_UTIL_TIMER_H_
+
 #pragma once
 
-namespace NEAT {
-class Timer
+#include <vector>
+
+namespace NEAT
 {
+  class Timer
+  {
     static std::vector<Timer *> timers;
 
     const char *_name;
+
     size_t _n = 0;
+
     double _total = 0.0;
+
     double _min = 0.0;
+
     double _max = 0.0;
+
     double _start = 0.0;
+
     double _recent = 0.0;
-public:
+
+    public:
     Timer(const char *name);
 
     ~Timer();
 
-    void
-    start();
+    void start();
 
-    void
-    stop();
+    void stop();
 
-    static void
-    report();
-};
+    static void report();
+  };
 }
+
+#endif

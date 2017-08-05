@@ -26,7 +26,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class NeuralConnection
     {
       public:
@@ -60,8 +59,6 @@ namespace revolve
       /// \brief destination neuron of the connection
       protected: NeuronPtr dst_;
     };
-
-
   }
 }
 

@@ -20,6 +20,9 @@
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_LINEARNEURON_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_LINEARNEURON_H_
 
+#include <map>
+#include <string>
+
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
@@ -27,7 +30,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class LinearNeuron
             : public Neuron
     {
@@ -44,17 +46,22 @@ namespace revolve
       /// \return the output of the neuron at time t
       double CalculateOutput(double t) override;
 
+      /// \brief
       std::map<std::string, double> getNeuronParameters() override;
 
+      /// \brief
       void setNeuronParameters(std::map<std::string, double> params) override;
 
+      /// \brief
       std::string getType() override;
 
       /// \brief gain of the neuron
-      protected: double gain_;
+      protected:
+      double gain_;
 
       /// \brief bias of the neuron
-      protected: double bias_;
+      protected:
+      double bias_;
     };
   }
 }

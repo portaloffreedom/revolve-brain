@@ -18,6 +18,9 @@
 *
 */
 
+#include <string>
+#include <vector>
+
 #include <boost/make_shared.hpp>
 
 #include "test_Evaluator.h"
@@ -38,7 +41,9 @@ int main()
 
   std::vector<revolve::brain::SensorPtr> sensors;
   for (int i = 0; i < 10; i++)
+  {
     sensors.push_back(boost::make_shared<TestSensor>());
+  }
 
   std::vector<std::vector<float> > neuron_coordinates;
   std::vector<revolve::brain::ActuatorPtr> actuators;
@@ -52,8 +57,7 @@ int main()
           testEvaluator,
           neuron_coordinates,
           actuators,
-          sensors
-  );
+          sensors);
 
   float delta_time = 0.1;
 
@@ -65,24 +69,24 @@ int main()
   AsyncNeat::CleanUp();
 }
 
-TestSUPGBrain::TestSUPGBrain(revolve::brain::EvaluatorPtr evaluator,
-                             const std::vector<std::vector<float> > &neuron_coordinates,
-                             const std::vector<revolve::brain::ActuatorPtr> &actuators,
-                             const std::vector<revolve::brain::SensorPtr> &sensors)
+TestSUPGBrain::TestSUPGBrain(
+        revolve::brain::EvaluatorPtr evaluator,
+        const std::vector<std::vector<float> > &neuron_coordinates,
+        const std::vector<revolve::brain::ActuatorPtr> &actuators,
+        const std::vector<revolve::brain::SensorPtr> &sensors)
         : revolve::brain::SUPGBrain(test_name,
                                     evaluator,
                                     neuron_coordinates,
                                     actuators,
                                     sensors)
 {
-
 }
 
-void
-TestSUPGBrain::test_update(const std::vector<revolve::brain::ActuatorPtr> &actuators,
-                           const std::vector<revolve::brain::SensorPtr> &sensors,
-                           double t,
-                           double step)
+void TestSUPGBrain::test_update(
+        const std::vector<revolve::brain::ActuatorPtr> &actuators,
+        const std::vector<revolve::brain::SensorPtr> &sensors,
+        double t,
+        double step)
 {
   this->update(actuators, sensors, t, step);
 }

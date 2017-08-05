@@ -17,56 +17,59 @@
 *
 */
 
-#include "BiasNeuron.h"
 #include <iostream>
+#include <map>
+#include <string>
 
-namespace revolve {
-namespace brain {
+#include "BiasNeuron.h"
 
-
-BiasNeuron::BiasNeuron(const std::string &id,
-                       const std::map<std::string, double> &params) :
-        Neuron(id)
+namespace revolve
 {
-  if (not params.count("rv:bias")) {
-    std::cerr << "A `" << "Bias" << "` neuron requires `rv:bias` element." << std::endl;
-    throw std::runtime_error("Robot brain error");
+  namespace brain
+  {
+    BiasNeuron::BiasNeuron(const std::string &id,
+                           const std::map<std::string, double> &params)
+            : Neuron(id)
+    {
+      if (not params.count("rv:bias"))
+      {
+        std::cerr
+                << "A `"
+                << "Bias"
+                << "` neuron requires `rv:bias` element."
+                << std::endl;
+        throw std::runtime_error("Robot brain error");
+      }
+      this->bias_ = params.find("rv:bias")->second;
+    }
+
+
+    double BiasNeuron::CalculateOutput(double /*t*/)
+    {
+      return this->bias_;
+    }
+
+    std::map<std::string, double> BiasNeuron::getNeuronParameters()
+    {
+      std::map<std::string, double> ret;
+      ret["rv:bias"] = bias_;
+      return ret;
+    }
+
+    void BiasNeuron::setNeuronParameters(std::map<std::string, double> params)
+    {
+      if (not params.count("rv:bias"))
+      {
+        std::cerr << "A `Bias`"
+                  << " neuron requires `rv:bias` element." << std::endl;
+        throw std::runtime_error("Robot brain error");
+      }
+      this->bias_ = params.find("rv:bias")->second;
+    }
+
+    std::string BiasNeuron::getType()
+    {
+      return "Bias";
+    }
   }
-  this->bias_ = params.find("rv:bias")
-                      ->second;
-}
-
-
-double
-BiasNeuron::CalculateOutput(double /*t*/)
-{
-  return this->bias_;
-}
-
-std::map<std::string, double>
-BiasNeuron::getNeuronParameters()
-{
-  std::map<std::string, double> ret;
-  ret["rv:bias"] = bias_;
-  return ret;
-}
-
-void
-BiasNeuron::setNeuronParameters(std::map<std::string, double> params)
-{
-  if (not params.count("rv:bias")) {
-    std::cerr << "A `" << "Bias" << "` neuron requires `rv:bias` element." << std::endl;
-    throw std::runtime_error("Robot brain error");
-  }
-  this->bias_ = params.find("rv:bias")
-                      ->second;
-}
-
-std::string BiasNeuron::getType()
-{
-  return "Bias";
-}
-
-
-}
 }

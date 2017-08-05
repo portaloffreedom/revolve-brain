@@ -17,8 +17,11 @@
 *
 */
 
-#include "experiments/static/staticexperiment.h"
 #include <regex>
+#include <string>
+#include <vector>
+
+#include "experiments/static/staticexperiment.h"
 
 using namespace NEAT;
 using namespace std;
@@ -33,57 +36,54 @@ create_tests_2bit(const char *grammar,
 
 static struct RegexInit
 {
-    RegexInit()
-    {
-      create_static_experiment("regex-aba",
-                               []()
-                               {
-                                   const char *grammar = "a+b+a+";
+  RegexInit()
+  {
+    create_static_experiment("regex-aba",
+                             []()
+                             {
+                               const char *grammar = "a+b+a+";
 
-                                   vector<string> sentences = {
-                                           "aaa",
-                                           "aabb",
-                                           "bbaa",
-                                           "aababa",
-                                           "aababaa",
-                                           "aaaaabbabbaaaaa",
+                               vector<string> sentences = {
+                                       "aaa",
+                                       "aabb",
+                                       "bbaa",
+                                       "aababa",
+                                       "aababaa",
+                                       "aaaaabbabbaaaaa",
 
-                                           "aba",
-                                           "aaba",
-                                           "abba",
-                                           "aabbaa",
-                                           "aabbbba",
-                                           "aaaaabbbbbaaaaa",
-                                   };
+                                       "aba",
+                                       "aaba",
+                                       "abba",
+                                       "aabbaa",
+                                       "aabbbba",
+                                       "aaaaabbbbbaaaaa",
+                               };
 
-                                   return create_tests_1bit(grammar,
-                                                            sentences);
-                               });
+                               return create_tests_1bit(grammar, sentences);
+                             });
 
-      create_static_experiment("regex-XYXY",
-                               []()
-                               {
-                                   const char *grammar = "[ad][bc][ad][bc]";
+    create_static_experiment("regex-XYXY",
+                             []()
+                             {
+                               const char *grammar = "[ad][bc][ad][bc]";
 
-                                   vector<string> sentences = permute_repeat("abcd",
-                                                                             4);
+                               vector<string> sentences =
+                                       permute_repeat("abcd", 4);
 
-                                   return ::create_tests_2bit(grammar,
-                                                              sentences);
-                               });
-    }
+                               return ::create_tests_2bit(grammar, sentences);
+                             });
+  }
 } init;
 
-static vector<Test>
-create_tests_1bit(const char *grammar,
-                  const vector<string> &sentences)
+static vector<Test> create_tests_1bit(const char *grammar,
+                                      const vector<string> &sentences)
 {
   const real_t A = 0.0;
   const real_t B = 1.0;
 
-  const real_t S = 1.0; // Signal
-  const real_t Q = 1.0; // Query
-  const real_t _ = 0.0; // Null
+  const real_t S = 1.0;  // Signal
+  const real_t Q = 1.0;  // Query
+  const real_t _ = 0.0;  // Null
 
   const real_t weight_seq = 0;
   const real_t weight_delay = 0;
@@ -92,20 +92,24 @@ create_tests_1bit(const char *grammar,
   std::regex regex_grammar{grammar};
 
   vector<Test> tests;
-  for (const string &sentence: sentences) {
+  for (const string &sentence: sentences)
+  {
     vector<Step> steps;
 
-    for (size_t i = 0, n = sentence.size(); i < n; i++) {
+    for (size_t i = 0, n = sentence.size(); i < n; i++)
+    {
       real_t x;
 
-      switch (sentence[i]) {
+      switch (sentence[i])
+      {
         case 'a':
           x = A;
           break;
         case 'b':
           x = B;
           break;
-        default: panic();
+        default:
+        panic();
       }
 
       // Create step providing signal, which has a zero output and weight
@@ -116,8 +120,7 @@ create_tests_1bit(const char *grammar,
     }
 
     // End of sentence
-    real_t g = regex_match(sentence,
-                           regex_grammar) ? 1.0 : 0.0;
+    real_t g = regex_match(sentence, regex_grammar) ? 1.0 : 0.0;
 
     steps.push_back({{_, _, Q}, {g}, weight_query});
 
@@ -127,18 +130,17 @@ create_tests_1bit(const char *grammar,
   return tests;
 }
 
-static vector<Test>
-create_tests_2bit(const char *grammar,
-                  const vector<string> &sentences)
+static vector<Test> create_tests_2bit(const char *grammar,
+                                      const vector<string> &sentences)
 {
   const real_t A[] = {0.0, 0.0};
   const real_t B[] = {0.0, 1.0};
   const real_t C[] = {1.0, 0.0};
   const real_t D[] = {1.0, 1.0};
 
-  const real_t S = 1.0; // Signal
-  const real_t Q = 1.0; // Query
-  const real_t _ = 0.0; // Null
+  const real_t S = 1.0;  // Signal
+  const real_t Q = 1.0;  // Query
+  const real_t _ = 0.0;  // Null
 
   const real_t weight_seq = 0;
   const real_t weight_delay = 0;
@@ -146,9 +148,11 @@ create_tests_2bit(const char *grammar,
   std::regex regex_grammar{grammar};
 
   size_t ncorrect = 0;
-  for (const string &sentence: sentences) {
+  for (const string &sentence: sentences)
+  {
     if (regex_match(sentence,
-                    regex_grammar)) {
+                    regex_grammar))
+    {
       ncorrect++;
     }
   }
@@ -158,13 +162,16 @@ create_tests_2bit(const char *grammar,
   const real_t weight_query_incorrect = 1.0 / (sentences.size() - ncorrect);
 
   vector<Test> tests;
-  for (const string &sentence: sentences) {
+  for (const string &sentence: sentences)
+  {
     vector<Step> steps;
 
-    for (size_t i = 0, n = sentence.size(); i < n; i++) {
+    for (size_t i = 0, n = sentence.size(); i < n; i++)
+    {
       const real_t *X;
 
-      switch (sentence[i]) {
+      switch (sentence[i])
+      {
         case 'a':
           X = A;
           break;
@@ -177,7 +184,8 @@ create_tests_2bit(const char *grammar,
         case 'd':
           X = D;
           break;
-        default: panic();
+        default:
+        panic();
       }
 
       real_t x = X[0];
@@ -192,9 +200,12 @@ create_tests_2bit(const char *grammar,
 
     // End of sentence
     if (regex_match(sentence,
-                    regex_grammar)) {
+                    regex_grammar))
+    {
       steps.push_back({{_, _, _, Q}, {1.0}, weight_query_correct});
-    } else {
+    }
+    else
+    {
       steps.push_back({{_, _, _, Q}, {0.0}, weight_query_incorrect});
     }
 

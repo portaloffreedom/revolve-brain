@@ -17,56 +17,67 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_NETWORK_CUDA_CUDANETWORKBATCH_H_
+#define CPP_NEAT_ACCNEAT_SRC_NETWORK_CUDA_CUDANETWORKBATCH_H_
+
 #pragma once
+
+#include <algorithm>
 
 #include "cudautil.h"
 #include "cudanetwork.h"
 #include "cudanetworkkernel.h"
 
-namespace NEAT {
-
-template <typename Evaluator>
-class CudaNetworkBatch
+namespace NEAT
 {
+  template <typename Evaluator>
+  class CudaNetworkBatch
+  {
     typedef typename Evaluator::Config Config;
+
     int device;
+
     uint nnets;
+
     Offsets offsets;
+
     Lens capacity;
+
     Lens lens;
+
     uint sizeof_shared;
 
     Config *d_config;
+
     RawBuffers h_bufs;
+
     RawBuffers d_bufs;
 
-    void
-    configure(CudaNetwork **nets,
-              size_t nnets)
+    void configure(CudaNetwork **nets,
+                   size_t nnets)
     {
       cudaSetDevice(device);
 
-      memset(&lens,
-             0,
-             sizeof(lens));
+      memset(&lens, 0, sizeof(lens));
       sizeof_shared = 0;
 
       Offsets nets_offs[nnets];
 
-      for (uint i = 0; i < nnets; i++) {
+      for (uint i = 0; i < nnets; i++)
+      {
         CudaNetwork &net = *nets[i];
         const CudaNetDims &dims = net.get_cuda_dims();
 
         Lens net_lens;
         Offsets &net_offs = nets_offs[i];
-        uint net_sizeof_shared =
-                (2 * sizeof(real_t) * dims.nnodes.all)
-                + (sizeof(real_t) * Threads_Per_Block);
+        uint net_sizeof_shared = (2 * sizeof(real_t) * dims.nnodes.all)
+                                 + (sizeof(real_t) * Threads_Per_Block);
 
-        //main buffer
+        // main buffer
         {
           uint sizeof_links = sizeof(CudaLink) * dims.nlinks;
-          uint sizeof_partitions = sizeof(ActivationPartition) * dims.npartitions;
+          uint sizeof_partitions =
+                  sizeof(ActivationPartition) * dims.npartitions;
 
           net_lens.main = sizeof_links + sizeof_partitions;
 
@@ -76,7 +87,7 @@ class CudaNetworkBatch
           lens.main += net_lens.main;
         }
 
-        //gpu_states buffer
+        // gpu_states buffer
         {
           uint sizeof_state = sizeof(GpuState);
 
@@ -87,10 +98,9 @@ class CudaNetworkBatch
           lens.gpu_states += net_lens.gpu_states;
         }
 
-        //output buffer
+        // output buffer
         {
-          uint sizeof_evals =
-                  sizeof(OrganismEvaluation);
+          uint sizeof_evals = sizeof(OrganismEvaluation);
 
           net_lens.output = sizeof_evals;
 
@@ -103,7 +113,8 @@ class CudaNetworkBatch
                             net_sizeof_shared);
       }
 
-      if (lens.main > capacity.main) {
+      if (lens.main > capacity.main)
+      {
         uint newlen = uint(lens.main * 1.4);
         p("alloc main: " << newlen);
         grow_buffers(h_bufs.main,
@@ -111,7 +122,8 @@ class CudaNetworkBatch
                      capacity.main,
                      newlen);
       }
-      if (lens.gpu_states > capacity.gpu_states) {
+      if (lens.gpu_states > capacity.gpu_states)
+      {
         uint newlen = uint(lens.gpu_states * 1.4);
         p("alloc gpu_states: " << newlen);
         grow_buffers(h_bufs.gpu_states,
@@ -119,7 +131,8 @@ class CudaNetworkBatch
                      capacity.gpu_states,
                      newlen);
       }
-      if (lens.output > capacity.output) {
+      if (lens.output > capacity.output)
+      {
         uint newlen = uint(lens.output);
         p("alloc output: " << newlen);
         grow_buffers(h_bufs.output,
@@ -128,10 +141,10 @@ class CudaNetworkBatch
                      newlen);
       }
 
-      for (uint i = 0; i < nnets; i++) {
+      for (uint i = 0; i < nnets; i++)
+      {
         CudaNetwork *net = nets[i];
-        net->configure_batch(h_bufs,
-                             nets_offs[i]);
+        net->configure_batch(h_bufs, nets_offs[i]);
 
         GpuState &gpu = ((GpuState *)h_bufs.gpu_states)[i];
         gpu.dims = net->get_cuda_dims();
@@ -148,32 +161,20 @@ class CudaNetworkBatch
                        cudaMemcpyHostToDevice));
     }
 
-public:
+    public:
     CudaNetworkBatch(int device_)
-            :
-            device(device_)
+            : device(device_)
     {
-
       cudaSetDevice(device);
 
-      memset(&offsets,
-             0,
-             sizeof(offsets));
-      memset(&capacity,
-             0,
-             sizeof(capacity));
-      memset(&lens,
-             0,
-             sizeof(lens));
+      memset(&offsets, 0, sizeof(offsets));
+      memset(&capacity, 0, sizeof(capacity));
+      memset(&lens, 0, sizeof(lens));
       sizeof_shared = 0;
 
       d_config = NULL;
-      memset(&h_bufs,
-             0,
-             sizeof(h_bufs));
-      memset(&d_bufs,
-             0,
-             sizeof(d_bufs));
+      memset(&h_bufs, 0, sizeof(h_bufs));
+      memset(&d_bufs, 0, sizeof(d_bufs));
     }
 
     ~CudaNetworkBatch()
@@ -188,9 +189,8 @@ public:
       free_dev(d_bufs.output);
     }
 
-    void
-    configure(const Config *config,
-              size_t len)
+    void configure(const Config *config,
+                   size_t len)
     {
       cudaSetDevice(device);
 
@@ -202,28 +202,26 @@ public:
                        cudaMemcpyHostToDevice));
     }
 
-    void
-    activate(CudaNetwork **nets,
-             OrganismEvaluation *results,
-             size_t nnets,
-             size_t ncycles)
+    void activate(CudaNetwork **nets,
+                  OrganismEvaluation *results,
+                  size_t nnets,
+                  size_t ncycles)
     {
       cudaSetDevice(device);
 
-      configure(nets,
-                nnets);
+      configure(nets, nnets);
 
-      cudanetwork_activate<Evaluator> << < nnets, Threads_Per_Block, sizeof_shared >> > (d_config, d_bufs, ncycles);
+      cudanetwork_activate<Evaluator> << < nnets, Threads_Per_Block,
+              sizeof_shared >> > (d_config, d_bufs, ncycles);
 
       xcuda(cudaMemcpy(h_bufs.output,
                        d_bufs.output,
                        lens.output,
                        cudaMemcpyDeviceToHost));
 
-      memcpy(results,
-             h_bufs.output,
-             sizeof(OrganismEvaluation) * nnets);
+      memcpy(results, h_bufs.output, sizeof(OrganismEvaluation) * nnets);
     }
-};
-
+  };
 }
+
+#endif

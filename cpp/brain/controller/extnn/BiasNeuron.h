@@ -20,6 +20,9 @@
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_BIASNEURON_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_BIASNEURON_H_
 
+#include <map>
+#include <string>
+
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
@@ -55,7 +58,6 @@ namespace revolve
       /// \brief bias of the neuron
       protected: double bias_;
     };
-
   }
 }
 

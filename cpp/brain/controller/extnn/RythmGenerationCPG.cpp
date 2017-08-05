@@ -20,7 +20,9 @@
 
 #include <cmath>
 #include <iostream>
+#include <map>
 #include <sstream>
+#include <string>
 
 #include "RythmGenerationCPG.h"
 
@@ -28,9 +30,9 @@ namespace revolve
 {
   namespace brain
   {
-
-    RythmGenerationCPG::RythmGenerationCPG(const std::string &id,
-                                           const std::map<std::string, double> &params)
+    RythmGenerationCPG::RythmGenerationCPG(
+            const std::string &id,
+            const std::map<std::string, double> &params)
             : Neuron(id)
             , phi(1)
             , weight(1)
@@ -39,11 +41,8 @@ namespace revolve
     {
       if (not params.count("rv:bias"))
       {
-        std::cerr
-                << "A `"
-                << "RythmGeneration CPG"
-                << "` neuron requires `rv:bias` element."
-                << std::endl;
+        std::cerr << "A `RythmGeneration CPG`"
+                << " neuron requires `rv:bias` element." << std::endl;
         throw std::runtime_error("Robot brain error");
       }
       this->bias_ = params.find("rv:bias")->second;
@@ -58,7 +57,7 @@ namespace revolve
 
       if (deltaT > 0.1) deltaT = 0.1;
 
-//      double inputValue = 0;
+      //      double inputValue = 0;
       static const double PI = std::acos(-1);
 
       double thisPhi = this->phi;
@@ -69,10 +68,11 @@ namespace revolve
            it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
-        if("RythmGeneratorCPG" == inConnection->GetInputNeuron()->getType())
+        if ("RythmGeneratorCPG" == inConnection->GetInputNeuron()->getType())
         {
           otherPhi +=
-                  std::sin(inConnection->GetInputNeuron()->Phase() - thisPhi) * inConnection->GetWeight();
+                  std::sin(inConnection->GetInputNeuron()->Phase() - thisPhi)
+                  * inConnection->GetWeight();
         }
       }
 
@@ -91,7 +91,8 @@ namespace revolve
       return parameters;
     }
 
-    void RythmGenerationCPG::setNeuronParameters(std::map<std::string, double> params)
+    void RythmGenerationCPG::setNeuronParameters(
+            std::map<std::string, double> params)
     {
       if (not params.count("rv:bias"))
       {

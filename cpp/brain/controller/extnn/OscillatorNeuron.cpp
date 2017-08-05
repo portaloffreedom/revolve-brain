@@ -13,31 +13,35 @@
 * limitations under the License.
 *
 * Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Author: Rafael Kiesel
 *
 */
 
-#include "OscillatorNeuron.h"
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
+
+#include "OscillatorNeuron.h"
 
 namespace revolve
 {
   namespace brain
   {
-
-    OscillatorNeuron::OscillatorNeuron(const std::string &id,
-                                       const std::map<std::string, double> &params)
+    OscillatorNeuron::OscillatorNeuron(
+            const std::string &id,
+            const std::map<std::string, double> &params)
             : Neuron(id)
     {
-      if (not params.count("rv:period") || not params.count("rv:phase_offset") || not params.count(
-              "rv:amplitude"))
+      if (not params.count("rv:period")
+          || not params.count("rv:phase_offset")
+          || not params.count("rv:amplitude"))
       {
         std::cerr
                 << "An `"
-                << "Oscillator"
+                << "Oscillator` neuron requires "
                 <<
-                "` neuron requires `rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
+                "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }
@@ -50,7 +54,11 @@ namespace revolve
 
     double OscillatorNeuron::CalculateOutput(double t)
     {
-      return 0.5 * (1.0 + this->gain_ * sin(2.0 * M_PI / (this->period_) * (t - this->period_ * this->phaseOffset_)));
+      return 0.5
+             * (1.0 + this->gain_
+                      * sin(2.0 * M_PI
+                            / (this->period_)
+                            * (t - this->period_ * this->phaseOffset_)));
     }
 
     std::map<std::string, double>
@@ -66,14 +74,15 @@ namespace revolve
     void
     OscillatorNeuron::setNeuronParameters(std::map<std::string, double> params)
     {
-      if (not params.count("rv:period") || not params.count("rv:phase_offset") || not params.count(
-              "rv:amplitude"))
+      if (not params.count("rv:period")
+          || not params.count("rv:phase_offset")
+          || not params.count("rv:amplitude"))
       {
         std::cerr
                 << "An `"
-                << "Oscillator"
+                << "Oscillator` neuron requires "
                 <<
-                "` neuron requires `rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
+                "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }

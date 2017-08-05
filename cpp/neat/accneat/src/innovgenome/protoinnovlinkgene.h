@@ -17,57 +17,55 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_PROTOINNOVLINKGENE_H_
+#define CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_PROTOINNOVLINKGENE_H_
+
 #pragma once
 
-namespace NEAT {
-
-class ProtoInnovLinkGene
+namespace NEAT
 {
+  class ProtoInnovLinkGene
+  {
     InnovGenome *_genome = nullptr;
-    //todo: does this have to be a InnovLinkGene* now?
+    // TODO: does this have to be a InnovLinkGene* now?
     InnovLinkGene *_gene = nullptr;
     InnovNodeGene *_in = nullptr;
     InnovNodeGene *_out = nullptr;
-public:
-    void
-    set_gene(InnovGenome *genome,
-             InnovLinkGene *gene)
+    public:
+    void set_gene(InnovGenome *genome,
+                  InnovLinkGene *gene)
     {
       _genome = genome;
       _gene = gene;
     }
 
-    InnovLinkGene *
-    gene()
+    InnovLinkGene *gene()
     {
       return _gene;
     }
 
-    void
-    set_out(InnovNodeGene *out)
+    void set_out(InnovNodeGene *out)
     {
       _out = out;
       _gene->set_out_node_id(out->node_id);
     }
 
-    InnovNodeGene *
-    out()
+    InnovNodeGene *out()
     {
       return _out ? _out : _genome->get_node(_gene->out_node_id());
     }
 
-    void
-    set_in(InnovNodeGene *in)
+    void set_in(InnovNodeGene *in)
     {
       _in = in;
       _gene->set_in_node_id(in->node_id);
     }
 
-    InnovNodeGene *
-    in()
+    InnovNodeGene *in()
     {
       return _in ? _in : _genome->get_node(_gene->in_node_id());
     }
-};
-
+  };
 }
+
+#endif

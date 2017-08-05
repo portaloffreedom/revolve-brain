@@ -17,41 +17,44 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_NETWORK_NETWORKEXECUTOR_H_
+#define CPP_NEAT_ACCNEAT_SRC_NETWORK_NETWORKEXECUTOR_H_
+
 #pragma once
 
-namespace NEAT {
-
+namespace NEAT
+{
 #define NACTIVATES_PER_INPUT 10
 
-//---
-//--- CLASS NetworkExecutor<>
-//---
-template <typename Evaluator>
-class NetworkExecutor
-{
-public:
-    static NetworkExecutor *
-    create();
+  ///
+  /// CLASS NetworkExecutor<>
+  ///
+  template <typename Evaluator>
+  class NetworkExecutor
+  {
+    public:
+    /// \brief
+    static NetworkExecutor *create();
 
+    /// \brief
     virtual ~NetworkExecutor()
     {}
 
-    virtual void
-    configure(const typename Evaluator::Config *config,
-              size_t len) = 0;
+    /// \brief
+    virtual void configure(const typename Evaluator::Config *config,
+                           size_t len) = 0;
 
-    virtual void
-    execute(class Network **nets_,
-            struct OrganismEvaluation *results,
-            size_t nnets) = 0;
-};
-
+    /// \brief
+    virtual void execute(class Network **nets_,
+                         struct OrganismEvaluation *results,
+                         size_t nnets) = 0;
+  };
 }
 
 #ifdef ENABLE_CUDA
 #include "cudanetworkexecutor.h"
 #else
-
 #include "network/cpu/cpunetworkexecutor.h"
+#endif
 
 #endif

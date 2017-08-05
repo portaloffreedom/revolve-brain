@@ -17,56 +17,56 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_EVALUATOREXPERIMENT_H_
+#define CPP_NEAT_ACCNEAT_SRC_EXPERIMENTS_EVALUATOREXPERIMENT_H_
+
 #pragma once
 
-#include "experiment.h"
+#include <fstream>
+#include <functional>
+#include <string>
+#include <vector>
+
 #include "genomemanager.h"
-#include "network/network.h"
+#include "experiment.h"
 #include "organism.h"
 #include "population.h"
+#include "network/network.h"
 #include "util/stats.h"
 #include "util/timer.h"
 #include "util/util.h"
 
-#include <fstream>
-#include <functional>
-
-namespace NEAT {
-
-//------------------------------
-//---
-//--- CLASS EvaluatorExperiment
-//---
-//------------------------------
-class EvaluatorExperiment
-        : public Experiment
+namespace NEAT
 {
-private:
-    std::string
-    get_dir_path(int experiment_num)
+  ////------------------------
+  ///
+  /// CLASS EvaluatorExperiment
+  ///
+  ////------------------------
+  class EvaluatorExperiment
+          : public Experiment
+  {
+    private:
+    std::string get_dir_path(int experiment_num)
     {
       char buf[1024];
-      std::sprintf(buf,
-                   "./experiment_%d",
-                   experiment_num);
+      std::snprintf(buf, "./experiment_%d", experiment_num);
       return buf;
     }
 
-    std::string
-    get_fittest_path(int experiment_num,
-                     int generation)
+    std::string get_fittest_path(int experiment_num,
+                                 int generation)
     {
       char buf[1024];
-      std::sprintf(buf,
-                   "%s/fittest_%d",
-                   get_dir_path(experiment_num).c_str(),
-                   generation);
+      std::snprintf(buf, "%s/fittest_%d",
+                    get_dir_path(experiment_num).c_str(), generation);
       return buf;
     }
 
-public:
+    public:
     typedef std::function<NetworkEvaluator *()> CreateEvaluatorFunc;
-    typedef std::function<std::vector<std::unique_ptr<Genome>>(rng_t rng)> CreateSeedsFunc;
+    typedef std::function<std::vector<std::unique_ptr<Genome >>(rng_t rng)>
+            CreateSeedsFunc;
 
     CreateEvaluatorFunc create_evaluator;
     CreateSeedsFunc create_seeds;
@@ -75,10 +75,9 @@ public:
     EvaluatorExperiment(const char *name,
                         CreateEvaluatorFunc create_evaluator_,
                         CreateSeedsFunc create_seeds_)
-            :
-            Experiment(name)
-            , create_evaluator(create_evaluator_)
-            , create_seeds(create_seeds_)
+            : Experiment(name)
+              , create_evaluator(create_evaluator_)
+              , create_seeds(create_seeds_)
     {
     }
 
@@ -86,15 +85,13 @@ public:
     {
     }
 
-    virtual bool
-    is_success(Organism *org)
+    virtual bool is_success(Organism *org)
     {
       return org->eval.error <= 0.0000001;
     }
 
-    virtual void
-    run(class rng_t &rng,
-        int gens) override
+    virtual void run(class rng_t &rng,
+                     int gens) override
     {
       using namespace std;
 
@@ -106,35 +103,45 @@ public:
       vector<size_t> nlinks;
       vector<real_t> fitness;
 
-      for (size_t expcount = 1; expcount <= env->num_runs; expcount++) {
+      for (size_t expcount = 1; expcount <= env->num_runs; expcount++)
+      {
         mkdir(get_dir_path(expcount));
 
-        //Create a unique rng sequence for this experiment
+        // Create a unique rng sequence for this experiment
         rng_t rng_exp(rng.integer());
 
         fittest = nullptr;
         env->genome_manager = GenomeManager::create(get_name());
         vector<unique_ptr<Genome>> genomes = create_seeds(rng_exp);
 
-        //Spawn the Population
-        pop = Population::create(rng_exp,
-                                 genomes);
+        // Spawn the Population
+        pop = Population::create(rng_exp, genomes);
 
         bool success = false;
         int gen;
-        for (gen = 1; !success && (gen <= gens); gen++) {
-          cout << "Epoch " << gen << " . Experiment " << expcount << "/" << env->num_runs << endl;
+        for (gen = 1; !success && (gen <= gens); gen++)
+        {
+          cout
+                  << "Epoch "
+                  << gen
+                  << " . Experiment "
+                  << expcount
+                  << "/"
+                  << env->num_runs
+                  << endl;
 
           static Timer timer("epoch");
           timer.start();
 
-          if (gen != 1) {
+          if (gen != 1)
+          {
             pop->next_generation();
           }
 
           evaluate();
 
-          if (is_success(fittest.get())) {
+          if (is_success(fittest.get()))
+          {
             success = true;
             nsuccesses++;
           }
@@ -142,13 +149,14 @@ public:
           timer.stop();
           Timer::report();
 
-          //Don't print on success because we'll exit the loop and print then.
-//          if (not success && (gen % env->print_every == 0))
-//            print(expcount,
-//                  gen);
+          // Don't print on success because we'll exit the loop and print then.
+          //          if (not success && (gen % env->print_every == 0))
+          //            print(expcount,
+          //                  gen);
         }
 
-        if (success) {
+        if (success)
+        {
           success_generations.push_back(gen);
         }
         {
@@ -158,37 +166,41 @@ public:
           nlinks.push_back(gstats.nlinks);
         }
 
-//        print(expcount,
-//              gen - 1);
+        // print(expcount, gen - 1);
 
         delete pop;
         delete env->genome_manager;
       }
 
-      cout << "Failures: " << (env->num_runs - nsuccesses) << " out of " << env->num_runs << " runs" << endl;
-      if (success_generations.size() > 0) {
+      cout
+              << "Failures: "
+              << (env->num_runs - nsuccesses)
+              << " out of "
+              << env->num_runs
+              << " runs"
+              << endl;
+      if (success_generations.size() > 0)
+      {
         cout << "Success generations: " << stats(success_generations) << endl;
       }
       cout << "fitness stats: " << stats(fitness) << endl;
       cout << "nnodes stats: " << stats(nnodes) << endl;
       cout << "nlinks stats: " << stats(nlinks) << endl;
-
     }
 
-private:
-//    void
-//    print(int experiment_num,
-//          int generation)
-//    {
-//      using namespace std;
-//
-//      ofstream out(get_fittest_path(experiment_num,
-//                                    generation));
-//      fittest->write(out);
-//    }
+    private:
+    //    void
+    //    print(int experiment_num,
+    //          int generation)
+    //    {
+    //      using namespace std;
+    //
+    //      ofstream out(get_fittest_path(experiment_num,
+    //                                    generation));
+    //      fittest->write(out);
+    //    }
 
-    void
-    evaluate()
+    void evaluate()
     {
       using namespace std;
 
@@ -197,27 +209,29 @@ private:
 
       size_t norgs = pop->size();
       Network *nets[norgs];
-      for (size_t i = 0; i < norgs; i++) {
+      for (size_t i = 0; i < norgs; i++)
+      {
         nets[i] = pop->get(i)->net.get();
       }
       OrganismEvaluation evaluations[norgs];
 
-      network_evaluator->execute(nets,
-                                 evaluations,
-                                 norgs);
+      network_evaluator->execute(nets, evaluations, norgs);
 
       Organism *best = nullptr;
-      for (size_t i = 0; i < norgs; i++) {
+      for (size_t i = 0; i < norgs; i++)
+      {
         Organism *org = pop->get(i);
         org->eval = evaluations[i];
-        if (not best || (org->eval.fitness > best->eval.fitness)) {
+        if (not best || (org->eval.fitness > best->eval.fitness))
+        {
           best = org;
         }
       }
 
       timer.stop();
 
-      if (not fittest || (best->eval.fitness > fittest->eval.fitness)) {
+      if (not fittest || (best->eval.fitness > fittest->eval.fitness))
+      {
         fittest = pop->make_copy(best->population_index);
       }
 
@@ -233,6 +247,7 @@ private:
     class Population *pop;
 
     std::unique_ptr<Organism> fittest;
-};
-
+  };
 }
+
+#endif

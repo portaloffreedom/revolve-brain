@@ -17,41 +17,41 @@
 *
 */
 
+#ifndef CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVNODELOOKUP_H_
+#define CPP_NEAT_ACCNEAT_SRC_INNOVGENOME_INNOVNODELOOKUP_H_
+
 #pragma once
 
-#include "innovnodegene.h"
 #include <vector>
 #include <algorithm>
 
-namespace NEAT {
+#include "innovnodegene.h"
 
-inline bool
-nodelist_cmp(const InnovNodeGene &a,
-             const InnovNodeGene &b)
+namespace NEAT
 {
-  return a.node_id < b.node_id;
-}
+  inline bool nodelist_cmp(const InnovNodeGene &a,
+                           const InnovNodeGene &b)
+  {
+    return a.node_id < b.node_id;
+  }
 
-inline bool
-nodelist_cmp_key(const InnovNodeGene &node,
-                 int node_id)
-{
-  return node.node_id < node_id;
-}
+  inline bool nodelist_cmp_key(const InnovNodeGene &node,
+                               int node_id)
+  {
+    return node.node_id < node_id;
+  }
 
-class InnovNodeLookup
-{
+  class InnovNodeLookup
+  {
     std::vector<InnovNodeGene> &nodes;
-public:
+    public:
     // Must be sorted by node_id in ascending order
     InnovNodeLookup(std::vector<InnovNodeGene> &nodes_)
-            :
-            nodes(nodes_)
+            : nodes(nodes_)
     {
     }
 
-    InnovNodeGene *
-    find(int node_id)
+    InnovNodeGene *find(int node_id)
     {
       auto it = std::lower_bound(nodes.begin(),
                                  nodes.end(),
@@ -67,11 +67,11 @@ public:
       return &node;
     }
 
-    InnovNodeGene *
-    find(InnovNodeGene *n)
+    InnovNodeGene *find(InnovNodeGene *n)
     {
       return find(n->node_id);
     }
-};
-
+  };
 }
+
+#endif

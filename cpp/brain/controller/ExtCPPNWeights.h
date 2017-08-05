@@ -20,16 +20,15 @@
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTENDEDANNWEIGHTS_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTENDEDANNWEIGHTS_H_
 
-#include "Controller.h"
-#include "brain/Evaluator.h"
-#include "brain/controller/extnn/ENeuron.h"
-#include "brain/controller/extnn/NeuralConnection.h"
-#include "RafCPGController.h"
 #include <map>
 #include <vector>
 #include <string>
 
-
+#include "Controller.h"
+#include "RafCPGController.h"
+#include "brain/Evaluator.h"
+#include "brain/controller/extnn/ENeuron.h"
+#include "brain/controller/extnn/NeuralConnection.h"
 #include "brain/controller/extnn/LinearNeuron.h"
 #include "brain/controller/extnn/SigmoidNeuron.h"
 #include "brain/controller/extnn/OscillatorNeuron.h"
@@ -42,19 +41,17 @@
 #include "brain/controller/extnn/InputNeuron.h"
 #include "brain/controller/extnn/InputDependentOscillatorNeuron.h"
 
-
 namespace revolve
 {
   namespace brain
   {
-
-
     class ExtNNController
             : public Controller<std::vector<double>>
     {
       public:
 
-      /// \brief Constructor for a neural network including neurons that are of a different type than the usual ones.
+      /// \brief Constructor for a neural network including neurons that are of
+      /// a different type than the usual ones.
       /// \param modelName: name of the model
       /// \param Config: configuration file
       /// \param actuators: vector list of robot's actuators
@@ -78,8 +75,10 @@ namespace revolve
                           double t,
                           double step);
 
-      /// \brief Gets the weight of all the connections and all parameters of all neurons
-      /// \return weights of all neural connections and parameters for all neurons
+      /// \brief Gets the weight of all the connections and all parameters of
+      /// all neurons
+      /// \return weights of all neural connections and parameters for all
+      /// neurons
       virtual std::vector<double> getPhenotype();
 
       /// \brief Changes the weights of the neural connections
@@ -115,7 +114,8 @@ namespace revolve
       /// for each output neuron
       std::map<NeuronPtr, int> outputPositionMap_;
 
-      /// \brief positions for indexing into the inputs_ buffer for each input neuron
+      /// \brief positions for indexing into the inputs_ buffer for each input
+      /// neuron
       std::map<NeuronPtr, int> inputPositionMap_;
 
       /// \brief Map neuron id strings to Neuron objects

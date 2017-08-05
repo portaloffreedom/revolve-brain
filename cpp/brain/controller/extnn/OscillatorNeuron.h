@@ -20,6 +20,9 @@
 #ifndef REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_OSCILLATORNEURON_H_
 #define REVOLVEBRAIN_BRAIN_CONTROLLER_EXTNN_OSCILLATORNEURON_H_
 
+#include <map>
+#include <string>
+
 #include "ENeuron.h"
 #include "NeuralConnection.h"
 
@@ -27,7 +30,6 @@ namespace revolve
 {
   namespace brain
   {
-
     class OscillatorNeuron
             : public Neuron
     {
@@ -51,15 +53,17 @@ namespace revolve
       std::string getType() override;
 
       /// \brief period of the oscillation of the neuron
-      protected: double period_;
+      protected:
+      double period_;
 
       /// \brief current phase offset of the oscillation of the neuron
-      protected: double phaseOffset_;
+      protected:
+      double phaseOffset_;
 
       /// \brief gain of the neuron
-      protected: double gain_;
+      protected:
+      double gain_;
     };
-
   }
 }
 

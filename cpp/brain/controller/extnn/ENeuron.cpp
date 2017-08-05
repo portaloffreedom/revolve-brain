@@ -17,19 +17,20 @@
 *
 */
 
-#include "ENeuron.h"
 #include <iostream>
+#include <vector>
+
+#include "ENeuron.h"
 
 namespace revolve
 {
   namespace brain
   {
-
     Neuron::Neuron(const std::string &id)
+            : output_(0)
+              , newOutput_(0)
+              , id_(id)
     {
-      this->output_ = 0;
-      this->newOutput_ = 0;
-      this->id_ = id;
     }
 
     void Neuron::AddIncomingConnection(const std::string &socketName,
@@ -37,8 +38,7 @@ namespace revolve
     {
       this->incomingConnections_.push_back(
               std::pair<std::string, NeuralConnectionPtr>(socketName,
-                                                          connection)
-      );
+                                                          connection));
     }
 
     void Neuron::DeleteIncomingConections()

@@ -12,8 +12,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 *
-* Description: TODO: <Add brief description about file purpose>
-* Author: TODO <Add proper author>
+* Description: Class containg meta information about a gene
+* Author: Rafael Kiesel
 *
 */
 
@@ -22,7 +22,6 @@
 
 #include <string>
 
-//class containg meta information about a gene
 namespace cppneat
 {
   class Gene
@@ -39,10 +38,11 @@ namespace cppneat
          std::string parent_name = "",
          int parent_index = -1)
             : innov_number(innov_number)
-            , enabled(enabled)
-            , parent_name(parent_name)
-            , parent_index(parent_index)
-    {}
+              , enabled(enabled)
+              , parent_name(parent_name)
+              , parent_index(parent_index)
+    {
+    }
 
     virtual inline size_t getInnovNumber()
     {
@@ -60,7 +60,9 @@ namespace cppneat
     }
 
     virtual inline std::string get_parent_name()
-    { return this->parent_name; }
+    {
+      return this->parent_name;
+    }
 
     virtual inline int get_parent_index()
     {
@@ -69,14 +71,17 @@ namespace cppneat
 
     GeneType gene_type;
 
-    private: unsigned int innov_number;
+    private:
+    unsigned int innov_number;
 
-    private: bool enabled;
+    private:
+    bool enabled;
 
-    private: std::string parent_name;
+    private:
+    std::string parent_name;
 
-    private: int parent_index;
-
+    private:
+    int parent_index;
   };
 }
 
