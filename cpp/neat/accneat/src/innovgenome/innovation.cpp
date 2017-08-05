@@ -154,7 +154,7 @@ static bool cmp_ind(const IndividualInnovation &x,
                     const IndividualInnovation &y)
 {
   return x.population_index < y.population_index;
-};
+}
 
 void PopulationInnovations::init(int node_id,
                                  int innov_num)

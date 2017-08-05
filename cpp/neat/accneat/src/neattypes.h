@@ -89,6 +89,8 @@ namespace YAML
         case NEAT::nodetype::NT_SENSOR:
           text = "HIDDEN";
           break;
+        default:
+          text = "none";
       }
 
       return Node(text);
