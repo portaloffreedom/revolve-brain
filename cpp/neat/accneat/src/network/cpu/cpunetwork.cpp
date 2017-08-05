@@ -132,7 +132,7 @@ void CpuNetwork::activate(size_t ncycles)
   {
     // If an odd number of cycles, we have to copy non-input data
     // of act_other back into activations.
-    memcpy(activations.data() + dims.nnodes.input,
+    std::memcpy(activations.data() + dims.nnodes.input,
            act_other + dims.nnodes.input,
            sizeof(real_t) * (dims.nnodes.all - dims.nnodes.input));
   }
