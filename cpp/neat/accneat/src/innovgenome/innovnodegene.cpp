@@ -51,12 +51,12 @@ InnovNodeGene::InnovNodeGene(nodetype ntype,
                              const std::string &robot_name,
                              const std::string &creator_name,
                              const int creator_index)
-        : creator_name(creator_name)
+        : trait_id(1)
+          , creator_name(creator_name)
           , creator_index(creator_index)
+          , frozen(false)
           , type(ntype)
           , node_id(nodeid)
-          , frozen(false)
-          , trait_id(1)
 {
 }
 

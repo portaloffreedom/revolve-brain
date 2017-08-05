@@ -43,8 +43,8 @@ AccNEATLearner::AccNEATLearner(const std::string &robot_name,
           , n_outputs(n_outputs)
           , generation_counter(0)
           , start_eval_time(std::numeric_limits<double>::lowest())
-          , EVALUATION_TIME(evaluationTime)
           , MAX_EVALUATIONS(maxEvaluations)
+          , EVALUATION_TIME(evaluationTime)
 {
   this->initAsyncNeat();
 }

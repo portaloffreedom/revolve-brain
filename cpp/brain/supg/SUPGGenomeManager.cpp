@@ -51,7 +51,7 @@ SUPGGenomeManager::create_seed_generation(size_t ngenomes,
   const int node_id_bias = 1;
   const int node_id_input = node_id_bias + 1;
   const int node_id_output = node_id_input + ninputs;
-  const int node_id_hidden = node_id_output + noutputs;
+//  const int node_id_hidden = node_id_output + noutputs;
 
   // ADD FIRST LINK ALREADY
   // for (int output_id = 0; output_id<noutputs-2; output_id++) {

@@ -60,7 +60,6 @@ long SUPGBrain::GetMAX_EVALUATIONSenv()
   return -1;
 }
 
-
 double SUPGBrain::GetFREQUENCY_RATEenv()
 {
   if (const char *env_p = SUPGBrain::getVARenv("SUPG_FREQUENCY_RATE"))
@@ -86,26 +85,25 @@ double SUPGBrain::GetCYCLE_LENGTHenv()
 }
 
 revolve::brain::SUPGBrain::SUPGBrain(EvaluatorPtr evaluator)
-        : evaluator(evaluator)
+        : neuron_coordinates(0)
+          , evaluator(evaluator)
           , start_eval_time(std::numeric_limits<double>::lowest())
           , generation_counter(0)
           , MAX_EVALUATIONS(GetMAX_EVALUATIONSenv())
           , FREQUENCY_RATE(GetFREQUENCY_RATEenv())
           , CYCLE_LENGTH(GetCYCLE_LENGTHenv())
-          , neuron_coordinates(0)
 {
 }
-
 
 SUPGBrain::SUPGBrain(const std::string &robot_name,
                      EvaluatorPtr evaluator,
                      const std::vector<std::vector<float> > &neuron_coordinates,
                      const std::vector<ActuatorPtr> &actuators,
                      const std::vector<SensorPtr> &sensors)
-        : evaluator(evaluator)
+        : neuron_coordinates(neuron_coordinates)
+          , evaluator(evaluator)
           , robot_name(robot_name)
           , start_eval_time(std::numeric_limits<double>::lowest())
-          , neuron_coordinates(neuron_coordinates)
           , generation_counter(0)
           , MAX_EVALUATIONS(GetMAX_EVALUATIONSenv())
           , FREQUENCY_RATE(GetFREQUENCY_RATEenv())

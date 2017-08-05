@@ -19,7 +19,6 @@
 
 #include <cmath>
 #include <functional>
-#include <limits>
 #include <string>
 #include <vector>
 
@@ -30,14 +29,14 @@ using namespace revolve::brain;
 SUPGBrainPhototaxis::SUPGBrainPhototaxis(
         const std::string &robot_name,
         EvaluatorPtr evaluator,
-        std::function<boost::shared_ptr<FakeLightSensor>(
-                std::vector<float> coordinates)> _light_constructor_left,
-        std::function<boost::shared_ptr<FakeLightSensor>(
-                std::vector<float> coordinates)> _light_constructor_right,
+        std::function< boost::shared_ptr< FakeLightSensor >(
+                std::vector< float > coordinates) > _light_constructor_left,
+        std::function< boost::shared_ptr< FakeLightSensor >(
+                std::vector< float > coordinates) > _light_constructor_right,
         double _light_radius_distance,
-        const std::vector<std::vector<float> > &neuron_coordinates,
-        const std::vector<ActuatorPtr> &actuators,
-        const std::vector<SensorPtr> &sensors)
+        const std::vector< std::vector< float > > &neuron_coordinates,
+        const std::vector< ActuatorPtr > &actuators,
+        const std::vector< SensorPtr > &sensors)
         : SUPGBrain(robot_name,
                     evaluator,
                     neuron_coordinates,
@@ -55,16 +54,16 @@ SUPGBrainPhototaxis::SUPGBrainPhototaxis(
   //     std::cout << "SENSORS Size: " << sensors.size() << std::endl;
 }
 
-void SUPGBrainPhototaxis::update(const std::vector<ActuatorPtr> &actuators,
-                                 const std::vector<SensorPtr> &sensors,
+void SUPGBrainPhototaxis::update(const std::vector< ActuatorPtr > &actuators,
+                                 const std::vector< SensorPtr > &sensors,
                                  double t,
                                  double step)
 {
 //     std::cout << "SENSORS-Size: " << sensors.size() << std::endl;
   //SUPGBrain::update(actuators, sensors, t, step);
   this->learner(t);
-  SUPGBrain::controller<const std::vector<ActuatorPtr>,
-                        const std::vector<SensorPtr >>(
+  SUPGBrain::controller< const std::vector< ActuatorPtr >,
+                         const std::vector< SensorPtr >>(
           actuators,
           sensors,
           t,
@@ -87,10 +86,11 @@ double SUPGBrainPhototaxis::getFitness()
 double SUPGBrainPhototaxis::getPhaseFitness()
 {
   double left_eye =
-          current_light_left == nullptr ? std::numeric_limits<double>::min() :
+          current_light_left == nullptr ? std::numeric_limits< double >::min() :
           current_light_left->read();
   double right_eye =
-          current_light_right == nullptr ? std::numeric_limits<double>::min() :
+          current_light_right == nullptr ? std::numeric_limits< double >::min()
+                                         :
           current_light_right->read();
 
   double value = (left_eye + right_eye)
@@ -183,7 +183,7 @@ void SUPGBrainPhototaxis::learner(double t)
     // reposition learner lights
     //         delete current_light_left;
     //         delete current_light_right;
-    std::vector<float> relative_coordinates;
+    std::vector< float > relative_coordinates;
 
     static const double pi = std::acos(-1);
     static const double angle_15 = pi / 12;
@@ -215,7 +215,7 @@ void SUPGBrainPhototaxis::learner(double t)
       case END:
         std::cerr << "#### SUPGBrainPhototaxis::learner - "
                 "END PHASE SHOULD NOT BE POSSIBLE HERE!"
-                << std::endl;
+                  << std::endl;
     }
 
     current_light_left = light_constructor_left(relative_coordinates);

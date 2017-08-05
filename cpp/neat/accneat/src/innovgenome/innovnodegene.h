@@ -106,7 +106,7 @@ namespace NEAT
       return trait_id;
     }
 
-    inline const nodetype get_type() const
+    inline nodetype get_type() const
     {
       return type;
     }

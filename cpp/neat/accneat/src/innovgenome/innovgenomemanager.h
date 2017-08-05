@@ -44,6 +44,7 @@ namespace NEAT
     virtual std::unique_ptr<Genome>
     make_default() override;
 
+    using NEAT::GenomeManager::create_seed_generation;
     virtual std::vector<std::unique_ptr<Genome>>
     create_seed_generation(size_t ngenomes,
                            class rng_t rng,

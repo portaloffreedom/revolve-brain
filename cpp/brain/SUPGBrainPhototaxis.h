@@ -82,8 +82,8 @@ namespace revolve
         END = 5,
       } phase;
 
-      std::function< boost::shared_ptr
-                            <FakeLightSensor>(std::vector<float> coordinates) >
+      std::function<boost::shared_ptr
+                            <FakeLightSensor>(std::vector<float> coordinates)>
               light_constructor_left,
               light_constructor_right;
 

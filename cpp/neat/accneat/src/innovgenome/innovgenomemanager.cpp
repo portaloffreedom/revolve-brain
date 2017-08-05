@@ -287,6 +287,7 @@ void InnovGenomeManager::finalize_generation(bool new_fittest)
           max_phase_duration = MAX_COMPLEXIFY_PHASE_DURATION;
         }
         break;
+      case UNDEFINED:
       default:
       panic();
     }

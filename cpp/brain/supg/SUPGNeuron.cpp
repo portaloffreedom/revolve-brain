@@ -40,10 +40,10 @@ SUPGNeuron::SUPGNeuron(NEAT::CpuNetwork *cppn,
                        NEAT::real_t cicle_length)
         : cppn(cppn)
           , start_timer(-1)
+          , timer_window(cicle_length)
           , started_timer_flag(false)
           , supg_internal_inputs(GetDimensionInput(0, coordinates.size()))
           , supg_internal_outputs(GetDimensionOutput(0))
-          , timer_window(cicle_length)
 {
   set_coordinates(coordinates);
   NEAT::NetDims dims = cppn->get_dims();

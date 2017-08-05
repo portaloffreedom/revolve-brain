@@ -64,6 +64,7 @@ class TestGenomeManager
   {
   }
 
+  using NEAT::InnovGenomeManager::create_seed_generation;
   virtual std::vector<std::unique_ptr<NEAT::Genome>>
   create_seed_generation(size_t ngenomes,
                          NEAT::rng_t rng,

@@ -111,9 +111,7 @@ bool TestMultiNNSpeciesNeat::testXOR()
   return success;
 }
 
-
-int main(int argc,
-         char *argv[])
+int main()
 {
   TestMultiNNSpeciesNeat t;
   return t.test() ? 0 : 1;
