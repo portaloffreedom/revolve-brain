@@ -57,9 +57,10 @@ namespace NEAT
     real_t fitness;
     real_t error;
 
-    void
-    reset()
-    { fitness = error = 0.0; }
+    void reset()
+    {
+      fitness = error = 0.0;
+    }
   };
 
 #define accneat_in const

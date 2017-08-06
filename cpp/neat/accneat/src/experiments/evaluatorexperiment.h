@@ -213,7 +213,7 @@ namespace NEAT
       {
         nets[i] = pop->get(i)->net.get();
       }
-      OrganismEvaluation evaluations[norgs];
+      auto *evaluations = new OrganismEvaluation[norgs];
 
       network_evaluator->execute(nets, evaluations, norgs);
 
@@ -227,6 +227,7 @@ namespace NEAT
           best = org;
         }
       }
+      delete []evaluations;
 
       timer.stop();
 

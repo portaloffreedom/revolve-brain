@@ -1577,9 +1577,9 @@ void InnovGenome::init_phenotype(Network &net)
   ///
   /// Create unsorted array of links, converting node ID to index in process.
   ///
-  NetLink netlinks[links.size()];
+  auto netlinks = new NetLink[links.size()];
   size_t nlinks = 0;
-  size_t node_nlinks[nnodes];
+  auto node_nlinks = new size_t[nnodes];
   memset(node_nlinks, 0, sizeof(size_t) * nnodes);
 
   for (InnovLinkGene &link: links)
@@ -1602,7 +1602,7 @@ void InnovGenome::init_phenotype(Network &net)
   ///
   /// Determine layout of links for each node in sorted array
   ///
-  NetNode netnodes[nnodes];
+  auto netnodes = new NetNode[nnodes];
   netnodes[0].incoming_start = 0;
   netnodes[0].incoming_end = node_nlinks[0];
   for (size_t i = 1; i < nnodes; i++)
@@ -1619,7 +1619,7 @@ void InnovGenome::init_phenotype(Network &net)
   /// Create sorted links
   ///
   memset(node_nlinks, 0, sizeof(size_t) * nnodes);
-  NetLink netlinks_sorted[nlinks];
+  auto *netlinks_sorted = new NetLink[nlinks];
   for (size_t i = 0; i < nlinks; i++)
   {
     NetLink &netlink = netlinks[i];
@@ -1632,6 +1632,11 @@ void InnovGenome::init_phenotype(Network &net)
   /// Configure the net
   ///
   net.configure(dims, netnodes, netlinks_sorted);
+
+  delete []netlinks;
+  delete []node_nlinks;
+  delete []netnodes;
+  delete []netlinks_sorted;
 }
 
 InnovLinkGene *InnovGenome::find_link(int in_node_id,

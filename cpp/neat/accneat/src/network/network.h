@@ -116,7 +116,6 @@ namespace NEAT
                          struct OrganismEvaluation *results,
                          size_t nnets) = 0;
   };
-
 }  // namespace NEAT
 
 #endif

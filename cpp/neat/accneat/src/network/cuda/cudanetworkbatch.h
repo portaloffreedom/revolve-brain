@@ -30,7 +30,7 @@
 
 namespace NEAT
 {
-  template <typename Evaluator>
+  template < typename Evaluator >
   class CudaNetworkBatch
   {
     typedef typename Evaluator::Config Config;
@@ -61,7 +61,7 @@ namespace NEAT
       memset(&lens, 0, sizeof(lens));
       sizeof_shared = 0;
 
-      Offsets nets_offs[nnets];
+      auto nets_offs = new Offsets[nnets];
 
       for (uint i = 0; i < nnets; i++)
       {
@@ -135,10 +135,7 @@ namespace NEAT
       {
         uint newlen = uint(lens.output);
         p("alloc output: " << newlen);
-        grow_buffers(h_bufs.output,
-                     d_bufs.output,
-                     capacity.output,
-                     newlen);
+        grow_buffers(h_bufs.output, d_bufs.output, capacity.output, newlen);
       }
 
       for (uint i = 0; i < nnets; i++)
@@ -159,6 +156,8 @@ namespace NEAT
                        h_bufs.gpu_states,
                        lens.gpu_states,
                        cudaMemcpyHostToDevice));
+
+      delete []nets_offs;
     }
 
     public:
@@ -211,7 +210,7 @@ namespace NEAT
 
       configure(nets, nnets);
 
-      cudanetwork_activate<Evaluator> << < nnets, Threads_Per_Block,
+      cudanetwork_activate< Evaluator > << < nnets, Threads_Per_Block,
               sizeof_shared >> > (d_config, d_bufs, ncycles);
 
       xcuda(cudaMemcpy(h_bufs.output,
