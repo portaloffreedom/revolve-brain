@@ -30,25 +30,26 @@
 
 using namespace revolve::brain;
 
-RLPowerLearner::RLPowerLearner(std::string modelName,
+RLPowerLearner::RLPowerLearner(std::string &modelName,
                                Config brain,
                                size_t n_weight_vectors)
-        : generation_counter_(0)
+        : interpolation_spline_size_(brain.interpolation_spline_size)
+          , generation_counter_(0)
+          , max_ranked_policies_(brain.max_ranked_policies)
+          , max_evaluations_(brain.max_evaluations)
           , n_weight_vectors_(n_weight_vectors)
+          , source_y_size_(brain.source_y_size)
+          , update_step_(brain.update_step)
+          , noise_sigma_(brain.noise_sigma)
+          , sigma_tau_correction_(brain.sigma_tau_correction)
           , robot_name_(modelName)
+          , algorithm_type_(brain.algorithm_type)
+          , policy_load_path_(brain.policy_load_path)
 {
   // Read out brain configuration attributes
-  algorithm_type_ = brain.algorithm_type;
   std::cout << std::endl << "Initialising RLPowerLearner, type "
             << algorithm_type_ << std::endl << std::endl;
-  interpolation_spline_size_ = brain.interpolation_spline_size;
-  max_evaluations_ = brain.max_evaluations;
-  max_ranked_policies_ = brain.max_ranked_policies;
-  noise_sigma_ = brain.noise_sigma;
-  sigma_tau_correction_ = brain.sigma_tau_correction;
-  source_y_size_ = brain.source_y_size;
-  update_step_ = brain.update_step;
-  policy_load_path_ = brain.policy_load_path;
+
 
   step_rate_ = interpolation_spline_size_ / source_y_size_;
 

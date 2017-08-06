@@ -55,7 +55,7 @@ namespace revolve
       /// \param n_actuators: number of actuators
       /// \param n_sensors: number of sensors
       /// \return pointer to the RLPower class object
-      RLPowerLearner(std::string modelName,
+      RLPowerLearner(std::string &modelName,
                      Config brain,
                      size_t n_weight_vectors);
 
