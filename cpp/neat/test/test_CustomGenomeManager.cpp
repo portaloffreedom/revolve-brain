@@ -84,7 +84,7 @@ class TestGenomeManager
     const int node_id_bias = 1;
     const int node_id_input = node_id_bias + 1;
     const int node_id_output = node_id_input + ninputs;
-    const int node_id_hidden = node_id_output + noutputs;
+//    const int node_id_hidden = node_id_output + noutputs;
 
     start_genome.add_link(
             start_genome.links,

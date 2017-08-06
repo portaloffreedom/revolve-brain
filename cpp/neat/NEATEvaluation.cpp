@@ -20,9 +20,9 @@
 #include "NEATEvaluation.h"
 
 NeatEvaluation::NeatEvaluation(NEAT::Organism *organism)
-        : organism(organism)
-        , finished_callback(nullptr)
+        : finished_callback(nullptr)
         , fitness(-1)
+        , organism(organism)
 {}
 
 void NeatEvaluation::finish(float fitness)

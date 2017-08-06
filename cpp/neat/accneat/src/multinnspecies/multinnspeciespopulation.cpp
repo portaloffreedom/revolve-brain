@@ -367,7 +367,9 @@ void MultiNNSpeciesPopulation::next_generation()
   {
     MultiNNSpecies *species;
     int ioffspring;
-  } reproduce_parms[norgs];
+  };
+
+  auto *reproduce_parms = new reproduce_parms_t[norgs];
 
   {
     size_t iorg = 0;
@@ -526,4 +528,7 @@ void MultiNNSpeciesPopulation::next_generation()
     assert(org.generation == generation);
   }
 #endif
+
+  delete []reproduce_parms;
+
 }

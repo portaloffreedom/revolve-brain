@@ -136,7 +136,8 @@ namespace cppneat
     for (size_t i = 0; i < yaml_file[1]["connection_innovations"].size(); i++)
     {
       YAML::Node connection_innovation =
-              yaml_file[1]["connection_innovations"][i]["connection_innovation"];
+              yaml_file[1]["connection_innovations"][i][
+                      "connection_innovation"];
       int mark_from = connection_innovation["mark_from"].as<int>();
       int mark_to = connection_innovation["mark_to"].as<int>();
       int in_no = connection_innovation["in_no"].as<int>();
@@ -443,7 +444,8 @@ namespace cppneat
 #ifdef CPPNEAT_DEBUG
       if (not genotype->is_valid())
       {
-          std::cerr << "add neuron mutation caused invalid genotye1" << std::endl;
+          std::cerr << "add neuron mutation caused invalid genotye1"
+          << std::endl;
           throw std::runtime_error("mutation error");
       }
 #endif
@@ -451,7 +453,8 @@ namespace cppneat
 #ifdef CPPNEAT_DEBUG
       if (not genotype->is_valid())
       {
-          std::cerr << "add neuron mutation caused invalid genotye2" << std::endl;
+          std::cerr << "add neuron mutation caused invalid genotye2"
+          << std::endl;
           throw std::runtime_error("mutation error");
       }
 #endif

@@ -139,9 +139,7 @@ namespace NEAT
           links[nlinks++] = g;
         }
       }
-      std::sort(links,
-                links + nlinks,
-                cmp_sort);
+      std::sort(links, links + nlinks, cmp_sort);
     }
 
     bool is_recur(int in_node_id,
