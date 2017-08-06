@@ -355,7 +355,7 @@ void MultiNNSpeciesPopulation::next_generation()
     s->remove_eliminated();
   }
 
-  if (total_expected > (int)norgs)
+  if (total_expected > static_cast<int>(norgs))
   {
     warn("total_expected (" << total_expected << ") > size (" << norgs << ")");
   }

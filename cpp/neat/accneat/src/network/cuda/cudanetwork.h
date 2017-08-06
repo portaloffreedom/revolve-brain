@@ -120,7 +120,7 @@ namespace NEAT
   CudaLink *links(const RawBuffers &bufs,
                   const Offsets &offs)
   {
-    return (CudaLink *)(bufs.main + offs.main.links);
+    return reinterpret_cast<CudaLink *>(bufs.main + offs.main.links);
   }
 
   static __net_eval_decl
@@ -128,7 +128,8 @@ namespace NEAT
   ActivationPartition *partitions(const RawBuffers &bufs,
                                   const Offsets &offs)
   {
-    return (ActivationPartition *)(bufs.main + offs.main.partitions);
+    return reinterpret_cast<ActivationPartition *>(bufs.main
+                                                   + offs.main.partitions);
   }
 
   ///

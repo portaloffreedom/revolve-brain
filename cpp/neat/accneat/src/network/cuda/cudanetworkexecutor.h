@@ -72,7 +72,7 @@ namespace NEAT
                          OrganismEvaluation *results,
                          size_t nnets)
     {
-      CudaNetwork **nets = (CudaNetwork **)nets_;
+      CudaNetwork **nets = reinterpret_cast<CudaNetwork **>(nets_);
       size_t nbatches = batches.size();
       uint batch_size = nnets / nbatches;
 

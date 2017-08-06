@@ -81,7 +81,8 @@ BaseController *HyperAccNEATLearner_CPGController::create_new_controller(
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
           current_evalaution->getOrganism()->net.get());
 
-  CPGController *controller = (CPGController *)active_controller.get();
+  CPGController *controller =
+          reinterpret_cast<CPGController *>(active_controller.get());
 
   size_t x = 0;
   for (auto cpg_it = controller->beginCPGNetwork();

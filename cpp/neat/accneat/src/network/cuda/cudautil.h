@@ -56,14 +56,14 @@ using namespace NEAT;
 static uchar *alloc_host(uint size)
 {
   uchar *result;
-  xcuda(cudaMallocHost((void **)&result, size));
+  xcuda(cudaMallocHost(reinterpret_cast<void **>(&result), size));
   return result;
 }
 
 static uchar *alloc_dev(uint size)
 {
   uchar *result;
-  xcuda(cudaMalloc((void **)&result, size));
+  xcuda(cudaMalloc(reinterpret_cast<void **>(&result), size));
   return result;
 }
 

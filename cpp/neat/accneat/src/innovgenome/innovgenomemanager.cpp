@@ -275,7 +275,8 @@ void InnovGenomeManager::finalize_generation(bool new_fittest)
           std::cout << "phase PRUNE @ gen " << generation << std::endl;
           search_phase_start = generation;
           search_phase = PRUNE;
-          max_phase_duration = 1 + int(PRUNE_PHASE_FACTOR * phase_duration);
+          max_phase_duration =
+                  1 + static_cast<int>(PRUNE_PHASE_FACTOR * phase_duration);
         }
         break;
       case PRUNE:

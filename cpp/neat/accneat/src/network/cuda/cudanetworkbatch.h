@@ -143,7 +143,7 @@ namespace NEAT
         CudaNetwork *net = nets[i];
         net->configure_batch(h_bufs, nets_offs[i]);
 
-        GpuState &gpu = ((GpuState *)h_bufs.gpu_states)[i];
+        GpuState &gpu = reinterpret_cast<GpuState *>(h_bufs.gpu_states)[i];
         gpu.dims = net->get_cuda_dims();
         gpu.offsets = net->get_offsets();
       }
@@ -194,7 +194,7 @@ namespace NEAT
       cudaSetDevice(device);
 
       free_dev(d_config);
-      d_config = (Config *)alloc_dev(len);
+      d_config = reinterpret_cast<Config *>(alloc_dev(len));
       xcuda(cudaMemcpy(d_config,
                        config,
                        len,

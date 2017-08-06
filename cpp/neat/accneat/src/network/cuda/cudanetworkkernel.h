@@ -81,7 +81,7 @@ void cudanetwork_activate(const typename Evaluator::Config *config,
   // to print sensors:
   // p *(@global float * @local)(real_t *foo)@sensor_dims.nsensors
 
-  GpuState state = ((GpuState *)bufs.gpu_states)[blockIdx.x];
+  GpuState state = reinterpret_cast<GpuState *>(bufs.gpu_states)[blockIdx.x];
   uint tid = threadIdx.x;
 
   ///
@@ -91,7 +91,7 @@ void cudanetwork_activate(const typename Evaluator::Config *config,
 
   // in cuda-gdb: print *((@shared float*)activation + i)
   //              print *((@shared float*)newactivation)@6
-  real_t *activation = (real_t *)__shared_buf;
+  real_t *activation = reinterpret_cast<real_t *>(__shared_buf);
   real_t *newactivation = activation + state.dims.nnodes.all;
   real_t *partial_activation = newactivation + state.dims.nnodes.all;
 
@@ -241,7 +241,8 @@ void cudanetwork_activate(const typename Evaluator::Config *config,
   ///
   if (tid == 0)
   {
-    ((OrganismEvaluation *)bufs.output)[blockIdx.x] = eval.result();
+    reinterpret_cast<OrganismEvaluation *>(ufs.output)[blockIdx.x] =
+            eval.result();
   }
 }  // kernel
 }

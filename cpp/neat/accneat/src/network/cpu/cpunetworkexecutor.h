@@ -64,7 +64,7 @@ namespace NEAT
                          OrganismEvaluation *results,
                          size_t nnets)
     {
-      CpuNetwork **nets = (CpuNetwork **)nets_;
+      CpuNetwork **nets = reinterpret_cast<CpuNetwork **>(nets_);
       node_size_t nsensors = nets[0]->get_dims().nnodes.sensor;
 
 #pragma omp parallel for

@@ -158,7 +158,7 @@ void SplineController::generateOutput(const double time,
   // adjust X on the cache coordinate space
   x = (x / CYCLE_LENGTH) * interpolation_cache_size;
   // generate previous and next values
-  int x_a = ((int)x) % interpolation_cache_size;
+  int x_a = (static_cast<int>(x)) % interpolation_cache_size;
   int x_b = (x_a + 1) % interpolation_cache_size;
 
   // linear interpolation for every actuator

@@ -195,7 +195,8 @@ void Species::adjust_fitness()
   // Decide how many get to reproduce based on survival_thresh*pop_size
   // Adding 1.0 ensures that at least one will survive
   num_parents =
-          (int)floor((env->survival_thresh * ((real_t)organisms.size())) + 1.0);
+          static_cast<int>(floor((env->survival_thresh
+                                  * ((real_t)organisms.size())) + 1.0));
 
   // Mark for death those who are ranked too low to be parents
   curorg = organisms.begin();
@@ -259,7 +260,7 @@ real_t Species::count_offspring(real_t skim)
 
   for (curorg = organisms.begin(); curorg != organisms.end(); ++curorg)
   {
-    e_o_intpart = (int)floor((*curorg)->expected_offspring);
+    e_o_intpart = static_cast<int>(floor((*curorg)->expected_offspring));
     e_o_fracpart = fmod((*curorg)->expected_offspring,
                         1.0);
 
@@ -273,7 +274,7 @@ real_t Species::count_offspring(real_t skim)
     if (skim > 1.0)
     {
       skim_intpart = floor(skim);
-      expected_offspring += (int)skim_intpart;
+      expected_offspring += static_cast<int>(skim_intpart);
       skim -= skim_intpart;
     }
   }

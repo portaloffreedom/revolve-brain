@@ -164,7 +164,7 @@ int main(int argc,
                           });
           break;
         default:
-        error("Invalid option: -" << (char)opt);
+        error("Invalid option: -" << static_cast<char>(opt));
       }
     }
   }

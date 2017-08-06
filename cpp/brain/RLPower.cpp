@@ -529,7 +529,7 @@ void RLPower::generateOutput(const double time,
   // adjust X on the cache coordinate space
   x = (x / CYCLE_LENGTH) * interpolation_spline_size_;
   // generate previous and next values
-  int x_a = ((int)x) % interpolation_spline_size_;
+  int x_a = (static_cast<int>(x)) % interpolation_spline_size_;
   int x_b = (x_a + 1) % interpolation_spline_size_;
 
   // linear interpolation for every actuator

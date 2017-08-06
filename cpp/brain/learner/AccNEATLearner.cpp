@@ -117,14 +117,14 @@ BaseController *AccNEATLearner::create_new_controller(double fitness)
   if (current_evalaution)
   {
     // not first `create_new_controller`
-    current_evalaution->finish((float)fitness);
+    current_evalaution->finish(static_cast<float>(fitness));
   }
   current_evalaution = neat->getEvaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
           current_evalaution->getOrganism()->net.get());
 
-  AccNEATCPPNController
-          *controller = (AccNEATCPPNController *)active_controller.get();
+  AccNEATCPPNController *controller =
+          reinterpret_cast<AccNEATCPPNController *>(active_controller.get());
   controller->setCPPN(cppn);
 
   return controller;
@@ -133,7 +133,7 @@ BaseController *AccNEATLearner::create_new_controller(double fitness)
 float AccNEATLearner::getFitness()
 {
   // Calculate fitness for current policy
-  float fitness = (float)evaluator->fitness();
+  float fitness = static_cast<float>(evaluator->fitness());
   return fitness;
 }
 

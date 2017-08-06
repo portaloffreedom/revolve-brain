@@ -820,9 +820,10 @@ namespace revolve
       {
         for (size_t i = 0; i < spline_size; i++)
         {
-          std::tuple<double, double, double> coord(sorted_coordinates[j].first,
-                                                   sorted_coordinates[j].second,
-                                                   i / ((double)spline_size));
+          std::tuple<double, double, double> coord(
+                  sorted_coordinates[j].first,
+                  sorted_coordinates[j].second,
+                  i / (static_cast<double >(spline_size)));
           for (NeuronPtr neuron : cppn->layers_[0])
           {
             // could be faster by neuron->Id()[6] but less easy to read
