@@ -29,7 +29,7 @@ namespace rbc = revolve::brain::cpg;
 /////////////////////////////////////////////////
 RythmGenerationNeuron::RythmGenerationNeuron(
         real_t weight,
-        std::vector<real_t> weight_neigbours,
+        std::vector< real_t > weight_neigbours,
         real_t c,
         real_t amplitude,
         real_t offset)
@@ -48,8 +48,9 @@ RythmGenerationNeuron::~RythmGenerationNeuron()
 }
 
 /////////////////////////////////////////////////
-std::vector<real_t> RythmGenerationNeuron::update(std::vector<real_t> inputs,
-                                                  real_t delta_time)
+std::vector< real_t >
+RythmGenerationNeuron::update(std::vector< real_t > inputs,
+                              real_t delta_time)
 {
   // reading neuron inputs
   if (inputs.size() != 1 + weight_neigbours.size())
@@ -76,10 +77,10 @@ std::vector<real_t> RythmGenerationNeuron::update(std::vector<real_t> inputs,
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::nextPhi(const std::vector<real_t> &inputs,
+real_t RythmGenerationNeuron::nextPhi(const std::vector< real_t > &inputs,
                                       real_t delta_time) const
 {
-  static const real_t PI = std::acos(-1); // define PI
+  static const real_t PI = std::acos(-1);  // define PI
 
   const real_t thisPhi = this->phi;
   const real_t otherPhi = inputs[0];

@@ -26,7 +26,7 @@
 #include "SUPGGenomeManager.h"
 
 SUPGGenomeManager::SUPGGenomeManager(const std::string &robot_name)
-  : InnovGenomeManager(robot_name)
+        : InnovGenomeManager(robot_name)
 {
 }
 
@@ -35,7 +35,7 @@ static NEAT::InnovGenome *to_innov(NEAT::Genome &g)
   return dynamic_cast<NEAT::InnovGenome *>(&g);
 }
 
-std::vector<std::unique_ptr<NEAT::Genome>>
+std::vector< std::unique_ptr< NEAT::Genome>>
 SUPGGenomeManager::create_seed_generation(size_t ngenomes,
                                           NEAT::rng_t rng,
                                           size_t ntraits,
@@ -72,17 +72,18 @@ SUPGGenomeManager::create_seed_generation(size_t ngenomes,
   //         }
   // FINISHED MODIFICATION
 
-  std::vector<std::unique_ptr<NEAT::Genome>> genomes;
+  std::vector< std::unique_ptr< NEAT::Genome>> genomes;
   {
     NEAT::rng_t _rng = rng;
-    for (int i = 0; i < NEAT::env->pop_size; i++) {
+    for (int i = 0; i < NEAT::env->pop_size; i++)
+    {
       NEAT::InnovGenome *g = new NEAT::InnovGenome(robot_name);
       start_genome.duplicate_into(g);
       g->rng.seed(_rng.integer());
       g->mutate_link_weights(1.0, 1.0, NEAT::COLDGAUSSIAN);
       g->randomize_traits();
 
-      genomes.emplace_back(std::unique_ptr<NEAT::Genome>(g));
+      genomes.emplace_back(std::unique_ptr< NEAT::Genome >(g));
     }
   }
 

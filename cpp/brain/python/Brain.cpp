@@ -53,7 +53,7 @@ BOOST_PYTHON_MODULE (revolve_brain_python)
           boost::python::pure_virtual(&Evaluator::start)).def(
           "fitness",
           boost::python::pure_virtual(&Evaluator::fitness));
-  //boost::python::register_ptr_to_python<boost::shared_ptr<Evaluator>>();
+  // boost::python::register_ptr_to_python<boost::shared_ptr<Evaluator>>();
 
   // actuator abstract class
   boost::python::class_< ActuatorWrap, boost::noncopyable >("Actuator").def(

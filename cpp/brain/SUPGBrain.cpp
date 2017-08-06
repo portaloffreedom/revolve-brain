@@ -21,7 +21,9 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include <innovgenome/innovgenome.h>

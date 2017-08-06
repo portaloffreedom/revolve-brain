@@ -142,7 +142,6 @@ void MultiNNSpecies::adjust_fitness()
 
   for (curorg = organisms.begin(); curorg != organisms.end(); ++curorg)
   {
-
     // Remember the original fitness before it gets modified
     (*curorg)->adjusted_fitness = (*curorg)->eval.fitness;
 
