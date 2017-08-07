@@ -43,17 +43,17 @@
 using namespace NEAT;
 
 Organism::Organism(const Organism &other)
+        : genome(env->genome_manager->make_default())
+        , net(std::unique_ptr< Network >(Network::create()))
 {
-  this->genome = env->genome_manager->make_default();
-  this->net = std::unique_ptr<Network>(Network::create());
   other.copy_into(*this);
 }
 
 Organism::Organism(const Genome &genome)
+        : genome(env->genome_manager->make_default())
+        , net(std::unique_ptr< Network >(Network::create()))
 {
-  this->genome = env->genome_manager->make_default();
   *this->genome = genome;
-  this->net = std::unique_ptr<Network>(Network::create());
 
   // Note: We're in the base class constructor, so a derived class' init() won't
   //      be called. The derived class' constructor must also call init().
@@ -95,7 +95,7 @@ void Organism::copy_into(Organism &dst) const
   copy(generation);
 
   // Networks must be regenerated.
-  dst.net = std::unique_ptr<Network>(Network::create());
+  dst.net = std::unique_ptr< Network >(Network::create());
 
 #undef copy
 }

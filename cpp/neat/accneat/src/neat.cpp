@@ -40,7 +40,7 @@
 
 using NEAT::real_t;
 
-const std::vector<NEAT::nodetype> NEAT::nodetypes = {
+const std::vector< NEAT::nodetype > NEAT::nodetypes = {
         NEAT::NT_BIAS,
         NEAT::NT_SENSOR,
         NEAT::NT_OUTPUT,
@@ -89,13 +89,19 @@ real_t NEAT::oldhebbian(real_t weight,
   // real_t weight_mag;
 
   if (maxweight < 5.0)
-  { maxweight = 5.0; }
+  {
+    maxweight = 5.0;
+  }
 
   if (weight > maxweight)
-  { weight = maxweight; }
+  {
+    weight = maxweight;
+  }
 
   if (weight < -maxweight)
-  { weight = -maxweight; }
+  {
+    weight = -maxweight;
+  }
 
   if (weight < 0)
   {
@@ -106,8 +112,7 @@ real_t NEAT::oldhebbian(real_t weight,
   if (not(neg))
   {
     // if (true) {
-    delta =
-            hebb_rate * (maxweight - weight) * active_in * active_out +
+    delta = hebb_rate * (maxweight - weight) * active_in * active_out +
             pre_rate * (weight) * active_in * (active_out - 1.0) +
             post_rate * (weight) * (active_in - 1.0) * active_out;
 
@@ -120,8 +125,7 @@ real_t NEAT::oldhebbian(real_t weight,
   {
     // In the inhibatory case, we strengthen the synapse when output is low and
     // input is high
-    delta =
-            hebb_rate * (maxweight - weight) * active_in * (1.0 - active_out) +
+    delta = hebb_rate * (maxweight - weight) * active_in * (1.0 - active_out) +
             // hebb_rate*(maxweight-weight)*(1.0-active_in)*(active_out)+
             -5 * hebb_rate * (weight) * active_in * active_out + // anti-hebbian
             // hebb_rate*(maxweight-weight)*active_in*active_out+
@@ -162,13 +166,19 @@ real_t NEAT::hebbian(real_t weight,
   real_t topweight;
 
   if (maxweight < 5.0)
-  { maxweight = 5.0; }
+  {
+    maxweight = 5.0;
+  }
 
   if (weight > maxweight)
-  { weight = maxweight; }
+  {
+    weight = maxweight;
+  }
 
   if (weight < -maxweight)
-  { weight = -maxweight; }
+  {
+    weight = -maxweight;
+  }
 
   if (weight < 0)
   {
@@ -183,13 +193,14 @@ real_t NEAT::hebbian(real_t weight,
 
   topweight = weight + 2.0;
   if (topweight > maxweight)
-  { topweight = maxweight; }
+  {
+    topweight = maxweight;
+  }
 
   if (not(neg))
   {
     // if (true) {
-    delta =
-            hebb_rate * (maxweight - weight) * active_in * active_out +
+    delta = hebb_rate * (maxweight - weight) * active_in * active_out +
             pre_rate * (topweight) * active_in * (active_out - 1.0);
     // post_rate*(weight+1.0)*(active_in-1.0)*active_out;
 
@@ -199,8 +210,7 @@ real_t NEAT::hebbian(real_t weight,
   {
     // In the inhibatory case, we strengthen the synapse when output is low and
     // input is high
-    delta =
-            pre_rate * (maxweight - weight) * active_in * (1.0 - active_out) +
+    delta = pre_rate * (maxweight - weight) * active_in * (1.0 - active_out) +
             // hebb_rate*(maxweight-weight)*(1.0-active_in)*(active_out)+
             -hebb_rate * (topweight + 2.0) * active_in * active_out +
             // hebb_rate*(maxweight-weight)*active_in*active_out+

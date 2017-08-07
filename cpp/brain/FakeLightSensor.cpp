@@ -38,13 +38,15 @@ void FakeLightSensor::read(double *input_vector)
   input_vector[0] = read();
 }
 
-float revolve::brain::FakeLightSensor::light_attenuation(float distance,
-                                                         float angle)
+double revolve::brain::FakeLightSensor::light_attenuation(double distance,
+                                                          double angle)
 {
-  float abs_angle = std::fabs(angle);
+  double abs_angle = std::fabs(angle);
 
   if (abs_angle > half_fov)
+  {
     return 0;
+  }
 
   // TODO noise
   return distance;

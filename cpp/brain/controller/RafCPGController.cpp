@@ -33,11 +33,11 @@ namespace revolve
   namespace brain
   {
     RafCPGController::RafCPGController(
-            std::string model_name,
+            std::string &_modelName,
             CPPNConfigPtr _config,
-            const std::vector<ActuatorPtr> &actuators,
-            const std::vector<SensorPtr> &sensors)
-            : modelName_(model_name)
+            const std::vector< ActuatorPtr > &_actuators,
+            const std::vector< SensorPtr > &_sensors)
+            : modelName_(_modelName)
               , allNeurons_(_config->allNeurons_)
               , inputNeurons_(_config->inputNeurons_)
               , outputNeurons_(_config->outputNeurons_)
@@ -48,13 +48,13 @@ namespace revolve
               , connections_(_config->connections_)
     {
       size_t p = 0;
-      for (auto sensor : sensors)
+      for (auto sensor : _sensors)
       {
         p += sensor->inputs();
       }
       inputs_ = new double[p];
       p = 0;
-      for (auto actuator : actuators)
+      for (auto actuator : _actuators)
       {
         p += actuator->outputs();
       }

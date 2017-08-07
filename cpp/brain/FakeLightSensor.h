@@ -60,8 +60,8 @@ namespace revolve
       virtual double light_angle() = 0;
 
       /// \brief
-      virtual float light_attenuation(float distance,
-                                      float angle);
+      virtual double light_attenuation(double distance,
+                                       double angle);
 
       /// \brief
       float half_fov;

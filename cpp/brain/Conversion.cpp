@@ -199,7 +199,7 @@ namespace revolve
     boost::shared_ptr<CPPNConfig>
     convertForController(cppneat::GeneticEncodingPtr genotype)
     {
-      assert(!genotype->is_layered_);
+      assert(not genotype->is_layered_);
       std::vector<cppneat::NeuronGenePtr>
               neuron_genes = genotype->neuron_genes_;
       std::vector<cppneat::ConnectionGenePtr>

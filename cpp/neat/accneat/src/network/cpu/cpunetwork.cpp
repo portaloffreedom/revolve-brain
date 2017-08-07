@@ -122,7 +122,7 @@ void CpuNetwork::activate(size_t ncycles)
         sum += link.weight * act_curr[link.in_node_index];
       }
       // Sigmoidal activation- see comments under fsigmoid
-      act_new[i] = NEAT::fsigmoid(sum, 4.924273, 2.4621365);
+      act_new[i] = NEAT::fsigmoid(sum, 4.924273);
     }
 
     std::swap(act_curr, act_new);
@@ -133,20 +133,20 @@ void CpuNetwork::activate(size_t ncycles)
     // If an odd number of cycles, we have to copy non-input data
     // of act_other back into activations.
     std::memcpy(activations.data() + dims.nnodes.input,
-           act_other + dims.nnodes.input,
-           sizeof(real_t) * (dims.nnodes.all - dims.nnodes.input));
+                act_other + dims.nnodes.input,
+                sizeof(real_t) * (dims.nnodes.all - dims.nnodes.input));
   }
 
-  delete []act_other;
+  delete[]act_other;
 }
 
-std::vector<real_t> &CpuNetwork::get_activations(accneat_out
-                                                 std::vector<real_t> &result)
+std::vector< real_t > &CpuNetwork::get_activations(
+        accneat_out std::vector< real_t > &result)
 {
   return result = activations;
 }
 
-void CpuNetwork::set_activations(accneat_in std::vector<real_t> &newacts)
+void CpuNetwork::set_activations(accneat_in std::vector< real_t > &newacts)
 {
   activations = newacts;
 }

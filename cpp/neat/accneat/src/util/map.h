@@ -94,7 +94,7 @@ namespace NEAT
     std::map<Location, Object> objects;
   };
 
-  Map parse_map(std::string path);
+  Map parse_map(std::string &path);
 }
 
 #endif

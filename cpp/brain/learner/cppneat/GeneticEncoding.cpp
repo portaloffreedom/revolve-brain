@@ -140,7 +140,7 @@ namespace cppneat
                                          genotype2,
                                          excess_num,
                                          disjoint_num);
-    size_t num_genes = std::max(genotype1->num_genes(),
+    size_t num_genes = (std::max)(genotype1->num_genes(),
                                 genotype2->num_genes());
     std::vector< std::pair< GenePtr, GenePtr>> gene_pairs =
             GeneticEncoding::get_pairs(
@@ -235,10 +235,8 @@ namespace cppneat
     size_t max_mark2 =
             genes_sorted2[genes_sorted2.size() - 1]->getInnovNumber();
 
-    size_t min_mark = std::min(min_mark1,
-                               min_mark2);
-    size_t max_mark = std::max(max_mark1,
-                               max_mark2);
+    size_t min_mark = (std::min)(min_mark1, min_mark2);
+    size_t max_mark = (std::max)(max_mark1, max_mark2);
 
     std::vector< std::pair< GenePtr, GenePtr>> gene_pairs;
 
@@ -405,14 +403,12 @@ namespace cppneat
       // adopt genes that i dont have
       if (pair.first != nullptr && pair.second == nullptr)
       {
-        if (pair.first
-                ->gene_type == Gene::NEURON_GENE)
+        if (pair.first->gene_type == Gene::NEURON_GENE)
         {
           add_neuron_gene(
                   boost::dynamic_pointer_cast< NeuronGene >(pair.first));
         }
-        else if (pair.first
-                     ->gene_type == Gene::CONNECTION_GENE)
+        else if (pair.first->gene_type == Gene::CONNECTION_GENE)
         {
           add_connection_gene(
                   boost::dynamic_pointer_cast< ConnectionGene >(pair.first));
@@ -461,9 +457,7 @@ namespace cppneat
                   connection_gene));
         }
       }
-      std::sort(all_genes_sorted.begin(),
-                all_genes_sorted.end(),
-                gene_cmp);
+      std::sort(all_genes_sorted.begin(), all_genes_sorted.end(), gene_cmp);
       all_genes_valid = true;
     }
     return all_genes_sorted;
@@ -547,9 +541,7 @@ namespace cppneat
   {
     GenePtr old = boost::dynamic_pointer_cast< Gene >(neuron_genes_[index]);
     neuron_genes_.erase(neuron_genes_.begin() + index);
-    auto it = std::find(all_genes_sorted.begin(),
-                        all_genes_sorted.end(),
-                        old);
+    auto it = std::find(all_genes_sorted.begin(), all_genes_sorted.end(), old);
     all_genes_sorted.erase(it);
   }
 
@@ -565,9 +557,7 @@ namespace cppneat
     {
       layers_[layer].erase(layers_[layer].begin() + index);
     }
-    auto it = std::find(all_genes_sorted.begin(),
-                        all_genes_sorted.end(),
-                        old);
+    auto it = std::find(all_genes_sorted.begin(), all_genes_sorted.end(), old);
     all_genes_sorted.erase(it);
   }
 
@@ -575,9 +565,7 @@ namespace cppneat
   {
     GenePtr old = boost::dynamic_pointer_cast< Gene >(connection_genes_[index]);
     connection_genes_.erase(connection_genes_.begin() + index);
-    auto it = std::find(all_genes_sorted.begin(),
-                        all_genes_sorted.end(),
-                        old);
+    auto it = std::find(all_genes_sorted.begin(), all_genes_sorted.end(), old);
     all_genes_sorted.erase(it);
   }
 

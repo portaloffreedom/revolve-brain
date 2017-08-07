@@ -22,7 +22,6 @@
 #include <iostream>
 #include <map>
 #include <sstream>
-#include <string>
 
 #include "RythmGenerationCPG.h"
 
@@ -32,7 +31,7 @@ namespace revolve
   {
     RythmGenerationCPG::RythmGenerationCPG(
             const std::string &id,
-            const std::map<std::string, double> &params)
+            const std::map< std::string, double > &params)
             : Neuron(id)
             , phi(1)
             , weight(1)
@@ -42,7 +41,7 @@ namespace revolve
       if (not params.count("rv:bias"))
       {
         std::cerr << "A `RythmGeneration CPG`"
-                << " neuron requires `rv:bias` element." << std::endl;
+                  << " neuron requires `rv:bias` element." << std::endl;
         throw std::runtime_error("Robot brain error");
       }
       this->bias_ = params.find("rv:bias")->second;
@@ -55,7 +54,10 @@ namespace revolve
       double deltaT = t - lastTime_;
       lastTime_ = t;
 
-      if (deltaT > 0.1) deltaT = 0.1;
+      if (deltaT > 0.1)
+      {
+        deltaT = 0.1;
+      }
 
       //      double inputValue = 0;
       static const double PI = std::acos(-1);
@@ -84,23 +86,20 @@ namespace revolve
       return result;
     }
 
-    std::map<std::string, double> RythmGenerationCPG::getNeuronParameters()
+    std::map< std::string, double > RythmGenerationCPG::getNeuronParameters()
     {
-      std::map<std::string, double> parameters;
+      std::map< std::string, double > parameters;
       parameters["rv:bias"] = bias_;
       return parameters;
     }
 
     void RythmGenerationCPG::setNeuronParameters(
-            std::map<std::string, double> params)
+            std::map< std::string, double > params)
     {
       if (not params.count("rv:bias"))
       {
-        std::cerr
-                << "A `"
-                << "RythmGeneration CPG"
-                << "` neuron requires `rv:bias` element."
-                << std::endl;
+        std::cerr << "A `RythmGeneration CPG`"
+                  << " neuron requires `rv:bias` element." << std::endl;
         throw std::runtime_error("Robot brain error");
       }
       this->bias_ = params.find("rv:bias")->second;

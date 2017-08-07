@@ -164,7 +164,7 @@ void NeuralNetwork::step(double time)
     }
   }
 
-  flipState_ = !flipState_;
+  flipState_ = not flipState_;
 }
 
 void NeuralNetwork::update(const std::vector< ActuatorPtr > &actuators,

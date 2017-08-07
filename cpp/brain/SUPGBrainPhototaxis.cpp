@@ -86,12 +86,13 @@ double SUPGBrainPhototaxis::getFitness()
 double SUPGBrainPhototaxis::getPhaseFitness()
 {
   double left_eye =
-          current_light_left == nullptr ? std::numeric_limits< double >::min() :
-          current_light_left->read();
+          current_light_left == nullptr ?
+          std::numeric_limits< double >::min()
+                                        : current_light_left->read();
   double right_eye =
-          current_light_right == nullptr ? std::numeric_limits< double >::min()
-                                         :
-          current_light_right->read();
+          current_light_right == nullptr ?
+          std::numeric_limits< double >::min()
+                                         : current_light_right->read();
 
   double value = (left_eye + right_eye)
                  - ((left_eye - right_eye) * (left_eye - right_eye));

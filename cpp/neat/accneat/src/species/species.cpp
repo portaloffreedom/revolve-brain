@@ -45,34 +45,32 @@ using namespace NEAT;
 using std::vector;
 
 Species::Species(int i)
+ : id(i)
+ , age(1)
+ , ave_fitness(0.0)
+ , max_fitness(0)
+ , max_fitness_ever(0)
+ , expected_offspring(0)
+ , novel(false)
+ , obliterate(false)
+ , age_of_last_improvement(0)
+ , average_est(0)
 {
-  id = i;
-  age = 1;
-  ave_fitness = 0.0;
-  expected_offspring = 0;
-  novel = false;
-  age_of_last_improvement = 0;
-  max_fitness = 0;
-  max_fitness_ever = 0;
-  obliterate = false;
-
-  average_est = 0;
 }
 
 Species::Species(int i,
                  bool n)
+ : id(i)
+ , age(1)
+ , ave_fitness(0.0)
+ , max_fitness(0)
+ , max_fitness_ever(0)
+ , expected_offspring(0)
+ , novel(n)
+ , obliterate(false)
+ , age_of_last_improvement(0)
+ , average_est(0)
 {
-  id = i;
-  age = 1;
-  ave_fitness = 0.0;
-  expected_offspring = 0;
-  novel = n;
-  age_of_last_improvement = 0;
-  max_fitness = 0;
-  max_fitness_ever = 0;
-  obliterate = false;
-
-  average_est = 0;
 }
 
 Species::~Species()

@@ -424,7 +424,7 @@ namespace NEAT
     return map;
   }
 
-  Map parse_map(std::string path)
+  Map parse_map(string &path)
   {
     std::map<std::string, Section> sections = parse_sections(path);
 
