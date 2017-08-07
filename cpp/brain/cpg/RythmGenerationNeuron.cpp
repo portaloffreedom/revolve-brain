@@ -34,7 +34,7 @@ RythmGenerationNeuron::RythmGenerationNeuron(
         real_t amplitude,
         real_t offset)
         : phi(1)
-          , weight_neigbours(weight_neigbours)
+        , weight_neigbours(weight_neigbours)
 {
   setWeight(weight);
   setC(c);
@@ -48,19 +48,16 @@ RythmGenerationNeuron::~RythmGenerationNeuron()
 }
 
 /////////////////////////////////////////////////
-std::vector< real_t >
-RythmGenerationNeuron::update(std::vector< real_t > inputs,
-                              real_t delta_time)
+std::vector< real_t > RythmGenerationNeuron::update(
+        std::vector< real_t > inputs,
+        real_t delta_time)
 {
   // reading neuron inputs
   if (inputs.size() != 1 + weight_neigbours.size())
   {
     std::stringstream ss;
-    ss
-            << "input size should be 1 + "
-            << weight_neigbours.size()
-            << ", instead is "
-            << inputs.size();
+    ss << "input size should be 1 + " << weight_neigbours.size()
+       << ", instead is " << inputs.size();
     throw invalid_input_exception(ss.str());
   }
   //  real_t otherPhi = inputs[0];
@@ -86,9 +83,8 @@ real_t RythmGenerationNeuron::nextPhi(const std::vector< real_t > &inputs,
   const real_t otherPhi = inputs[0];
 
   // (2 * pi * c') + w * sin(otherPhi-thisPhi)
-  real_t deltaPhi =
-          2 * PI * this->c +
-          this->weight * std::sin(otherPhi - thisPhi);
+  real_t deltaPhi = 2 * PI * this->c
+                    + this->weight * std::sin(otherPhi - thisPhi);
 
   for (size_t i = 1; i < inputs.size(); ++i)
   {
@@ -114,8 +110,7 @@ real_t RythmGenerationNeuron::nextPhi(const std::vector< real_t > &inputs,
 real_t RythmGenerationNeuron::output() const
 {
   // A * cos(phi) + o
-  return (this->amplitude * std::cos(this->phi))
-         + this->offset;
+  return (this->amplitude * std::cos(this->phi)) + this->offset;
 }
 
 // GETTERS AND SETTERS --------------------------------------------------------

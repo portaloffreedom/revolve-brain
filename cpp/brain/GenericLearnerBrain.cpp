@@ -36,7 +36,8 @@ GenericLearnerBrain::GenericLearnerBrain(BaseLearner *learner)
 
 void GenericLearnerBrain::update(const std::vector<ActuatorPtr> &actuators,
                                  const std::vector<SensorPtr> &sensors,
-                                 double t, double step)
+                                 double t,
+                                 double step)
 {
   BaseController *controller = learner->update(sensors, t, step);
   controller->update(actuators, sensors, t, step);

@@ -221,7 +221,7 @@ void RLPower::updatePolicy()
 
   // Print-out current status to the terminal
   std::cout << robot_name_ << ":"
-            << generation_counter_ << " ranked_policies_:";
+            << generation_counter_ << " rankedPolicies_:";
   for (auto const &it : ranked_policies_)
   {
     double fitness = it.first;
@@ -283,7 +283,7 @@ void RLPower::updatePolicy()
   if (ranked_policies_.size() < max_ranked_policies_)
   {
     // Generate random policy if number of stored policies is less then
-    // 'max_ranked_policies_'
+    // 'maxRankedPolicies_'
     for (unsigned int i = 0; i < n_actuators_; i++)
     {
       for (unsigned int j = 0; j < source_y_size_; j++)
@@ -370,7 +370,7 @@ void RLPower::updatePolicy()
           }
 
           // Add a mutation + current
-          // TODO: Verify do we use 'current_policy_' in this case
+          // TODO: Verify do we use 'currentPolicy_' in this case
           spline_point += dist(mt) + (*current_policy_)[i][j];
 
           // Set a newly generated point as current
@@ -488,7 +488,7 @@ std::map<double, RLPower::PolicyPtr>::iterator RLPower::binarySelection()
           udist(0, max_ranked_policies_ - 1);
 
   // Select two different numbers from uniform distribution
-  // U(0, max_ranked_policies_ - 1)
+  // U(0, maxRankedPolicies_ - 1)
   unsigned int pindex1, pindex2;
   pindex1 = udist(umt);
   do
@@ -496,7 +496,7 @@ std::map<double, RLPower::PolicyPtr>::iterator RLPower::binarySelection()
     pindex2 = udist(umt);
   } while (pindex1 == pindex2);
 
-  // Set iterators to begin of the 'ranked_policies_' map
+  // Set iterators to begin of the 'rankedPolicies_' map
   auto individual1 = ranked_policies_.begin();
   auto individual2 = ranked_policies_.begin();
 

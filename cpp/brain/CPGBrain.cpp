@@ -167,7 +167,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
 
   // Print-out current status to the terminal
   std::cout << robot_name << ":"
-            << generation_counter_ << " ranked_policies_:";
+            << generation_counter_ << " rankedPolicies_:";
   for (auto const &it : ranked_policies_)
   {
     double fitness = it.first;
@@ -176,8 +176,8 @@ void CPGBrain::updatePolicy(double curr_fitness)
   std::cout << std::endl;
 
   // Write fitness and genomes log to output files
-  //     this->writeCurrent();
-  //     this->writeElite();
+  //     this->LogCurrentSpline();
+  //     this->LogBestSplines();
 
   // Update generation counter and check is it finished
   generation_counter_++;
@@ -222,7 +222,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
   if (ranked_policies_.size() < max_ranked_policies_)
   {
     // Generate random policy if number of stored policies is less then
-    // 'max_ranked_policies_'
+    // 'maxRankedPolicies_'
     for (size_t i = 0; i < n_actuators; i++)
     {
       for (size_t j = 0; j < source_y_size; j++)
@@ -312,7 +312,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
           }
 
           // Add a mutation + current
-          // TODO: Verify do we use 'current_policy_' in this case
+          // TODO: Verify do we use 'currentPolicy_' in this case
           spline_point += dist(mt) + current_policy_->at(i)->at(j);
 
           // Set a newly generated point as current
@@ -357,7 +357,7 @@ std::map<double, CPGBrain::PolicyPtr>::iterator CPGBrain::binarySelection()
   std::uniform_int_distribution<size_t> udist(0, max_ranked_policies_ - 1);
 
   // Select two different numbers from uniform distribution
-  // U(0, max_ranked_policies_ - 1)
+  // U(0, maxRankedPolicies_ - 1)
   size_t pindex1, pindex2;
   pindex1 = udist(umt);
   do
@@ -365,7 +365,7 @@ std::map<double, CPGBrain::PolicyPtr>::iterator CPGBrain::binarySelection()
     pindex2 = udist(umt);
   } while (pindex1 == pindex2);
 
-  // Set iterators to begin of the 'ranked_policies_' map
+  // Set iterators to begin of the 'rankedPolicies_' map
   auto individual1 = ranked_policies_.begin();
   auto individual2 = ranked_policies_.begin();
 

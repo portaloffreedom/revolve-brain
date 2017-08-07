@@ -530,7 +530,7 @@ namespace cppneat
     return active_brain_;
   }
 
-  void NEATLearner::writeGenome(std::string robot_name,
+  void NEATLearner::writeGenome(std::string &robot_name,
                                 GeneticEncodingPtr genome)
   {
     std::ofstream outputFile;
@@ -545,21 +545,15 @@ namespace cppneat
     {
       auto connection = it->get();
       outputFile << "      - con_" << n_cons << ":" << std::endl;
-      outputFile
-              << "            in_no: "
-              << connection->getInnovNumber()
-              << std::endl;
+      outputFile << "            in_no: "
+                 << connection->getInnovNumber() << std::endl;
       outputFile << "            from: " << connection->mark_from << std::endl;
       outputFile << "            to: " << connection->mark_to << std::endl;
       outputFile << "            weight: " << connection->weight << std::endl;
-      outputFile
-              << "            parent_name: "
-              << connection->get_parent_name()
-              << std::endl;
-      outputFile
-              << "            parent_index: "
-              << connection->get_parent_index()
-              << std::endl;
+      outputFile << "            parent_name: "
+                 << connection->get_parent_name() << std::endl;
+      outputFile << "            parent_index: "
+                 << connection->get_parent_index() << std::endl;
     }
     outputFile << "    layers:" << std::endl;
     auto layers = genome->layers_;
@@ -574,27 +568,17 @@ namespace cppneat
         outputFile << "          - nid: " << neuron->neuron_id << std::endl;
         outputFile << "            ntype: " << neuron->neuron_type << std::endl;
         outputFile << "            nlayer: " << neuron->layer << std::endl;
-        outputFile
-                << "            in_no: "
-                << it2->get()->getInnovNumber()
-                << std::endl;
-        outputFile
-                << "            parent_name: "
-                << it2->get()->get_parent_name()
-                << std::endl;
-        outputFile
-                << "            parent_index: "
-                << it2->get()->get_parent_index()
-                << std::endl;
+        outputFile << "            in_no: "
+                   << it2->get()->getInnovNumber() << std::endl;
+        outputFile << "            parent_name: "
+                   << it2->get()->get_parent_name() << std::endl;
+        outputFile << "            parent_index: "
+                   << it2->get()->get_parent_index() << std::endl;
         outputFile << "            params:" << std::endl;
         for (auto np = neuron_params.begin(); np != neuron_params.end(); np++)
         {
-          outputFile
-                  << "              "
-                  << np->first
-                  << ": "
-                  << np->second
-                  << std::endl;
+          outputFile << "              " << np->first
+                     << ": " << np->second << std::endl;
         }
       }
       n_layer++;
@@ -610,8 +594,8 @@ namespace cppneat
     species.clear();
     // choose representative from previous generation
     // (or do nothing for first run)
-    for (std::pair<GeneticEncodingPtr, std::vector<GeneticEncodingPtr>>
-              sppair : old_species)
+    for (std::pair<GeneticEncodingPtr, std::vector<GeneticEncodingPtr>> sppair
+            : old_species)
     {
       std::uniform_int_distribution<int> choose(0, sppair.second.size() - 1);
       GeneticEncodingPtr representative = sppair.second[choose(generator)];
@@ -623,8 +607,8 @@ namespace cppneat
     {
       bool added = false;
       // search for matching species
-      for (std::pair<GeneticEncodingPtr, std::vector<GeneticEncodingPtr>>
-                sppair : species)
+      for (std::pair<GeneticEncodingPtr, std::vector<GeneticEncodingPtr>> sppair
+              : species)
       {
         // TODO: coefficients
         if (GeneticEncoding::get_dissimilarity(

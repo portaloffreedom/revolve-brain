@@ -34,14 +34,14 @@ namespace revolve
 {
   namespace brain
   {
-    typedef std::vector<double> Spline;
+    typedef std::vector< double > Spline;
 
-    typedef std::vector<Spline> Policy;
+    typedef std::vector< Spline > Policy;
 
-    typedef std::shared_ptr<Policy> PolicyPtr;
+    typedef std::shared_ptr< Policy > PolicyPtr;
 
     class RLPowerLearner
-            : public Learner<PolicyPtr>
+            : public Learner< PolicyPtr >
     {
       public:
       struct Config;
@@ -49,15 +49,15 @@ namespace revolve
       /// \brief The RLPower constructor reads out configuration file,
       /// deretmines which algorithm type to apply and
       /// initialises new policy.
-      /// \param modelName: name of a robot
-      /// \param brain: configuration file
+      /// \param _modelName: name of a robot
+      /// \param _brain: configuration file
       /// \param evaluator: pointer to fitness evaluatior
       /// \param n_actuators: number of actuators
       /// \param n_sensors: number of sensors
       /// \return pointer to the RLPower class object
-      RLPowerLearner(std::string &modelName,
-                     Config brain,
-                     size_t n_weight_vectors);
+      RLPowerLearner(std::string &_modelName,
+                     Config _brain,
+                     size_t _numWeightVectors);
 
       virtual ~RLPowerLearner();
 
@@ -111,26 +111,27 @@ namespace revolve
       class PolicySave
       {
         public:
-        PolicyPtr policy_;
-        double fitness_;
-
-        PolicySave(double fitness,
-                   PolicyPtr &p)
-                : policy_(p)
-                  , fitness_(fitness)
-        {}
-
-        bool
-        operator>(const PolicySave &ps) const
+        PolicySave(double _fitness,
+                   PolicyPtr &_p)
+                : policy_(_p)
+                , fitness_(_fitness)
         {
-          return this->fitness_ > ps.fitness_;
         }
+
+        bool operator>(const PolicySave &_ps) const
+        {
+          return this->fitness_ > _ps.fitness_;
+        }
+
+        PolicyPtr policy_;
+
+        double fitness_;
       };
 
 
       private:
       /// \brief Generate new policy
-      void generateInitPolicy();
+      void GenerateInitPolicy();
 
       /// \brief
       virtual void reportFitness(std::string id,
@@ -141,75 +142,75 @@ namespace revolve
       virtual PolicyPtr currentGenotype();
 
       /// \brief Load saved policy from JSON file
-      void loadPolicy(std::string const policy_path);
+      void LoadPolicy(const std::string &_policyPath);
 
       /// \brief Generate interpolated spline based on number of sampled control
       /// points in 'source_y'
-      /// \param source_y: set of control points over which interpolation is
+      /// \param _sourceY: set of control points over which interpolation is
       /// generated
-      /// \param destination_y: set of interpolated control points
+      /// \param _destinationY: set of interpolated control points
       /// (default 100 points)
-      void interpolateCubic(Policy *const source_y,
-                            Policy *destination_y);
+      void InterpolateCubic(Policy *const _sourceY,
+                            Policy *_destinationY);
 
       /// \brief Writes current spline to file
-      void writeCurrent();
+      void LogCurrentSpline();
 
       /// \brief Writes best 10 splines to file
-      void writeElite();
+      void LogBestSplines();
 
       /// \brief Increment number of sampling points for policy
-      void increaseSplinePoints();
+      void IncreaseSplinePoints();
 
       /// \brief Randomly select two policies and return the one with higher
       /// fitness
       /// \return an iterator from 'ranked_policies_' map
-      std::map<double, PolicyPtr>::iterator binarySelection();
+      std::map< double, PolicyPtr >::iterator BinarySelection();
 
       /// \brief Pointer to the current policy
-      PolicyPtr current_policy_ = NULL;
+      PolicyPtr currentPolicy_ = NULL;
 
       /// \brief Number of 'interpolation_cache_' sample points
-      size_t interpolation_spline_size_;
+      size_t numInterpolationPoints_;
 
       /// \brief Number of current generation
-      size_t generation_counter_;
+      size_t generationCounter_;
 
       /// \brief Maximal number of stored ranked policies
-      size_t max_ranked_policies_;
+      size_t maxRankedPolicies_;
 
       /// \brief Maximal number of evaluations
-      size_t max_evaluations_;
+      size_t maxEvaluations_;
 
       /// \brief Number of actuators
-      size_t n_weight_vectors_;
+      size_t numActuators_;
 
       /// \brief
-      size_t source_y_size_;
+      size_t numSteps_;
 
       /// \brief
-      size_t step_rate_;
+      size_t stepRate_;
 
       /// \brief Number of evaluations after which sampling size increases
-      size_t update_step_;
+      size_t updateStep_;
 
       /// \brief Noise in generatePolicy() function
-      double noise_sigma_;
+      double sigma_;
 
       /// \brief Tau deviation for self-adaptive sigma
-      double sigma_tau_correction_;
+      double tau_;
 
       /// \brief Name of the robot
-      std::string robot_name_;
+      std::string robotName_;
 
       /// \brief Type of the used algorithm
-      std::string algorithm_type_;
+      std::string algorithmType_;
 
       /// \brief Load path for previously saved policies
-      std::string policy_load_path_;
+      std::string policyLoadPath_;
 
       /// \brief Container for best ranked policies
-      std::map<double, PolicyPtr, std::greater<double>> ranked_policies_;
+      std::map< double, PolicyPtr, std::greater< double>> rankedPolicies_;
     };
   }
 }

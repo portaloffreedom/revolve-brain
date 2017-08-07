@@ -103,7 +103,7 @@ namespace cppneat
     virtual GeneticEncodingPtr currentGenotype();
 
     /// \brief
-    void writeGenome(std::string robot_name,
+    void writeGenome(std::string &robot_name,
                      GeneticEncodingPtr genome);
 
     /// \brief

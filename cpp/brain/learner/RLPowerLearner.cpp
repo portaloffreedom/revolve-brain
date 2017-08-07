@@ -30,37 +30,37 @@
 
 using namespace revolve::brain;
 
-RLPowerLearner::RLPowerLearner(std::string &modelName,
-                               Config brain,
-                               size_t n_weight_vectors)
-        : interpolation_spline_size_(brain.interpolation_spline_size)
-          , generation_counter_(0)
-          , max_ranked_policies_(brain.max_ranked_policies)
-          , max_evaluations_(brain.max_evaluations)
-          , n_weight_vectors_(n_weight_vectors)
-          , source_y_size_(brain.source_y_size)
-          , update_step_(brain.update_step)
-          , noise_sigma_(brain.noise_sigma)
-          , sigma_tau_correction_(brain.sigma_tau_correction)
-          , robot_name_(modelName)
-          , algorithm_type_(brain.algorithm_type)
-          , policy_load_path_(brain.policy_load_path)
+RLPowerLearner::RLPowerLearner(std::string &_modelName,
+                               Config _brain,
+                               size_t _numWeightVectors)
+        : numInterpolationPoints_(_brain.interpolation_spline_size)
+          , generationCounter_(0)
+          , maxRankedPolicies_(_brain.max_ranked_policies)
+          , maxEvaluations_(_brain.max_evaluations)
+          , numActuators_(_numWeightVectors)
+          , numSteps_(_brain.source_y_size)
+          , updateStep_(_brain.update_step)
+          , sigma_(_brain.noise_sigma)
+          , tau_(_brain.sigma_tau_correction)
+          , robotName_(_modelName)
+          , algorithmType_(_brain.algorithm_type)
+          , policyLoadPath_(_brain.policy_load_path)
 {
   // Read out brain configuration attributes
   std::cout << std::endl << "Initialising RLPowerLearner, type "
-            << algorithm_type_ << std::endl << std::endl;
+            << algorithmType_ << std::endl << std::endl;
 
 
-  step_rate_ = interpolation_spline_size_ / source_y_size_;
+  stepRate_ = numInterpolationPoints_ / numSteps_;
 
-  if (policy_load_path_ == "")
+  if (policyLoadPath_ == "")
   {
     // Generate first random policy
-    this->generateInitPolicy();
+    this->GenerateInitPolicy();
   }
   else
   {
-    this->loadPolicy(policy_load_path_);
+    this->LoadPolicy(policyLoadPath_);
   }
 }
 
@@ -70,33 +70,32 @@ RLPowerLearner::~RLPowerLearner()
 }
 
 
-void RLPowerLearner::generateInitPolicy()
+void RLPowerLearner::GenerateInitPolicy()
 {
   std::random_device rd;
   std::mt19937 mt(rd());
-  std::normal_distribution<double> dist(0,
-                                        this->noise_sigma_);
+  std::normal_distribution<double> dist(0, this->sigma_);
 
   // Init first random controller
-  if (not current_policy_)
+  if (not currentPolicy_)
   {
-    current_policy_ = std::make_shared<Policy>(n_weight_vectors_);
+    currentPolicy_ = std::make_shared<Policy>(numActuators_);
   }
 
-  for (size_t i = 0; i < n_weight_vectors_; i++)
+  for (size_t i = 0; i < numActuators_; i++)
   {
-    Spline spline(source_y_size_);
-    for (size_t j = 0; j < source_y_size_; j++)
+    Spline spline(numSteps_);
+    for (size_t j = 0; j < numSteps_; j++)
     {
       spline[j] = dist(mt);
     }
-    current_policy_->at(i) = spline;
+    currentPolicy_->at(i) = spline;
   }
 }
 
-void RLPowerLearner::loadPolicy(std::string const policy_path)
+void RLPowerLearner::LoadPolicy(const std::string &_policyPath)
 {
-  YAML::Node policy_file = YAML::LoadFile(policy_path);
+  YAML::Node policy_file = YAML::LoadFile(_policyPath);
   if (policy_file.IsNull())
   {
     std::cout << "Failed to load the policy file." << std::endl;
@@ -104,9 +103,9 @@ void RLPowerLearner::loadPolicy(std::string const policy_path)
   }
 
   // Init first random controller
-  if (not current_policy_)
+  if (not this->currentPolicy_)
   {
-    current_policy_ = std::make_shared<Policy>(n_weight_vectors_);
+    this->currentPolicy_ = std::make_shared<Policy>(this->numActuators_);
   }
 
   std::cout << "evaluation: " << policy_file[0]["evaluation"] << std::endl;
@@ -115,24 +114,24 @@ void RLPowerLearner::loadPolicy(std::string const policy_path)
             << std::endl;
 
   size_t k = 0;
-  source_y_size_ = policy_file[0]["steps"].as<uint>();
+  this->numSteps_ = policy_file[0]["steps"].as<uint>();
   YAML::Node policy = policy_file[0]["population"][0]["policy"];
 
-  if (source_y_size_ * n_weight_vectors_ != policy.size())
+  if (this->numSteps_ * this->numActuators_ != policy.size())
   {
     std::cout << "Number of (n_spline_points) is not equal to "
             "(n_actuators * n_steps)!" << std::endl;
     return;
   }
 
-  for (size_t i = 0; i < n_weight_vectors_; i++)
+  for (size_t i = 0; i < this->numActuators_; i++)
   {
-    Spline spline(source_y_size_);
-    for (size_t j = 0; j < source_y_size_; j++)
+    Spline spline(this->numSteps_);
+    for (size_t j = 0; j < this->numSteps_; j++)
     {
       spline[j] = policy[k++].as<double>();
     }
-    current_policy_->at(i) = spline;
+    this->currentPolicy_->at(i) = spline;
   }
 }
 
@@ -141,27 +140,27 @@ void RLPowerLearner::reportFitness(std::string id,
                                    double curr_fitness)
 {
   // Insert ranked policy in list
-  PolicyPtr policy_copy = std::make_shared<Policy>(n_weight_vectors_);
-  for (size_t i = 0; i < n_weight_vectors_; i++)
+  PolicyPtr policy_copy = std::make_shared<Policy>(numActuators_);
+  for (size_t i = 0; i < numActuators_; i++)
   {
-    Spline &spline = current_policy_->at(i);
+    Spline &spline = currentPolicy_->at(i);
     policy_copy->at(i) = Spline(spline.begin(), spline.end());
 
-    spline.resize(source_y_size_);
+    spline.resize(numSteps_);
   }
-  ranked_policies_.insert({curr_fitness, policy_copy});
+  rankedPolicies_.insert({curr_fitness, policy_copy});
 
   // Remove worst policies
-  while (ranked_policies_.size() > max_ranked_policies_)
+  while (rankedPolicies_.size() > maxRankedPolicies_)
   {
-    auto last = std::prev(ranked_policies_.end());
-    ranked_policies_.erase(last);
+    auto last = std::prev(rankedPolicies_.end());
+    rankedPolicies_.erase(last);
   }
 
   // Print-out current status to the terminal
-  std::cout << robot_name_ << ":"
-            << generation_counter_ << " ranked_policies_:";
-  for (auto const &it : ranked_policies_)
+  std::cout << robotName_ << ":"
+            << generationCounter_ << " rankedPolicies_:";
+  for (auto const &it : rankedPolicies_)
   {
     double fitness = it.first;
     std::cout << " " << fitness;
@@ -169,20 +168,20 @@ void RLPowerLearner::reportFitness(std::string id,
   std::cout << std::endl;
 
   // Write fitness and genomes log to output files
-  //    this->writeCurrent();
-  this->writeElite();
+  //    this->LogCurrentSpline();
+  this->LogBestSplines();
 
   // Update generation counter and check is it finished
-  generation_counter_++;
-  if (generation_counter_ == max_evaluations_)
+  generationCounter_++;
+  if (generationCounter_ == maxEvaluations_)
   {
     std::exit(0);
   }
 
   // Increase spline points if it is a time
-  if (update_step_ > 0 && generation_counter_ % update_step_ == 0)
+  if (updateStep_ > 0 && generationCounter_ % updateStep_ == 0)
   {
-    this->increaseSplinePoints();
+    this->IncreaseSplinePoints();
   }
 
   /// Actual policy generation
@@ -195,41 +194,39 @@ void RLPowerLearner::reportFitness(std::string id,
   std::random_device rd;
   std::mt19937 mt(rd());
 
-  if (algorithm_type_ == "C" || algorithm_type_ == "D")
+  if (algorithmType_ == "C" || algorithmType_ == "D")
   {
     // uncorrelated mutation with one step size
     std::mt19937 sigma_mt(rd());
     std::normal_distribution<double> sigma_dist(0,
                                                 1);
-    noise_sigma_ = noise_sigma_
-                   * std::exp(sigma_tau_correction_
-                              * sigma_dist(sigma_mt));
+    sigma_ = sigma_
+                   * std::exp(tau_ * sigma_dist(sigma_mt));
   }
   else
   {
     // Default is decaying sigma
-    if (ranked_policies_.size() >= max_ranked_policies_)
+    if (rankedPolicies_.size() >= maxRankedPolicies_)
     {
-      noise_sigma_ *= SIGMA_DECAY_SQUARED;
+      sigma_ *= SIGMA_DECAY_SQUARED;
     }
   }
-  std::normal_distribution<double> dist(0,
-                                        noise_sigma_);
+  std::normal_distribution<double> dist(0, sigma_);
 
   /// Determine which selection operator to use
   /// Default, for algorithms A and C, is used
   /// ten parent crossover
   /// For algorithms B and D, is used two parent crossover
   /// with binary tournament selection
-  if (ranked_policies_.size() < max_ranked_policies_)
+  if (rankedPolicies_.size() < maxRankedPolicies_)
   {
     // Generate random policy if number of stored policies
-    // is less then 'max_ranked_policies_'
-    for (size_t i = 0; i < n_weight_vectors_; i++)
+    // is less then 'maxRankedPolicies_'
+    for (size_t i = 0; i < numActuators_; i++)
     {
-      for (size_t j = 0; j < source_y_size_; j++)
+      for (size_t j = 0; j < numSteps_; j++)
       {
-        (*current_policy_)[i][j] = dist(mt);
+        (*currentPolicy_)[i][j] = dist(mt);
       }
     }
   }
@@ -237,14 +234,14 @@ void RLPowerLearner::reportFitness(std::string id,
   {
     // Generate new policy using weighted crossover operator
     double total_fitness = 0;
-    if (algorithm_type_ == "B" || algorithm_type_ == "D")
+    if (algorithmType_ == "B" || algorithmType_ == "D")
     {
       // k-selection tournament
-      auto parent1 = binarySelection();
+      auto parent1 = BinarySelection();
       auto parent2 = parent1;
       while (parent2 == parent1)
       {
-        parent2 = binarySelection();
+        parent2 = BinarySelection();
       }
 
       double fitness1 = parent1->first;
@@ -257,24 +254,24 @@ void RLPowerLearner::reportFitness(std::string id,
       total_fitness = fitness1 + fitness2;
 
       // For each spline
-      for (size_t i = 0; i < n_weight_vectors_; i++)
+      for (size_t i = 0; i < numActuators_; i++)
       {
         // And for each control point
-        for (size_t j = 0; j < source_y_size_; j++)
+        for (size_t j = 0; j < numSteps_; j++)
         {
           // Apply modifier
           double spline_point = 0;
-          spline_point += ((policy1->at(i)[j] - (*current_policy_)[i][j]))
+          spline_point += ((policy1->at(i)[j] - (*currentPolicy_)[i][j]))
                           * (fitness1 / total_fitness);
-          spline_point += ((policy2->at(i)[j] - (*current_policy_)[i][j]))
+          spline_point += ((policy2->at(i)[j] - (*currentPolicy_)[i][j]))
                           * (fitness2 / total_fitness);
 
           // Add a mutation + current
           // TODO: Verify do we use current in this case
-          spline_point += dist(mt) + (*current_policy_)[i][j];
+          spline_point += dist(mt) + (*currentPolicy_)[i][j];
 
           // Set a newly generated point as current
-          (*current_policy_)[i][j] = spline_point;
+          (*currentPolicy_)[i][j] = spline_point;
         }
       }
     }
@@ -283,7 +280,7 @@ void RLPowerLearner::reportFitness(std::string id,
       // Default is all parents selection
 
       // Calculate first total sum of fitnesses
-      for (auto const &it : ranked_policies_)
+      for (auto const &it : rankedPolicies_)
       {
         double fitness = it.first;
         total_fitness += fitness;
@@ -291,28 +288,28 @@ void RLPowerLearner::reportFitness(std::string id,
 
       // For each spline
       // TODO: Verify that this should is correct formula
-      for (size_t i = 0; i < n_weight_vectors_; i++)
+      for (size_t i = 0; i < numActuators_; i++)
       {
         // And for each control point
-        for (size_t j = 0; j < source_y_size_; j++)
+        for (size_t j = 0; j < numSteps_; j++)
         {
           // Apply modifier
           double spline_point = 0;
-          for (auto const &it : ranked_policies_)
+          for (auto const &it : rankedPolicies_)
           {
             double fitness = it.first;
             PolicyPtr policy = it.second;
 
-            spline_point += ((policy->at(i)[j] - (*current_policy_)[i][j]))
+            spline_point += ((policy->at(i)[j] - (*currentPolicy_)[i][j]))
                             * (fitness / total_fitness);
           }
 
           // Add a mutation + current
-          // TODO: Verify do we use 'current_policy_' in this case
-          spline_point += dist(mt) + (*current_policy_)[i][j];
+          // TODO: Verify do we use 'currentPolicy_' in this case
+          spline_point += dist(mt) + (*currentPolicy_)[i][j];
 
           // Set a newly generated point as current
-          (*current_policy_)[i][j] = spline_point;
+          (*currentPolicy_)[i][j] = spline_point;
         }
       }
     }
@@ -321,14 +318,14 @@ void RLPowerLearner::reportFitness(std::string id,
 
 PolicyPtr RLPowerLearner::currentGenotype()
 {
-  return current_policy_;
+  return currentPolicy_;
 }
 
-void RLPowerLearner::interpolateCubic(Policy *const source_y,
-                                      Policy *destination_y)
+void RLPowerLearner::InterpolateCubic(Policy *const _sourceY,
+                                      Policy *_destinationY)
 {
-  const size_t source_y_size_ = (*source_y)[0].size();
-  const size_t destination_y_size = (*destination_y)[0].size();
+  const size_t source_y_size_ = (*_sourceY)[0].size();
+  const size_t destination_y_size = (*_destinationY)[0].size();
 
   const size_t N = source_y_size_ + 1;
   double *x = new double[N];
@@ -353,10 +350,10 @@ void RLPowerLearner::interpolateCubic(Policy *const source_y,
     x_new[i] = step_size * i;
   }
 
-  for (size_t j = 0; j < n_weight_vectors_; j++)
+  for (size_t j = 0; j < numActuators_; j++)
   {
-    Spline &source_y_line = source_y->at(j);
-    Spline &destination_y_line = destination_y->at(j);
+    Spline &source_y_line = _sourceY->at(j);
+    Spline &destination_y_line = _destinationY->at(j);
 
     // init y
     // TODO use memcpy
@@ -384,50 +381,50 @@ void RLPowerLearner::interpolateCubic(Policy *const source_y,
   delete[] x;
 }
 
-void RLPowerLearner::increaseSplinePoints()
+void RLPowerLearner::IncreaseSplinePoints()
 {
-  source_y_size_++;
+  numSteps_++;
 
   // LOG code
-  step_rate_ = interpolation_spline_size_ / source_y_size_;
-  std::cout << "New samplingSize_=" << source_y_size_
-            << ", and stepRate_=" << step_rate_ << std::endl;
+  stepRate_ = numInterpolationPoints_ / numSteps_;
+  std::cout << "New samplingSize_=" << numSteps_
+            << ", and stepRate_=" << stepRate_ << std::endl;
 
   // Copy current policy for resizing
-  Policy policy_copy(current_policy_->size());
-  for (size_t i = 0; i < n_weight_vectors_; i++)
+  Policy policy_copy(currentPolicy_->size());
+  for (size_t i = 0; i < numActuators_; i++)
   {
-    Spline &spline = current_policy_->at(i);
+    Spline &spline = currentPolicy_->at(i);
     policy_copy[i] = Spline(spline.begin(), spline.end());
 
-    spline.resize(source_y_size_);
+    spline.resize(numSteps_);
   }
 
-  this->interpolateCubic(&policy_copy, current_policy_.get());
+  this->InterpolateCubic(&policy_copy, currentPolicy_.get());
 
   // for every ranked policy
-  for (auto &it : ranked_policies_)
+  for (auto &it : rankedPolicies_)
   {
     PolicyPtr policy = it.second;
 
-    for (size_t j = 0; j < n_weight_vectors_; j++)
+    for (size_t j = 0; j < numActuators_; j++)
     {
       Spline &spline = policy->at(j);
       policy_copy[j] = Spline(spline.begin(), spline.end());
-      spline.resize(source_y_size_);
+      spline.resize(numSteps_);
     }
-    this->interpolateCubic(&policy_copy, policy.get());
+    this->InterpolateCubic(&policy_copy, policy.get());
   }
 }
 
-std::map<double, PolicyPtr>::iterator RLPowerLearner::binarySelection()
+std::map<double, PolicyPtr>::iterator RLPowerLearner::BinarySelection()
 {
   std::random_device rd;
   std::mt19937 umt(rd());
-  std::uniform_int_distribution<size_t> udist(0, max_ranked_policies_ - 1);
+  std::uniform_int_distribution<size_t> udist(0, maxRankedPolicies_ - 1);
 
   // Select two different numbers from uniform distribution
-  // U(0, max_ranked_policies_ - 1)
+  // U(0, maxRankedPolicies_ - 1)
   size_t pindex1, pindex2;
   pindex1 = udist(umt);
   do
@@ -435,9 +432,9 @@ std::map<double, PolicyPtr>::iterator RLPowerLearner::binarySelection()
     pindex2 = udist(umt);
   } while (pindex1 == pindex2);
 
-  // Set iterators to begin of the 'ranked_policies_' map
-  auto individual1 = ranked_policies_.begin();
-  auto individual2 = ranked_policies_.begin();
+  // Set iterators to begin of the 'rankedPolicies_' map
+  auto individual1 = rankedPolicies_.begin();
+  auto individual2 = rankedPolicies_.begin();
 
   // Move iterators to indices positions
   std::advance(individual1, pindex1);
@@ -449,14 +446,14 @@ std::map<double, PolicyPtr>::iterator RLPowerLearner::binarySelection()
   return fitness1 > fitness2 ? individual1 : individual2;
 }
 
-void RLPowerLearner::writeCurrent()
+void RLPowerLearner::LogCurrentSpline()
 {
   std::ofstream outputFile;
-  outputFile.open(robot_name_ + ".log",
+  outputFile.open(robotName_ + ".log",
                   std::ios::app | std::ios::out | std::ios::ate);
-  outputFile << "- generation: " << generation_counter_ << std::endl;
+  outputFile << "- generation: " << generationCounter_ << std::endl;
   outputFile << "  velocities:" << std::endl;
-  for (auto const &it : ranked_policies_)
+  for (auto const &it : rankedPolicies_)
   {
     double fitness = it.first;
     outputFile << "  - " << fitness << std::endl;
@@ -464,15 +461,15 @@ void RLPowerLearner::writeCurrent()
   outputFile.close();
 }
 
-void RLPowerLearner::writeElite()
+void RLPowerLearner::LogBestSplines()
 {
   std::ofstream outputFile;
-  outputFile.open(robot_name_ + ".policy",
+  outputFile.open(robotName_ + ".policy",
                   std::ios::app | std::ios::out | std::ios::ate);
-  outputFile << "- evaluation: " << generation_counter_ << std::endl;
-  outputFile << "  steps: " << source_y_size_ << std::endl;
+  outputFile << "- evaluation: " << generationCounter_ << std::endl;
+  outputFile << "  steps: " << numSteps_ << std::endl;
   outputFile << "  population:" << std::endl;
-  for (auto const &it : ranked_policies_)
+  for (auto const &it : rankedPolicies_)
   {
     double fitness = it.first;
     PolicyPtr policy = it.second;
