@@ -280,7 +280,7 @@ void RLPower::updatePolicy()
     {
       for (size_t j = 0; j < this->source_y_size_; j++)
       {
-        this->(*current_policy_)[i][j] = dist(mt);
+        (*this->current_policy_)[i][j] = dist(mt);
       }
     }
   }
@@ -315,17 +315,17 @@ void RLPower::updatePolicy()
         {
           // Apply modifier
           double spline_point = 0;
-          spline_point += ((policy1->at(i)[j] - this->(*current_policy_)[i][j]))
+          spline_point += ((policy1->at(i)[j] - (*this->current_policy_)[i][j]))
                           * (fitness1 / total_fitness);
-          spline_point += ((policy2->at(i)[j] - this->(*current_policy_)[i][j]))
+          spline_point += ((policy2->at(i)[j] - (*this->current_policy_)[i][j]))
                           * (fitness2 / total_fitness);
 
           // Add a mutation + current
           // TODO: Verify do we use current in this case
-          spline_point += dist(mt) + this->(*current_policy_)[i][j];
+          spline_point += dist(mt) + (*this->current_policy_)[i][j];
 
           // Set a newly generated point as current
-          this->(*current_policy_)[i][j] = spline_point;
+          (*this->current_policy_)[i][j] = spline_point;
         }
       }
     }
@@ -355,16 +355,16 @@ void RLPower::updatePolicy()
             PolicyPtr policy = it.second;
 
             spline_point +=
-                    ((policy->at(i)[j] - this->(*current_policy_)[i][j]))
+                    ((policy->at(i)[j] - (*this->current_policy_)[i][j]))
                     * (fitness / total_fitness);
           }
 
           // Add a mutation + current
           // TODO: Verify do we use 'currentPolicy_' in this case
-          spline_point += dist(mt) + this->(*current_policy_)[i][j];
+          spline_point += dist(mt) + (*this->current_policy_)[i][j];
 
           // Set a newly generated point as current
-          this->(*current_policy_)[i][j] = spline_point;
+          (*this->current_policy_)[i][j] = spline_point;
         }
       }
     }
