@@ -44,9 +44,9 @@ namespace revolve
       protected:
       struct Config;
       public:
-      typedef std::vector<double> Spline;
-      typedef std::vector<Spline> Policy;
-      typedef std::shared_ptr<Policy> PolicyPtr;
+      typedef std::vector< double > Spline;
+      typedef std::vector< Spline > Policy;
+      typedef std::shared_ptr< Policy > PolicyPtr;
 
       // typedef const std::shared_ptr<revolve::msgs::ModifyNeuralNetwork const>
       // ConstModifyNeuralNetworkPtr;
@@ -57,15 +57,13 @@ namespace revolve
       /// \param brain: configuration file
       /// \param evaluator: pointer to fitness evaluatior
       /// \param n_actuators: number of actuators
-      /// \param n_sensors: number of sensors
       /// \return pointer to the RLPower class object
       RLPower(std::string modelName,
               Config brain,
               EvaluatorPtr evaluator,
-              unsigned int n_actuators,
-              unsigned int n_sensors);
+              size_t n_actuators);
 
-      virtual ~RLPower() override;
+      ~RLPower() override;
 
       using revolve::brain::Brain::update;
 
@@ -75,11 +73,10 @@ namespace revolve
       /// \param sensors: vector list of robot's sensors
       /// \param t:
       /// \param step:
-      virtual void
-      update(const std::vector<ActuatorPtr> &actuators,
-             const std::vector<SensorPtr> &sensors,
-             double t,
-             double step) override;
+      void update(const std::vector< ActuatorPtr > &actuators,
+                  const std::vector< SensorPtr > &sensors,
+                  double t,
+                  double step) override;
 
       protected:
 //      /**
@@ -92,36 +89,38 @@ namespace revolve
       class PolicySave
       {
         public:
-        PolicyPtr policy_;
-        double fitness_;
-
         PolicySave(double fitness,
-                   PolicyPtr &p) :
-                policy_(p), fitness_(fitness)
-        {}
-
-        bool
-        operator>(const PolicySave &ps) const
+                   PolicyPtr &p)
+                : policy_(p)
+                , fitness_(fitness)
         {
-          return this->fitness_ > ps.fitness_;
         }
+
+        bool operator>(const PolicySave &_ps) const
+        {
+          return this->fitness_ > _ps.fitness_;
+        }
+
+        PolicyPtr policy_;
+
+        double fitness_;
       };
 
       /// \brief = 1000; // max number of evaluations
-      static const unsigned int MAX_EVALUATIONS;
+      static const size_t MAX_EVALUATIONS;
 
       /// \brief = 10; // max length of policies vector
-      static const unsigned int MAX_RANKED_POLICIES;
+      static const size_t MAX_RANKED_POLICIES;
 
       /// \brief = 100; // number of data points for the interpolation cache
-      static const unsigned int INTERPOLATION_CACHE_SIZE;
+      static const size_t INTERPOLATION_CACHE_SIZE;
 
       /// \brief = 3; // number of initially sampled spline points
-      static const unsigned int INITIAL_SPLINE_SIZE;
+      static const size_t INITIAL_SPLINE_SIZE;
 
       /// \brief = 100; // after # generations, it increases the number of
       /// spline points
-      static const unsigned int UPDATE_STEP;
+      static const size_t UPDATE_STEP;
 
       /// \brief = 30.0; // evaluation time for each policy
       static const double EVALUATION_RATE;
@@ -138,14 +137,14 @@ namespace revolve
       /// \brief = 0.98; // sigma decay
       static const double SIGMA_DECAY_SQUARED;
 
-      template <typename ActuatorContainer, typename SensorContainer>
+      template < typename ActuatorContainer, typename SensorContainer >
       void update(const ActuatorContainer &actuators,
                   const SensorContainer &sensors,
                   double t,
                   double step)
       {
         //        boost::mutex::scoped_lock lock(networkMutex_);
-        if (policy_load_path_ == "")
+        if (policyLoadPath_ == "")
         {
           if (start_eval_time_ < 0)
           {
@@ -154,7 +153,7 @@ namespace revolve
 
           // Evaluate policy on certain time limit
           if ((t - start_eval_time_) > evaluation_rate_
-              && generation_counter_ < max_evaluations_)
+              && generationCounter_ < maxEvaluations_)
           {
             this->updatePolicy();
             start_eval_time_ = t;
@@ -163,11 +162,11 @@ namespace revolve
         }
 
         // generate outputs
-        double *output_vector = new double[n_actuators_];
+        double *output_vector = new double[numActuators_];
         this->generateOutput(t, output_vector);
 
         // Send new signals to the actuators
-        unsigned int p = 0;
+        size_t p = 0;
         for (auto actuator: actuators)
         {
           actuator->update(&output_vector[p], step);
@@ -180,14 +179,14 @@ namespace revolve
       struct Config
       {
         std::string algorithm_type;
-        unsigned int evaluation_rate;
-        unsigned int interpolation_spline_size;
-        unsigned int max_evaluations;
-        unsigned int max_ranked_policies;
+        size_t evaluation_rate;
+        size_t interpolation_spline_size;
+        size_t max_evaluations;
+        size_t max_ranked_policies;
         double noise_sigma;
         double sigma_tau_correction;
-        unsigned int source_y_size;
-        unsigned int update_step;
+        size_t source_y_size;
+        size_t update_step;
         std::string policy_load_path;
       };
 
@@ -203,7 +202,7 @@ namespace revolve
 //        ::gazebo::transport::SubscriberPtr alterSub_;
 
       /// \brief Generate new policy
-      void generateInitPolicy();
+      void GenerateInitPolicy();
 
 
       /// \brief Generate cache policy
@@ -214,7 +213,7 @@ namespace revolve
 
 
       /// \brief  Load saved policy from JSON file
-      void loadPolicy(std::string const policy_path);
+      void LoadPolicy(std::string const &policy_path);
 
 
       /// \brief Generate interpolated spline based on number of sampled control
@@ -222,7 +221,7 @@ namespace revolve
       /// \param source_y: set of control points over which interpolation is
       /// generated
       /// \param destination_y: set of interpolated control points (default 100)
-      void interpolateCubic(Policy *const source_y,
+      void InterpolateCubic(Policy *const source_y,
                             Policy *destination_y);
 
       /// \brief Increment number of sampling points for policy
@@ -231,7 +230,7 @@ namespace revolve
       /// \brief Randomly select two policies and return the one with higher
       /// fitness
       /// \return an iterator from 'ranked_policies_' map
-      std::map<double, RLPower::PolicyPtr>::iterator binarySelection();
+      std::map< double, RLPower::PolicyPtr >::iterator BinarySelection();
 
       /// \brief Extracts the value of the current_policy in x=time using linear
       /// interpolation
@@ -241,13 +240,13 @@ namespace revolve
 
       /// \brief Retrieves fitness for the current policy
       /// \return
-      double getFitness();
+      double Fitness();
 
       /// \brief Writes current spline to file
-      void writeCurrent();
+      void LogCurrentSpline();
 
       /// \brief Writes best 10 splines to file
-      void writeElite();
+      void LogBestSplines();
 
       /// \brief Pointer to the current policy
       PolicyPtr current_policy_ = NULL;
@@ -259,31 +258,28 @@ namespace revolve
       EvaluatorPtr evaluator_ = NULL;
 
       /// \brief Number of current generation
-      unsigned int generation_counter_;
+      size_t generationCounter_;
 
       /// \brief Number of 'interpolation_cache_' sample points
-      unsigned int interpolation_spline_size_;
+      size_t numInterpolationPoints_;
 
       /// \brief Maximal number of stored ranked policies
-      unsigned int max_ranked_policies_;
+      size_t maxRankedPolicies_;
 
       /// \brief Maximal number of evaluations
-      unsigned int max_evaluations_;
+      size_t maxEvaluations_;
 
       /// \brief Number of actuators
-      unsigned int n_actuators_;
-
-      /// \brief Number of sensors
-      unsigned int n_sensors_;
+      size_t numActuators_;
 
       /// \brief
-      unsigned int source_y_size_;
+      size_t source_y_size_;
 
       /// \brief
-      unsigned int step_rate_;
+      size_t stepRate_;
 
       /// \brief Number of evaluations after which sampling size increases
-      unsigned int update_step_;
+      size_t updateStep_;
 
 
       double cycle_start_time_;
@@ -292,25 +288,25 @@ namespace revolve
       double evaluation_rate_;
 
       /// \brief Noise in generatePolicy() function
-      double noise_sigma_;
+      double sigma_;
 
       /// \brief Tau deviation for self-adaptive sigma
-      double sigma_tau_correction_;
+      double tau_;
 
 
       double start_eval_time_;
 
       /// \brief Name of the robot
-      std::string robot_name_;
+      std::string robotName_;
 
       /// \brief Type of the used algorithm
-      std::string algorithm_type_;
+      std::string algorithmType_;
 
       /// \brief Load path for previously saved policies
-      std::string policy_load_path_;
+      std::string policyLoadPath_;
 
       /// \brief Container for best ranked policies
-      std::map<double, PolicyPtr, std::greater<double>> ranked_policies_;
+      std::map< double, PolicyPtr, std::greater< double>> rankedPolicies_;
     };
   }
 }

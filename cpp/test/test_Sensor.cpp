@@ -18,7 +18,6 @@
 */
 
 #include <iostream>
-#include <string>
 
 #include "test_Sensor.h"
 
@@ -35,7 +34,7 @@ std::string TestSensor::sensorId() const
   return std::string("TestSensor");
 }
 
-unsigned int TestSensor::inputs() const
+size_t TestSensor::inputs() const
 {
   return 1;
 }
@@ -45,5 +44,7 @@ void TestSensor::read(double *input_vector)
   input_vector[0] = dis(gen);
 
   if (verbose)
+  {
     std::cout << "TestSensor::read <- " << input_vector[0] << std::endl;
+  }
 }

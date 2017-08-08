@@ -23,9 +23,9 @@
 
 TestEvaluator::TestEvaluator(bool verbose)
         : verbose(verbose)
-          , rd()
-          , gen(rd())
-          , dis(0, 2)
+        , rd()
+        , gen(rd())
+        , dis(0, 2)
 {
 }
 
@@ -33,7 +33,9 @@ TestEvaluator::TestEvaluator(bool verbose)
 void TestEvaluator::start()
 {
   if (verbose)
+  {
     std::cout << "calling evalutator start" << std::endl;
+  }
 }
 
 double TestEvaluator::fitness()
