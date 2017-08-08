@@ -33,7 +33,7 @@ class TestSensor
 
   void read(double *input_vector) override;
 
-  size_t inputs() const override;
+  unsigned int inputs() const override;
 
   std::string sensorId() const override;
 

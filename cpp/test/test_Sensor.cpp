@@ -34,7 +34,7 @@ std::string TestSensor::sensorId() const
   return std::string("TestSensor");
 }
 
-size_t TestSensor::inputs() const
+unsigned int TestSensor::inputs() const
 {
   return 1;
 }
