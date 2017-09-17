@@ -116,6 +116,37 @@ namespace cppneat
     outputFile.close();
   }
 
+  void Mutator::insert_conn_innovation(int from, int to, int inovation_number)
+  {
+    this->connection_innovations.insert(std::pair<std::pair<int, int>, int>(
+            std::pair<int, int>(from, to), inovation_number));
+    if (this->innovation_number < inovation_number)
+    {
+      this->innovation_number = inovation_number;
+    }
+  }
+
+  void Mutator::insert_neuron_innovation(Neuron::Ntype ntype,
+                                         int in_no)
+  {
+    for (std::pair<std::pair<int, int>, int> connection :
+            connection_innovations)
+    {
+      if (in_no == connection.first.second)
+      {
+        std::vector<int> vec(in_no);
+        this->neuron_innovations.insert(
+                std::pair<std::pair<int, Neuron::Ntype>, std::vector<int> >(
+                        std::pair<int, Neuron::Ntype>(connection.second, ntype),
+                        vec));
+      }
+    }
+    if (this->innovation_number < in_no)
+    {
+      this->innovation_number = in_no;
+    }
+  }
+
   void Mutator::load_known_innovations(std::string yaml_path)
   {
     std::ifstream outputFile(yaml_path);

@@ -74,10 +74,10 @@ namespace cppneat
     {
       tournament_size_ = 2;
     }
-    if (mutator_path != "none")
-    {
-      mutator->load_known_innovations(mutator_path);
-    }
+//    if (mutator_path != "none")
+//    {
+//      mutator->load_known_innovations(mutator_path);
+//    }
     if (start_from_ != nullptr)
     {
       std::cout
@@ -380,6 +380,33 @@ namespace cppneat
           bool is_new_layer = true;
           for (unsigned int i = 0; i < layer.size(); i++)
           {
+            // Load connections
+            for (size_t i = 0;
+                 i < yaml_file[first]["brain"]["connection_genes"].size(); i++)
+            {
+              YAML::Node connection =
+                      yaml_file[first]["brain"]["connection_genes"][i]["con_1"];
+              int mark_to = connection["to"].as<int>();
+              int mark_from = connection["from"].as<int>();
+              double weight = connection["weight"].as<double>();
+              int innov_numb = connection["in_no"].as<int>();
+
+              /// A clean hack, compared to everything else
+              mutator->insert_conn_innovation(mark_from, mark_to, innov_numb);
+
+              ConnectionGenePtr newConnection(
+                      new ConnectionGene(mark_to,
+                                         mark_from,
+                                         weight,
+                                         innov_numb,
+                                         true,
+                                         yaml_path,
+                                         first,
+                                         ""));
+              newGenome->add_connection_gene(newConnection);
+            }
+
+            // Load neurons
             YAML::Node neuron_node = layer[i];
             std::string neuron_id = neuron_node["nid"].as<std::string>();
             Neuron::Ntype neuron_type =
@@ -422,32 +449,17 @@ namespace cppneat
                                    true,
                                    yaml_path,
                                    first));
+
+            /// A clean hack, compared to everything else
+            mutator->insert_neuron_innovation(neuron_type, innov_numb);
+
             newGenome->add_neuron_gene(new_neuron_gene,
                                        counter,
                                        is_new_layer);
             is_new_layer = false;
           }
         }
-        for (size_t i = 0;
-             i < yaml_file[first]["brain"]["connection_genes"].size(); i++)
-        {
-          YAML::Node connection =
-                  yaml_file[first]["brain"]["connection_genes"][i]["con_1"];
-          int mark_to = connection["to"].as<int>();
-          int mark_from = connection["from"].as<int>();
-          double weight = connection["weight"].as<double>();
-          int innov_numb = connection["in_no"].as<int>();
-          ConnectionGenePtr newConnection(
-                  new ConnectionGene(mark_to,
-                                     mark_from,
-                                     weight,
-                                     innov_numb,
-                                     true,
-                                     yaml_path,
-                                     first,
-                                     ""));
-          newGenome->add_connection_gene(newConnection);
-        }
+
         genotypes.push_back(newGenome);
       }
       return genotypes;

@@ -54,6 +54,13 @@ namespace cppneat
     void load_known_innovations(std::string yaml_path);
 
     /// \brief
+    void insert_conn_innovation(int from, int to, int inovation_number);
+
+    /// \brief
+    void insert_neuron_innovation(Neuron::Ntype ntype,
+                                  int in_no);
+
+    /// \brief
     void write_known_innovations(std::string yaml_path);
 
     /// \brief
