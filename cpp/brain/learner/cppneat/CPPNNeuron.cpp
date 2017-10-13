@@ -33,7 +33,7 @@ namespace cppneat
   }
 
   Neuron::Neuron(
-          const std::string _neuronId,
+          const std::string &_neuronId,
           Layer _layer,
           Ntype _neuronType,
           std::map< std::string, double > _parameters)
@@ -45,25 +45,9 @@ namespace cppneat
   }
 
   void Neuron::SetNeuronParameters(
-          double _value,
+          const double _value,
           ParamSpec _parameters)
   {
-    //  if(value > param_spec.max_value) {
-    //    if(param_spec.max_inclusive) {
-    //      value = param_spec.max_value;
-    //    }
-    //    else {
-    //      value = param_spec.max_value - param_spec.epsilon;
-    //    }
-    //  }
-    //  if(value < param_spec.min_value) {
-    //    if(param_spec.min_inclusive) {
-    //      value = param_spec.min_value;
-    //    }
-    //    else {
-    //      value = param_spec.min_value + param_spec.epsilon;
-    //    }
-    //  }
     parameters_[_parameters.name] = _value;
   }
 }

@@ -134,9 +134,10 @@ namespace revolve
       void GenerateInitPolicy();
 
       /// \brief
-      virtual void reportFitness(std::string id,
-                                 PolicyPtr genotype,
-                                 double fitness);
+      virtual void reportFitness(
+              const std::string &_id,
+              PolicyPtr _genotype,
+              const double _fitness);
 
       /// \brief
       virtual PolicyPtr currentGenotype();

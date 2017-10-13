@@ -42,7 +42,7 @@ namespace revolve
 
     void SetParameters(
             cppneat::Neuron::ParamSpec &_specification,
-            const std::string _name,
+            const std::string &_name,
             const double _eps,
             const double _minimum,
             const double _maximum,

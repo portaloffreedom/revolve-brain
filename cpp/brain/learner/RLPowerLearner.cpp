@@ -135,9 +135,10 @@ void RLPowerLearner::LoadPolicy(const std::string &_policyPath)
   }
 }
 
-void RLPowerLearner::reportFitness(std::string id,
-                                   PolicyPtr genotype,
-                                   double curr_fitness)
+void RLPowerLearner::reportFitness(
+        const std::string &_id,
+        PolicyPtr _genotype,
+        const double curr_fitness)
 {
   // Insert ranked policy in list
   PolicyPtr policy_copy = std::make_shared<Policy>(numActuators_);

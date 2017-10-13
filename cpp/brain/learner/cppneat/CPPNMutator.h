@@ -36,11 +36,11 @@ namespace cppneat
     public:
     /// \brief
     Mutator(
-          std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > brain_spec,
-          double new_connection_sigma,
-          int _innovationNumber,
-          int _maxAttempts,
-          std::vector< Neuron::Ntype > addable_neurons);
+            std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > &_specification,
+            const double _tauConnectionSigma,
+            const size_t _innovationNumber,
+            const size_t _maxAttempts,
+            std::vector< Neuron::Ntype > _addableNeurons);
 
     /// \brief
     static std::vector<Neuron::Ntype>
@@ -51,7 +51,7 @@ namespace cppneat
     void RegisteStartingGenotype(GeneticEncodingPtr _genotype);
 
     /// \brief
-    void LoadRegisteredInnovations(const std::string _yamlPath);
+    void LoadRegisteredInnovations(const std::string &_yamlPath);
 
     /// \brief
     void InsertConnectionInnovation(
@@ -65,7 +65,7 @@ namespace cppneat
             const size_t _innovationNumber);
 
     /// \brief
-    void RecordInnovations(const std::string _yamlPath);
+    void RecordInnovations(const std::string &_yamlPath);
 
     /// \brief
     void MutateNeuronParams(
@@ -112,7 +112,7 @@ namespace cppneat
             const size_t _to,
             const double _weight,
             GeneticEncodingPtr _genotype,
-            const std::string _socket);
+            const std::string &_socket);
 
     /// \brief
     std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> Specification()

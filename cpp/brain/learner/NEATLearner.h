@@ -81,7 +81,7 @@ namespace cppneat
 
     /// \brief
     GeneticEncodingPtrs YamlBrains(
-            const std::string _yamlPath,
+            const std::string &_yamlPath,
             const int _offset);
 
     /// \brief
@@ -106,7 +106,7 @@ namespace cppneat
     private:
     /// \brief
     virtual void reportFitness(
-            const std::string _id,
+            const std::string &_id,
             GeneticEncodingPtr _genotype,
             const double _fitness);
 

@@ -49,22 +49,23 @@ namespace cppneat
   }
 
   Mutator::Mutator(
-            std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > brain_spec,
-            double new_connection_sigma,
-            int _innovationNumber,
-            int _maxAttempts,
-            std::vector< Neuron::Ntype > addable_neurons)
-          : specification_(brain_spec)
-          , tauConnectionSigma_(new_connection_sigma)
+          std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > &_specification,
+          const double _tauConnectionSigma,
+          const size_t _innovationNumber,
+          const size_t _maxAttempts,
+          std::vector< Neuron::Ntype > _addableNeurons
+  )
+          : specification_(_specification)
+          , tauConnectionSigma_(_tauConnectionSigma)
           , innovationNumber_(_innovationNumber)
           , maxAttempts_(_maxAttempts)
-          , addableNeurons_(addable_neurons)
+          , addableNeurons_(_addableNeurons)
   {
     std::random_device rd;
     generator_.seed(rd());
-    if (addable_neurons.size() == 0)
+    if (_addableNeurons.size() == 0)
     {
-      this->addableNeurons_ = AddableTypes(brain_spec);
+      this->addableNeurons_ = AddableTypes(_specification);
     }
   }
 
@@ -78,7 +79,7 @@ namespace cppneat
     }
   }
 
-  void Mutator::RecordInnovations(const std::string _yamlPath)
+  void Mutator::RecordInnovations(const std::string &_yamlPath)
   {
     std::ofstream outputFile;
     outputFile.open(_yamlPath, std::ios::out | std::ios::trunc);
@@ -146,7 +147,7 @@ namespace cppneat
     }
   }
 
-  void Mutator::LoadRegisteredInnovations(const std::string _yamlPath)
+  void Mutator::LoadRegisteredInnovations(const std::string &_yamlPath)
   {
     std::ifstream outputFile(_yamlPath);
     if (not outputFile.good())
@@ -621,7 +622,7 @@ namespace cppneat
           const size_t _to,
           const double _weight,
           GeneticEncodingPtr _genotype,
-          const std::string _socket)
+          const std::string &_socket)
   {
     std::pair< int, int > innovation_pair(_from, _to);
     if (connectionInnovations_.find(innovation_pair)

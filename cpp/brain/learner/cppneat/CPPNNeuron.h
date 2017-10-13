@@ -66,13 +66,14 @@ namespace cppneat
 
     Neuron(Neuron &_copy);
 
-    Neuron(const std::string _neuronId,
-           Layer _layer,
-           Ntype _neuronType,
-           std::map< std::string, double > _parameters);
+    Neuron(
+            const std::string &_neuronId,
+            Layer _layer,
+            Ntype _neuronType,
+            std::map< std::string, double > _parameters);
 
     void SetNeuronParameters(
-            double _value,
+            const double _value,
             ParamSpec _parameters);
 
     std::string neuronId_;

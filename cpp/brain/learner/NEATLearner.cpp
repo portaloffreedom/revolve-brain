@@ -250,7 +250,7 @@ namespace cppneat
 
   /////////////////////////////////////////////////
   GeneticEncodingPtrs NEATLearner::YamlBrains(
-          const std::string _yamlPath,
+          const std::string &_yamlPath,
           const int _offset)
   {
     if (_offset != -1)
@@ -498,7 +498,7 @@ namespace cppneat
 
   /////////////////////////////////////////////////
   void NEATLearner::reportFitness(
-          const std::string _id,
+          const std::string &_id,
           GeneticEncodingPtr _genotype,
           const double _fitness)
   {
