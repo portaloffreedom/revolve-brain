@@ -392,7 +392,6 @@ namespace cppneat
               double weight = connection["weight"].as< double >();
               int innov_numb = connection["in_no"].as< int >();
 
-              /// A clean hack, compared to everything else
               mutator_->InsertConnectionInnovation(mark_from,
                                                    mark_to,
                                                    innov_numb);
@@ -453,7 +452,6 @@ namespace cppneat
                                    _yamlPath,
                                    first));
 
-            /// A clean hack, compared to everything else
             mutator_->InsertNeuronInnovation(neuron_type, innov_numb);
 
             newGenome->AddNeuron(new_neuron_gene,
