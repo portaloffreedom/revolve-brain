@@ -44,22 +44,20 @@ namespace revolve
 
     extern std::map<int, size_t> OutputMap;
 
-    void SetBrainSpec(bool _hyperNeat);
+    void SetBrainSpec(bool _isHyperNeat);
 
-    boost::shared_ptr<CPPNConfig>
-    convertForController(cppneat::GeneticEncodingPtr genotype);
+    CPPNConfigPtr convertForController(cppneat::GeneticEncodingPtr _genotype);
 
-    cppneat::GeneticEncodingPtr
-    convertForLearner(boost::shared_ptr<CPPNConfig> config);
+    cppneat::GeneticEncodingPtr convertForLearner(CPPNConfigPtr _config);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// HyperNEAT_CPG
 ///////////////////////////////////////////////////////////////////////////////
     /// \brief used for communication between rlpower learner and
     /// ext nn weights controller
-    std::vector<double> convertPolicyToDouble(PolicyPtr genotype);
+    std::vector<double> convertPolicyToDouble(PolicyPtr _genotype);
 
-    PolicyPtr convertDoubleToNull(std::vector<double> phenotype);
+    PolicyPtr convertDoubleToNull(std::vector<double> _phenotype);
 ///////////////////////////////////////////////////////////////////////////////
 
     /// \brief used for communication between hyperneat learner and
@@ -98,13 +96,12 @@ namespace revolve
     extern size_t cur_step;
 
     /// \brief returns the starting network for hyperneat on splines
-    cppneat::GeneticEncodingPtr get_hyper_neat_net_splines();
+    cppneat::GeneticEncodingPtr HyperNeatSplines();
 
     PolicyPtr
     convertForSplinesFromHyper(cppneat::GeneticEncodingPtr _genotype);
 
-    cppneat::GeneticEncodingPtr
-    convertForHyperFromSplines(PolicyPtr policy);
+    cppneat::GeneticEncodingPtr convertForHyperFromSplines(PolicyPtr policy);
   }
 }
 

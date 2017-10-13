@@ -31,49 +31,51 @@ namespace cppneat
   {
     public:
     /// \brief
-    ConnectionGene(int mark_to,
-                   int mark_from,
-                   double weight,
-                   int innov_number = 0,
-                   bool enabled = true,
-                   std::string parent_name = "",
-                   int parent_index = -1,
-                   std::string socket = "")
-            : Gene(innov_number, enabled, parent_name, parent_index)
-              , mark_to(mark_to)
-              , mark_from(mark_from)
-              , weight(weight)
-              , socket(socket)
+    ConnectionGene(
+            size_t _to,
+            size_t _from,
+            double _weight,
+            int _innovationNumber = 0,
+            bool _enabled = true,
+            std::string _parentName = "",
+            int _parentIndex = -1,
+            std::string _socket = ""
+    )
+            : Gene(_innovationNumber, _enabled, _parentName, _parentIndex)
+            , to_(_to)
+            , from_(_from)
+            , weight_(_weight)
+            , socket_(_socket)
     {
-      this->gene_type = Gene::CONNECTION_GENE;
+      this->type_ = Gene::CONNECTION_GENE;
     }
 
     /// \brief
-    ConnectionGene(ConnectionGene &copy_of)
-            : Gene(copy_of.getInnovNumber(),
-                   copy_of.isEnabled(),
-                   copy_of.get_parent_name(),
-                   copy_of.get_parent_index())
-              , mark_to(copy_of.mark_to)
-              , mark_from(copy_of.mark_from)
-              , weight(copy_of.weight)
-              , socket(copy_of.socket)
+    ConnectionGene(ConnectionGene &_copy)
+            : Gene(_copy.InnovationNumber(),
+                   _copy.IsEnabled(),
+                   _copy.ParentsName(),
+                   _copy.ParentsIndex())
+            , to_(_copy.to_)
+            , from_(_copy.from_)
+            , weight_(_copy.weight_)
+            , socket_(_copy.socket_)
     {
-      this->gene_type = Gene::CONNECTION_GENE;
+      this->type_ = Gene::CONNECTION_GENE;
     }
 
     public:
     /// \brief
-    int mark_to;
+    size_t to_;
 
     /// \brief
-    int mark_from;
+    size_t from_;
 
     /// \brief
-    double weight;
+    double weight_;
 
     /// \brief
-    std::string socket;
+    std::string socket_;
   };
 }
 

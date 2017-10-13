@@ -33,55 +33,56 @@ namespace cppneat
       CONNECTION_GENE
     };
 
-    Gene(int innov_number = 0,
-         bool enabled = true,
-         std::string parent_name = "",
-         int parent_index = -1)
-            : innov_number(innov_number)
-              , enabled(enabled)
-              , parent_name(parent_name)
-              , parent_index(parent_index)
+    Gene(const size_t _innovationNumber = 0,
+         bool _enabled = true,
+         std::string _name = "",
+         int _index = -1
+    )
+            : innovationNumber_(_innovationNumber)
+            , isEnabled_(_enabled)
+            , parentsName_(_name)
+            , parentsIndex_(_index)
     {
     }
 
-    virtual inline size_t getInnovNumber()
+    virtual inline size_t InnovationNumber()
     {
-      return innov_number;
+      return this->innovationNumber_;
     }
 
-    virtual inline bool isEnabled()
+    virtual inline bool IsEnabled()
     {
-      return enabled;
+      return this->isEnabled_;
     }
 
-    virtual inline void setEnabled(bool enabled)
+    virtual inline void SetEnabled(bool enabled)
     {
-      this->enabled = enabled;
+      this->isEnabled_ = enabled;
     }
 
-    virtual inline std::string get_parent_name()
+    virtual inline std::string ParentsName()
     {
-      return this->parent_name;
+      return this->parentsName_;
     }
 
-    virtual inline int get_parent_index()
+    virtual inline int ParentsIndex()
     {
-      return this->parent_index;
+      return this->parentsIndex_;
     }
 
-    GeneType gene_type;
+    GeneType type_;
 
     private:
-    unsigned int innov_number;
+    size_t innovationNumber_;
 
     private:
-    bool enabled;
+    bool isEnabled_;
 
     private:
-    std::string parent_name;
+    std::string parentsName_;
 
     private:
-    int parent_index;
+    int parentsIndex_;
   };
 }
 

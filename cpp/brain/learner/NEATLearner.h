@@ -35,6 +35,15 @@
 /// \brief crossover between genotypes
 namespace cppneat
 {
+  typedef std::vector< GeneticEncodingPtr > GeneticEncodingPtrs;
+
+  typedef std::pair< GeneticEncodingPtr, GeneticEncodingPtr> ParentPair;
+  typedef std::vector< ParentPair > ParentPairs;
+  typedef std::pair< GeneticEncodingPtr, GeneticEncodingPtrs> ParentVectorPairs;
+
+  typedef std::pair< GeneticEncodingPtr, double> FitnessPair;
+  typedef std::vector< FitnessPair > FitnessPairs;
+
   class NEATLearner
           : public revolve::brain::Learner<GeneticEncodingPtr>
   {
@@ -65,17 +74,18 @@ namespace cppneat
                 LearningConfiguration conf);
 
     /// \brief
-    void initialise(std::vector<GeneticEncodingPtr> init_genotypes);
+    void Initialise(GeneticEncodingPtrs _genotypes);
 
     /// \brief
-    std::vector<GeneticEncodingPtr> get_init_brains();
+    GeneticEncodingPtrs InitBrains();
 
     /// \brief
-    std::vector<GeneticEncodingPtr> get_brains_from_yaml(std::string yaml_path,
-                                                         int offset);
+    GeneticEncodingPtrs YamlBrains(
+            const std::string _yamlPath,
+            const int _offset);
 
     /// \brief
-    void apply_structural_mutation(GeneticEncodingPtr genotype);
+    void ApplyStructuralMutation(GeneticEncodingPtr _genotype);
 
     // standard parameters
     static const bool ASEXUAL;
@@ -95,114 +105,122 @@ namespace cppneat
     static const double INTERSPECIES_MATE_PROBABILITY;
     private:
     /// \brief
-    virtual void reportFitness(std::string id,
-                               GeneticEncodingPtr genotype,
-                               double fitness);
+    virtual void reportFitness(
+            const std::string _id,
+            GeneticEncodingPtr _genotype,
+            const double _fitness);
 
     /// \brief
     virtual GeneticEncodingPtr currentGenotype();
 
     /// \brief
-    void writeGenome(std::string &robot_name,
-                     GeneticEncodingPtr genome);
+    void RecordGenome(
+            const std::string &_robotName,
+            GeneticEncodingPtr _genome);
 
     /// \brief
-    void share_fitness();
+    void ShareFitness();
 
     /// \brief
-    void produce_new_generation();
+    void generatePopulation();
 
     /// \brief
-    GeneticEncodingPtr produce_child(GeneticEncodingPtr parent1,
-                                     GeneticEncodingPtr parent2);
+    void Reproduce(std::map< GeneticEncodingPtr, size_t > _offsprings);
 
     /// \brief
-    std::pair<GeneticEncodingPtr, GeneticEncodingPtr>
-    select_for_tournament(
-            std::vector<std::pair<GeneticEncodingPtr, double>> candidates,
-            unsigned int tourn_size);
+    std::map< GeneticEncodingPtr, size_t > NumChildrenPerSpecie();
 
     /// \brief
-    GeneticEncodingPtr active_brain_;
+    GeneticEncodingPtr ProduceChild(
+            GeneticEncodingPtr _parent1,
+            GeneticEncodingPtr _parent2);
+
+    /// \brief
+    ParentPair TournamentSelection(
+            FitnessPairs _candidates,
+            size_t _tournamentSize);
+
+    /// \brief
+    GeneticEncodingPtr activeBrain_;
 
     //    double fitness;
     /// \brief
-    std::vector<GeneticEncodingPtr> evaluation_queue_;
+    std::vector<GeneticEncodingPtr> evaluationQueue_;
 
     /// \brief
-    std::vector<GeneticEncodingPtr> brain_population_;
+    GeneticEncodingPtrs brainPpopulation_;
 
     /// \brief
-    std::map<GeneticEncodingPtr, double> brain_fitness;
+    std::map<GeneticEncodingPtr, double> brainFitness_;
 
     /// \brief
-    std::map<GeneticEncodingPtr, double> brain_velocity;
+    std::map<GeneticEncodingPtr, double> brainVelocity_;
 
     /// \brief
-    std::map<GeneticEncodingPtr, std::vector<GeneticEncodingPtr>> species;
+    std::map<GeneticEncodingPtr, std::vector<GeneticEncodingPtr>> species_;
 
     /// \brief
-    std::vector<double> fitness_buffer;
+    std::vector<double> fitnessBuffer_;
 
     /// \brief
-    int generation_number;
+    int numGeneration;
 
     /// \brief
-    int total_brains_evaluated;
+    int numEvaluatedBrains;
 
     /// \brief
-    MutatorPtr mutator;
+    MutatorPtr mutator_;
 
     /// \brief
-    std::string mutator_path;
+    std::string mutatorPath_;
 
     /// \brief
-    bool is_asexual_;
+    bool isAsexual_;
 
     /// \brief
-    size_t initial_structural_mutations_;
+    size_t initStructuralMutations_;
 
     /// \brief
-    size_t num_children_;
+    size_t numChildren_;
 
     /// \brief
-    size_t population_size_;
+    size_t populationSize_;
 
     /// \brief
-    size_t tournament_size_;
+    size_t tournamentSize_;
 
     /// \brief
-    double weight_mutation_probability;
+    double weightMutationProbability_;
 
     /// \brief
-    double weight_mutation_sigma;
+    double weightMutationSigma_;
 
     /// \brief
-    double param_mutation_probability;
+    double paramMutationProbability_;
 
     /// \brief
-    double param_mutation_sigma;
+    double paramMutationSigma_;
 
     /// \brief
-    double structural_augmentation_probability;
+    double augmentationProbability_;
 
     /// \brief
-    double structural_removal_probability;
+    double removalProbability_;
 
     /// \brief
-    int max_generations;
+    int maxGenerations_;
 
     /// \brief
-    double speciation_threshold;
+    double speciationThreshold_;
 
     /// \brief
-    unsigned int repeat_evaluations;
+    unsigned int repeatEvaluation_;
 
     /// \brief
-    GeneticEncodingPtr start_from_;
+    GeneticEncodingPtr startFrom_;
 
     /// \brief
-    double interspecies_mate_probability;
+    double interspeciesMateProbability_;
 
     /// \brief
     std::mt19937 generator;

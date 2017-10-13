@@ -17,94 +17,100 @@
 *
 */
 
+#include <iostream>
 #include <random>
-#include <string>
-#include <utility>
-#include <vector>
 
 #include "CPPNCrossover.h"
 
 namespace cppneat
 {
-  GeneticEncodingPtr
-  Crossover::crossover(GeneticEncodingPtr genotype_more_fit,
-                       GeneticEncodingPtr genotype_less_fit)
+  GeneticEncodingPtr Crossover::crossover(
+          GeneticEncodingPtr _genotype1,
+          GeneticEncodingPtr _genotype2)
   {
-    assert(genotype_less_fit->is_layered_ == genotype_more_fit->is_layered_);
+    assert(_genotype2->isLayered_ == _genotype1->isLayered_);
     std::random_device rd;
     std::mt19937 mt(rd());
-    std::uniform_real_distribution<double> uniform(0,
-                                                   1);
-    genotype_more_fit = genotype_more_fit->copy();
-    genotype_less_fit = genotype_less_fit->copy();
+    std::uniform_real_distribution< double > udist(0, 1);
+    _genotype1 = _genotype1->Copy();
+    _genotype2 = _genotype2->Copy();
 
-    std::vector<GenePtr> genes_better = genotype_more_fit->get_sorted_genes();
-    std::vector<GenePtr> genes_worse = genotype_less_fit->get_sorted_genes();
-    std::vector<std::pair<GenePtr, GenePtr>>
-            gene_pairs = GeneticEncoding::get_pairs(genes_better,
-                                                    genes_worse);
+    auto betterGenes = _genotype1->SortedGenes();
+    auto worseGenes = _genotype2->SortedGenes();
+    auto genePairs = GeneticEncoding::Pair(betterGenes, worseGenes);
 
-    std::vector<GenePtr> child_genes;
-    for (std::pair<GenePtr, GenePtr> pair : gene_pairs)
+    std::vector< GenePtr > offspring;
+    for (auto pair : genePairs)
     {
-      if (pair.first != nullptr && pair.second != nullptr)
+      if (pair.first not_eq nullptr
+          and pair.second not_eq nullptr)
       {
-        if (uniform(mt) < 0.5)
-        {
-          child_genes.push_back(pair.first);
-        }
-        else
-        {
-          child_genes.push_back(pair.second);
-        }
+        (udist(mt) < 0.5)
+        ? offspring.push_back(pair.first)
+        : offspring.push_back(pair.second);
       }
-      else if (pair.first != nullptr)
+      else if (pair.first not_eq nullptr)
       {
-        child_genes.push_back(pair.first);
+        offspring.push_back(pair.first);
       }
     }
-    if (not genotype_less_fit->is_layered_)
+
+    GeneticEncodingPtr childGenotype;
+    if (not _genotype2->isLayered_)
     {
-      GeneticEncodingPtr child_genotype(new GeneticEncoding(false));
-      for (GenePtr gene : child_genes)
+      childGenotype = GeneticEncodingPtr(new GeneticEncoding(false));
+      for (auto gene : offspring)
       {
-        if (gene->gene_type == Gene::NEURON_GENE)
+        switch (gene->type_)
         {
-          child_genotype->add_neuron_gene(
-                  boost::dynamic_pointer_cast<NeuronGene>(gene));
-        }
-        else if (gene->gene_type == Gene::CONNECTION_GENE)
-        {
-          child_genotype->add_connection_gene(
-                  boost::dynamic_pointer_cast<ConnectionGene>(gene));
+          case Gene::NEURON_GENE:
+            childGenotype->AddNeuron(
+                    boost::dynamic_pointer_cast< NeuronGene >(gene));
+            break;
+          case Gene::CONNECTION_GENE:
+            childGenotype->AddConnection(
+                    boost::dynamic_pointer_cast< ConnectionGene >(gene));
+            break;
         }
       }
-      return child_genotype;
     }
     else
     {
       // what helps us tremendously here is the fact that a gene is only in the
       // child if it is in the more fit parent therefore we can use the same
       // layer structure as in the more fit parent here
-      genotype_more_fit->connection_genes_
-                       .clear();
-      for (GenePtr gene : child_genes)
+      _genotype1->connectionGenes_.clear();
+      for (auto gene : offspring)
       {
-        if (gene->gene_type == Gene::NEURON_GENE)
+        switch (gene->type_)
         {
-          std::pair<unsigned int, unsigned int> index =
-                  genotype_more_fit->convert_in_to_layer_index(
-                          gene->getInnovNumber());
-          genotype_more_fit->layers_[index.first][index.second] =
-                  boost::dynamic_pointer_cast<NeuronGene>(gene);
-        }
-        else if (gene->gene_type == Gene::CONNECTION_GENE)
-        {
-          genotype_more_fit->add_connection_gene(
-                  boost::dynamic_pointer_cast<ConnectionGene>(gene));
+          case Gene::NEURON_GENE:
+          {
+            if (not _genotype1->ExistingNeuron(gene->InnovationNumber()))
+            {
+              std::cout << "BEGIN Neuron NOT exists" << std::endl;
+              _genotype1->AddNeuron(
+                      boost::dynamic_pointer_cast< NeuronGene >(gene),
+                      1, false);
+              std::cout << "END Neuron NOT exists" << std::endl;
+            }
+            auto index = _genotype1->CoordinatesByInnovationNumber(
+                    gene->InnovationNumber());
+            _genotype1->layers_.at(index.first).at(index.second) =
+                    boost::dynamic_pointer_cast< NeuronGene >(gene);
+            break;
+          }
+          case Gene::CONNECTION_GENE:
+          {
+            _genotype1->AddConnection(
+                    boost::dynamic_pointer_cast< ConnectionGene >(gene));
+            break;
+          }
         }
       }
-      return genotype_more_fit;
+      childGenotype = _genotype1;
     }
+
+    return childGenotype;
   }
 }

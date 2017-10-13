@@ -38,115 +38,128 @@ namespace cppneat
     /// \brief
     GeneticEncoding(std::vector<NeuronGenePtr> neuron_genes,
                     std::vector<ConnectionGenePtr> connection_genes)
-            : neuron_genes_(neuron_genes)
-              , connection_genes_(connection_genes)
-              , is_layered_(false)
+            : neuronGenes_(neuron_genes)
+            , connectionGenes_(connection_genes)
+            , isLayered_(false)
     {}
 
     /// \brief
     GeneticEncoding(std::vector<std::vector<NeuronGenePtr>> layers,
                     std::vector<ConnectionGenePtr> connection_genes)
             : layers_(layers)
-              , connection_genes_(connection_genes)
-              , is_layered_(true)
+            , connectionGenes_(connection_genes)
+            , isLayered_(true)
     {}
 
     /// \brief
     GeneticEncoding(bool layered)
-            : is_layered_(layered)
+            : isLayered_(layered)
     {}
 
     /// \brief
-    GeneticEncodingPtr copy();
+    GeneticEncodingPtr Copy();
 
     /// \brief
-    size_t num_genes();
+    size_t NumGenes();
 
     /// \brief
-    size_t num_neuron_genes();
+    size_t NumNeurons();
 
     /// \brief
-    size_t num_connection_genes();
+    size_t NumConnections();
 
     /// \brief
-    bool connection_exists(int mark_from,
-                           int mark_to);
+    size_t NumLayers();
 
     /// \brief
-    static double get_dissimilarity(GeneticEncodingPtr genotype1,
-                                    GeneticEncodingPtr genotype2,
-                                    double excess_coef,
-                                    double disjoint_coef,
-                                    double weight_diff_coef);
+    bool ExistingConnection(
+            const size_t _from,
+            const size_t _to);
 
     /// \brief
-    static void get_excess_disjoint(GeneticEncodingPtr genotype1,
-                                    GeneticEncodingPtr genotype2,
-                                    int &excess_num,
-                                    int &disjoint_num);
+    static double Dissimilarity(
+            GeneticEncodingPtr _genotype1,
+            GeneticEncodingPtr _genotype2,
+            const double _excess_coef,
+            const double _disjoint_coef,
+            const double _weight_diff_coef);
+
+    /// \brief
+    static void ExcessDisjoint(
+            GeneticEncodingPtr genotype1,
+            GeneticEncodingPtr genotype2,
+            int &excess_num,
+            int &disjoint_num);
 
     /// \brief
     static std::vector<std::pair<GenePtr, GenePtr>>
-    get_pairs(std::vector<GenePtr> genes_sorted1,
-              std::vector<GenePtr> genes_sorted2);
+    Pair(
+            std::vector< GenePtr > _sortedGenes1,
+            std::vector< GenePtr > _sortedGenes2);
 
     /// \brief
     static std::vector<std::pair<int, int>>
-    get_space_map(std::vector<GeneticEncodingPtr> genotypes,
-                  std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> brain_spec);
+    SpaceMap(
+            std::vector< GeneticEncodingPtr > _genotypes,
+            std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > _config);
 
     /// \brief
-    void adopt(GeneticEncodingPtr adoptee);
+    void Adopt(GeneticEncodingPtr adoptee);
 
     /// \brief
-    std::vector<GenePtr> get_sorted_genes();
+    std::vector<GenePtr> SortedGenes();
 
     /// \brief
-    std::pair<int, int> min_max_innov_numer();
+    std::pair<int, int> RangeInnovationNumbers();
 
     /// \brief
-    GenePtr find_gene_by_in(const size_t innov_number);
+    GenePtr Find(const size_t _innovationNumber);
 
     /// \brief non-layered
-    void add_neuron_gene(NeuronGenePtr neuron_gene);
+    void AddNeuron(NeuronGenePtr _neuron);
 
     /// \brief layered
-    void add_neuron_gene(NeuronGenePtr neuron_gene,
-                         int layer,
-                         bool is_new_layer);
+    void AddNeuron(
+            NeuronGenePtr _neuron,
+            const size_t _layer,
+            const bool _newLayer);
 
     /// \brief
-    void add_connection_gene(ConnectionGenePtr connection_gene);
+    void AddConnection(ConnectionGenePtr _connection);
 
     /// \brief
-    void remove_connection_gene(int index);
+    void RemoveConnection(const size_t _index);
 
     /// \brief non-layered
-    void remonve_neuron_gene(int index);
-
-    /// \brief layered
-    void remove_neuron_gene(int layer,
-                            int index);
+    void RemoveNeuron(const size_t _index);
 
     /// \brief
-    bool neuron_exists(const size_t innov_number);
+    void RemoveNeuron(NeuronGenePtr _gene);
+
+    /// \brief layered
+    void RemoveNeuron(
+            const size_t _layer,
+            const size_t _index);
+
+    /// \brief
+    bool ExistingNeuron(const size_t _innovationNumber);
 
 #ifdef CPPNEAT_DEBUG
     bool is_valid();
 #endif
 
     /// \brief
-    std::pair<size_t, size_t> convert_index_to_layer_index(size_t index);
+    std::pair<size_t, size_t> CoordinatesByIndex(const size_t _index);
 
     /// \brief
     std::pair<size_t, size_t>
-    convert_in_to_layer_index(const size_t innov_number);
+    CoordinatesByInnovationNumber(const size_t _innovationNumber);
 
     public:
     /// \brief non-layered
     public:
     /// \brief
-    std::vector<NeuronGenePtr> neuron_genes_;
+    std::vector<NeuronGenePtr> neuronGenes_;
 
     public:
     /// \brief layered
@@ -154,15 +167,15 @@ namespace cppneat
 
     public:
     /// \brief both
-    std::vector<ConnectionGenePtr> connection_genes_;
+    std::vector<ConnectionGenePtr> connectionGenes_;
 
     public:
     /// \brief
-    bool is_layered_;
+    bool isLayered_;
 
     private:
     /// \brief
-    std::vector<GenePtr> all_genes_sorted;
+    std::vector<GenePtr> allSortedGenes_;
 
     private:
     /// \brief

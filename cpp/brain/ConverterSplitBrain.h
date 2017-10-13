@@ -41,11 +41,11 @@ namespace revolve
       ConverterSplitBrain(Phenotype (*convertForController)(Genotype),
                           Genotype (*convertForLearner)(Phenotype),
                           const std::string model_name)
-              : model_name_(model_name)
-                , is_first_run_(true)
-                , run_count_(0)
-                , convertForController_(convertForController)
-                , convertForLearner_(convertForLearner)
+              : name_(model_name)
+              , isFirstRun_(true)
+              , numRuns_(0)
+              , convertForController_(convertForController)
+              , convertForLearner_(convertForLearner)
       {}
 
       /// \brief
@@ -62,24 +62,24 @@ namespace revolve
                           double t,
                           double step)
       {
-        if (is_first_run_)
+        if (isFirstRun_)
         {
-          this->controller_->setPhenotype(
-                  convertForController_(this->learner_->currentGenotype()));
+          this->controller_->setPhenotype(convertForController_(
+                  this->learner_->currentGenotype()));
 
-          start_eval_time_ = t;
+          startTime_ = t;
           evaluator_->start();
-          is_first_run_ = false;
+          isFirstRun_ = false;
         }
 
         // && generation_counter_ < max_evaluations_) {
-        if ((t - start_eval_time_) > evaluation_rate_)
+        if ((t - startTime_) > evaluationRate_)
         {
           double fitness = evaluator_->fitness();
           writeCurrent(fitness);
 
           this->learner_->reportFitness(
-                  model_name_,
+                  name_,
                   convertForLearner_(this->controller_->getPhenotype()),
                   fitness);
 
@@ -87,43 +87,43 @@ namespace revolve
                   this->learner_->currentGenotype());
 
           this->controller_->setPhenotype(controllerPhenotype);
-          start_eval_time_ = t;
-          generation_counter_++;
+          startTime_ = t;
+          numGeneration_++;
           evaluator_->start();
         }
         this->controller_->update(actuators, sensors, t, step);
       }
 
       /// \brief
-      void writeCurrent(double fitness)
+      void writeCurrent(const double _fitness)
       {
         std::ofstream outputFile;
-        outputFile.open(model_name_ + ".log",
+        outputFile.open(name_ + ".log",
                         std::ios::app | std::ios::out | std::ios::ate);
-        outputFile << "- generation: " << generation_counter_ << std::endl;
-        outputFile << "  velocity: " << fitness << std::endl;
+        outputFile << "- generation: " << numGeneration_ << std::endl;
+        outputFile << "  velocity: " << _fitness << std::endl;
         // TODO: Should we record an entire generation?
         outputFile.close();
       }
 
       protected:
       /// \brief
-      std::string model_name_;
+      std::string name_;
 
       /// \brief
-      bool is_first_run_;
+      bool isFirstRun_;
 
       /// \brief
-      int generation_counter_ = 0;
+      int numGeneration_ = 0;
 
       /// \brief
-      int run_count_;
+      int numRuns_;
 
       /// \brief
-      double start_eval_time_ = 0;
+      double startTime_ = 0;
 
       /// \brief
-      double evaluation_rate_ = 30.0;
+      double evaluationRate_ = 30.0;
 
       /// \brief
       EvaluatorPtr evaluator_;

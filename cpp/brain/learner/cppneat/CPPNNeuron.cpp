@@ -24,27 +24,29 @@
 
 namespace cppneat
 {
-  Neuron::Neuron(Neuron &copy_of)
-          : neuron_id(copy_of.neuron_id)
-            , layer(copy_of.layer)
-            , neuron_type(copy_of.neuron_type)
-            , neuron_params(copy_of.neuron_params)
+  Neuron::Neuron(Neuron &_copy)
+          : neuronId_(_copy.neuronId_)
+            , layer_(_copy.layer_)
+            , neuronType_(_copy.neuronType_)
+            , parameters_(_copy.parameters_)
   {
   }
 
-  Neuron::Neuron(std::string neuron_id,
-                 Layer layer,
-                 Ntype neuron_type,
-                 std::map<std::string, double> neuron_params)
-          : neuron_id(neuron_id)
-            , layer(layer)
-            , neuron_type(neuron_type)
-            , neuron_params(neuron_params)
+  Neuron::Neuron(
+          const std::string _neuronId,
+          Layer _layer,
+          Ntype _neuronType,
+          std::map< std::string, double > _parameters)
+          : neuronId_(_neuronId)
+            , layer_(_layer)
+            , neuronType_(_neuronType)
+            , parameters_(_parameters)
   {
   }
 
-  void Neuron::set_neuron_param(double value,
-                                ParamSpec param_spec)
+  void Neuron::SetNeuronParameters(
+          double _value,
+          ParamSpec _parameters)
   {
     //  if(value > param_spec.max_value) {
     //    if(param_spec.max_inclusive) {
@@ -62,6 +64,6 @@ namespace cppneat
     //      value = param_spec.min_value + param_spec.epsilon;
     //    }
     //  }
-    neuron_params[param_spec.name] = value;
+    parameters_[_parameters.name] = _value;
   }
 }

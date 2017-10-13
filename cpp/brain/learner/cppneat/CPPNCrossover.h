@@ -28,8 +28,9 @@ namespace cppneat
   {
     public:
     static GeneticEncodingPtr
-    crossover(GeneticEncodingPtr genotype_more_fit,
-              GeneticEncodingPtr genotype_less_fit);
+    crossover(
+            GeneticEncodingPtr _genotype1,
+            GeneticEncodingPtr _genotype2);
   };
 }
 

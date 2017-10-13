@@ -35,89 +35,100 @@ namespace cppneat
   {
     public:
     /// \brief
-    Mutator(std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> brain_spec,
-            double new_connection_sigma,
-            int innovation_number,
-            int max_attempts,
-            std::vector<Neuron::Ntype> addable_neurons,
-            bool layered);
+    Mutator(
+          std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > brain_spec,
+          double new_connection_sigma,
+          int _innovationNumber,
+          int _maxAttempts,
+          std::vector< Neuron::Ntype > addable_neurons);
 
     /// \brief
     static std::vector<Neuron::Ntype>
-    get_addable_types(std::map<Neuron::Ntype,
-                               Neuron::NeuronTypeSpec> brain_spec);
+    AddableTypes(
+            std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > _specification);
 
     /// \brief
-    void make_starting_genotype_known(GeneticEncodingPtr genotype);
+    void RegisteStartingGenotype(GeneticEncodingPtr _genotype);
 
     /// \brief
-    void load_known_innovations(std::string yaml_path);
+    void LoadRegisteredInnovations(const std::string _yamlPath);
 
     /// \brief
-    void insert_conn_innovation(int from, int to, int inovation_number);
+    void InsertConnectionInnovation(
+            const size_t _from,
+            const size_t _to,
+            const size_t _innovationNumber);
 
     /// \brief
-    void insert_neuron_innovation(Neuron::Ntype ntype,
-                                  int in_no);
+    void InsertNeuronInnovation(
+            const Neuron::Ntype _neuronType,
+            const size_t _innovationNumber);
 
     /// \brief
-    void write_known_innovations(std::string yaml_path);
+    void RecordInnovations(const std::string _yamlPath);
 
     /// \brief
-    void mutate_neuron_params(GeneticEncodingPtr genotype,
-                              double probability,
-                              double sigma);
+    void MutateNeuronParams(
+            GeneticEncodingPtr _genotype,
+            const double _probability,
+            const double _sigma);
 
     /// \brief
-    void mutate_weights(GeneticEncodingPtr genotype,
-                        double probability,
-                        double sigma);
+    void MutateWeights(
+            GeneticEncodingPtr genotype,
+            const double _probability,
+            const double _sigma);
 
     /// \brief
-    void mutate_structure(GeneticEncodingPtr genotype,
-                          double probability);
+    void MutateStructure(
+            GeneticEncodingPtr _genotype,
+            const double _probability);
 
     /// \brief
-    bool add_connection_mutation(GeneticEncodingPtr genotype,
-                                 double sigma);
+    bool AddConnectionMutation(
+            GeneticEncodingPtr _genotype,
+            const double _sigma);
 
     /// \brief
-    void add_neuron_mutation(GeneticEncodingPtr genotype,
-                             double sigma);
+    void AddNeuronMutation(
+            GeneticEncodingPtr _genotype,
+            const double _sigma);
 
     /// \brief
-    void remove_connection_mutation(GeneticEncodingPtr genotype);
+    void RemoveConnectionMutation(GeneticEncodingPtr _genotype);
 
     /// \brief
-    void remove_neuron_mutation(GeneticEncodingPtr genotype);
+    void RemoveNeuronMutation(GeneticEncodingPtr _genotype);
 
     /// \brief
-    int add_neuron(NeuronPtr neuron,
-                   GeneticEncodingPtr genotype,
-                   ConnectionGenePtr split);
+    int AddNeuron(
+            NeuronPtr _neuron,
+            GeneticEncodingPtr _genotype,
+            ConnectionGenePtr _split);
 
     /// \brief
-    int add_connection(int mark_from,
-                       int mark_to,
-                       double weight,
-                       GeneticEncodingPtr genotype,
-                       std::string socket);
+    int AddConnection(
+            const size_t _from,
+            const size_t _to,
+            const double _weight,
+            GeneticEncodingPtr _genotype,
+            const std::string _socket);
 
     /// \brief
-    std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> get_brain_spec()
+    std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> Specification()
     {
-      return brain_spec;
+      return this->specification_;
     };
 
     /// \brief
-    void set_current_innovation_number(int innov_numb)
+    void SetCurrentInnovationNumber(const size_t _innovationNumber)
     {
-      this->innovation_number = innov_numb;
+      this->innovationNumber_ = _innovationNumber;
     };
 
     /// \brief <mark_from, mark_to> -> innovation_number
     private:
-    std::map<std::pair<int, int>, int> connection_innovations;
+    std::map<std::pair<int, int>, size_t> connectionInnovations_;
 
     /// \brief contains all connections that ever existed!
     /// <innovation_number of split connection,
@@ -132,31 +143,31 @@ namespace cppneat
     /// in order to store all the innovation numbers we need a vector*/
     private:
     std::map<std::pair<int, Neuron::Ntype>, std::vector<int>>
-            neuron_innovations;
+            neuronInnovations_;
 
     /// \brief contains only neurons that have been added by structural mutation
     private:
-    std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> brain_spec;
+    std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> specification_;
 
     /// \brief
     private:
-    double new_connection_sigma;
+    double tauConnectionSigma_;
 
     /// \brief
     private:
-    int innovation_number;
+    size_t innovationNumber_;
 
     /// \brief
     private:
-    int max_attempts;
+    size_t maxAttempts_;
 
     /// \brief
     private:
-    std::vector<Neuron::Ntype> addable_neurons;
+    std::vector<Neuron::Ntype> addableNeurons_;
 
     /// \brief
     private:
-    std::mt19937 generator;
+    std::mt19937 generator_;
   };
 }
 
