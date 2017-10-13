@@ -33,31 +33,31 @@ namespace cppneat
 {
   /////////////////////////////////////////////////
   NEATLearner::NEATLearner(
-          MutatorPtr mutator,
-          std::string mutator_path,
-          NEATLearner::LearningConfiguration conf
+          MutatorPtr _mutator,
+          const std::string &_mutatorPath,
+          LearningConfiguration &_configuration
   )
           : activeBrain_(nullptr)
           , numGeneration(0)
           , numEvaluatedBrains(0)
-          , mutator_(mutator)
-          , mutatorPath_(mutator_path)
-          , isAsexual_(conf.asexual)
-          , initStructuralMutations_(conf.initial_structural_mutations)
-          , numChildren_(conf.num_children)
-          , populationSize_(conf.pop_size)
-          , tournamentSize_(conf.tournament_size)
-          , weightMutationProbability_(conf.weight_mutation_probability)
-          , weightMutationSigma_(conf.weight_mutation_sigma)
-          , paramMutationProbability_(conf.param_mutation_probability)
-          , paramMutationSigma_(conf.param_mutation_sigma)
-          , augmentationProbability_(conf.structural_augmentation_probability)
-          , removalProbability_(conf.structural_removal_probability)
-          , maxGenerations_(conf.max_generations)
-          , speciationThreshold_(conf.speciation_threshold)
-          , repeatEvaluation_(conf.repeat_evaluations)
-          , startFrom_(conf.start_from)
-          , interspeciesMateProbability_(conf.interspecies_mate_probability)
+          , mutator_(_mutator)
+          , mutatorPath_(_mutatorPath)
+          , isAsexual_(_configuration.asexual)
+          , initStructuralMutations_(_configuration.initial_structural_mutations)
+          , numChildren_(_configuration.num_children)
+          , populationSize_(_configuration.pop_size)
+          , tournamentSize_(_configuration.tournament_size)
+          , weightMutationProbability_(_configuration.weight_mutation_probability)
+          , weightMutationSigma_(_configuration.weight_mutation_sigma)
+          , paramMutationProbability_(_configuration.param_mutation_probability)
+          , paramMutationSigma_(_configuration.param_mutation_sigma)
+          , augmentationProbability_(_configuration.structural_augmentation_probability)
+          , removalProbability_(_configuration.structural_removal_probability)
+          , maxGenerations_(_configuration.max_generations)
+          , speciationThreshold_(_configuration.speciation_threshold)
+          , repeatEvaluation_(_configuration.repeat_evaluations)
+          , startFrom_(_configuration.start_from)
+          , interspeciesMateProbability_(_configuration.interspecies_mate_probability)
   {
     std::random_device rd;
     generator.seed(rd());
@@ -670,14 +670,6 @@ namespace cppneat
   }
 
   /////////////////////////////////////////////////
-  bool compareFitness(
-          FitnessPair _genotype1,
-          FitnessPair _genotype2)
-  {
-    return _genotype1.second > _genotype2.second;
-  }
-
-  /////////////////////////////////////////////////
   void NEATLearner::generatePopulation()
   {
     // calculate number of children for each species
@@ -692,9 +684,14 @@ namespace cppneat
     FitnessPairs velocityPairs;
     for (auto brain : this->brainVelocity_)
     {
-      velocityPairs.push_back(FitnessPair(brain.first, brain.second));
+      velocityPairs.push_back({brain.first, brain.second});
     }
-    std::sort(velocityPairs.begin(), velocityPairs.end(), compareFitness);
+    std::sort(velocityPairs.begin(),
+              velocityPairs.end(),
+              [](FitnessPair a, FitnessPair b) {
+                return a.second > b.second;
+              });
+
     for (size_t i = 0; i < (populationSize_ - numChildren_); ++i)
     {
       this->evaluationQueue_.push_back(velocityPairs[i].first);
@@ -730,7 +727,11 @@ namespace cppneat
                 brain,
                 this->brainFitness_[brain]));
       }
-      std::sort(fitnessPairs.begin(), fitnessPairs.end(), compareFitness);
+      std::sort(fitnessPairs.begin(),
+                fitnessPairs.end(),
+                [](FitnessPair a, FitnessPair b) {
+                  return a.second > b.second;
+                });
 
       ParentPairs parentPairs;
       for (size_t top = 0; top < _offsprings[spPair.first]; ++top)
@@ -763,7 +764,12 @@ namespace cppneat
                     brain,
                     this->brainFitness_[brain]));
           }
-          std::sort(toSort.begin(), toSort.end(), compareFitness);
+          std::sort(
+                  toSort.begin(),
+                  toSort.end(),
+                  [](FitnessPair a, FitnessPair b) {
+                    return a.second > b.second;
+                  });
 
           GeneticEncodingPtr dad = toSort.front().first;
           parentPairs.push_back(
@@ -891,7 +897,12 @@ namespace cppneat
     std::shuffle(_candidates.begin(), _candidates.end(), generator);
     _candidates = FitnessPairs(_candidates.begin(),
                                _candidates.begin() + _tournamentSize);
-    std::sort(_candidates.begin(), _candidates.end(), compareFitness);
+    std::sort(
+            _candidates.begin(),
+            _candidates.end(),
+            [](FitnessPair a, FitnessPair b) {
+              return a.second > b.second;
+            });
 
     return {_candidates.at(0).first, _candidates.at(1).first};
   }

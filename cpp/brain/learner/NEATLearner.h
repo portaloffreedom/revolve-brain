@@ -69,9 +69,10 @@ namespace cppneat
     };
 
     /// \brief
-    NEATLearner(MutatorPtr mutator,
-                std::string mutator_path,
-                LearningConfiguration conf);
+    NEATLearner(
+            MutatorPtr _mutator,
+            const std::string &_mutatorPath,
+            LearningConfiguration &_configuration);
 
     /// \brief
     void Initialise(GeneticEncodingPtrs _genotypes);
