@@ -35,7 +35,7 @@ namespace cppneat
             size_t _to,
             size_t _from,
             double _weight,
-            int _innovationNumber = 0,
+            size_t _innovationNumber = 0,
             bool _enabled = true,
             std::string _parentName = "",
             int _parentIndex = -1,

@@ -90,7 +90,7 @@ namespace cppneat
               << "no starting network given, initialise has to be called"
               << std::endl;
     }
-    this->mutator_->RegisteStartingGenotype(startFrom_);
+    this->mutator_->RegisterStartingGenotype(startFrom_);
     std::cout
             << "\033[1;33m"
             << "-------------------------------------------------"

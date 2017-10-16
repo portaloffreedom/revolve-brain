@@ -43,12 +43,12 @@ namespace cppneat
             std::vector< Neuron::Ntype > _addableNeurons);
 
     /// \brief
-    static std::vector<Neuron::Ntype>
+    static std::vector< Neuron::Ntype >
     AddableTypes(
             std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > _specification);
 
     /// \brief
-    void RegisteStartingGenotype(GeneticEncodingPtr _genotype);
+    void RegisterStartingGenotype(GeneticEncodingPtr _genotype);
 
     /// \brief
     void LoadRegisteredInnovations(const std::string &_yamlPath);
@@ -101,13 +101,13 @@ namespace cppneat
     void RemoveNeuronMutation(GeneticEncodingPtr _genotype);
 
     /// \brief
-    int AddNeuron(
+    size_t AddNeuron(
             NeuronPtr _neuron,
             GeneticEncodingPtr _genotype,
             ConnectionGenePtr _split);
 
     /// \brief
-    int AddConnection(
+    size_t AddConnection(
             const size_t _from,
             const size_t _to,
             const double _weight,
@@ -115,7 +115,7 @@ namespace cppneat
             const std::string &_socket);
 
     /// \brief
-    std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> Specification()
+    std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > Specification()
     {
       return this->specification_;
     };
@@ -128,7 +128,7 @@ namespace cppneat
 
     /// \brief <mark_from, mark_to> -> innovation_number
     private:
-    std::map<std::pair<int, int>, size_t> connectionInnovations_;
+    std::map< std::pair< size_t, size_t >, size_t > connectionInnovations_;
 
     /// \brief contains all connections that ever existed!
     /// <innovation_number of split connection,
@@ -142,12 +142,12 @@ namespace cppneat
     /// if so we add another neuron
     /// in order to store all the innovation numbers we need a vector*/
     private:
-    std::map<std::pair<int, Neuron::Ntype>, std::vector<int>>
+    std::map< std::pair< size_t, Neuron::Ntype >, std::vector< size_t>>
             neuronInnovations_;
 
     /// \brief contains only neurons that have been added by structural mutation
     private:
-    std::map<Neuron::Ntype, Neuron::NeuronTypeSpec> specification_;
+    std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > specification_;
 
     /// \brief
     private:
@@ -163,7 +163,7 @@ namespace cppneat
 
     /// \brief
     private:
-    std::vector<Neuron::Ntype> addableNeurons_;
+    std::vector< Neuron::Ntype > addableNeurons_;
 
     /// \brief
     private:
