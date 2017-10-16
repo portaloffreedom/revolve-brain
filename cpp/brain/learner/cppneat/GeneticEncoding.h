@@ -36,16 +36,18 @@ namespace cppneat
   {
     public:
     /// \brief
-    GeneticEncoding(std::vector<NeuronGenePtr> neuron_genes,
-                    std::vector<ConnectionGenePtr> connection_genes)
+    GeneticEncoding(
+            std::vector< NeuronGenePtr > neuron_genes,
+            std::vector< ConnectionGenePtr > connection_genes)
             : neuronGenes_(neuron_genes)
             , connectionGenes_(connection_genes)
             , isLayered_(false)
     {}
 
     /// \brief
-    GeneticEncoding(std::vector<std::vector<NeuronGenePtr>> layers,
-                    std::vector<ConnectionGenePtr> connection_genes)
+    GeneticEncoding(
+            std::vector< std::vector< NeuronGenePtr>> layers,
+            std::vector< ConnectionGenePtr > connection_genes)
             : layers_(layers)
             , connectionGenes_(connection_genes)
             , isLayered_(true)
@@ -92,13 +94,13 @@ namespace cppneat
             int &disjoint_num);
 
     /// \brief
-    static std::vector<std::pair<GenePtr, GenePtr>>
+    static std::vector< std::pair< GenePtr, GenePtr>>
     Pair(
             std::vector< GenePtr > _sortedGenes1,
             std::vector< GenePtr > _sortedGenes2);
 
     /// \brief
-    static std::vector<std::pair<int, int>>
+    static std::vector< std::pair< size_t, size_t>>
     SpaceMap(
             std::vector< GeneticEncodingPtr > _genotypes,
             std::map< Neuron::Ntype, Neuron::NeuronTypeSpec > _config);
@@ -107,10 +109,10 @@ namespace cppneat
     void Adopt(GeneticEncodingPtr adoptee);
 
     /// \brief
-    std::vector<GenePtr> SortedGenes();
+    std::vector< GenePtr > SortedGenes();
 
     /// \brief
-    std::pair<int, int> RangeInnovationNumbers();
+    std::pair< size_t, size_t > RangeInnovationNumbers();
 
     /// \brief
     GenePtr Find(const size_t _innovationNumber);
@@ -149,25 +151,25 @@ namespace cppneat
 #endif
 
     /// \brief
-    std::pair<size_t, size_t> CoordinatesByIndex(const size_t _index);
+    std::pair< size_t, size_t > CoordinatesByIndex(const size_t _index);
 
     /// \brief
-    std::pair<size_t, size_t>
+    std::pair< size_t, size_t >
     CoordinatesByInnovationNumber(const size_t _innovationNumber);
 
     public:
     /// \brief non-layered
     public:
     /// \brief
-    std::vector<NeuronGenePtr> neuronGenes_;
+    std::vector< NeuronGenePtr > neuronGenes_;
 
     public:
     /// \brief layered
-    std::vector<std::vector<NeuronGenePtr>> layers_;
+    std::vector< std::vector< NeuronGenePtr>> layers_;
 
     public:
     /// \brief both
-    std::vector<ConnectionGenePtr> connectionGenes_;
+    std::vector< ConnectionGenePtr > connectionGenes_;
 
     public:
     /// \brief
@@ -175,7 +177,7 @@ namespace cppneat
 
     private:
     /// \brief
-    std::vector<GenePtr> allSortedGenes_;
+    std::vector< GenePtr > allSortedGenes_;
 
     private:
     /// \brief

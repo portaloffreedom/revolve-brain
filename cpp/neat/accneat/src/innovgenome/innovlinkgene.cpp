@@ -39,38 +39,41 @@
 
 using namespace NEAT;
 
-InnovLinkGene::InnovLinkGene(real_t w,
-                             int inode_id,
-                             int onode_id,
-                             bool recur,
-                             int innov,
-                             real_t mnum,
-                             const std::string &creator_name,
-                             const int creator_index)
+InnovLinkGene::InnovLinkGene(
+        real_t w,
+        int inode_id,
+        int onode_id,
+        bool recur,
+        int innov,
+        real_t mnum,
+        const std::string &creator_name,
+        const int creator_index
+)
         : _weight(w)
-          , _in_node_id(inode_id)
-          , _out_node_id(onode_id)
-          , _is_recurrent(recur)
-          , _trait_id(1)
-          , innovation_num(innov)
-          , mutation_num(mnum)
-          , enable(true)
-          , frozen(false)
-          , creator_name(creator_name)
-          , creator_index(creator_index)
+        , _in_node_id(inode_id)
+        , _out_node_id(onode_id)
+        , _is_recurrent(recur)
+        , _trait_id(1)
+        , creator_name(creator_name)
+        , creator_index(creator_index)
+        , innovation_num(innov)
+        , mutation_num(mnum)
+        , enable(true)
+        , frozen(false)
 {
 }
 
 // Construct a gene with a trait
-InnovLinkGene::InnovLinkGene(int trait_id,
-                             real_t w,
-                             int inode_id,
-                             int onode_id,
-                             bool recur,
-                             int innov,
-                             real_t mnum,
-                             const std::string &creator_name,
-                             const int creator_index)
+InnovLinkGene::InnovLinkGene(
+        int trait_id,
+        real_t w,
+        int inode_id,
+        int onode_id,
+        bool recur,
+        int innov,
+        real_t mnum,
+        const std::string &creator_name,
+        const int creator_index)
         : InnovLinkGene(w,
                         inode_id,
                         onode_id,
@@ -83,21 +86,23 @@ InnovLinkGene::InnovLinkGene(int trait_id,
   _trait_id = trait_id;
 }
 
-InnovLinkGene::InnovLinkGene(InnovLinkGene *g,
-                             int trait_id,
-                             int inode_id,
-                             int onode_id)
-        : innovation_num(g->innovation_num)
-          , enable(g->enable)
-          , frozen(g->frozen)
-          , mutation_num(g->mutation_num)
-          , creator_name(g->creator_name)
-          , creator_index(g->creator_index)
-          , _weight(g->_weight)
-          , _in_node_id(inode_id)
-          , _out_node_id(onode_id)
-          , _is_recurrent(g->_is_recurrent)
-          , _trait_id(trait_id)
+InnovLinkGene::InnovLinkGene(
+        InnovLinkGene *g,
+        int trait_id,
+        int inode_id,
+        int onode_id
+)
+        : _weight(g->_weight)
+        , _in_node_id(inode_id)
+        , _out_node_id(onode_id)
+        , _is_recurrent(g->_is_recurrent)
+        , _trait_id(trait_id)
+        , creator_name(g->creator_name)
+        , creator_index(g->creator_index)
+        , innovation_num(g->innovation_num)
+        , mutation_num(g->mutation_num)
+        , enable(g->enable)
+        , frozen(g->frozen)
 {
 }
 
@@ -121,36 +126,38 @@ InnovLinkGene::~InnovLinkGene()
 
 bool NEAT::InnovLinkGene::operator==(const NEAT::InnovLinkGene &rhs) const
 {
-  return this->_weight == rhs._weight
+  real_t epsilon = 0.00000001;
+  return std::fabs(this->_weight - rhs._weight) < epsilon
          && this->_in_node_id == rhs._in_node_id
          && this->_out_node_id == rhs._out_node_id
          && this->_is_recurrent == rhs._is_recurrent
          && this->_trait_id == rhs._trait_id
          && this->innovation_num == rhs.innovation_num
-         && this->mutation_num == rhs.mutation_num
+         && std::fabs(this->mutation_num - rhs.mutation_num) < epsilon
          && this->enable == rhs.enable
          && this->frozen == rhs.frozen;
 }
 
-bool YAML::convert<NEAT::InnovLinkGene>::decode(const YAML::Node &node,
-                                                NEAT::InnovLinkGene &rhs)
+bool YAML::convert< NEAT::InnovLinkGene >::decode(
+        const YAML::Node &node,
+        NEAT::InnovLinkGene &rhs)
 {
-  rhs._trait_id = node["trait_id"].as<int>();
-  rhs._in_node_id = node["in_node_id"].as<int>();
-  rhs._out_node_id = node["out_node_id"].as<int>();
-  rhs._weight = node["weight"].as<real_t>();
-  rhs._is_recurrent = node["recurrent"].as<bool>();
-  rhs.innovation_num = node["innovation_num"].as<int>();
-  rhs.mutation_num = node["mutation_num"].as<real_t>();
-  rhs.enable = node["enable"].as<bool>();
-  rhs.frozen = node["frozen"].as<bool>();
-  rhs.creator_name = node["creator_name"].as<std::string>();
-  rhs.creator_index = node["creator_index"].as<int>();
+  rhs._trait_id = node["trait_id"].as< int >();
+  rhs._in_node_id = node["in_node_id"].as< int >();
+  rhs._out_node_id = node["out_node_id"].as< int >();
+  rhs._weight = node["weight"].as< real_t >();
+  rhs._is_recurrent = node["recurrent"].as< bool >();
+  rhs.innovation_num = node["innovation_num"].as< int >();
+  rhs.mutation_num = node["mutation_num"].as< real_t >();
+  rhs.enable = node["enable"].as< bool >();
+  rhs.frozen = node["frozen"].as< bool >();
+  rhs.creator_name = node["creator_name"].as< std::string >();
+  rhs.creator_index = node["creator_index"].as< int >();
 
   return true;
 }
 
-YAML::Node YAML::convert<NEAT::InnovLinkGene>::encode(
+YAML::Node YAML::convert< NEAT::InnovLinkGene >::encode(
         const NEAT::InnovLinkGene &rhs)
 {
   YAML::Node node;

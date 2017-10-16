@@ -34,7 +34,7 @@ class TestMultiNNSpeciesNeat
   /// \brief test if the algorithm is able to resolve the XOR problem
   bool  testXOR();
 
-  const int MAX_EVALUATIONS = 9999;
+  const size_t MAX_EVALUATIONS = 9999;
 };
 
 #endif  //  REVOLVE_NEAT_TEST_MULTIANNSPECIESNEAT_H_

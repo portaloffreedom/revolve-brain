@@ -26,9 +26,9 @@ namespace cppneat
 {
   Neuron::Neuron(Neuron &_copy)
           : neuronId_(_copy.neuronId_)
-            , layer_(_copy.layer_)
-            , neuronType_(_copy.neuronType_)
-            , parameters_(_copy.parameters_)
+          , layer_(_copy.layer_)
+          , neuronType_(_copy.neuronType_)
+          , parameters_(_copy.parameters_)
   {
   }
 
@@ -36,11 +36,12 @@ namespace cppneat
           const std::string &_neuronId,
           Layer _layer,
           Ntype _neuronType,
-          std::map< std::string, double > _parameters)
+          std::map< std::string, double > _parameters
+  )
           : neuronId_(_neuronId)
-            , layer_(_layer)
-            , neuronType_(_neuronType)
-            , parameters_(_parameters)
+          , layer_(_layer)
+          , neuronType_(_neuronType)
+          , parameters_(_parameters)
   {
   }
 

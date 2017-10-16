@@ -833,11 +833,12 @@ void InnovGenome::mate_multipoint(InnovGenome *genome1,
   // Figure out which genome is better
   // The worse genome should not be allowed to add extra structural baggage
   // If they are the same, use the smaller one's disjoint and excess genes only
-  if (fitness1 > fitness2)
+  real_t epsilon = 0.0000001;
+  if (fitness1 - fitness2 > epsilon)
   {
     p1better = true;
   }
-  else if (fitness1 == fitness2)
+  else if (std::fabs(fitness1 - fitness2) < epsilon)
   {
     if (links1.size() < (links2.size()))
     {
@@ -896,7 +897,7 @@ void InnovGenome::mate_multipoint(InnovGenome *genome1,
       p1innov = p1gene->innovation_num;
       p2innov = p2gene->innovation_num;
 
-      if (p1innov == p2innov)
+      if (std::fabs(p1innov - p2innov) < epsilon)
       {
         if (rng.prob() < 0.5)
         {
@@ -918,7 +919,7 @@ void InnovGenome::mate_multipoint(InnovGenome *genome1,
         ++p1gene;
         ++p2gene;
       }
-      else if (p1innov < p2innov)
+      else if (p2innov - p1innov > epsilon)
       {
         protogene.set_gene(genome1, &*p1gene);
         ++p1gene;
@@ -928,7 +929,7 @@ void InnovGenome::mate_multipoint(InnovGenome *genome1,
           skip = true;
         }
       }
-      else if (p2innov < p1innov)
+      else if (p1innov - p2innov > epsilon)
       {
         protogene.set_gene(genome2, &*p2gene);
         ++p2gene;
@@ -1138,14 +1139,15 @@ void InnovGenome::mate_multipoint_avg(InnovGenome *genome1,
     }
   }
 
+  real_t epsilon = 0.0000001;
   // Figure out which genome is better
   // The worse genome should not be allowed to add extra structural baggage
   // If they are the same, use the smaller one's disjoint and excess genes only
-  if (fitness1 > fitness2)
+  if (fitness1 - fitness2 > epsilon)
   {
     p1better = true;
   }
-  else if (fitness1 == fitness2)
+  else if (std::fabs(fitness1 -fitness2) < epsilon)
   {
     if (links1.size() < (links2.size()))
     {
@@ -1412,6 +1414,7 @@ real_t InnovGenome::compatibility(InnovGenome *g)
   std::vector<InnovLinkGene>::iterator p1gene = links1.begin();
   std::vector<InnovLinkGene>::iterator p2gene = links2.begin();
 
+  real_t epsilon = 0.0000001;
   while (!((p1gene == links1.end()) && (p2gene == links2.end())))
   {
     if (p1gene == links1.end())
@@ -1430,7 +1433,7 @@ real_t InnovGenome::compatibility(InnovGenome *g)
       p1innov = p1gene->innovation_num;
       p2innov = p2gene->innovation_num;
 
-      if (p1innov == p2innov)
+      if (std::fabs(p1innov - p2innov) < epsilon)
       {
         num_matching += 1.0;
         mut_diff = p1gene->mutation_num - p2gene->mutation_num;
