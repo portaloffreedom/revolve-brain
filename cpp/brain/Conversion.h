@@ -77,7 +77,7 @@ namespace revolve
 /// RLPower_CPG~RLPower_CPPN
 ///////////////////////////////////////////////////////////////////////////////
     boost::shared_ptr<CPPNConfig>
-    convertGEtoNN(cppneat::GeneticEncodingPtr genotype);
+    convertGEtoNN(cppneat::GeneticEncodingPtr _genotype);
 
     cppneat::GeneticEncodingPtr
     convertNNtoGE(boost::shared_ptr<CPPNConfig> config);

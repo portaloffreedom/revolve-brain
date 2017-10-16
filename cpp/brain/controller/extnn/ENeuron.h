@@ -47,15 +47,15 @@ namespace revolve
 
     class NeuralConnection;
 
-    typedef boost::shared_ptr<ExtendedNeuralNetwork> NeuralNetworkPtr;
+    typedef boost::shared_ptr< ExtendedNeuralNetwork > NeuralNetworkPtr;
 
-    typedef boost::shared_ptr<MotorFactory> MotorFactoryPtr;
+    typedef boost::shared_ptr< MotorFactory > MotorFactoryPtr;
 
-    typedef boost::shared_ptr<SensorFactory> SensorFactoryPtr;
+    typedef boost::shared_ptr< SensorFactory > SensorFactoryPtr;
 
-    typedef boost::shared_ptr<Neuron> NeuronPtr;
+    typedef boost::shared_ptr< Neuron > NeuronPtr;
 
-    typedef boost::shared_ptr<NeuralConnection> NeuralConnectionPtr;
+    typedef boost::shared_ptr< NeuralConnection > NeuralConnectionPtr;
   }
 }
 
@@ -69,7 +69,7 @@ namespace revolve
       /// \param id: string to identify the neuron
       /// \return pointer to the neuron
       public:
-      Neuron(const std::string &id);
+      Neuron(const std::string &_id);
 
       /// \brief
       public:
@@ -80,27 +80,28 @@ namespace revolve
       /// \param t: current time
       /// \return the output of the neuron at time t
       public:
-      virtual double CalculateOutput(double t) = 0;
+      virtual double Output(const double _time) = 0;
+
+      /// \brief Return the current output of the neuron
+      public:
+      double Output() const;
 
       /// \brief Add an incoming connection to the neuron.
       /// \param socketName: name of the socket the connection "arrives" at
       /// \param connection: name of the connection to be added
       public:
-      void AddIncomingConnection(const std::string &socketName,
-                                 NeuralConnectionPtr connection);
+      void AddIncomingConnection(
+              const std::string &socketName,
+              NeuralConnectionPtr connection);
 
       /// \brief Deletes all incoming connections
       public:
-      void DeleteIncomingConections();
-
-      /// \brief Return the current output of the neuron
-      public:
-      double GetOutput() const;
+      void DeleteIncomingConnections();
 
       /// \brief Method to set the input of the neuron
       /// \param value: the value the input should be set to
       public:
-      virtual void SetInput(double /*value*/)
+      virtual void SetInput(const double /*value*/)
       {}
 
       /// \brief Calculate the output and save it for when FlipState is called
@@ -116,7 +117,7 @@ namespace revolve
       /// connection
       /// \return id for the socket of the next imcoming neural connection
       public:
-      std::string GetSocketId() const;
+      std::string SocketId() const;
 
       /// \brief Return id of the neuron
       public:
@@ -124,21 +125,21 @@ namespace revolve
 
       /// \brief
       public:
-      virtual std::vector<std::pair<std::string, NeuralConnectionPtr>>
-      getIncomingConnections();
+      virtual std::vector< std::pair< std::string, NeuralConnectionPtr>>
+      IncomingConnections();
 
       /// \brief
       public:
-      virtual std::map<std::string, double> getNeuronParameters() = 0;
+      virtual std::map< std::string, double > Parameters() = 0;
 
       /// \brief
       public:
       virtual void
-      setNeuronParameters(std::map<std::string, double> params) = 0;
+      SetParameters(std::map< std::string, double > _parameters) = 0;
 
       /// \brief
       public:
-      virtual std::string getType() = 0;
+      virtual std::string Type() = 0;
 
       /// \brief Return phase for RythmGeneration neuron (HACK)
       public:
@@ -150,7 +151,7 @@ namespace revolve
 
       /// \brief vector of the incoming connections and the name of their socket
       protected:
-      std::vector<std::pair<std::string, NeuralConnectionPtr>>
+      std::vector< std::pair< std::string, NeuralConnectionPtr>>
               incomingConnections_;
 
       /// \brief current output

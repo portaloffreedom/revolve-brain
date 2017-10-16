@@ -136,8 +136,8 @@ void RLPowerLearner::LoadPolicy(const std::string &_policyPath)
 }
 
 void RLPowerLearner::reportFitness(
-        const std::string &_id,
-        PolicyPtr _genotype,
+        const std::string &/*_id*/,
+        PolicyPtr /*_genotype*/,
         const double curr_fitness)
 {
   // Insert ranked policy in list

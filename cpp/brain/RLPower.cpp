@@ -30,10 +30,12 @@
 
 using namespace revolve::brain;
 
-RLPower::RLPower(std::string modelName,
-                 Config brain,
-                 EvaluatorPtr evaluator,
-                 size_t n_actuators)
+RLPower::RLPower(
+        std::string modelName,
+        Config brain,
+        EvaluatorPtr evaluator,
+        size_t n_actuators
+)
         : evaluator_(evaluator)
         , generationCounter_(0)
         , numInterpolationPoints_(brain.interpolation_spline_size)
@@ -84,13 +86,18 @@ RLPower::~RLPower()
   // `boost::shared_ptr< Policy >` should take care of memory management for us
 }
 
-void RLPower::update(const std::vector< ActuatorPtr > &actuators,
-                     const std::vector< SensorPtr > &sensors,
-                     double t,
-                     double step)
+void RLPower::update(
+        const std::vector< ActuatorPtr > &actuators,
+        const std::vector< SensorPtr > &sensors,
+        double t,
+        double step)
 {
   this->update< std::vector< ActuatorPtr >,
-                std::vector< SensorPtr > >(actuators, sensors, t, step);
+                std::vector< SensorPtr > >(
+          actuators,
+          sensors,
+          t,
+          step);
 }
 
 void RLPower::GenerateInitPolicy()
@@ -374,8 +381,9 @@ void RLPower::updatePolicy()
   this->generateCache();
 }
 
-void RLPower::InterpolateCubic(Policy *const source_y,
-                               Policy *destination_y)
+void RLPower::InterpolateCubic(
+        Policy *const source_y,
+        Policy *destination_y)
 {
   const size_t source_y_size_ = (*source_y)[0].size();
   const size_t destination_y_size = (*destination_y)[0].size();
@@ -500,8 +508,9 @@ std::map< double, RLPower::PolicyPtr >::iterator RLPower::BinarySelection()
   return fitness1 > fitness2 ? individual1 : individual2;
 }
 
-void RLPower::generateOutput(const double time,
-                             double *output_vector)
+void RLPower::generateOutput(
+        const double time,
+        double *output_vector)
 {
   if (this->cycle_start_time_ < 0)
   {

@@ -217,7 +217,7 @@ real_t rbc::RythmGenerationNeuron::calculateWeightFromPercentage(
 
 /////////////////////////////////////////////////
 real_t rbc::RythmGenerationNeuron::calculateWeightNeighbourFromPercentage(
-        real_t weight,
+        real_t /*weight*/,
         size_t index) const
 {
   return percentage_from_range(weight_neigbours[index], WEIGHT_MIN, WEIGHT_MAX);
@@ -255,7 +255,7 @@ real_t rbc::RythmGenerationNeuron::calculateWeightPercentage(
 
 /////////////////////////////////////////////////
 real_t rbc::RythmGenerationNeuron::calculateWeightNeighbourPercentage(
-        real_t weight,
+        real_t /*weight*/,
         size_t index) const
 {
   return percentage_of_range(weight_neigbours[index], WEIGHT_MIN, WEIGHT_MAX);

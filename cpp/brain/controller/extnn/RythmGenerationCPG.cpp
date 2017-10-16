@@ -30,29 +30,29 @@ namespace revolve
   namespace brain
   {
     RythmGenerationCPG::RythmGenerationCPG(
-            const std::string &id,
-            const std::map< std::string, double > &params)
-            : Neuron(id)
+            const std::string &_id,
+            const std::map< std::string, double > &_parameters)
+            : Neuron(_id)
             , phi(1)
             , weight(1)
             , amplitude(1)
             , offset(0)
     {
-      if (not params.count("rv:bias"))
+      if (not _parameters.count("rv:bias"))
       {
         std::cerr << "A `RythmGeneration CPG`"
                   << " neuron requires `rv:bias` element." << std::endl;
         throw std::runtime_error("Robot brain error");
       }
-      this->bias_ = params.find("rv:bias")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
       lastTime_ = 0;
     }
 
 
-    double RythmGenerationCPG::CalculateOutput(double t)
+    double RythmGenerationCPG::Output(const double _time)
     {
-      double deltaT = t - lastTime_;
-      lastTime_ = t;
+      double deltaT = _time - lastTime_;
+      lastTime_ = _time;
 
       if (deltaT > 0.1)
       {
@@ -70,7 +70,7 @@ namespace revolve
            it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
-        if ("RythmGeneratorCPG" == inConnection->GetInputNeuron()->getType())
+        if ("RythmGeneratorCPG" == inConnection->GetInputNeuron()->Type())
         {
           otherPhi +=
                   std::sin(inConnection->GetInputNeuron()->Phase() - thisPhi)
@@ -86,23 +86,23 @@ namespace revolve
       return result;
     }
 
-    std::map< std::string, double > RythmGenerationCPG::getNeuronParameters()
+    std::map< std::string, double > RythmGenerationCPG::Parameters()
     {
       std::map< std::string, double > parameters;
       parameters["rv:bias"] = bias_;
       return parameters;
     }
 
-    void RythmGenerationCPG::setNeuronParameters(
-            std::map< std::string, double > params)
+    void RythmGenerationCPG::SetParameters(
+            std::map< std::string, double > _parameters)
     {
-      if (not params.count("rv:bias"))
+      if (not _parameters.count("rv:bias"))
       {
         std::cerr << "A `RythmGeneration CPG`"
                   << " neuron requires `rv:bias` element." << std::endl;
         throw std::runtime_error("Robot brain error");
       }
-      this->bias_ = params.find("rv:bias")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
     }
 
     double RythmGenerationCPG::Phase()
@@ -110,7 +110,7 @@ namespace revolve
       return this->phi;
     }
 
-    std::string RythmGenerationCPG::getType()
+    std::string RythmGenerationCPG::Type()
     {
       return "RythmGenerationCPG";
     }

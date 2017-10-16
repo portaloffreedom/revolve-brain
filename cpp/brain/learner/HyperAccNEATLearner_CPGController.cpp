@@ -77,9 +77,9 @@ BaseController *HyperAccNEATLearner_CPGController::create_new_controller(
     // not first `create_new_controller`
     current_evalaution->finish(fitness);
   }
-  current_evalaution = neat->getEvaluation();
+  current_evalaution = neat->Evaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
-          current_evalaution->getOrganism()->net.get());
+          current_evalaution->Organism()->net.get());
 
   CPGController *controller =
           reinterpret_cast<CPGController *>(active_controller.get());

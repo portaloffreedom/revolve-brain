@@ -67,8 +67,8 @@ bool TestAsyncNeat::testXOR()
   int gen;
   for (gen = 1; gen < MAX_EVALUATIONS; gen++)
   {
-    std::shared_ptr<NeatEvaluation> eval = neat.getEvaluation();
-    const NEAT::Organism *organism = eval->getOrganism();
+    std::shared_ptr<NeatEvaluation> eval = neat.Evaluation();
+    const NEAT::Organism *organism = eval->Organism();
     NEAT::CpuNetwork *net = reinterpret_cast< NEAT::CpuNetwork *> (
             organism->net.get());
 
@@ -99,7 +99,7 @@ bool TestAsyncNeat::testXOR()
               << min_error
               << std::endl;
       std::cout << "The organism fitness is "
-                << neat.getFittest()->getOrganism()->eval.fitness << std::endl;
+                << neat.getFittest()->Organism()->eval.fitness << std::endl;
       success = true;
       break;
     }

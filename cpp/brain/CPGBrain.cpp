@@ -330,7 +330,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
     for (size_t j = 0; j < source_y_size; j++)
     {
       cpg::real_t &value = current_policy_->at(i)->at(j);
-      cpg::CPGNetwork::Limit limit = limits[j];
+      // cpg::CPGNetwork::Limit limit = limits[j];
       //             if (value < limit.lower)
       //                 value = limit.lower;
       //             else if (value > limit.upper)

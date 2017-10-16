@@ -26,34 +26,37 @@ namespace revolve
 {
   namespace brain
   {
-    InputNeuron::InputNeuron(const std::string &id,
-                             const std::map<std::string, double> &params)
-            : Neuron(id)
+    InputNeuron::InputNeuron(
+            const std::string &_id,
+            const std::map< std::string, double > &/*_parameters*/
+    )
+            : Neuron(_id)
     {
       input_ = 0;
     }
 
-    double InputNeuron::CalculateOutput(double /*t*/)
+    double InputNeuron::Output(const double /*t*/)
     {
       return input_;
     }
 
-    void InputNeuron::SetInput(double value)
+    void InputNeuron::SetInput(const double _value)
     {
-      input_ = value;
+      input_ = _value;
     }
 
-    std::map<std::string, double> InputNeuron::getNeuronParameters()
+    std::map<std::string, double> InputNeuron::Parameters()
     {
       std::map<std::string, double> ret;
       return ret;
     }
 
-    void InputNeuron::setNeuronParameters(std::map<std::string, double> params)
+    void
+    InputNeuron::SetParameters(std::map< std::string, double > /*_parameters*/)
     {
     }
 
-    std::string InputNeuron::getType()
+    std::string InputNeuron::Type()
     {
       return "Input";
     }

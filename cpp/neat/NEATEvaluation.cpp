@@ -21,7 +21,7 @@
 
 NeatEvaluation::NeatEvaluation(NEAT::Organism *organism)
         : finished_callback(nullptr)
-        , fitness(-1)
+//        , fitness(-1)
         , organism(organism)
 {}
 

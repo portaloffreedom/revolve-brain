@@ -19,8 +19,6 @@
 
 #include <cmath>
 #include <iostream>
-#include <limits>
-#include <string>
 #include <vector>
 
 #include "innovgenome/innovgenomemanager.h"
@@ -50,8 +48,7 @@ bool TestCustomGenomeManager::test()
   return true;
 }
 
-static NEAT::InnovGenome *
-to_innov(NEAT::Genome &g)
+static NEAT::InnovGenome *to_innov(NEAT::Genome &g)
 {
   return dynamic_cast<NEAT::InnovGenome *>(&g);
 }
@@ -60,18 +57,21 @@ class TestGenomeManager
         : public NEAT::InnovGenomeManager
 {
   public:
-  TestGenomeManager() : NEAT::InnovGenomeManager(test_name)
+  TestGenomeManager()
+          : NEAT::InnovGenomeManager(test_name)
   {
   }
 
   using NEAT::InnovGenomeManager::create_seed_generation;
-  virtual std::vector<std::unique_ptr<NEAT::Genome>>
-  create_seed_generation(size_t ngenomes,
-                         NEAT::rng_t rng,
-                         size_t ntraits,
-                         size_t ninputs,
-                         size_t noutputs,
-                         size_t nhidden)
+
+  virtual std::vector< std::unique_ptr< NEAT::Genome>>
+  create_seed_generation(
+          size_t /*ngenomes*/,
+          NEAT::rng_t rng,
+          size_t ntraits,
+          size_t ninputs,
+          size_t noutputs,
+          size_t nhidden)
   {
     NEAT::InnovGenome start_genome(rng,
                                    ntraits,
@@ -98,7 +98,7 @@ class TestGenomeManager
                                 test_name,
                                 -1));
 
-    std::vector<std::unique_ptr<NEAT::Genome>> genomes;
+    std::vector< std::unique_ptr< NEAT::Genome>> genomes;
     {
       NEAT::rng_t _rng = rng;
       for (int i = 0; i < NEAT::env->pop_size; i++)
@@ -109,7 +109,7 @@ class TestGenomeManager
         g->mutate_link_weights(1.0, 1.0, NEAT::COLDGAUSSIAN);
         g->randomize_traits();
 
-        genomes.emplace_back(std::unique_ptr<NEAT::Genome>(g));
+        genomes.emplace_back(std::unique_ptr< NEAT::Genome >(g));
       }
     }
 
@@ -130,7 +130,7 @@ class TestGenomeManager
 // 1 1 -> 0
 bool TestCustomGenomeManager::testXOR()
 {
-  AsyncNeat::Init(std::unique_ptr<NEAT::GenomeManager>(
+  AsyncNeat::Init(std::unique_ptr< NEAT::GenomeManager >(
           new TestGenomeManager()));
   AsyncNeat::SetSearchType(NEAT::GeneticSearchType::BLENDED);
   AsyncNeat::SetPopulationSize(10);
@@ -141,16 +141,16 @@ bool TestCustomGenomeManager::testXOR()
   float success_margin_error = 0.0001;
 
   bool success = false;
-  float min_error = std::numeric_limits<float>().max();
-  std::vector<float> inputs0 = {0, 0, 1, 1};
-  std::vector<float> inputs1 = {0, 1, 0, 1};
-  std::vector<float> expectedOutputs = {0, 1, 1, 0};
+  float min_error = std::numeric_limits< float >().max();
+  std::vector< float > inputs0 = {0, 0, 1, 1};
+  std::vector< float > inputs1 = {0, 1, 0, 1};
+  std::vector< float > expectedOutputs = {0, 1, 1, 0};
 
   int gen;
   for (gen = 1; gen < MAX_EVALUATIONS; gen++)
   {
-    std::shared_ptr<NeatEvaluation> eval = neat.getEvaluation();
-    const NEAT::Organism *organism = eval->getOrganism();
+    std::shared_ptr< NeatEvaluation > eval = neat.Evaluation();
+    const NEAT::Organism *organism = eval->Organism();
     NEAT::CpuNetwork *net = reinterpret_cast< NEAT::CpuNetwork *> (
             organism->net.get());
 
@@ -180,7 +180,7 @@ bool TestCustomGenomeManager::testXOR()
       std::cout << "\nAfter " << gen << " tries, a successful organism was"
                 << " found with an error of " << min_error << std::endl;
       std::cout << "The organism fitness is "
-                << neat.getFittest()->getOrganism()->eval.fitness << std::endl;
+                << neat.getFittest()->Organism()->eval.fitness << std::endl;
       success = true;
       break;
     }

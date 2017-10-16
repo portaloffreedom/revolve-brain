@@ -35,25 +35,26 @@ namespace revolve
     {
       public:
       /// \brief  Constructor for differential cpg
-      /// \param id: string to identify the neuron
-      /// \param params: parameters that specify the behavior of the neuron
+      /// \param _id: string to identify the neuron
+      /// \param _parameters: parameters that specify the behavior of the neuron
       /// \return pointer to the differential cpg
-      DifferentialCPG(const std::string &id,
-                      const std::map<std::string, double> &params);
+      DifferentialCPG(
+              const std::string &_id,
+              const std::map< std::string, double > &_parameters);
 
       /// \brief Method to calculate the output of the neuron
-      /// \param t: current time
+      /// \param _time: current time
       /// \return the output of the neuron at time t
-      virtual double CalculateOutput(double t) override;
+      virtual double Output(const double _time) override;
 
       /// \brief
-      std::map<std::string, double> getNeuronParameters() override;
+      std::map<std::string, double> Parameters() override;
 
       /// \brief
-      void setNeuronParameters(std::map<std::string, double> params) override;
+      void SetParameters(std::map< std::string, double > _parameters) override;
 
       /// \brief
-      std::string getType() override;
+      std::string Type() override;
 
       /// \brief bias of the neuron
       protected: double bias_;

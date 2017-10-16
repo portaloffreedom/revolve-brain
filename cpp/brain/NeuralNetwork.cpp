@@ -28,10 +28,10 @@ using namespace revolve::brain;
 
 NeuralNetwork::NeuralNetwork()
         : flipState_(false)
-          , nInputs_(0)
-          , nOutputs_(0)
-          , nHidden_(0)
-          , nNonInputs_(0)
+        , nInputs_(0)
+        , nOutputs_(0)
+        , nHidden_(0)
+        , nNonInputs_(0)
 {
   // Initialize weights, input and states to zero by default
   std::memset(inputWeights_, 0, sizeof(inputWeights_));
@@ -42,14 +42,15 @@ NeuralNetwork::NeuralNetwork()
   std::memset(input_, 0, sizeof(input_));
 }
 
-NeuralNetwork::NeuralNetwork(std::string modelName,
-                             std::vector< ActuatorPtr > &actuators,
-                             std::vector< SensorPtr > &sensors)
+NeuralNetwork::NeuralNetwork(
+        std::string /*modelName*/,
+        std::vector< ActuatorPtr > &/*actuators*/,
+        std::vector< SensorPtr > &/*sensors*/)
         : flipState_(false)
-          , nInputs_(0)
-          , nOutputs_(0)
-          , nHidden_(0)
-          , nNonInputs_(0)
+        , nInputs_(0)
+        , nOutputs_(0)
+        , nHidden_(0)
+        , nNonInputs_(0)
 {
   // Initialize weights, input and states to zero by default
   std::memset(inputWeights_, 0, sizeof(inputWeights_));
@@ -167,10 +168,11 @@ void NeuralNetwork::step(double time)
   flipState_ = not flipState_;
 }
 
-void NeuralNetwork::update(const std::vector< ActuatorPtr > &actuators,
-                           const std::vector< SensorPtr > &sensors,
-                           double t,
-                           double step)
+void NeuralNetwork::update(
+        const std::vector< ActuatorPtr > &actuators,
+        const std::vector< SensorPtr > &sensors,
+        double t,
+        double step)
 {
   boost::mutex::scoped_lock lock(networkMutex_);
 

@@ -34,7 +34,6 @@
 */
 
 #include <sstream>
-#include <string>
 
 #include "innovnodegene.h"
 
@@ -42,21 +41,23 @@ using namespace NEAT;
 
 InnovNodeGene::InnovNodeGene(const std::string &robot_name)
         : creator_name(robot_name)
-          , creator_index(-1)
+        , creator_index(-1)
 {
 }
 
-InnovNodeGene::InnovNodeGene(nodetype ntype,
-                             int nodeid,
-                             const std::string &robot_name,
-                             const std::string &creator_name,
-                             const int creator_index)
+InnovNodeGene::InnovNodeGene(
+        nodetype ntype,
+        int nodeid,
+        const std::string &/*robot_name*/,
+        const std::string &creator_name,
+        const int creator_index
+)
         : trait_id(1)
-          , creator_name(creator_name)
-          , creator_index(creator_index)
-          , frozen(false)
-          , type(ntype)
-          , node_id(nodeid)
+        , creator_name(creator_name)
+        , creator_index(creator_index)
+        , frozen(false)
+        , type(ntype)
+        , node_id(nodeid)
 {
 }
 
@@ -75,20 +76,22 @@ InnovNodeGene::~InnovNodeGene()
 {
 }
 
-bool YAML::convert<NEAT::InnovNodeGene>::decode(const YAML::Node &node,
-                                                InnovNodeGene &rhs)
+bool YAML::convert< NEAT::InnovNodeGene >::decode(
+        const YAML::Node &node,
+        InnovNodeGene &rhs)
 {
-  rhs.node_id = node["node_id"].as<int>();
-  rhs.set_trait_id(node["trait_id"].as<int>());
-  rhs.set_type(node["type"].as<nodetype>());
-  rhs.frozen = node["frozen"].as<bool>();
-  rhs.creator_name = node["creator_name"].as<std::string>();
-  rhs.creator_index = node["creator_index"].as<int>();
+  rhs.node_id = node["node_id"].as< int >();
+  rhs.set_trait_id(node["trait_id"].as< int >());
+  rhs.set_type(node["type"].as< nodetype >());
+  rhs.frozen = node["frozen"].as< bool >();
+  rhs.creator_name = node["creator_name"].as< std::string >();
+  rhs.creator_index = node["creator_index"].as< int >();
 
   return true;
 }
 
-YAML::Node YAML::convert<NEAT::InnovNodeGene>::encode(const InnovNodeGene &rhs)
+YAML::Node
+YAML::convert< NEAT::InnovNodeGene >::encode(const InnovNodeGene &rhs)
 {
   YAML::Node node;
   node["node_id"] = rhs.node_id;

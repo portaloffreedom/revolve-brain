@@ -119,9 +119,9 @@ BaseController *AccNEATLearner::create_new_controller(double fitness)
     // not first `create_new_controller`
     current_evalaution->finish(static_cast<float>(fitness));
   }
-  current_evalaution = neat->getEvaluation();
+  current_evalaution = neat->Evaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
-          current_evalaution->getOrganism()->net.get());
+          current_evalaution->Organism()->net.get());
 
   AccNEATCPPNController *controller =
           reinterpret_cast<AccNEATCPPNController *>(active_controller.get());

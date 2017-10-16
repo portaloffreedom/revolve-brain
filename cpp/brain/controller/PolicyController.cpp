@@ -56,7 +56,7 @@ PolicyController::~PolicyController()
 {}
 
 void PolicyController::update(const std::vector<ActuatorPtr> &actuators,
-                              const std::vector<SensorPtr> &sensors,
+                              const std::vector<SensorPtr> &/*sensors*/,
                               double t,
                               double step)
 {

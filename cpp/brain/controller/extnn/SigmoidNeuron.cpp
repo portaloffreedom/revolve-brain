@@ -28,42 +28,38 @@ namespace revolve
 {
   namespace brain
   {
-    SigmoidNeuron::SigmoidNeuron(const std::string &id,
-                                 const std::map<std::string, double> &params)
-            : Neuron(id)
+    SigmoidNeuron::SigmoidNeuron(
+            const std::string &_id,
+            const std::map< std::string, double > &_parameters)
+            : Neuron(_id)
     {
-      if (not params.count("rv:bias") || not params.count("rv:gain"))
+      if (not _parameters.count("rv:bias") or not _parameters.count("rv:gain"))
       {
-        std::cerr
-                << "A `"
-                << "Sigmoid"
+        std::cerr << "A `" << "Sigmoid"
                 << "` neuron requires `rv:bias` and `rv:gain` elements."
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }
-      this->bias_ = params.find("rv:bias")->second;
-      this->gain_ = params.find("rv:gain")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
+      this->gain_ = _parameters.find("rv:gain")->second;
     }
 
 
-    double SigmoidNeuron::CalculateOutput(double /*t*/)
+    double SigmoidNeuron::Output(const double /*t*/)
     {
       double inputValue = 0;
 
-      for (auto it = this->incomingConnections_.begin();
-           it != this->incomingConnections_.end(); ++it)
+      for (const auto &connection : this->incomingConnections_)
       {
-        auto inConnection = it->second;
-        inputValue +=
-                inConnection->GetInputNeuron()->GetOutput()
-                * inConnection->GetWeight();
+        auto inConnection = connection.second;
+        inputValue += inConnection->GetInputNeuron()->Output()
+                      * inConnection->GetWeight();
       }
 
       return 1.0 / (1.0 + exp(-this->gain_ * (inputValue - this->bias_)));
     }
 
-    std::map<std::string, double>
-    SigmoidNeuron::getNeuronParameters()
+    std::map<std::string, double> SigmoidNeuron::Parameters()
     {
       std::map<std::string, double> ret;
       ret["rv:bias"] = bias_;
@@ -72,22 +68,20 @@ namespace revolve
     }
 
     void
-    SigmoidNeuron::setNeuronParameters(std::map<std::string, double> params)
+    SigmoidNeuron::SetParameters(std::map< std::string, double > _parameters)
     {
-      if (not params.count("rv:bias") || not params.count("rv:gain"))
+      if (not _parameters.count("rv:bias") or not _parameters.count("rv:gain"))
       {
-        std::cerr
-                << "A `"
-                << "Sigmoid"
-                << "` neuron requires `rv:bias` and `rv:gain` elements."
-                << std::endl;
+        std::cerr << "A `" << "Sigmoid"
+                  << "` neuron requires `rv:bias` and `rv:gain` elements."
+                  << std::endl;
         throw std::runtime_error("Robot brain error");
       }
-      this->bias_ = params.find("rv:bias")->second;
-      this->gain_ = params.find("rv:gain")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
+      this->gain_ = _parameters.find("rv:gain")->second;
     }
 
-    std::string SigmoidNeuron::getType()
+    std::string SigmoidNeuron::Type()
     {
       return "Sigmoid";
     }

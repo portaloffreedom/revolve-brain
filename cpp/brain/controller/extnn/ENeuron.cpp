@@ -18,8 +18,6 @@
 */
 
 #include <iostream>
-#include <utility>
-#include <string>
 #include <vector>
 
 #include "ENeuron.h"
@@ -28,29 +26,28 @@ namespace revolve
 {
   namespace brain
   {
-    Neuron::Neuron(const std::string &id)
+    Neuron::Neuron(const std::string &_id)
             : output_(0)
-              , newOutput_(0)
-              , id_(id)
+            , newOutput_(0)
+            , id_(_id)
     {
     }
 
-    void Neuron::AddIncomingConnection(const std::string &socketName,
-                                       NeuralConnectionPtr connection)
+    void Neuron::AddIncomingConnection(
+            const std::string &socketName,
+            NeuralConnectionPtr connection)
     {
-      this->incomingConnections_.push_back(
-              std::pair<std::string, NeuralConnectionPtr>(socketName,
-                                                          connection));
+      this->incomingConnections_.push_back({socketName, connection});
     }
 
-    void Neuron::DeleteIncomingConections()
+    void Neuron::DeleteIncomingConnections()
     {
       incomingConnections_.clear();
     }
 
     void Neuron::Update(double t)
     {
-      this->newOutput_ = this->CalculateOutput(t);
+      this->newOutput_ = this->Output(t);
     }
 
     void Neuron::FlipState()
@@ -58,12 +55,12 @@ namespace revolve
       this->output_ = this->newOutput_;
     }
 
-    double Neuron::GetOutput() const
+    double Neuron::Output() const
     {
       return this->output_;
     }
 
-    std::string Neuron::GetSocketId() const
+    std::string Neuron::SocketId() const
     {
       return std::to_string(this->incomingConnections_.size());
     }
@@ -73,8 +70,8 @@ namespace revolve
       return this->id_;
     }
 
-    std::vector<std::pair<std::string, NeuralConnectionPtr> >
-    Neuron::getIncomingConnections()
+    std::vector< std::pair< std::string, NeuralConnectionPtr > >
+    Neuron::IncomingConnections()
     {
       return this->incomingConnections_;
     }

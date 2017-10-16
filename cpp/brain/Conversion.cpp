@@ -364,7 +364,7 @@ namespace revolve
                 dst,
                 connection_gene->weight_));
         dst->AddIncomingConnection(
-                dst->GetSocketId(),
+                dst->SocketId(),
                 newConnection);
         config->connections_.push_back(newConnection);
       }
@@ -385,7 +385,7 @@ namespace revolve
       return (*_genotype).at(0);
     }
 
-    PolicyPtr convertDoubleToNull(std::vector< double > _phenotype)
+    PolicyPtr convertDoubleToNull(std::vector< double > /*_phenotype*/)
     {
       return nullptr;  // input is not taken into account
     }
@@ -414,9 +414,9 @@ namespace revolve
               layers.size(),
               std::vector< NeuronPtr >());
 
-      for (size_t i = 0; i < layers.size(); i++)
+      for (size_t index = 0; index < layers.size(); ++index)
       {
-        for (cppneat::NeuronGenePtr neuron_gene : layers[i])
+        for (const auto neuron_gene : layers.at(index))
         {
           NeuronPtr new_neuron;
           std::string neuronId = neuron_gene->neuron_->neuronId_;
@@ -428,7 +428,7 @@ namespace revolve
             case cppneat::Neuron::INPUT_LAYER:
             {
               new_neuron.reset(new InputNeuron(neuronId, neuron_params));
-              cppn->layers_[i].push_back(new_neuron);
+              cppn->layers_[index].push_back(new_neuron);
               cppn->inputPositionMap_[new_neuron] =
                       InputMap[neuron_gene->InnovationNumber()];
               break;
@@ -492,7 +492,7 @@ namespace revolve
                   throw std::runtime_error("Unkown neuron type converted");
                 }
               }
-              cppn->layers_[i].push_back(new_neuron);
+              cppn->layers_[index].push_back(new_neuron);
               break;
             }
             case cppneat::Neuron::OUTPUT_LAYER:
@@ -554,7 +554,7 @@ namespace revolve
                   throw std::runtime_error("Unknown neuron type converted");
                 }
               }
-              cppn->layers_[i].push_back(new_neuron);
+              cppn->layers_[index].push_back(new_neuron);
               cppn->outputPositionMap_[new_neuron] =
                       OutputMap[neuron_gene->InnovationNumber()];
               break;
@@ -565,19 +565,20 @@ namespace revolve
             }
           }
           cppn->idToNeuron_[neuronId] = new_neuron;
-          neuron_inovation_numbers[neuron_gene->InnovationNumber()] = new_neuron;
+          neuron_inovation_numbers[neuron_gene->InnovationNumber()] =
+                  new_neuron;
         }
       }
       for (cppneat::ConnectionGenePtr connection_gene : connection_genes)
       {
-        NeuronPtr destination_neuron =
+        auto destination_neuron =
                 neuron_inovation_numbers[connection_gene->to_];
         NeuralConnectionPtr newConnection(new NeuralConnection(
                 neuron_inovation_numbers[connection_gene->from_],
                 destination_neuron,
                 connection_gene->weight_));
         destination_neuron->AddIncomingConnection(
-                destination_neuron->GetSocketId(),
+                destination_neuron->SocketId(),
                 newConnection);
         cppn->connections_.push_back(newConnection);
       }
@@ -594,9 +595,9 @@ namespace revolve
       {
         std::vector< std::pair< std::string, NeuralConnectionPtr>>
                 connectionsToAdd =
-                conf->allNeurons_[i]->getIncomingConnections();
+                conf->allNeurons_[i]->IncomingConnections();
 
-        for (auto connectionToAdd : connectionsToAdd)
+        for (const auto connectionToAdd : connectionsToAdd)
         {
           NeuronPtr input = connectionToAdd.second->GetInputNeuron();
           long indexInput = std::find(
@@ -612,9 +613,9 @@ namespace revolve
       {
         std::stringstream nodeName;
         nodeName << conf->allNeurons_[i]->Id()
-                 << " of type: " + conf->allNeurons_[i]->getType()
+                 << " of type: " + conf->allNeurons_[i]->Type()
                  << std::endl;
-        for (auto param : conf->allNeurons_[i]->getNeuronParameters())
+        for (auto param : conf->allNeurons_[i]->Parameters())
         {
           nodeName << param.first << ": " << param.second << std::endl;
         }
@@ -637,19 +638,16 @@ namespace revolve
 /// HyperNEAT_CPG
 ///////////////////////////////////////////////////////////////////////////////
     boost::shared_ptr< CPPNConfig > convertGEtoNN(
-            cppneat::GeneticEncodingPtr genotype)
+            cppneat::GeneticEncodingPtr _genotype)
     {
-      boost::shared_ptr< LayeredExtNNConfig > cppn =
-              convertForLayeredExtNN(genotype);
-      for (NeuralConnectionPtr connection : RafCpgNetwork->connections_)
+      auto cppn = convertForLayeredExtNN(_genotype);
+      for (const auto connection : RafCpgNetwork->connections_)
       {
-        NeuronPtr src_neuron = connection->GetInputNeuron();
-        NeuronPtr dst_neuron = connection->GetOutputNeuron();
-        std::tuple< int, int, int > coord_src =
-                neuron_coordinates[src_neuron->Id()];
-        std::tuple< int, int, int > coord_dst =
-                neuron_coordinates[dst_neuron->Id()];
-        for (NeuronPtr neuron : cppn->layers_.at(0))
+        auto src_neuron = connection->GetInputNeuron();
+        auto dst_neuron = connection->GetOutputNeuron();
+        auto coord_src = neuron_coordinates[src_neuron->Id()];
+        auto coord_dst = neuron_coordinates[dst_neuron->Id()];
+        for (const auto neuron : cppn->layers_.at(0))
         {
           // could be faster by neuron->Id()[6] but less easy to read
           if (neuron->Id() == "Input-0")
@@ -678,34 +676,34 @@ namespace revolve
           }
         }
 
-        for (std::vector< NeuronPtr > layer : cppn->layers_)
+        for (const auto layer : cppn->layers_)
         {
-          for (NeuronPtr neuron : layer)
+          for (const auto neuron : layer)
           {
             neuron->Update(0);
           }
-          for (NeuronPtr neuron : layer)
+          for (const auto neuron : layer)
           {
             neuron->FlipState();
           }
         }
 
-        for (auto outNeuron : cppn->layers_.at(cppn->layers_.size() - 1))
+        for (const auto outNeuron : cppn->layers_.at(cppn->layers_.size() - 1))
         {
           if (outNeuron->Id() == "weight")
           {
-            connection->SetWeight(outNeuron->GetOutput());
+            connection->SetWeight(outNeuron->Output());
             break;
           }
         }
       }
-      for (NeuronPtr neuron : RafCpgNetwork->allNeurons_)
+      for (const auto neuron : RafCpgNetwork->allNeurons_)
       {
         // Retrieve coordinates of source and destination neuron
         std::tuple< int, int, int >
                 coord_src = neuron_coordinates[neuron->Id()];
         std::tuple< int, int, int > coord_dst = std::make_tuple(0, 0, 0);
-        for (NeuronPtr input_neuron : cppn->layers_[0])
+        for (const auto input_neuron : cppn->layers_[0])
         {
           // could be faster by input_neuron->Id()[6] but less easy to read
           if (input_neuron->Id() == "Input-0")
@@ -750,17 +748,17 @@ namespace revolve
         std::map< std::string, double > params;
         for (auto outNeuron : cppn->layers_.at(cppn->layers_.size() - 1))
         {
-          params[outNeuron->Id()] = outNeuron->GetOutput();
+          params[outNeuron->Id()] = outNeuron->Output();
         }
-        neuron->setNeuronParameters(params);
+        neuron->SetParameters(params);
       }
-      last_genotype_ = genotype;
+      last_genotype_ = _genotype;
       // write_debugplot(RafCpgNetwork, true);
       return RafCpgNetwork;
     }
 
     cppneat::GeneticEncodingPtr convertNNtoGE(
-            CPPNConfigPtr config)
+            CPPNConfigPtr /*config*/)
     {
       return last_genotype_;
     }
@@ -821,7 +819,8 @@ namespace revolve
       // Connect every input with every output
       for (size_t i = 0; i < 3; ++i)
       {
-        cppneat::ConnectionGenePtr connection_to_weight(new cppneat::ConnectionGene(
+        cppneat::ConnectionGenePtr
+                connection_to_weight(new cppneat::ConnectionGene(
                 weight_neuron_gene->InnovationNumber(),
                 i + 1,
                 0,
@@ -843,9 +842,9 @@ namespace revolve
         spline_size++;
         cur_step = 0;
       }
-        policy = PolicyPtr(new Policy(
-                sorted_coordinates.size(),
-                Spline(spline_size, 0)));
+      policy = PolicyPtr(new Policy(
+              sorted_coordinates.size(),
+              Spline(spline_size, 0)));
       for (size_t j = 0; j < sorted_coordinates.size(); ++j)
       {
         for (size_t i = 0; i < spline_size; ++i)
@@ -854,7 +853,7 @@ namespace revolve
                   sorted_coordinates[j].first,
                   sorted_coordinates[j].second,
                   i / (static_cast<double >(spline_size)));
-          for (NeuronPtr neuron : cppn->layers_[0])
+          for (const auto neuron : cppn->layers_.at(0))
           {
             // could be faster by neuron->Id()[6] but less easy to read
             if (neuron->Id() == "Input-0")
@@ -871,24 +870,24 @@ namespace revolve
             }
           }
 
-          for (std::vector< NeuronPtr > layer : cppn->layers_)
+          for (const auto layer : cppn->layers_)
           {
-            for (NeuronPtr neuron : layer)
+            for (const auto neuron : layer)
             {
               neuron->Update(0);
             }
-            for (NeuronPtr neuron : layer)
+            for (const auto neuron : layer)
             {
               neuron->FlipState();
             }
           }
 
           // Retrieve the output value
-          for (auto outNeuron : cppn->layers_[cppn->layers_.size() - 1])
+          for (const auto outNeuron : cppn->layers_[cppn->layers_.size() - 1])
           {
             if (outNeuron->Id() == "weight")
             {
-              (*policy)[j][i] = outNeuron->GetOutput();
+              (*policy)[j][i] = outNeuron->Output();
               break;
             }
           }
@@ -898,7 +897,8 @@ namespace revolve
       return policy;
     }
 
-    cppneat::GeneticEncodingPtr convertForHyperFromSplines(PolicyPtr policy)
+    cppneat::GeneticEncodingPtr
+    convertForHyperFromSplines(PolicyPtr /*policy*/)
     {
       return last_genotype_;
     }

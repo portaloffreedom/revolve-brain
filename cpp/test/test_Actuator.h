@@ -28,7 +28,7 @@ class TestActuator
   public:
   TestActuator(bool verbose = false);
 
-  virtual void update(double *output_vector,
+  virtual void update(double *_output,
                       double step) override;
 
   virtual unsigned int outputs() const override;

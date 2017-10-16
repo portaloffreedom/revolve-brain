@@ -25,10 +25,12 @@
 using namespace revolve::brain;
 
 
-AccNEATCPPNController::AccNEATCPPNController(size_t n_inputs,
-                                             size_t n_outputs)
+AccNEATCPPNController::AccNEATCPPNController(
+        const size_t n_inputs,
+        const size_t n_outputs
+)
         : n_inputs(n_inputs)
-          , n_outputs(n_outputs)
+        , n_outputs(n_outputs)
 {
   inputs_vector = new double[n_inputs];
   outputs_vector = new double[n_outputs];
@@ -40,10 +42,11 @@ AccNEATCPPNController::~AccNEATCPPNController()
   delete[] outputs_vector;
 }
 
-void AccNEATCPPNController::update(const std::vector<ActuatorPtr> &actuators,
-                                   const std::vector<SensorPtr> &sensors,
-                                   double t,
-                                   double step)
+void AccNEATCPPNController::update(
+        const std::vector< ActuatorPtr > &actuators,
+        const std::vector< SensorPtr > &sensors,
+        double /*t*/,
+        double step)
 {
   // Read sensor data
   unsigned int p = 0;

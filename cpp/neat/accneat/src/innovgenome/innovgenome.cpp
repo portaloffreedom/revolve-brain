@@ -1194,7 +1194,8 @@ void InnovGenome::mate_multipoint_avg(InnovGenome *genome1,
       p1innov = p1gene->innovation_num;
       p2innov = p2gene->innovation_num;
 
-      if (p1innov == p2innov)
+      real_t epsilon = 0.0000001;
+      if (std::fabs(p1innov - p2innov) < epsilon)
       {
         protogene.set_gene(nullptr, &avgene);
 

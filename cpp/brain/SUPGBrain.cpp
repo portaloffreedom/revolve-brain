@@ -203,9 +203,9 @@ void SUPGBrain::nextBrain()
     // }
   }
 
-  current_evalaution = neat->getEvaluation();
+  current_evalaution = neat->Evaluation();
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
-          current_evalaution->getOrganism()->net.get());
+          current_evalaution->Organism()->net.get());
 
   for (unsigned int i = 0; i < how_many_neurons; i++)
   {

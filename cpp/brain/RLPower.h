@@ -58,7 +58,8 @@ namespace revolve
       /// \param evaluator: pointer to fitness evaluatior
       /// \param n_actuators: number of actuators
       /// \return pointer to the RLPower class object
-      RLPower(std::string modelName,
+      RLPower(
+              std::string modelName,
               Config brain,
               EvaluatorPtr evaluator,
               size_t n_actuators);
@@ -73,10 +74,11 @@ namespace revolve
       /// \param sensors: vector list of robot's sensors
       /// \param t:
       /// \param step:
-      void update(const std::vector< ActuatorPtr > &actuators,
-                  const std::vector< SensorPtr > &sensors,
-                  double t,
-                  double step) override;
+      void update(
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step) override;
 
       protected:
 //      /**
@@ -89,8 +91,9 @@ namespace revolve
       class PolicySave
       {
         public:
-        PolicySave(double fitness,
-                   PolicyPtr &p)
+        PolicySave(
+                double fitness,
+                PolicyPtr &p)
                 : policy_(p)
                 , fitness_(fitness)
         {
@@ -138,10 +141,11 @@ namespace revolve
       static const double SIGMA_DECAY_SQUARED;
 
       template < typename ActuatorContainer, typename SensorContainer >
-      void update(const ActuatorContainer &actuators,
-                  const SensorContainer &sensors,
-                  double t,
-                  double step)
+      void update(
+              const ActuatorContainer &actuators,
+              const SensorContainer &/*sensors*/,
+              double t,
+              double step)
       {
         //        boost::mutex::scoped_lock lock(networkMutex_);
         if (policyLoadPath_ == "")
@@ -221,8 +225,9 @@ namespace revolve
       /// \param source_y: set of control points over which interpolation is
       /// generated
       /// \param destination_y: set of interpolated control points (default 100)
-      void InterpolateCubic(Policy *const source_y,
-                            Policy *destination_y);
+      void InterpolateCubic(
+              Policy *const source_y,
+              Policy *destination_y);
 
       /// \brief Increment number of sampling points for policy
       void increaseSplinePoints();
@@ -235,8 +240,9 @@ namespace revolve
       /// \brief Extracts the value of the current_policy in x=time using linear
       /// interpolation
       /// Writes the output in output_vector
-      void generateOutput(const double time,
-                          double *output_vector);
+      void generateOutput(
+              const double time,
+              double *output_vector);
 
       /// \brief Retrieves fitness for the current policy
       /// \return

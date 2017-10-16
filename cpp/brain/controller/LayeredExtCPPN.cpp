@@ -105,7 +105,7 @@ namespace revolve
       {
         auto outNeuron = *it;
         int pos = outputPositionMap_[outNeuron];
-        outputs_[pos] = outNeuron->GetOutput();
+        outputs_[pos] = outNeuron->Output();
       }
 
       // Send new signals to the actuators
@@ -149,7 +149,7 @@ namespace revolve
       for (size_t i = 0; i < allNeurons_.size(); i++)
       {
         std::vector<std::pair<std::string, NeuralConnectionPtr>>
-                connectionsToAdd = allNeurons_[i]->getIncomingConnections();
+                connectionsToAdd = allNeurons_[i]->IncomingConnections();
         for (std::pair<std::string, NeuralConnectionPtr>
                   connectionToAdd : connectionsToAdd)
         {
@@ -165,10 +165,10 @@ namespace revolve
         std::stringstream nodeName;
         nodeName
                 << allNeurons_[i]->Id() + " of type: "
-                   + allNeurons_[i]->getType()
+                   + allNeurons_[i]->Type()
                 << std::endl;
         for (std::pair<std::string, double>
-                  param : allNeurons_[i]->getNeuronParameters())
+                  param : allNeurons_[i]->Parameters())
         {
           nodeName << param.first << ": " << param.second << std::endl;
         }

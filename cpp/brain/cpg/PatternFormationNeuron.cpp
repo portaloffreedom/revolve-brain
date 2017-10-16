@@ -38,7 +38,7 @@ PatternFormationNeuron::~PatternFormationNeuron()
 {}
 
 std::vector<real_t> PatternFormationNeuron::update(std::vector<real_t> inputs,
-                                                   real_t delta_time)
+                                                   real_t /*delta_time*/)
 {
   real_t combined_inputs = generateInput(inputs);
   real_t result = output(combined_inputs);

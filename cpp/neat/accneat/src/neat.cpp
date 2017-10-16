@@ -156,7 +156,7 @@ real_t NEAT::hebbian(real_t weight,
                      real_t active_out,
                      real_t hebb_rate,
                      real_t pre_rate,
-                     real_t post_rate)
+                     real_t /*post_rate*/)
 {
   bool neg = false;
   real_t delta;

@@ -29,29 +29,29 @@ namespace revolve
   namespace brain
   {
     InputDependentOscillatorNeuron::InputDependentOscillatorNeuron(
-            const std::string &id,
-            const std::map<std::string, double> &params)
-            : Neuron(id)
+            const std::string &_id,
+            const std::map< std::string, double > &_parameters
+    )
+            : Neuron(_id)
     {
-      if (not params.count("rv:period")
-          || not params.count("rv:phase_offset")
-          || not params.count("rv:amplitude"))
+      if (not _parameters.count("rv:period")
+          or not _parameters.count("rv:phase_offset")
+          or not _parameters.count("rv:amplitude"))
       {
-        std::cerr
-                << "An `Oscillator` neuron requires"
-                << " `rv:period`, `rv:phase_offset` and "
-                        "`rv:amplitude` elements."
-                << std::endl;
+        std::cerr << "An `Oscillator` neuron requires"
+                  << " `rv:period`, `rv:phase_offset` and "
+                     "`rv:amplitude` elements."
+                  << std::endl;
         throw std::runtime_error("Robot brain error");
       }
 
-      this->period_ = params.find("rv:period")->second;
-      this->phaseOffset_ = params.find("rv:phase_offset")->second;
-      this->gain_ = params.find("rv:amplitude")->second;
+      this->period_ = _parameters.find("rv:period")->second;
+      this->phaseOffset_ = _parameters.find("rv:phase_offset")->second;
+      this->gain_ = _parameters.find("rv:amplitude")->second;
     }
 
 
-    double InputDependentOscillatorNeuron::CalculateOutput(double /*t*/)
+    double InputDependentOscillatorNeuron::Output(const double /*t*/)
     {
       double inputValue = 0;
 
@@ -59,7 +59,7 @@ namespace revolve
            it != this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
-        inputValue += inConnection->GetInputNeuron()->GetOutput()
+        inputValue += inConnection->GetInputNeuron()->Output()
                       * inConnection->GetWeight();
       }
       return 0.5
@@ -70,8 +70,7 @@ namespace revolve
                                             * this->phaseOffset_)));
     }
 
-    std::map<std::string, double>
-    InputDependentOscillatorNeuron::getNeuronParameters()
+    std::map<std::string, double> InputDependentOscillatorNeuron::Parameters()
     {
       std::map<std::string, double> ret;
       ret["rv:period"] = period_;
@@ -80,26 +79,25 @@ namespace revolve
       return ret;
     }
 
-    void InputDependentOscillatorNeuron::setNeuronParameters(
-            std::map<std::string, double> params)
+    void InputDependentOscillatorNeuron::SetParameters(
+            std::map< std::string, double > _parameters)
     {
-      if (not params.count("rv:period")
-          || not params.count("rv:phase_offset")
-          || not params.count("rv:amplitude"))
+      if (not _parameters.count("rv:period")
+          or not _parameters.count("rv:phase_offset")
+          or not _parameters.count("rv:amplitude"))
       {
-        std::cerr
-                << "An `Oscillator` neuron requires "
-                << "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements."
+        std::cerr << "An `Oscillator` neuron requires "
+                << "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements"
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }
 
-      this->period_ = params.find("rv:period")->second;
-      this->phaseOffset_ = params.find("rv:phase_offset")->second;
-      this->gain_ = params.find("rv:amplitude")->second;
+      this->period_ = _parameters.find("rv:period")->second;
+      this->phaseOffset_ = _parameters.find("rv:phase_offset")->second;
+      this->gain_ = _parameters.find("rv:amplitude")->second;
     }
 
-    std::string InputDependentOscillatorNeuron::getType()
+    std::string InputDependentOscillatorNeuron::Type()
     {
       return "InputDependentOscillator";
     }

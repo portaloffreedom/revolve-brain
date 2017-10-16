@@ -31,11 +31,12 @@ unsigned int TestActuator::outputs() const
   return 1;
 }
 
-void TestActuator::update(double *output_vector,
-                          double step)
+void TestActuator::update(
+        double *_output,
+        double /*step*/)
 {
   if (verbose)
   {
-    std::cout << "TestActuator::update <- " << output_vector[0] << std::endl;
+    std::cout << "TestActuator::update <- " << _output[0] << std::endl;
   }
 }

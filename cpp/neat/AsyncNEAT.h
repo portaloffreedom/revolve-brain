@@ -48,17 +48,18 @@ class AsyncNeat
 {
   public:
   /// \brief
-  AsyncNeat(unsigned int n_inputs,
-            unsigned int n_outputs,
-            int rng_seed,
-            const std::string &robot_name);
+  AsyncNeat(
+          size_t n_inputs,
+          size_t n_outputs,
+          int rng_seed,
+          const std::string &robot_name);
 
   /// \brief
   virtual ~AsyncNeat();
 
   /// \brief If it returns nullptr, wait until all evaluations are finished to
   /// get the next generation
-  std::shared_ptr<NeatEvaluation> getEvaluation();
+  std::shared_ptr< NeatEvaluation > Evaluation();
 
   /// \brief to be called before any AsyncNeat object can be used
   /// \param robot_name robot_name to
@@ -72,7 +73,7 @@ class AsyncNeat
   /// It initializes the environment with a personalized genome manager instead
   /// of the standard one. The delete of this object will be handled
   /// by AsyncNeat::CleanUp()
-  static void Init(std::unique_ptr<NEAT::GenomeManager> genome_manager)
+  static void Init(std::unique_ptr< NEAT::GenomeManager > genome_manager)
   {
     NEAT::env->genome_manager = genome_manager.release();
   };
@@ -91,7 +92,7 @@ class AsyncNeat
   }
 
   /// \brief
-  static void SetPopulationSize(unsigned int n)
+  static void SetPopulationSize(size_t n)
   {
     NEAT::env->pop_size = n;
   }
@@ -131,43 +132,44 @@ class AsyncNeat
   }
 
   /// \brief
-  std::shared_ptr<NeatEvaluation> getFittest() const
+  std::shared_ptr< NeatEvaluation > getFittest() const
   {
     return fittest;
   }
 
   protected:
   /// \brief
-  void setFittest(std::shared_ptr<NeatEvaluation> new_fittest,
-                  float new_fitness);
+  void setFittest(
+          std::shared_ptr< NeatEvaluation > new_fittest,
+          float new_fitness);
 
   private:
   /// \brief
-  unsigned int n_inputs;
+//  size_t n_inputs;
 
   /// \brief
-  unsigned int n_outputs;
+//  size_t n_outputs;
 
   /// \brief
-  unsigned int generation;
+  size_t generation;
 
   /// \brief
-  unsigned int best_fitness_counter;
+  size_t best_fitness_counter;
 
   /// \brief
-  int rng_seed;
+//  int rng_seed;
 
   /// \brief
   NEAT::Population *population;
 
   /// \brief
-  std::list<std::shared_ptr<NeatEvaluation>> evaluatingList;
+  std::list< std::shared_ptr< NeatEvaluation>> evaluatingList;
 
   /// \brief
-  std::list<std::shared_ptr<NeatEvaluation>> evaluatingQueue;
+  std::list< std::shared_ptr< NeatEvaluation>> evaluatingQueue;
 
   /// \brief
-  std::shared_ptr<NeatEvaluation> fittest;
+  std::shared_ptr< NeatEvaluation > fittest;
 
   /// \brief
   float fittest_fitness;
@@ -176,8 +178,9 @@ class AsyncNeat
   const std::string robot_name;
 
   /// \brief
-  void singleEvalutionFinished(std::shared_ptr<NeatEvaluation> evaluation,
-                               float fitness);
+  void singleEvaluationFinished(
+          std::shared_ptr< NeatEvaluation > evaluation,
+          float fitness);
 
   /// \brief
   void next_generation();

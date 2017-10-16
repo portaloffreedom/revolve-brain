@@ -29,12 +29,12 @@ namespace revolve
   namespace brain
   {
     LeakyIntegrator::LeakyIntegrator(
-            const std::string &id,
-            const std::map<std::string, double> &params)
-            : Neuron(id)
+            const std::string &_id,
+            const std::map< std::string, double > &_parameters)
+            : Neuron(_id)
     {
-      if (not params.count("rv:bias")
-          || not params.count("rv:tau"))
+      if (not _parameters.count("rv:bias")
+          or not _parameters.count("rv:tau"))
       {
         std::cerr << "A `Leaky Integrator`"
                   << " neuron requires `rv:bias` and `rv:tau` elements."
@@ -42,18 +42,18 @@ namespace revolve
         throw std::runtime_error("Robot brain error");
       }
 
-      this->bias_ = params.find("rv:bias")->second;
-      this->tau_ = params.find("rv:tau")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
+      this->tau_ = _parameters.find("rv:tau")->second;
 
       this->lastTime_ = 0;
       this->stateDeriv_ = 0;
       this->state_ = 0;
     }
 
-    double LeakyIntegrator::CalculateOutput(double t)
+    double LeakyIntegrator::Output(const double _time)
     {
-      double deltaT = t - lastTime_;
-      lastTime_ = t;
+      double deltaT = _time - lastTime_;
+      lastTime_ = _time;
 
       if (deltaT > 0.1)
       {
@@ -68,7 +68,7 @@ namespace revolve
       {
         auto inConnection = it->second;
         inputValue +=
-                inConnection->GetInputNeuron()->GetOutput()
+                inConnection->GetInputNeuron()->Output()
                 * inConnection->GetWeight();
       }
 
@@ -80,7 +80,7 @@ namespace revolve
       return result;
     }
 
-    std::map<std::string, double> LeakyIntegrator::getNeuronParameters()
+    std::map<std::string, double> LeakyIntegrator::Parameters()
     {
       std::map<std::string, double> ret;
       ret["rv:bias"] = bias_;
@@ -89,9 +89,9 @@ namespace revolve
     }
 
     void
-    LeakyIntegrator::setNeuronParameters(std::map<std::string, double> params)
+    LeakyIntegrator::SetParameters(std::map< std::string, double > _parameters)
     {
-      if (not params.count("rv:bias") || not params.count("rv:tau"))
+      if (not _parameters.count("rv:bias") || not _parameters.count("rv:tau"))
       {
         std::cerr
                 << "A `"
@@ -102,14 +102,14 @@ namespace revolve
         throw std::runtime_error("Robot brain error");
       }
 
-      this->bias_ = params.find("rv:bias")->second;
-      this->tau_ = params.find("rv:tau")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
+      this->tau_ = _parameters.find("rv:tau")->second;
 
       this->stateDeriv_ = 0;
       this->state_ = 0;
     }
 
-    std::string LeakyIntegrator::getType()
+    std::string LeakyIntegrator::Type()
     {
       return "LeakyIntegrator";
     }

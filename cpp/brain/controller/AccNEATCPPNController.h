@@ -35,8 +35,9 @@ namespace revolve
     {
       public:
       /// \brief
-      AccNEATCPPNController(size_t n_inputs,
-                            size_t n_outputs);
+      AccNEATCPPNController(
+              const size_t n_inputs,
+              const size_t n_outputs);
 
       /// \brief
       virtual ~AccNEATCPPNController();

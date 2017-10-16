@@ -60,28 +60,30 @@ static InnovGenome *to_innov(Genome &g)
   return dynamic_cast<InnovGenome *>(&g);
 }
 
-std::unique_ptr<Genome> InnovGenomeManager::make_default()
+std::unique_ptr< Genome > InnovGenomeManager::make_default()
 {
-  return std::unique_ptr<Genome>(new InnovGenome(robot_name));
+  return std::unique_ptr< Genome >(new InnovGenome(robot_name));
 }
 
-std::vector<std::unique_ptr<Genome>>
-InnovGenomeManager::create_seed_generation(size_t ngenomes,
-                                           rng_t rng,
-                                           size_t ntraits,
-                                           size_t ninputs,
-                                           size_t noutputs,
-                                           size_t nhidden,
-                                           const std::string &robot_name)
+std::vector< std::unique_ptr< Genome>>
+InnovGenomeManager::create_seed_generation(
+        size_t /*ngenomes*/,
+        rng_t rng,
+        size_t ntraits,
+        size_t ninputs,
+        size_t noutputs,
+        size_t nhidden,
+        const std::string &robot_name)
 {
-  InnovGenome start_genome(rng,
-                           ntraits,
-                           ninputs,
-                           noutputs,
-                           nhidden,
-                           robot_name);
+  InnovGenome start_genome(
+          rng,
+          ntraits,
+          ninputs,
+          noutputs,
+          nhidden,
+          robot_name);
 
-  std::vector<std::unique_ptr<Genome>> genomes;
+  std::vector< std::unique_ptr< Genome>> genomes;
   {
     rng_t _rng = rng;
     for (int i = 0; i < env->pop_size; i++)
@@ -92,7 +94,7 @@ InnovGenomeManager::create_seed_generation(size_t ngenomes,
       g->mutate_link_weights(1.0, 1.0, COLDGAUSSIAN);
       g->randomize_traits();
 
-      genomes.emplace_back(std::unique_ptr<Genome>(g));
+      genomes.emplace_back(std::unique_ptr< Genome >(g));
     }
   }
 
@@ -107,24 +109,27 @@ InnovGenomeManager::create_seed_generation(size_t ngenomes,
   return genomes;
 }
 
-bool InnovGenomeManager::are_compatible(Genome &genome1,
-                                        Genome &genome2)
+bool InnovGenomeManager::are_compatible(
+        Genome &genome1,
+        Genome &genome2)
 {
   return to_innov(genome1)->compatibility(
           to_innov(genome2)) < env->compat_threshold;
 }
 
-void InnovGenomeManager::clone(Genome &orig,
-                               Genome &clone)
+void InnovGenomeManager::clone(
+        Genome &orig,
+        Genome &clone)
 {
   to_innov(orig)->duplicate_into(to_innov(clone));
 }
 
-void InnovGenomeManager::mate(Genome &genome1,
-                              Genome &genome2,
-                              Genome &offspring,
-                              real_t fitness1,
-                              real_t fitness2)
+void InnovGenomeManager::mate(
+        Genome &genome1,
+        Genome &genome2,
+        Genome &offspring,
+        real_t fitness1,
+        real_t fitness2)
 {
   if (not is_mate_allowed())
   {
@@ -157,8 +162,9 @@ void InnovGenomeManager::mate(Genome &genome1,
   }
 }
 
-void InnovGenomeManager::mutate(Genome &genome_,
-                                MutationOperation op)
+void InnovGenomeManager::mutate(
+        Genome &genome_,
+        MutationOperation op)
 {
   InnovGenome *genome = to_innov(genome_);
   bool allow_del = is_delete_allowed();
@@ -297,9 +303,10 @@ void InnovGenomeManager::finalize_generation(bool new_fittest)
 
 CreateInnovationFunc InnovGenomeManager::create_innov_func(Genome &g)
 {
-  return [this, &g](InnovationId id,
-                    InnovationParms parms,
-                    IndividualInnovation::ApplyFunc apply)
+  return [this, &g](
+          InnovationId id,
+          InnovationParms parms,
+          IndividualInnovation::ApplyFunc apply)
   {
     innovations.add(IndividualInnovation(g.genome_id, id, parms, apply));
   };

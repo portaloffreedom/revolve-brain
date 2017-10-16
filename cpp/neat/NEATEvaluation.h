@@ -41,7 +41,7 @@ class NeatEvaluation
     return old_callback;
   }
 
-  const NEAT::Organism *getOrganism() const
+  const NEAT::Organism *Organism() const
   {
     return organism;
   }
@@ -54,7 +54,7 @@ class NeatEvaluation
   private:
   std::function<void(float)> finished_callback;
 
-  float fitness;
+//  float fitness;
 
   NEAT::Organism *organism;
 };

@@ -34,7 +34,7 @@ MotoNeuron::~MotoNeuron()
 {}
 
 std::vector<real_t> MotoNeuron::update(std::vector<real_t> inputs,
-                                       real_t delta_time)
+                                       real_t /*delta_time*/)
 {
   if (inputs.size() != 2)
   {

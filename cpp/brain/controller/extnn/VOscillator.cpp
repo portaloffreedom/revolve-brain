@@ -28,13 +28,15 @@ namespace revolve
 {
   namespace brain
   {
-    VOscillator::VOscillator(const std::string &id,
-                             const std::map<std::string, double> &params)
-            : Neuron(id)
+    VOscillator::VOscillator(
+            const std::string &_id,
+            const std::map< std::string, double > &_parameters
+    )
+            : Neuron(_id)
     {
-      if (not params.count("rv:alpha")
-          || not params.count("rv:tau")
-          || not params.count("rv:energy"))
+      if (not _parameters.count("rv:alpha")
+          or not _parameters.count("rv:tau")
+          or not _parameters.count("rv:energy"))
       {
         std::cerr << "A ` V-Oscillator` neuron requires"
                   << " `rv:alpha`, `rv:tau` and `rv:energy` elements."
@@ -42,19 +44,19 @@ namespace revolve
         throw std::runtime_error("Robot brain error");
       }
 
-      this->alpha_ = params.find("rv:alpha")->second;
-      this->tau_ = params.find("rv:tau")->second;
-      this->energy_ = params.find("rv:energy")->second;
+      this->alpha_ = _parameters.find("rv:alpha")->second;
+      this->tau_ = _parameters.find("rv:tau")->second;
+      this->energy_ = _parameters.find("rv:energy")->second;
 
       this->lastTime_ = 0;
       this->stateDeriv_ = 0;
       this->output_ = sqrt(this->energy_);
     }
 
-    double VOscillator::CalculateOutput(double t)
+    double VOscillator::Output(const double _time)
     {
-      double deltaT = t - lastTime_;
-      lastTime_ = t;
+      double deltaT = _time - lastTime_;
+      lastTime_ = _time;
 
       if (deltaT > 0.1)
       {
@@ -72,35 +74,30 @@ namespace revolve
       // all other inputs
       double otherInputs = 0;
 
-      for (auto it = this->incomingConnections_.begin();
-           it != this->incomingConnections_.end(); ++it)
+      for (const auto &connection : this->incomingConnections_)
       {
-        auto socketId = it->first;
-        auto inConnection = it->second;
+        auto socketId = connection.first;
+        auto inConnection = connection.second;
 
         if (socketId == "from_x")
         {
-          xInput +=
-                  inConnection->GetInputNeuron()->GetOutput()
-                  * inConnection->GetWeight();
+          xInput += inConnection->GetInputNeuron()->Output()
+                    * inConnection->GetWeight();
         }
         else if (socketId == "from_x_ext")
         {
-          xExternal +=
-                  inConnection->GetInputNeuron()->GetOutput()
-                  * inConnection->GetWeight();
+          xExternal += inConnection->GetInputNeuron()->Output()
+                       * inConnection->GetWeight();
         }
         else if (socketId == "from_v_ext")
         {
-          vExternal +=
-                  inConnection->GetInputNeuron()->GetOutput()
-                  * inConnection->GetWeight();
+          vExternal += inConnection->GetInputNeuron()->Output()
+                       * inConnection->GetWeight();
         }
         else
         {
-          otherInputs +=
-                  inConnection->GetInputNeuron()->GetOutput()
-                  * inConnection->GetWeight();
+          otherInputs += inConnection->GetInputNeuron()->Output()
+                         * inConnection->GetWeight();
         }
       }
 
@@ -124,7 +121,7 @@ namespace revolve
       return result;
     }
 
-    std::map<std::string, double> VOscillator::getNeuronParameters()
+    std::map<std::string, double> VOscillator::Parameters()
     {
       std::map<std::string, double> parameters;
       parameters["rv:alpha"] = alpha_;
@@ -133,11 +130,11 @@ namespace revolve
       return parameters;
     }
 
-    void VOscillator::setNeuronParameters(std::map<std::string, double> params)
+    void VOscillator::SetParameters(std::map< std::string, double > _parameters)
     {
-      if (not params.count("rv:alpha")
-          || not params.count("rv:tau")
-          || not params.count("rv:energy"))
+      if (not _parameters.count("rv:alpha")
+          or not _parameters.count("rv:tau")
+          or not _parameters.count("rv:energy"))
       {
         std::cerr << "A `V-Oscillator` neuron requires"
                   << " `rv:alpha`, `rv:tau` and `rv:energy` elements."
@@ -145,15 +142,15 @@ namespace revolve
         throw std::runtime_error("Robot brain error");
       }
 
-      this->alpha_ = params.find("rv:alpha")->second;
-      this->tau_ = params.find("rv:tau")->second;
-      this->energy_ = params.find("rv:energy")->second;
+      this->alpha_ = _parameters.find("rv:alpha")->second;
+      this->tau_ = _parameters.find("rv:tau")->second;
+      this->energy_ = _parameters.find("rv:energy")->second;
 
       this->stateDeriv_ = 0;
       this->output_ = sqrt(this->energy_);
     }
 
-    std::string VOscillator::getType()
+    std::string VOscillator::Type()
     {
       return "VOscillator";
     }

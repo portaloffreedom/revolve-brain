@@ -21,7 +21,6 @@
 #include <iostream>
 #include <map>
 #include <sstream>
-#include <string>
 
 #include "DifferentialCPG.h"
 
@@ -30,11 +29,12 @@ namespace revolve
   namespace brain
   {
     DifferentialCPG::DifferentialCPG(
-            const std::string &id,
-            const std::map<std::string, double> &params)
-            : Neuron(id)
+            const std::string &_id,
+            const std::map< std::string, double > &_parameters
+    )
+            : Neuron(_id)
     {
-      if (not params.count("rv:bias"))
+      if (not _parameters.count("rv:bias"))
       {
         std::cerr
                 << "A `"
@@ -43,15 +43,15 @@ namespace revolve
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }
-      this->bias_ = params.find("rv:bias")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
       lastTime_ = 0;
     }
 
 
-    double DifferentialCPG::CalculateOutput(double t)
+    double DifferentialCPG::Output(const double _time)
     {
-      double deltaT = t - lastTime_;
-      lastTime_ = t;
+      double deltaT = _time - lastTime_;
+      lastTime_ = _time;
 
       if (deltaT > 0.1)
       {
@@ -65,7 +65,7 @@ namespace revolve
       {
         auto inConnection = it->second;
         inputValue +=
-                inConnection->GetInputNeuron()->GetOutput()
+                inConnection->GetInputNeuron()->Output()
                 * inConnection->GetWeight();
       }
 
@@ -89,17 +89,17 @@ namespace revolve
       return result;
     }
 
-    std::map<std::string, double> DifferentialCPG::getNeuronParameters()
+    std::map< std::string, double > DifferentialCPG::Parameters()
     {
-      std::map<std::string, double> parameters;
+      std::map< std::string, double > parameters;
       parameters["rv:bias"] = bias_;
       return parameters;
     }
 
     void
-    DifferentialCPG::setNeuronParameters(std::map<std::string, double> params)
+    DifferentialCPG::SetParameters(std::map< std::string, double > _parameters)
     {
-      if (not params.count("rv:bias"))
+      if (not _parameters.count("rv:bias"))
       {
         std::cerr
                 << "A `"
@@ -108,10 +108,10 @@ namespace revolve
                 << std::endl;
         throw std::runtime_error("Robot brain error");
       }
-      this->bias_ = params.find("rv:bias")->second;
+      this->bias_ = _parameters.find("rv:bias")->second;
     }
 
-    std::string DifferentialCPG::getType()
+    std::string DifferentialCPG::Type()
     {
       return "DifferentialCPG";
     }

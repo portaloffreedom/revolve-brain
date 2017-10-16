@@ -19,7 +19,6 @@
 */
 
 #include <random>
-#include <vector>
 
 #include "CPGController.h"
 
@@ -27,13 +26,14 @@ using namespace revolve::brain;
 
 #define NOISE_SIGMA 0.1
 
-CPGController::CPGController(size_t n_inputs,
-                             size_t n_outputs)
+CPGController::CPGController(
+        size_t n_inputs,
+        size_t n_outputs)
         : n_inputs(n_inputs)
-          , n_outputs(n_outputs)
-          , cpgs(n_outputs, nullptr)
-          , connections(n_outputs,
-                        std::vector<cpg::CPGNetwork::Weights>(n_outputs))
+        , n_outputs(n_outputs)
+        , cpgs(n_outputs, nullptr)
+        , connections(n_outputs,
+                      std::vector< cpg::CPGNetwork::Weights >(n_outputs))
 {
   inputs_vector = new double[n_inputs];
   outputs_vector = new double[n_outputs];
@@ -69,10 +69,11 @@ CPGController::~CPGController()
   }
 }
 
-void CPGController::update(const std::vector<ActuatorPtr> &actuators,
-                           const std::vector<SensorPtr> &sensors,
-                           double t,
-                           double step)
+void CPGController::update(
+        const std::vector< ActuatorPtr > &actuators,
+        const std::vector< SensorPtr > &sensors,
+        double /*t*/,
+        double step)
 {
   // Read sensor data and feed the neural network
   size_t p = 0;
@@ -83,7 +84,7 @@ void CPGController::update(const std::vector<ActuatorPtr> &actuators,
   }
   assert(p == n_inputs);
 
-  std::vector<cpg::real_t> inputs_readings(n_inputs, 0);
+  std::vector< cpg::real_t > inputs_readings(n_inputs, 0);
   for (size_t i = 0; i < n_inputs; ++i)
   {
     inputs_readings[i] = (cpg::real_t)inputs_vector[i];
@@ -108,11 +109,11 @@ void CPGController::initRandom(float sigma)
 {
   std::random_device rd;
   std::mt19937 mt(rd());
-  std::normal_distribution<float> dist(0, sigma);
+  std::normal_distribution< float > dist(0, sigma);
 
   for (auto cpg: cpgs)
   {
-    std::shared_ptr<std::vector<cpg::real_t>> genome = cpg->get_genome();
+    std::shared_ptr< std::vector< cpg::real_t>> genome = cpg->get_genome();
     size_t genome_size = genome->size();
     for (size_t i = 0; i < genome_size; ++i)
     {

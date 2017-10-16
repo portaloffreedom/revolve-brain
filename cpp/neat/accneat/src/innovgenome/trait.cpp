@@ -56,8 +56,8 @@ Trait::Trait(int id,
              real_t p5,
              real_t p6,
              real_t p7,
-             real_t p8,
-             real_t p9)
+             real_t /*p8*/,
+             real_t /*p9*/)
 {
   trait_id = id;
   params[0] = p1;
