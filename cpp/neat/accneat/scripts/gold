@@ -106,7 +106,7 @@ if $opt_gdb; then
 elif $opt_valgrind; then
     valgrind $cmd 2>&1 | tee valgrind.out
 else
-    $cmd || (echo "EXITED WITH ERR CODE: $?"; exit 1)
+    $cmd or (echo "EXITED WITH ERR CODE: $?"; exit 1)
 
     if $opt_create; then
         echo "CREATING GOLD EXPERIMENTS"

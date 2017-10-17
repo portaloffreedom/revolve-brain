@@ -37,7 +37,7 @@ static bool equals(real_t x,
 #define assert_equals(x, y)                                                    \
     if ( not equals(x, y) ) {                                                  \
         cerr << __FILE__ << ":"                                                \
-        << __LINE__ << ": " << x << " != " << y << endl;                       \
+        << __LINE__ << ": " << x << " not_eq " << y << endl;                       \
         exit(1);                                                               \
     }
 
@@ -112,7 +112,7 @@ void rng_t::test()
     {
       real_t x = rng.prob();
 
-      assert(x >= 0.0 && x <= 1.0);
+      assert(x >= 0.0 and x <= 1.0);
 
       size_t bin = min(x * NBINS, real_t(NBINS - 1));
 
@@ -136,7 +136,7 @@ void rng_t::test()
     {
       int x = rng.posneg();
 
-      assert(x == 1 || x == -1);
+      assert(x == 1 or x == -1);
 
       count[(x + 1) / 2]++;
     }

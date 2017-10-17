@@ -77,7 +77,7 @@ void CPGController::update(
 {
   // Read sensor data and feed the neural network
   size_t p = 0;
-  for (auto sensor : sensors)
+  for (const auto &sensor : sensors)
   {
     sensor->read(&inputs_vector[p]);
     p += sensor->inputs();
@@ -97,7 +97,7 @@ void CPGController::update(
   }
 
   p = 0;
-  for (auto actuator: actuators)
+  for (const auto &actuator: actuators)
   {
     actuator->update(&outputs_vector[p], step);
     p += actuator->outputs();
@@ -113,7 +113,7 @@ void CPGController::initRandom(float sigma)
 
   for (auto cpg: cpgs)
   {
-    std::shared_ptr< std::vector< cpg::real_t>> genome = cpg->get_genome();
+    std::shared_ptr< std::vector< cpg::real_t>> genome = cpg->Genome();
     size_t genome_size = genome->size();
     for (size_t i = 0; i < genome_size; ++i)
     {

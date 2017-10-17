@@ -67,9 +67,9 @@ SpeciesPopulation::~SpeciesPopulation()
   std::vector<Species *>::iterator curspec;
   std::vector<SpeciesOrganism *>::iterator curorg;
 
-  if (species.begin() != species.end())
+  if (species.begin() not_eq species.end())
   {
-    for (curspec = species.begin(); curspec != species.end(); ++curspec)
+    for (curspec = species.begin(); curspec not_eq species.end(); ++curspec)
     {
       delete (*curspec);
     }
@@ -385,7 +385,7 @@ void SpeciesPopulation::next_generation()
     {
       Species *s = species[i];
 
-      for (int j = 0; (j < s->expected_offspring) && (iorg < norgs); j++)
+      for (int j = 0; (j < s->expected_offspring) and (iorg < norgs); j++)
       {
         reproduce_parms[iorg].species = s;
         reproduce_parms[iorg].ioffspring = j;
@@ -446,7 +446,7 @@ void SpeciesPopulation::next_generation()
 
           for (Species *s: species)
           {
-            if (s->size() && (s != origin_species))
+            if (s->size() and (s not_eq origin_species))
             {
               if (env->genome_manager->are_compatible(*org.genome,
                                                       *s->first()->genome))

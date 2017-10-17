@@ -32,8 +32,8 @@ class TestCPGBrain
   public:
   TestCPGBrain(std::string robot_name,
                revolve::brain::EvaluatorPtr evaluator,
-               unsigned int n_actuators,
-               unsigned int n_sensors);
+               size_t n_actuators,
+               size_t n_sensors);
 
   void test_update(const std::vector<revolve::brain::ActuatorPtr> &actuators,
                    const std::vector<revolve::brain::SensorPtr> &sensors,

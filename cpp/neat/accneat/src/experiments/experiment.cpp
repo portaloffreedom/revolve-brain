@@ -61,7 +61,7 @@ Experiment::get_names()
 Experiment::Experiment(const char *name)
 {
   this->name = name;
-  if (get(name) != nullptr)
+  if (get(name) not_eq nullptr)
   {
     trap("Experiment already registered: " << name);
   }

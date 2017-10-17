@@ -87,7 +87,7 @@ namespace revolve
 
       // Feed inputs into the input neurons
       for (auto it = inputNeurons_.begin();
-           it != inputNeurons_.end(); ++it)
+           it not_eq inputNeurons_.end(); ++it)
       {
         auto inNeuron = *it;
         int pos = inputPositionMap_[inNeuron];
@@ -96,7 +96,7 @@ namespace revolve
 
       // Calculate new states of all neurons
       for (auto it = allNeurons_.begin();
-           it != allNeurons_.end(); ++it)
+           it not_eq allNeurons_.end(); ++it)
       {
         (*it)->Update(t);
       }
@@ -104,7 +104,7 @@ namespace revolve
 
       // Flip states of all neurons
       for (auto it = allNeurons_.begin();
-           it != allNeurons_.end(); ++it)
+           it not_eq allNeurons_.end(); ++it)
       {
         (*it)->FlipState();
       }
@@ -113,7 +113,7 @@ namespace revolve
       // debF.open("/home/dmitry/projects/debug/debug_signals",
       // std::ofstream::out | std::ofstream::app);
       for (auto it = outputNeurons_.begin();
-           it != outputNeurons_.end(); ++it)
+           it not_eq outputNeurons_.end(); ++it)
       {
         auto outNeuron = *it;
         int pos = outputPositionMap_[outNeuron];
@@ -149,7 +149,7 @@ namespace revolve
         // parameter in the same place
         std::map<std::string, double> params =
                 allNeurons_[i]->Parameters();
-        for (auto it = params.begin(); it != params.end(); ++it)
+        for (auto it = params.begin(); it not_eq params.end(); ++it)
         {
           ret.push_back(it->second);
         }
@@ -171,14 +171,14 @@ namespace revolve
         // parameter in the same place
         std::map<std::string, double> params =
                 allNeurons_[i]->Parameters();
-        for (auto it = params.begin(); it != params.end(); ++it)
+        for (auto it = params.begin(); it not_eq params.end(); ++it)
         {
           params[it->first] = weights[connections_.size() + i];
           matches++;
         }
         allNeurons_[i]->SetParameters(params);
       }
-      if (weights.size() != matches)
+      if (weights.size() not_eq matches)
       {
         std::cerr << "incorrect amount of weights (" << weights.size()
                   << ") delivered. expected " << matches << std::endl;

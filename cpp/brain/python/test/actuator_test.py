@@ -19,7 +19,7 @@ class Actuator(revolve_brain_python.Actuator):
             # print("Motor {} value: {}".format(i, output_vector[i]))
             variable = output_vector[i]
 
-    # virtual unsigned int outputs() const
+    # virtual size_t outputs() const
     def outputs(self):
         return self.SIZE
 

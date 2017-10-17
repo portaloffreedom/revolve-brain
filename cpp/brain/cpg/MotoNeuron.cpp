@@ -36,7 +36,7 @@ MotoNeuron::~MotoNeuron()
 std::vector<real_t> MotoNeuron::update(std::vector<real_t> inputs,
                                        real_t /*delta_time*/)
 {
-  if (inputs.size() != 2)
+  if (inputs.size() not_eq 2)
   {
     std::stringstream ss;
     ss << "input size should be 2, instead is "

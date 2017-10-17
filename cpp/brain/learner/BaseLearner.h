@@ -60,7 +60,7 @@ namespace revolve
       /// learner.
       ///
       /// asserts that the active_controller is not empty.
-      /// (`assert active_controller.get() != nullptr`)
+      /// (`assert active_controller.get() not_eq nullptr`)
       ///
       /// \brief Updates the learner and modifies the controller if needed.
       /// Returns the controller you should use.
@@ -79,7 +79,7 @@ namespace revolve
 
       /// Careful, if the update function is called with an
       /// empty active_controller, it will fail
-      /// (`assert active_controller.get() != nullptr`)
+      /// (`assert active_controller.get() not_eq nullptr`)
       ///
       /// \brief constructor that leaves the active_controller empty.
       /// \param name of the robot that the learner is instructing

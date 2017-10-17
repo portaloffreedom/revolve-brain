@@ -33,7 +33,7 @@ class python_list_wrap
   const boost::python::list *wrapped_list;
 
   /// \brief cached list length value
-  unsigned int list_length;
+  size_t list_length;
 
   public:
   python_list_wrap(const boost::python::list *list)
@@ -46,11 +46,11 @@ class python_list_wrap
   {
     private:
     const boost::python::list *wrapped_list;
-    unsigned int index;
+    size_t index;
 
     public:
     iterator(const boost::python::list *list,
-             const unsigned int index)
+             const size_t index)
             : wrapped_list(list)
               , index(index)
     {}
@@ -64,13 +64,13 @@ class python_list_wrap
     bool operator==(iterator const &rhs) const
     {
       return (this->wrapped_list == rhs.wrapped_list)
-             && (this->index == rhs.index);
+             and (this->index == rhs.index);
     }
 
-    bool operator!=(iterator const &rhs) const
+    bool operatornot_eq(iterator const &rhs) const
     {
-      return (this->wrapped_list != rhs.wrapped_list)
-             || (this->index != rhs.index);
+      return (this->wrapped_list not_eq rhs.wrapped_list)
+             or (this->index not_eq rhs.index);
     }
 
     void operator++()

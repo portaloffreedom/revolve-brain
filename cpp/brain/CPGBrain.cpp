@@ -123,14 +123,14 @@ void CPGBrain::learner(double t)
   }
 
   if (not evaluator_started
-      && (t - start_eval_time_) > (evaluation_rate_ / 10))
+      and (t - start_eval_time_) > (evaluation_rate_ / 10))
   {
     evaluator->start();
     evaluator_started = true;
   }
 
   if ((t - start_eval_time_) > evaluation_rate_
-      && generation_counter_ < max_evaluations_)
+      and generation_counter_ < max_evaluations_)
   {
     double fitness = evaluator->fitness();
     // TODO learner
@@ -196,7 +196,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
   std::random_device rd;
   std::mt19937 mt(rd());
 
-  if (algorithm_type_ == 'C' || algorithm_type_ == 'D')
+  if (algorithm_type_ == 'C' or algorithm_type_ == 'D')
   {
     // uncorrelated mutation with one step size
     std::mt19937 sigma_mt(rd());
@@ -235,7 +235,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
   {
     // Generate new policy using weighted crossover operator
     double total_fitness = 0;
-    if (algorithm_type_ == 'B' || algorithm_type_ == 'D')
+    if (algorithm_type_ == 'B' or algorithm_type_ == 'D')
     {
       // k-selection tournament
       auto parent1 = binarySelection();
@@ -326,7 +326,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
   {
     // And for each control point
     cpg::CPGNetwork *cpg = cpgs[i];
-    std::vector<cpg::CPGNetwork::Limit> limits = cpg->get_genome_limits();
+    std::vector<cpg::CPGNetwork::Limit> limits = cpg->GenomeLimits();
     for (size_t j = 0; j < source_y_size; j++)
     {
       cpg::real_t &value = current_policy_->at(i)->at(j);

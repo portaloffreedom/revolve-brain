@@ -196,7 +196,7 @@ namespace NEAT
       partitions.clear();
       gpu_links.resize(dims.nlinks);
 
-      if (dims.nlinks != 0)
+      if (dims.nlinks not_eq 0)
       {
         ActivationPartition partition;
 
@@ -204,9 +204,9 @@ namespace NEAT
         {
           NetLink &link = links[i];
           if ((i % Threads_Per_Block == 0)
-              || (link.out_node_index != partition.out_node_index))
+              or (link.out_node_index not_eq partition.out_node_index))
           {
-            if (i != 0)
+            if (i not_eq 0)
             {
               partitions.push_back(partition);
             }

@@ -26,7 +26,7 @@ TestActuator::TestActuator(bool verbose)
 {
 }
 
-unsigned int TestActuator::outputs() const
+size_t TestActuator::outputs() const
 {
   return 1;
 }

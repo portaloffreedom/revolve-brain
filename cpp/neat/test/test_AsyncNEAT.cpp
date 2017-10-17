@@ -73,13 +73,13 @@ bool TestAsyncNeat::testXOR()
             organism->net.get());
 
     float error = 0;
-    for (unsigned int test = 0; test < inputs0.size(); test++)
+    for (size_t test = 0; test < inputs0.size(); test++)
     {
       net->load_sensor(0, inputs0[test]);
       net->load_sensor(1, inputs1[test]);
 
       net->activate(1);
-      NEAT::real_t *outputs = net->get_outputs();
+      NEAT::real_t *outputs = net->Outputs();
       error += std::abs(outputs[0] - expectedOutputs[test]);
     }
 
@@ -92,14 +92,11 @@ bool TestAsyncNeat::testXOR()
 
     if (min_error < success_margin_error)
     {
-      std::cout
-              << "\nAfter "
-              << gen
-              << " tries, a successful organism was found with an error of "
-              << min_error
-              << std::endl;
+      std::cout << "\nAfter "<< gen
+                << " tries, a successful organism was found with an error of "
+                << min_error << std::endl;
       std::cout << "The organism fitness is "
-                << neat.getFittest()->Organism()->eval.fitness << std::endl;
+                << neat.Fittest()->Organism()->eval.fitness << std::endl;
       success = true;
       break;
     }

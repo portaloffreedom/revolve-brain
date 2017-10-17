@@ -60,7 +60,7 @@ revolve::brain::SUPGBrain_python::SUPGBrain_python(
 
 
     boost::python::ssize_t n_inputs = boost::python::len(node);
-    if (previous_input >= 0 && previous_input != n_inputs)
+    if (previous_input >= 0 and previous_input not_eq n_inputs)
     {
       std::stringstream ss;
       ss << "neuron coordinate list inner size mismatch: len(list["
@@ -84,7 +84,7 @@ revolve::brain::SUPGBrain_python::SUPGBrain_python(
   }
 
 
-  if (actuator_wrap.size() != neuron_coordinates.size())
+  if (actuator_wrap.size() not_eq neuron_coordinates.size())
   {
     std::stringstream ss;
     ss << "actuator size [" << actuator_wrap.size()
@@ -93,7 +93,7 @@ revolve::brain::SUPGBrain_python::SUPGBrain_python(
     throw std::invalid_argument(ss.str());
   }
 
-  unsigned int p = 0;
+  size_t p = 0;
   std::cout << "sensor->sensorId()" << std::endl;
   for (auto sensor : sensor_wrap)
   {

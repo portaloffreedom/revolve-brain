@@ -61,7 +61,7 @@ namespace NEAT
         {
           return false;
         }
-        if ((*it)->out_node_id() != node_id)
+        if ((*it)->out_node_id() not_eq node_id)
         {
           return false;
         }
@@ -76,7 +76,7 @@ namespace NEAT
         {
           return false;
         }
-        if ((**curr)->out_node_id() != node_id)
+        if ((**curr)->out_node_id() not_eq node_id)
         {
           return false;
         }
@@ -166,7 +166,7 @@ namespace NEAT
       //      but not clear if this logic is desirable. Shouldn't it
       //      just be checking if the output node is OUTPUT?
       /*
-        if (((in_node->place)==OUTPUT)||
+        if (((in_node->place)==OUTPUT)or
         ((out_node->place)==OUTPUT))
         return true;
       */

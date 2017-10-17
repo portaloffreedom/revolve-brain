@@ -85,7 +85,7 @@ namespace revolve
 
         public:
         /// \brief
-        real_t getAlpha() const;
+        real_t Alpha() const;
 
         /// \brief
         void setAlpha(real_t alpha);
@@ -101,7 +101,7 @@ namespace revolve
         real_t calculateAlphaFromPercentage(real_t alpha) const;
 
         /// \brief
-        real_t getTheta() const;
+        real_t Theta() const;
 
         /// \brief
         void setTheta(real_t theta);
@@ -117,7 +117,7 @@ namespace revolve
         real_t calculateThetaFromPercentage(real_t theta) const;
 
         /// \brief
-        const std::vector<real_t> &getWeights() const;
+        const std::vector<real_t> &Weights() const;
 
         /// \brief Is normalizing the weights
         /// \param weights new weights

@@ -62,7 +62,7 @@ source /share/apps/Modules/3.2.10/init/sh
 module load gcc/4.9.1
 module load cuda/6.0
 
-make || exit 1
+make or exit 1
 
 git log -n 5 > $run_dir/gitlog
 git status > $run_dir/gitstat

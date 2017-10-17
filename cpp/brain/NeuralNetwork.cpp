@@ -75,8 +75,8 @@ NeuralNetwork::~NeuralNetwork()
 
 void NeuralNetwork::step(double time)
 {
-  unsigned int i = 0;
-  unsigned int j = 0;
+  size_t i = 0;
+  size_t j = 0;
 
   if (nOutputs_ == 0)
   {
@@ -95,7 +95,7 @@ void NeuralNetwork::step(double time)
     nextState = state2_;
   }
 
-  unsigned int maxNonInputs = MAX_HIDDEN_NEURONS + MAX_OUTPUT_NEURONS;
+  size_t maxNonInputs = MAX_HIDDEN_NEURONS + MAX_OUTPUT_NEURONS;
   for (i = 0; i < nNonInputs_; ++i)
   {
     double curNeuronActivation = 0;
@@ -120,7 +120,7 @@ void NeuralNetwork::step(double time)
               hiddenWeights_[maxNonInputs * j + i] * curState[nOutputs_ + j];
     }
 
-    unsigned int base = MAX_NEURON_PARAMS * i;
+    size_t base = MAX_NEURON_PARAMS * i;
     switch (types_[i])
     {
       case SIGMOID:
@@ -177,7 +177,7 @@ void NeuralNetwork::update(
   boost::mutex::scoped_lock lock(networkMutex_);
 
   // Read sensor data and feed the neural network
-  unsigned int p = 0;
+  size_t p = 0;
   for (auto sensor : sensors)
   {
     sensor->read(&input_[p]);

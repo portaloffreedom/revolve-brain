@@ -59,7 +59,7 @@ void Timer::start()
 
 void Timer::stop()
 {
-  assert(_start != 0.0);
+  assert(_start not_eq 0.0);
 
   double t = seconds() - _start;
   _recent = t;

@@ -31,8 +31,8 @@ using namespace revolve::brain;
 RLPower_python::RLPower_python(std::string robot_name,
                                const boost::python::object &conf,
                                revolve::brain::EvaluatorPtr evaluator,
-                               unsigned int n_actuators,
-                               unsigned int n_sensors)
+                               size_t n_actuators,
+                               size_t n_sensors)
         : RLPower::RLPower(robot_name,
                            create_config(conf),
                            evaluator,
@@ -83,22 +83,22 @@ RLPower_python::create_config(const boost::python::object &conf)
 
   config.algorithm_type = read_or_default< std::string >
           (conf, "algorithm_type", "A");
-  config.evaluation_rate = read_or_default< unsigned int >
+  config.evaluation_rate = read_or_default< size_t >
           (conf, "evaluation_rate", RLPower::EVALUATION_RATE);
-  config.interpolation_spline_size = read_or_default< unsigned int >
+  config.interpolation_spline_size = read_or_default< size_t >
           (conf, "interpolation_spline_size",
            RLPower::INTERPOLATION_CACHE_SIZE);
-  config.max_evaluations = read_or_default< unsigned int >
+  config.max_evaluations = read_or_default< size_t >
           (conf, "max_evaluations", RLPower::MAX_EVALUATIONS);
-  config.max_ranked_policies = read_or_default< unsigned int >
+  config.max_ranked_policies = read_or_default< size_t >
           (conf, "max_ranked_policies", RLPower::MAX_RANKED_POLICIES);
   config.noise_sigma = read_or_default< double >
           (conf, "noise_sigma", RLPower::SIGMA_START_VALUE);
   config.sigma_tau_correction = read_or_default< double >
           (conf, "sigma_tau_correction", RLPower::SIGMA_TAU_CORRECTION);
-  config.source_y_size = read_or_default< unsigned int >
+  config.source_y_size = read_or_default< size_t >
           (conf, "init_spline_size", RLPower::INITIAL_SPLINE_SIZE);
-  config.update_step = read_or_default< unsigned int >
+  config.update_step = read_or_default< size_t >
           (conf, "update_step", RLPower::UPDATE_STEP);
 
   return config;

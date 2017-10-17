@@ -102,8 +102,8 @@ InnovGenomeManager::create_seed_generation(
     InnovGenome *g = to_innov(*genomes.back());
 
     // Keep a record of the innovation and node number we are on
-    innovations.init(g->get_last_node_id(),
-                     g->get_last_gene_innovnum());
+    innovations.init(g->LastNodeId(),
+                     g->LastGeneInnovationNumber());
   }
 
   return genomes;
@@ -154,8 +154,8 @@ void InnovGenomeManager::mate(
     // Determine whether to mutate the baby's InnovGenome
     // This is done randomly or if the genome1 and genome2 are the same organism
     if (not offspring.rng.under(env->mate_only_prob)
-        || (genome2.genome_id == genome1.genome_id)
-        || (to_innov(genome2)->compatibility(to_innov(genome1)) == 0.0))
+        or (genome2.genome_id == genome1.genome_id)
+        or (to_innov(genome2)->compatibility(to_innov(genome1)) == 0.0))
     {
       mutate(offspring, MUTATE_OP_ANY);
     }
@@ -177,13 +177,13 @@ void InnovGenomeManager::mutate(
       break;
     case MUTATE_OP_STRUCTURE:
     {
-      if (not allow_add && !allow_del)
+      if (not allow_add and !allow_del)
       {
         mutate(genome_, MUTATE_OP_WEIGHTS);
       }
       else
       {
-        if (not allow_del || genome_.rng.boolean())
+        if (not allow_del or genome_.rng.boolean())
         {
           genome->mutate_add_link(create_innov_func(genome_),
                                   env->newlink_tries);
@@ -200,23 +200,23 @@ void InnovGenomeManager::mutate(
       rng_t &rng = genome->rng;
       rng_t::prob_switch_t op = rng.prob_switch();
 
-      if (allow_add && op.prob_case(env->mutate_add_node_prob))
+      if (allow_add and op.prob_case(env->mutate_add_node_prob))
       {
         bool delete_split_link =
-                env->search_type != GeneticSearchType::COMPLEXIFY;
+                env->search_type not_eq GeneticSearchType::COMPLEXIFY;
         genome->mutate_add_node(create_innov_func(genome_),
                                 delete_split_link);
       }
-      else if (allow_add && op.prob_case(env->mutate_add_link_prob))
+      else if (allow_add and op.prob_case(env->mutate_add_link_prob))
       {
         genome->mutate_add_link(create_innov_func(genome_),
                                 env->newlink_tries);
       }
-      else if (allow_del && op.prob_case(env->mutate_delete_link_prob))
+      else if (allow_del and op.prob_case(env->mutate_delete_link_prob))
       {
         genome->mutate_delete_link();
       }
-      else if (allow_del && op.prob_case(env->mutate_delete_node_prob))
+      else if (allow_del and op.prob_case(env->mutate_delete_node_prob))
       {
         genome->mutate_delete_node();
       }
@@ -276,7 +276,7 @@ void InnovGenomeManager::finalize_generation(bool new_fittest)
     {
       case COMPLEXIFY:
         if ((phase_duration >= max_phase_duration)
-            || new_fittest)
+            or new_fittest)
         {
           std::cout << "phase PRUNE @ gen " << generation << std::endl;
           search_phase_start = generation;

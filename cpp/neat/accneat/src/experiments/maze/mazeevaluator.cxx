@@ -42,7 +42,7 @@ namespace NEAT
   __net_eval_decl bool operator==(const position_t a,
                                   const position_t b)
   {
-    return (a.row == b.row) && (a.col == b.col);
+    return (a.row == b.row) and (a.col == b.col);
   }
 
   enum direction_t
@@ -216,7 +216,7 @@ namespace NEAT
     vector<Config::Trial> trials;
 
     for (std::map<Location, Object>::iterator it = map.objects.begin();
-         it != map.objects.end(); it++)
+         it not_eq map.objects.end(); it++)
     {
       Object &obj = it->second;
       size_t row = obj.loc.index.row;
@@ -232,13 +232,13 @@ namespace NEAT
         config.agent_dir = parse(obj.glyph.attrs["dir"]);
       } else if (obj.glyph.type == "food")
       {
-        if (obj.attrs.find("seq") != obj.attrs.end())
+        if (obj.attrs.find("seq") not_eq obj.attrs.end())
         {
           Config::Trial trial;
           trial.food_pos.row = obj.loc.index.row;
           trial.food_pos.col = obj.loc.index.col;
           string seq = obj.attrs["seq"];
-          assert(seq.length() > 0 && seq.length() <= Max_Seq_Len);
+          assert(seq.length() > 0 and seq.length() <= Max_Seq_Len);
 
           trial.seqlen = seq.length();
           for (size_t i = 0; i < seq.length(); i++)
@@ -331,7 +331,7 @@ namespace NEAT
 
     __net_eval_decl bool next_step()
     {
-      bool trial_complete = (best_dist == 0) || (trial_step == max_trial_steps);
+      bool trial_complete = (best_dist == 0) or (trial_step == max_trial_steps);
       if (trial_complete)
       {
         if (trial == config->ntrials - 1)

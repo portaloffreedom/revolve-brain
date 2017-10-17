@@ -70,7 +70,7 @@ SUPGGenomeManager::create_seed_generation(
                   node_id_input + SUPGNeuron::TIMER,
                   node_id_output + 2,
                   false,
-                  start_genome.get_last_gene_innovnum(),
+                  start_genome.LastGeneInnovationNumber(),
                   0.0,
                   robot_name,
                   -1));
@@ -82,7 +82,7 @@ SUPGGenomeManager::create_seed_generation(
     NEAT::rng_t _rng = rng;
     for (int i = 0; i < NEAT::env->pop_size; i++)
     {
-      NEAT::InnovGenome *g = new NEAT::InnovGenome(robot_name);
+      auto *g = new NEAT::InnovGenome(robot_name);
       start_genome.duplicate_into(g);
       g->rng.seed(_rng.integer());
       g->mutate_link_weights(1.0, 1.0, NEAT::COLDGAUSSIAN);
@@ -96,7 +96,7 @@ SUPGGenomeManager::create_seed_generation(
     NEAT::InnovGenome *g = to_innov(*genomes.back());
 
     // Keep a record of the innovation and node number we are on
-    innovations.init(g->get_last_node_id(), g->get_last_gene_innovnum());
+    innovations.init(g->LastNodeId(), g->LastGeneInnovationNumber());
   }
 
   return genomes;

@@ -86,7 +86,7 @@ BaseController *HyperAccNEATLearner_CPGController::create_new_controller(
 
   size_t x = 0;
   for (auto cpg_it = controller->beginCPGNetwork();
-       cpg_it != controller->endCPGNetwork(); cpg_it++)
+       cpg_it not_eq controller->endCPGNetwork(); cpg_it++)
   {
     cpg::CPGNetwork *cpg = (*cpg_it);
 
@@ -113,7 +113,7 @@ BaseController *HyperAccNEATLearner_CPGController::create_new_controller(
 
       // ACTIVATE CPPN
       cppn->activate(1);
-      NEAT::real_t *output = cppn->get_outputs();
+      NEAT::real_t *output = cppn->Outputs();
 
       // USE CPPN OUTPUT TO UPDATE CPG PARAMETERS
 
@@ -190,7 +190,7 @@ BaseController *HyperAccNEATLearner_CPGController::create_new_controller(
 
         // ACTIVATE CPPN
         cppn->activate(1);
-        NEAT::real_t *output = cppn->get_outputs();
+        NEAT::real_t *output = cppn->Outputs();
 
         if (connections_active[x][y])
         {

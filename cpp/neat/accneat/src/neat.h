@@ -75,7 +75,7 @@ namespace NEAT
 
   inline bool is_input(nodetype type)
   {
-    return (type == NT_BIAS) || (type == NT_SENSOR);
+    return (type == NT_BIAS) or (type == NT_SENSOR);
   }
 
   struct NeatEnv

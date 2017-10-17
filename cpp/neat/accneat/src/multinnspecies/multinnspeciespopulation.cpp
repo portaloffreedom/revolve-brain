@@ -67,9 +67,9 @@ MultiNNSpeciesPopulation::~MultiNNSpeciesPopulation()
   std::vector<MultiNNSpecies *>::iterator curspec;
   std::vector<MultiNNSpeciesOrganism *>::iterator curorg;
 
-  if (species.begin() != species.end())
+  if (species.begin() not_eq species.end())
   {
-    for (curspec = species.begin(); curspec != species.end(); ++curspec)
+    for (curspec = species.begin(); curspec not_eq species.end(); ++curspec)
     {
       delete (*curspec);
     }
@@ -377,7 +377,7 @@ void MultiNNSpeciesPopulation::next_generation()
     {
       MultiNNSpecies *s = species[i];
 
-      for (int j = 0; (j < s->expected_offspring) && (iorg < norgs); j++)
+      for (int j = 0; (j < s->expected_offspring) and (iorg < norgs); j++)
       {
         reproduce_parms[iorg].species = s;
         reproduce_parms[iorg].ioffspring = j;
@@ -437,7 +437,7 @@ void MultiNNSpeciesPopulation::next_generation()
 
           for (MultiNNSpecies *s: species)
           {
-            if (s->size() && (s != origin_species))
+            if (s->size() and (s not_eq origin_species))
             {
               if (env->genome_manager->are_compatible(*org.genome,
                                                       *s->first()->genome))

@@ -72,7 +72,7 @@ namespace revolve
           isFirstRun_ = false;
         }
 
-        // && generation_counter_ < max_evaluations_) {
+        // and generation_counter_ < max_evaluations_) {
         if ((t - startTime_) > evaluationRate_)
         {
           double fitness = evaluator_->fitness();

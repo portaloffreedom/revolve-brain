@@ -23,7 +23,7 @@
 
 using namespace revolve::brain;
 
-unsigned int FakeLightSensor::inputs() const
+size_t FakeLightSensor::inputs() const
 {
   return 1;
 }

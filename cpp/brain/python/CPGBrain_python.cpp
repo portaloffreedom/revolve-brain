@@ -28,8 +28,8 @@ using namespace revolve::brain;
 
 CPGBrain_python::CPGBrain_python(std::string robot_name,
                                  EvaluatorPtr evaluator,
-                                 unsigned int n_actuators,
-                                 unsigned int n_sensors)
+                                 size_t n_actuators,
+                                 size_t n_sensors)
         : CPGBrain(robot_name, evaluator, n_actuators, n_sensors)
 {
 }

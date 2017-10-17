@@ -83,24 +83,24 @@ namespace revolve
       }
 
       // Feed inputs into the input neurons
-      for (auto it = inputNeurons_.begin(); it != inputNeurons_.end(); ++it)
+      for (auto it = inputNeurons_.begin(); it not_eq inputNeurons_.end(); ++it)
       {
         auto inNeuron = *it;
         int pos = inputPositionMap_[inNeuron];
         inNeuron->SetInput(inputs_[pos]);
       }
       // Calculate new states of all neurons
-      for (auto it = allNeurons_.begin(); it != allNeurons_.end(); ++it)
+      for (auto it = allNeurons_.begin(); it not_eq allNeurons_.end(); ++it)
       {
         (*it)->Update(t);
       }
       // Flip states of all neurons
-      for (auto it = allNeurons_.begin(); it != allNeurons_.end(); ++it)
+      for (auto it = allNeurons_.begin(); it not_eq allNeurons_.end(); ++it)
       {
         (*it)->FlipState();
       }
 
-      for (auto it = outputNeurons_.begin(); it != outputNeurons_.end(); ++it)
+      for (auto it = outputNeurons_.begin(); it not_eq outputNeurons_.end(); ++it)
       {
         auto outNeuron = *it;
         int pos = outputPositionMap_[outNeuron];

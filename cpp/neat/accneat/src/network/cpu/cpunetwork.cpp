@@ -93,7 +93,7 @@ void CpuNetwork::load_sensor(size_t isensor,
   activations[dims.nnodes.bias + isensor] = activation;
 }
 
-real_t *CpuNetwork::get_outputs()
+real_t *CpuNetwork::Outputs()
 {
   return activations.data() + dims.nnodes.input;
 }
@@ -128,7 +128,7 @@ void CpuNetwork::activate(size_t ncycles)
     std::swap(act_curr, act_new);
   }
 
-  if (act_curr != activations.data())
+  if (act_curr not_eq activations.data())
   {
     // If an odd number of cycles, we have to copy non-input data
     // of act_other back into activations.

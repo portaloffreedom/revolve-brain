@@ -52,7 +52,7 @@ namespace NEAT
                   abort(); }
 
 #define sh(cmd) { int rc = system(cmd); \
-                  if (rc != 0) error("Failed executing " << cmd);}
+                  if (rc not_eq 0) error("Failed executing " << cmd);}
 
   template <typename Container, typename Predicate>
   void erase_if(Container &cont,
@@ -63,7 +63,7 @@ namespace NEAT
   }
 
   template <typename T, typename... Args>
-  std::unique_ptr<T> make_unique(Args &&... args)
+  std::unique_ptr<T> make_unique(Args and... args)
   {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
   }
@@ -73,7 +73,7 @@ template <typename T, typename U>
 bool contains(const T &container,
               const U &value)
 {
-  return container.find(value) != container.end();
+  return container.find(value) not_eq container.end();
 }
 
 template <typename T, typename U>
@@ -190,7 +190,7 @@ inline std::vector<std::string> split(const std::string &s,
     {
       subend = s.length();
     }
-    if ((subend != substart) || keep_empty)
+    if ((subend not_eq substart) or keep_empty)
     {
       result.push_back(s.substr(substart, subend - substart));
     }

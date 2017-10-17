@@ -46,8 +46,9 @@ namespace revolve
 
         public:
         /// \brief
-        CPGNetwork(unsigned int n_sensors,
-                   unsigned int n_connections);
+        CPGNetwork(
+                size_t n_sensors,
+                size_t n_connections);
 
         /// \brief
         virtual ~CPGNetwork();
@@ -58,20 +59,21 @@ namespace revolve
         /// \param step time passed since last update
         /// \return revolve::brain::cpg::real_t output for the network after
         /// the update
-        real_t update(const std::vector<real_t> &sensor_readings,
-                      double step);
+        real_t update(
+                const std::vector< real_t > &sensor_readings,
+                double step);
 
         // GETTERS and SETTERS
 
         // Genome getter and setters
         /// \brief
-        std::shared_ptr<std::vector<real_t>> get_genome();
+        std::shared_ptr< std::vector< real_t>> Genome();
 
         /// \brief
-        const std::shared_ptr<const std::vector<real_t>> get_genome() const;
+        const std::shared_ptr< const std::vector< real_t>> get_genome() const;
 
         /// \brief
-        void set_genome(std::vector<real_t>);
+        void set_genome(std::vector< real_t >);
 
         /// \brief
         void update_genome();
@@ -82,14 +84,15 @@ namespace revolve
           real_t lower;
           real_t upper;
 
-          Limit(real_t l,
-                real_t u)
+          Limit(
+                  real_t l,
+                  real_t u)
                   : lower(l), upper(u)
           {}
 
           Limit()
-                  : lower(std::numeric_limits<real_t>::lowest())
-                    , upper(std::numeric_limits<real_t>::max())
+                  : lower(std::numeric_limits< real_t >::lowest())
+                  , upper(std::numeric_limits< real_t >::max())
           {}
 
           Limit &operator=(const Limit &o)
@@ -101,7 +104,7 @@ namespace revolve
         };
 
         /// \brief
-        const std::vector<Limit> &get_genome_limits();
+        const std::vector< Limit > &GenomeLimits();
 
         /// \brief
         void addConnection(CPGNetwork *new_connection)
@@ -122,15 +125,17 @@ namespace revolve
         }
 
         /// \brief
-        void setRGEWeightNeighbour(real_t value,
-                                   size_t index)
+        void setRGEWeightNeighbour(
+                real_t value,
+                size_t index)
         {
           rge->setWeightNeighbour(value, index);
         }
 
         /// \brief
-        void setRGFWeightNeighbour(real_t value,
-                                   size_t index)
+        void setRGFWeightNeighbour(
+                real_t value,
+                size_t index)
         {
           rgf->setWeightNeighbour(value, index);
         }
@@ -208,15 +213,17 @@ namespace revolve
         }
 
         /// \brief
-        void setRGEWeightNeighbourPercentage(real_t value,
-                                             size_t index)
+        void setRGEWeightNeighbourPercentage(
+                real_t value,
+                size_t index)
         {
           rge->setWeightNeighbourPercentage(value, index);
         }
 
         /// \brief
-        void setRGFWeightNeighbourPercentage(real_t value,
-                                             size_t index)
+        void setRGFWeightNeighbourPercentage(
+                real_t value,
+                size_t index)
         {
           rgf->setWeightNeighbourPercentage(value, index);
         }
@@ -286,8 +293,9 @@ namespace revolve
         void updateRythmGeneration(real_t step);
 
         /// \brief
-        void updatePatternFormation(const std::vector<real_t> &sensor_readings,
-                                    real_t step);
+        void updatePatternFormation(
+                const std::vector< real_t > &sensor_readings,
+                real_t step);
 
         /// \brief
         void updateMotoNeuron(real_t step);
@@ -324,16 +332,16 @@ namespace revolve
         real_t mn_out;
 
         /// \brief
-        const unsigned int n_connections;
+        const size_t n_connections;
 
         /// \brief
-        std::vector<CPGNetwork *> connections;
+        std::vector< CPGNetwork * > connections;
 
         /// \brief
-        std::shared_ptr<std::vector<real_t>> genome;
+        std::shared_ptr< std::vector< real_t>> genome;
 
         /// \brief
-        std::vector<Limit> genome_limits;
+        std::vector< Limit > genome_limits;
       };
     }
   }

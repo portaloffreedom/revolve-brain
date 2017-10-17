@@ -128,14 +128,14 @@ bool NEAT::InnovLinkGene::operator==(const NEAT::InnovLinkGene &rhs) const
 {
   real_t epsilon = 0.00000001;
   return std::fabs(this->_weight - rhs._weight) < epsilon
-         && this->_in_node_id == rhs._in_node_id
-         && this->_out_node_id == rhs._out_node_id
-         && this->_is_recurrent == rhs._is_recurrent
-         && this->_trait_id == rhs._trait_id
-         && this->innovation_num == rhs.innovation_num
-         && std::fabs(this->mutation_num - rhs.mutation_num) < epsilon
-         && this->enable == rhs.enable
-         && this->frozen == rhs.frozen;
+         and this->_in_node_id == rhs._in_node_id
+         and this->_out_node_id == rhs._out_node_id
+         and this->_is_recurrent == rhs._is_recurrent
+         and this->_trait_id == rhs._trait_id
+         and this->innovation_num == rhs.innovation_num
+         and std::fabs(this->mutation_num - rhs.mutation_num) < epsilon
+         and this->enable == rhs.enable
+         and this->frozen == rhs.frozen;
 }
 
 bool YAML::convert< NEAT::InnovLinkGene >::decode(

@@ -33,7 +33,7 @@ using namespace NEAT;
 
 #define xcuda(stmt) {                                                          \
         cudaError_t err = stmt;                                                \
-        if (err != cudaSuccess) {                                              \
+        if (err not_eq cudaSuccess) {                                              \
             std::cerr << __FILE__ << ":" << __LINE__ << ": Failed to run " <<  \
             #stmt << ". Reason: " << cudaGetErrorString(err) << std::endl;     \
             abort();                                                           \
@@ -77,7 +77,7 @@ static void free_host(accneat_inout
     cudaError_t err = cudaFreeHost(buf);
 
     if ((err == cudaSuccess)
-        || (tolerate_shutdown && (err == cudaErrorCudartUnloading)))
+        or (tolerate_shutdown and (err == cudaErrorCudartUnloading)))
     {
       buf = 0;
     }

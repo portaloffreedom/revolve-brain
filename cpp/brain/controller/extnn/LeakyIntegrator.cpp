@@ -64,7 +64,7 @@ namespace revolve
 
       // Calculate the input value
       for (auto it = this->incomingConnections_.begin();
-           it != this->incomingConnections_.end(); ++it)
+           it not_eq this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
         inputValue +=
@@ -91,7 +91,7 @@ namespace revolve
     void
     LeakyIntegrator::SetParameters(std::map< std::string, double > _parameters)
     {
-      if (not _parameters.count("rv:bias") || not _parameters.count("rv:tau"))
+      if (not _parameters.count("rv:bias") or not _parameters.count("rv:tau"))
       {
         std::cerr
                 << "A `"

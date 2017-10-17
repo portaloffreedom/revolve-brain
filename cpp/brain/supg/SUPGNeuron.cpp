@@ -24,13 +24,13 @@
 
 #define NCYCLES 1
 
-unsigned int SUPGNeuron::GetDimensionInput(unsigned int n_inputs,
-                                           unsigned int coordinates_size)
+size_t SUPGNeuron::GetDimensionInput(size_t n_inputs,
+                                           size_t coordinates_size)
 {
   return 1 + coordinates_size + n_inputs;
 }
 
-unsigned int SUPGNeuron::GetDimensionOutput(unsigned int n_outputs)
+size_t SUPGNeuron::GetDimensionOutput(size_t n_outputs)
 {
   return 2 + n_outputs;
 }
@@ -47,8 +47,8 @@ SUPGNeuron::SUPGNeuron(NEAT::CpuNetwork *cppn,
 {
   set_coordinates(coordinates);
   NEAT::NetDims dims = cppn->get_dims();
-  unsigned int n_input = dims.nnodes.input;
-  unsigned int n_output = dims.nnodes.output;
+  size_t n_input = dims.nnodes.input;
+  size_t n_output = dims.nnodes.output;
 
   if (n_input < supg_internal_inputs)
   {
@@ -90,8 +90,8 @@ void SUPGNeuron::setCppn(NEAT::CpuNetwork *cppn)
   NEAT::NetDims prev_dims = this->cppn->get_dims();
   NEAT::NetDims next_dims = cppn->get_dims();
 
-  if ((prev_dims.nnodes.input != next_dims.nnodes.input)
-      || (prev_dims.nnodes.output != next_dims.nnodes.output))
+  if ((prev_dims.nnodes.input not_eq next_dims.nnodes.input)
+      or (prev_dims.nnodes.output not_eq next_dims.nnodes.output))
   {
     throw std::invalid_argument("SUPGNeuron::setCppn() cppn "
                                         "dimensions do not correspond");
@@ -112,19 +112,19 @@ void SUPGNeuron::init_timer(float global_time)
   load_coordinates();
 
   // reset all other inputs
-  unsigned int n_other_inputs = cppn->get_dims().nnodes.input
+  size_t n_other_inputs = cppn->get_dims().nnodes.input
                                 - supg_internal_inputs;
-  for (unsigned int i = 0; i < n_other_inputs; i++)
+  for (size_t i = 0; i < n_other_inputs; i++)
   {
     this->load_sensor(i, 0);
   }
 
   cppn->activate(NCYCLES);
 
-  NEAT::real_t *outputs = cppn->get_outputs();
+  NEAT::real_t *outputs = cppn->Outputs();
   NEAT::real_t offset = outputs[Output::OFFSET];
 
-  if (offset < 0 || offset > 1)
+  if (offset < 0 or offset > 1)
   {
     offset = 0;
   }
@@ -142,7 +142,7 @@ void SUPGNeuron::set_coordinates(std::vector<float> coordinates)
 
 void SUPGNeuron::load_coordinates()
 {
-  for (unsigned int i = 0; i < coordinates.size(); i++)
+  for (size_t i = 0; i < coordinates.size(); i++)
   {
     cppn->load_sensor(
             Input::COORDINATE_OFFSET + i,
@@ -208,7 +208,7 @@ void SUPGNeuron::activate(float global_time)
   load_coordinates();
   cppn->activate(NCYCLES);
 
-  NEAT::real_t *outputs = cppn->get_outputs();
+  NEAT::real_t *outputs = cppn->Outputs();
   NEAT::real_t offset = outputs[Output::RESET_TRIGGER];
   if (offset > 0.9)
   {
@@ -218,6 +218,6 @@ void SUPGNeuron::activate(float global_time)
 
 NEAT::real_t *SUPGNeuron::get_outputs()
 {
-  NEAT::real_t *outputs = cppn->get_outputs();
+  NEAT::real_t *outputs = cppn->Outputs();
   return outputs + supg_internal_outputs;
 }

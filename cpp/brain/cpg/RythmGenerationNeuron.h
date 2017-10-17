@@ -94,10 +94,10 @@ namespace revolve
         public:
         /// \brief  Returns current phi value
         /// \return current phi value
-        real_t getPhi() const;
+        real_t Phi() const;
 
         /// \brief
-        real_t getWeight() const;
+        real_t Weight() const;
 
         /// \brief the weight that determines the shape [0, 1.0]
         void setWeight(real_t weight);
@@ -113,7 +113,7 @@ namespace revolve
         real_t calculateWeightFromPercentage(real_t weight) const;
 
         /// \brief
-        real_t getWeightNeighbour(size_t index) const;
+        real_t WeightNeighbour(size_t index) const;
 
         /// \brief the weight that determines the shape [0, 1.0]
         void setWeightNeighbour(real_t weight,
@@ -133,7 +133,7 @@ namespace revolve
                                                       size_t index) const;
 
         /// \brief
-        real_t getC() const;
+        real_t C() const;
 
         /// \brief the phase difference [-2, 2]
         void setC(real_t c);
@@ -149,7 +149,7 @@ namespace revolve
         real_t calculateCFromPercentage(real_t c) const;
 
         /// \brief
-        real_t getAmplitude() const;
+        real_t Amplitude() const;
 
         /// \brief the amplitude determines influence of a flexor/extensor on
         /// the final output signal [−1, 1]
@@ -166,7 +166,7 @@ namespace revolve
         real_t calculateAmplitudeFromPercentage(real_t amplitude) const;
 
         /// \brief
-        real_t getOffset() const;
+        real_t Offset() const;
 
         /// \brief the offset dims shape of the final output signal to the
         /// starting position [-0.1, 0.1]

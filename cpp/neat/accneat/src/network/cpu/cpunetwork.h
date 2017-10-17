@@ -59,7 +59,7 @@ namespace NEAT
     void load_sensor(size_t isensor,
                      real_t activation);
 
-    real_t *get_outputs();
+    real_t *Outputs();
 
     virtual void configure(const NetDims &dims,
                            NetNode *nodes,

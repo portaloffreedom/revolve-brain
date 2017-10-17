@@ -73,17 +73,18 @@ class TestGenomeManager
           size_t noutputs,
           size_t nhidden)
   {
-    NEAT::InnovGenome start_genome(rng,
-                                   ntraits,
-                                   ninputs,
-                                   noutputs,
-                                   nhidden,
-                                   test_name);
+    NEAT::InnovGenome start_genome(
+            rng,
+            ntraits,
+            ninputs,
+            noutputs,
+            nhidden,
+            test_name);
 
 
-    const int node_id_bias = 1;
-    const int node_id_input = node_id_bias + 1;
-    const int node_id_output = node_id_input + ninputs;
+    const auto node_id_bias = 1;
+    const auto node_id_input = node_id_bias + 1;
+    const auto node_id_output = node_id_input + ninputs;
 //    const int node_id_hidden = node_id_output + noutputs;
 
     start_genome.add_link(
@@ -93,7 +94,7 @@ class TestGenomeManager
                                 node_id_input + 0,
                                 node_id_output + 0,
                                 false,
-                                start_genome.get_last_gene_innovnum(),
+                                start_genome.LastGeneInnovationNumber(),
                                 0.0,
                                 test_name,
                                 -1));
@@ -117,7 +118,7 @@ class TestGenomeManager
       NEAT::InnovGenome *g = to_innov(*genomes.back());
 
       // Keep a record of the innovation and node number we are on
-      innovations.init(g->get_last_node_id(), g->get_last_gene_innovnum());
+      innovations.init(g->LastNodeId(), g->LastGeneInnovationNumber());
     }
 
     return genomes;
@@ -134,10 +135,7 @@ bool TestCustomGenomeManager::testXOR()
           new TestGenomeManager()));
   AsyncNeat::SetSearchType(NEAT::GeneticSearchType::BLENDED);
   AsyncNeat::SetPopulationSize(10);
-  AsyncNeat neat(2,
-                 1,
-                 1,
-                 test_name);
+  AsyncNeat neat(2, 1, 1, test_name);
   float success_margin_error = 0.0001;
 
   bool success = false;
@@ -149,22 +147,19 @@ bool TestCustomGenomeManager::testXOR()
   int gen;
   for (gen = 1; gen < MAX_EVALUATIONS; gen++)
   {
-    std::shared_ptr< NeatEvaluation > eval = neat.Evaluation();
-    const NEAT::Organism *organism = eval->Organism();
-    NEAT::CpuNetwork *net = reinterpret_cast< NEAT::CpuNetwork *> (
-            organism->net.get());
+    auto eval = neat.Evaluation();
+    auto *organism = eval->Organism();
+    auto *net = reinterpret_cast< NEAT::CpuNetwork *> (organism->net.get());
 
     float error = 0;
 //         std::cout << std::endl;
-    for (unsigned int test = 0; test < inputs0.size(); test++)
+    for (size_t test = 0; test < inputs0.size(); test++)
     {
-      net->load_sensor(0,
-                       inputs0[test]);
-      net->load_sensor(1,
-                       inputs1[test]);
+      net->load_sensor(0, inputs0[test]);
+      net->load_sensor(1, inputs1[test]);
 
       net->activate(1);
-      NEAT::real_t *outputs = net->get_outputs();
+      auto *outputs = net->Outputs();
       error += std::abs(outputs[0] - expectedOutputs[test]);
     }
 
@@ -180,7 +175,7 @@ bool TestCustomGenomeManager::testXOR()
       std::cout << "\nAfter " << gen << " tries, a successful organism was"
                 << " found with an error of " << min_error << std::endl;
       std::cout << "The organism fitness is "
-                << neat.getFittest()->Organism()->eval.fitness << std::endl;
+                << neat.Fittest()->Organism()->eval.fitness << std::endl;
       success = true;
       break;
     }

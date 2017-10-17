@@ -80,7 +80,7 @@ namespace revolve
       }
 
       // Feed inputs into the input neurons
-      for (auto it = layers_[0].begin(); it != layers_[0].end(); ++it)
+      for (auto it = layers_[0].begin(); it not_eq layers_[0].end(); ++it)
       {
         auto inNeuron = *it;
         int pos = inputPositionMap_[inNeuron];
@@ -101,7 +101,7 @@ namespace revolve
       }
 
       for (auto it = layers_[layers_.size() - 1].begin();
-           it != layers_[layers_.size() - 1].end(); ++it)
+           it not_eq layers_[layers_.size() - 1].end(); ++it)
       {
         auto outNeuron = *it;
         int pos = outputPositionMap_[outNeuron];

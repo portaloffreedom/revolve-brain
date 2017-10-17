@@ -111,7 +111,7 @@ namespace cppneat
     for (const auto pair : pairs)
     {
       // adopt genes that i dont have
-      if (pair.first != nullptr && pair.second == nullptr)
+      if (pair.first not_eq nullptr and pair.second == nullptr)
       {
         if (pair.first->type_ == Gene::NEURON_GENE)
         {
@@ -283,7 +283,7 @@ namespace cppneat
       if (pair.first not_eq nullptr and pair.second == nullptr)
       {
         if (pair.first->InnovationNumber() > (minMark2 - 1)
-            && pair.first->InnovationNumber() < (maxMark2 + 1))
+            and pair.first->InnovationNumber() < (maxMark2 + 1))
         {
           disjoint_num++;
         }
@@ -292,7 +292,7 @@ namespace cppneat
           excess_num++;
         }
       }
-      else if (pair.first == nullptr and pair.second != nullptr)
+      else if (pair.first == nullptr and pair.second not_eq nullptr)
       {
         if (pair.second->InnovationNumber() > (minMark1 - 1)
             and pair.second->InnovationNumber() < (maxMark1 + 1))
@@ -343,8 +343,8 @@ namespace cppneat
     for (const auto &connection : connectionGenes_)
     {
       if ((*connection).from_ == _from
-          && (*connection).to_ == _to
-          && (*connection).IsEnabled())
+          and (*connection).to_ == _to
+          and (*connection).IsEnabled())
       {
         return true;
       }
@@ -699,7 +699,7 @@ namespace cppneat
           for (ConnectionGenePtr connection_gene : connection_genes)
            {
               if (not neuron_exists(connection_gene->mark_from)
-              || not neuron_exists(connection_gene->mark_to))
+              or not neuron_exists(connection_gene->mark_to))
                {
                   if (not neuron_exists(connection_gene->mark_from))
                    {
@@ -722,7 +722,7 @@ namespace cppneat
           for (ConnectionGenePtr connection_gene : connection_genes)
            {
               if (not neuron_exists(connection_gene->mark_from)
-              || not neuron_exists(connection_gene->mark_to))
+              or not neuron_exists(connection_gene->mark_to))
               {
                   if (not neuron_exists(connection_gene->mark_from))
                   {

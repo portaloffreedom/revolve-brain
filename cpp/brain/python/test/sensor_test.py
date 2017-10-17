@@ -18,7 +18,7 @@ class Sensor(revolve_brain_python.Sensor):
             input_vector[i] = self.i
             self.i += 1
 
-    # virtual unsigned int inputs() const
+    # virtual size_t inputs() const
     def inputs(self):
         return self.SIZE
 

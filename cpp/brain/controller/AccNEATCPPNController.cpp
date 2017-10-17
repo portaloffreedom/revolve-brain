@@ -49,7 +49,7 @@ void AccNEATCPPNController::update(
         double step)
 {
   // Read sensor data
-  unsigned int p = 0;
+  size_t p = 0;
   for (auto sensor : sensors)
   {
     sensor->read(&inputs_vector[p]);

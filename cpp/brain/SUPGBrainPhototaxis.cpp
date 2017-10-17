@@ -114,12 +114,12 @@ void SUPGBrainPhototaxis::learner(double t)
 {
   // Evaluate policy on certain time limit
   if (not this->isOffline()
-      && (t - start_eval_time) > SUPGBrain::FREQUENCY_RATE)
+      and (t - start_eval_time) > SUPGBrain::FREQUENCY_RATE)
   {
     // check if to stop the experiment. Negative value for MAX_EVALUATIONS will
     // never stop the experiment
     if (SUPGBrain::MAX_EVALUATIONS > 0
-        && generation_counter > SUPGBrain::MAX_EVALUATIONS)
+        and generation_counter > SUPGBrain::MAX_EVALUATIONS)
     {
       std::cout
               << "Max Evaluations ("
@@ -131,7 +131,7 @@ void SUPGBrainPhototaxis::learner(double t)
 
 
     // FITNESS update
-    if (phase != END)
+    if (phase not_eq END)
     {
       double phase_fitness = getPhaseFitness();
       std::cout

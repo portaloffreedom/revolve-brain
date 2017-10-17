@@ -50,7 +50,7 @@ namespace revolve
       virtual void read(double *input_vector) override;
 
       /// \brief
-      virtual unsigned int inputs() const override;
+      virtual size_t inputs() const override;
 
       /// \brief
       protected:

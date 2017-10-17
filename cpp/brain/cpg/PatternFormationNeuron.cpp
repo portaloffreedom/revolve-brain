@@ -48,7 +48,7 @@ std::vector<real_t> PatternFormationNeuron::update(std::vector<real_t> inputs,
 
 real_t PatternFormationNeuron::generateInput(std::vector<real_t> inputs) const
 {
-  if (inputs.size() != weights.size())
+  if (inputs.size() not_eq weights.size())
   {
     std::stringstream ss;
     ss << "input size should be the same as weight("
@@ -79,7 +79,7 @@ real_t PatternFormationNeuron::output(real_t combined_inputs) const
   return result;
 }
 
-real_t PatternFormationNeuron::getAlpha() const
+real_t PatternFormationNeuron::Alpha() const
 {
   return alpha;
 }
@@ -89,7 +89,7 @@ void PatternFormationNeuron::setAlpha(real_t alpha)
   PatternFormationNeuron::alpha = alpha;
 }
 
-real_t PatternFormationNeuron::getTheta() const
+real_t PatternFormationNeuron::Theta() const
 {
   return theta;
 }
@@ -99,7 +99,7 @@ void PatternFormationNeuron::setTheta(real_t theta)
   PatternFormationNeuron::theta = theta;
 }
 
-const std::vector<real_t> &PatternFormationNeuron::getWeights() const
+const std::vector<real_t> &PatternFormationNeuron::Weights() const
 {
   return weights;
 }

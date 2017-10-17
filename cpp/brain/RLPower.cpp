@@ -161,7 +161,7 @@ void RLPower::LoadPolicy(std::string const &policy_path)
   this->source_y_size_ = policy_file[0]["steps"].as< uint >();
   YAML::Node policy = policy_file[0]["population"][0]["policy"];
 
-  if (this->source_y_size_ * this->numActuators_ != policy.size())
+  if (this->source_y_size_ * this->numActuators_ not_eq policy.size())
   {
     std::cout << "Number of (n_spline_points) is not equal to "
             "(n_actuators * n_steps)!" << std::endl;
@@ -258,7 +258,7 @@ void RLPower::updatePolicy()
   std::random_device rd;
   std::mt19937 mt(rd());
 
-  if (this->algorithmType_ == "C" || this->algorithmType_ == "D")
+  if (this->algorithmType_ == "C" or this->algorithmType_ == "D")
   {
     // uncorrelated mutation with one step size
     std::mt19937 sigma_mt(rd());
@@ -295,7 +295,7 @@ void RLPower::updatePolicy()
   {
     // Generate new policy using weighted crossover operator
     double total_fitness = 0;
-    if (this->algorithmType_ == "B" || this->algorithmType_ == "D")
+    if (this->algorithmType_ == "B" or this->algorithmType_ == "D")
     {
       // k-selection tournament
       auto parent1 = this->BinarySelection();

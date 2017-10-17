@@ -74,7 +74,7 @@ namespace revolve
       size_t n_inputs, n_outputs;
 
       /// \brief
-      unsigned int generation_counter;
+      size_t generation_counter;
 
       /// \brief
       double start_eval_time;

@@ -117,7 +117,7 @@ void RLPowerLearner::LoadPolicy(const std::string &_policyPath)
   this->numSteps_ = policy_file[0]["steps"].as<uint>();
   YAML::Node policy = policy_file[0]["population"][0]["policy"];
 
-  if (this->numSteps_ * this->numActuators_ != policy.size())
+  if (this->numSteps_ * this->numActuators_ not_eq policy.size())
   {
     std::cout << "Number of (n_spline_points) is not equal to "
             "(n_actuators * n_steps)!" << std::endl;
@@ -180,7 +180,7 @@ void RLPowerLearner::reportFitness(
   }
 
   // Increase spline points if it is a time
-  if (updateStep_ > 0 && generationCounter_ % updateStep_ == 0)
+  if (updateStep_ > 0 and generationCounter_ % updateStep_ == 0)
   {
     this->IncreaseSplinePoints();
   }
@@ -195,7 +195,7 @@ void RLPowerLearner::reportFitness(
   std::random_device rd;
   std::mt19937 mt(rd());
 
-  if (algorithmType_ == "C" || algorithmType_ == "D")
+  if (algorithmType_ == "C" or algorithmType_ == "D")
   {
     // uncorrelated mutation with one step size
     std::mt19937 sigma_mt(rd());
@@ -235,7 +235,7 @@ void RLPowerLearner::reportFitness(
   {
     // Generate new policy using weighted crossover operator
     double total_fitness = 0;
-    if (algorithmType_ == "B" || algorithmType_ == "D")
+    if (algorithmType_ == "B" or algorithmType_ == "D")
     {
       // k-selection tournament
       auto parent1 = BinarySelection();

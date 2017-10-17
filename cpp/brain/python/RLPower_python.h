@@ -39,8 +39,8 @@ namespace revolve
       RLPower_python(std::string robot_name,
                      const boost::python::object &conf,
                      revolve::brain::EvaluatorPtr evaluator,
-                     unsigned int n_actuators,
-                     unsigned int n_sensors);
+                     size_t n_actuators,
+                     size_t n_sensors);
 
       /// \brief
       void update(boost::python::list &actuators,

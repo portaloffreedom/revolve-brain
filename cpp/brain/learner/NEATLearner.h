@@ -123,7 +123,7 @@ namespace cppneat
     void ShareFitness();
 
     /// \brief
-    void generatePopulation();
+    void Population();
 
     /// \brief
     void Reproduce(std::map< GeneticEncodingPtr, size_t > _offsprings);
@@ -215,7 +215,7 @@ namespace cppneat
     double speciationThreshold_;
 
     /// \brief
-    unsigned int repeatEvaluation_;
+    size_t repeatEvaluation_;
 
     /// \brief
     GeneticEncodingPtr startFrom_;

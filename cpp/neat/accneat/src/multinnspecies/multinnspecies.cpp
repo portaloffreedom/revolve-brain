@@ -140,7 +140,7 @@ void MultiNNSpecies::adjust_fitness()
   if (age_debt == 0)
   { age_debt = 1; }
 
-  for (curorg = organisms.begin(); curorg != organisms.end(); ++curorg)
+  for (curorg = organisms.begin(); curorg not_eq organisms.end(); ++curorg)
   {
     // Remember the original fitness before it gets modified
     (*curorg)->adjusted_fitness = (*curorg)->eval.fitness;
@@ -149,7 +149,7 @@ void MultiNNSpecies::adjust_fitness()
     // Added an if to keep species pristine until the dropoff point
     // obliterate is used in competitive coevolution to mark stagnation
     // by obliterating the worst species over a certain age
-    if ((age_debt >= 1) || obliterate)
+    if ((age_debt >= 1) or obliterate)
     {
       // Extreme penalty for a long period of stagnation (divide fitness by 100)
       ((*curorg)->adjusted_fitness) = ((*curorg)->adjusted_fitness) * 0.01;
@@ -203,12 +203,12 @@ void MultiNNSpecies::adjust_fitness()
   (*curorg)->champion = true;  // Mark the champ as such
   for (count = 1; count <= num_parents; count++)
   {
-    if (curorg != organisms.end())
+    if (curorg not_eq organisms.end())
     {
       ++curorg;
     }
   }
-  while (curorg != organisms.end())
+  while (curorg not_eq organisms.end())
   {
     (*curorg)->eliminate = true;  // Mark for elimination
     ++curorg;
@@ -221,7 +221,7 @@ real_t MultiNNSpecies::compute_average_fitness()
 
   real_t total = 0.0;
 
-  for (curorg = organisms.begin(); curorg != organisms.end(); ++curorg)
+  for (curorg = organisms.begin(); curorg not_eq organisms.end(); ++curorg)
   {
     total += (*curorg)->eval.fitness;
   }
@@ -236,7 +236,7 @@ real_t MultiNNSpecies::compute_max_fitness()
   real_t max = 0.0;
   std::vector<MultiNNSpeciesOrganism *>::iterator curorg;
 
-  for (curorg = organisms.begin(); curorg != organisms.end(); ++curorg)
+  for (curorg = organisms.begin(); curorg not_eq organisms.end(); ++curorg)
   {
     if (((*curorg)->eval.fitness) > max)
     {
@@ -258,7 +258,7 @@ real_t MultiNNSpecies::count_offspring(real_t skim)
 
   expected_offspring = 0;
 
-  for (curorg = organisms.begin(); curorg != organisms.end(); ++curorg)
+  for (curorg = organisms.begin(); curorg not_eq organisms.end(); ++curorg)
   {
     e_o_intpart = static_cast<int>(floor((*curorg)->expected_offspring));
     e_o_fracpart = fmod((*curorg)->expected_offspring, 1.0);
@@ -287,7 +287,7 @@ static MultiNNSpeciesOrganism *get_random(
         const vector<MultiNNSpecies *> &sorted_species)
 {
   MultiNNSpecies *result = thiz;
-  for (int i = 0; (result == thiz) && (i < 5); i++)
+  for (int i = 0; (result == thiz) and (i < 5); i++)
   {
     real_t randmult = std::min(real_t(1.0), rng.gauss() / 4);
     int randspeciesnum =
@@ -322,7 +322,7 @@ void MultiNNSpecies::reproduce(
     //       Settings used for published experiments did not use this
     if (ioffspring < (thechamp->super_champ_offspring - 1))
     {
-      if ((rng.prob() < 0.8) || (env->mutate_add_link_prob == 0.0))
+      if ((rng.prob() < 0.8) or (env->mutate_add_link_prob == 0.0))
       {
         genome_manager->mutate(new_genome,
                                GenomeManager::MUTATE_OP_WEIGHTS);
@@ -335,12 +335,12 @@ void MultiNNSpecies::reproduce(
     }
   }
   else if ((ioffspring == thechamp->super_champ_offspring)
-           && (expected_offspring > 5))
+           and (expected_offspring > 5))
   {
     // Clone the species champion
     genome_manager->clone(*thechamp->genome, new_genome);
   }
-  else if ((rng.prob() < env->mutate_only_prob) || (organisms.size() == 1))
+  else if ((rng.prob() < env->mutate_only_prob) or (organisms.size() == 1))
   {
     // Clone a random parent
     genome_manager->clone(*rng.element(organisms)->genome, new_genome);

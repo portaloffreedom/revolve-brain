@@ -28,7 +28,7 @@
 void mkdir(const std::string &path)
 {
   int status = ::mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-  if (0 != status)
+  if (0 not_eq status)
   {
     char buf[2048];
     std::sprintf(buf, "Failed making directory '%s'", path.c_str());

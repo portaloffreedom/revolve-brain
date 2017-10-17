@@ -133,7 +133,7 @@ namespace NEAT
       std::string text{buf};
       {
         size_t pos = text.find_first_of('#');
-        if (pos != std::string::npos)
+        if (pos not_eq std::string::npos)
         {
           text.resize(pos);
         }
@@ -147,7 +147,7 @@ namespace NEAT
 
       if (text.front() == '[')
       {
-        if (text.back() != ']')
+        if (text.back() not_eq ']')
         {
           err("Expecting ']' as final character");
         }
@@ -223,11 +223,11 @@ namespace NEAT
       };
 
       std::vector<std::string> lhs_tokens = split(def.first);
-      if (lhs_tokens.size() != 2)
+      if (lhs_tokens.size() not_eq 2)
       {
         syn_err();
       }
-      if (lhs_tokens.front().length() != 1)
+      if (lhs_tokens.front().length() not_eq 1)
       {
         syn_err();
       }
@@ -239,7 +239,7 @@ namespace NEAT
       }
       std::string name = lhs_tokens.back();
       Glyph &g = glyphs[c];
-      if (g.attrs.find(name) != g.attrs.end())
+      if (g.attrs.find(name) not_eq g.attrs.end())
       {
         line.err("Duplicate definition");
       }
@@ -264,7 +264,7 @@ namespace NEAT
         {
           continue;
         }
-        if (glyphs.find(c) != glyphs.end())
+        if (glyphs.find(c) not_eq glyphs.end())
         {
           line.err("duplicate glyph: " + str(c));
         }
@@ -292,18 +292,18 @@ namespace NEAT
       };
 
       std::vector<std::string> lhs_tokens = split(def.first);
-      if (lhs_tokens.size() != 3)
+      if (lhs_tokens.size() not_eq 3)
       {
         syn_err("Too many tokens on lhs");
       }
       std::vector<std::string> coord = split(lhs_tokens.front(),
                                              ",");
-      if (coord.size() != 2)
+      if (coord.size() not_eq 2)
       {
         syn_err("Coordinate is malformed: '" + lhs_tokens.front() + "'");
       }
 
-      if (lhs_tokens[1].length() != 1)
+      if (lhs_tokens[1].length() not_eq 1)
       {
         syn_err("Glyph should be only 1 character, found ("
                 + lhs_tokens[1] + ")");
@@ -321,7 +321,7 @@ namespace NEAT
       }
 
       char c = lhs_tokens[1][0];
-      if (c != obj->glyph.character)
+      if (c not_eq obj->glyph.character)
       {
         line.err("Specified glyph doesn't match that found at coordinate ("
                  + str(c) + ")");
@@ -344,16 +344,16 @@ namespace NEAT
     {
       Line &line = section.lines.front();
       std::string header = line.text;
-      if (header[0] != '+')
+      if (header[0] not_eq '+')
       {
         line.err("Column labels line must start with '+'");
       }
       std::string labels = header.substr(1);
-      if (labels.find_first_of(WHITESPACE) != std::string::npos)
+      if (labels.find_first_of(WHITESPACE) not_eq std::string::npos)
       {
         line.err("Unexpected whitespace");
       }
-      if (labels.find_first_of(',') != std::string::npos)
+      if (labels.find_first_of(',') not_eq std::string::npos)
       {
         line.err("Unexpected comma");
       }
@@ -400,7 +400,7 @@ namespace NEAT
         {
           line.err("Tabs not allowed");
         }
-        else if (c != ' ')
+        else if (c not_eq ' ')
         {
           if (not contains(glyphs,
                            c))

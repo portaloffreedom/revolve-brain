@@ -47,7 +47,7 @@ namespace revolve
                                      step);
       }
 
-      virtual unsigned int outputs() const
+      virtual size_t outputs() const
       {
         return this->get_override("outputs")();
       };

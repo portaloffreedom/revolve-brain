@@ -48,7 +48,7 @@ static struct CfgInit
                                for (std::string &s: sentences)
                                {
                                  size_t n = s.size();
-                                 if (n % 2 != 0)
+                                 if (n % 2 not_eq 0)
                                  {
                                    is_grammatical.push_back(false);
                                  }
@@ -56,7 +56,7 @@ static struct CfgInit
                                  {
                                    bool mirrored = true;
                                    for (size_t i = 0;
-                                        mirrored && (i < n / 2); i++)
+                                        mirrored and (i < n / 2); i++)
                                    {
                                      mirrored = s[i] == s[n - 1 - i];
                                    }

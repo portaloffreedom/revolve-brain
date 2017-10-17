@@ -61,7 +61,7 @@ namespace NEAT
         return nullptr;
 
       InnovNodeGene &node = *it;
-      if (node.node_id != node_id)
+      if (node.node_id not_eq node_id)
         return nullptr;
 
       return &node;

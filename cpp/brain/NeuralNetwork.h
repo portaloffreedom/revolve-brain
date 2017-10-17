@@ -113,7 +113,7 @@ namespace revolve
       // the items beyond it are moved back.
 
       /// \brief  Type of each non-input neuron
-      unsigned int types_[(MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
+      size_t types_[(MAX_OUTPUT_NEURONS + MAX_HIDDEN_NEURONS)];
 
       /// \brief  Params for hidden and output neurons, quantity depends on the
       /// type of neuron
@@ -135,19 +135,19 @@ namespace revolve
       std::map<std::string, std::string> layerMap_;
 
       /// \brief  Stores the position of each neuron ID, relative to its type
-      std::map<std::string, unsigned int> positionMap_;
+      std::map<std::string, size_t> positionMap_;
 
       /// \brief  The number of inputs
-      unsigned int nInputs_;
+      size_t nInputs_;
 
       /// \brief  The number of outputs
-      unsigned int nOutputs_;
+      size_t nOutputs_;
 
       /// \brief  The number of hidden units
-      unsigned int nHidden_;
+      size_t nHidden_;
 
       /// \brief  The number of non-inputs (i.e. nOutputs + nHidden)
-      unsigned int nNonInputs_;
+      size_t nNonInputs_;
     };
   }
 }

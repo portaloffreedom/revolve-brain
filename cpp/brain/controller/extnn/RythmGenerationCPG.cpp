@@ -67,7 +67,7 @@ namespace revolve
 
       // create phi(t+1)
       for (auto it = this->incomingConnections_.begin();
-           it != this->incomingConnections_.end(); ++it)
+           it not_eq this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
         if ("RythmGeneratorCPG" == inConnection->GetInputNeuron()->Type())

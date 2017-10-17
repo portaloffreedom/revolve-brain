@@ -157,7 +157,7 @@ namespace revolve
 
           // Evaluate policy on certain time limit
           if ((t - start_eval_time_) > evaluation_rate_
-              && generationCounter_ < maxEvaluations_)
+              and generationCounter_ < maxEvaluations_)
           {
             this->updatePolicy();
             start_eval_time_ = t;

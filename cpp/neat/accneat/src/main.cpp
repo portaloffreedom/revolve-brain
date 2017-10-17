@@ -57,7 +57,7 @@ void usage()
   auto names = Experiment::get_names();
   for (size_t i = 0; i < names.size(); i++)
   {
-    if (i != 0)
+    if (i not_eq 0)
     {
       std::cerr << ", ";
     }
@@ -134,7 +134,7 @@ int main(int argc,
 
   {
     int opt;
-    while ((opt = getopt(argc, argv, "fc:r:p:g:n:x:s:")) != -1)
+    while ((opt = getopt(argc, argv, "fc:r:p:g:n:x:s:")) not_eq -1)
     {
       switch (opt)
       {

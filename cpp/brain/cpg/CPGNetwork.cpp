@@ -25,22 +25,23 @@
 
 using namespace revolve::brain::cpg;
 
-CPGNetwork::CPGNetwork(unsigned int n_sensors,
-                       unsigned int n_connections)
+CPGNetwork::CPGNetwork(
+        size_t n_sensors,
+        size_t n_connections)
         : rge(nullptr)
-          , rgf(nullptr)
-          , pfe(nullptr)
-          , pff(nullptr)
-          , mn(nullptr)
-          , rge_out(0)
-          , rgf_out(0)
-          , pfe_out(0)
-          , pff_out(0)
-          , mn_out(0)
-          , n_connections(n_connections)
+        , rgf(nullptr)
+        , pfe(nullptr)
+        , pff(nullptr)
+        , mn(nullptr)
+        , rge_out(0)
+        , rgf_out(0)
+        , pfe_out(0)
+        , pff_out(0)
+        , mn_out(0)
+        , n_connections(n_connections)
 {
-  std::vector<real_t> weight_neigbours_e(n_connections, 0);
-  std::vector<real_t> weight_neigbours_f(n_connections, 0);
+  std::vector< real_t > weight_neigbours_e(n_connections, 0);
+  std::vector< real_t > weight_neigbours_f(n_connections, 0);
   //     for (int i=0; i<weight_neigbours.size(); i++) {
   //         weight_neigbours_e[i] = weight_neigbours[i].we;
   //         weight_neigbours_f[i] = weight_neigbours[i].wf;
@@ -51,8 +52,8 @@ CPGNetwork::CPGNetwork(unsigned int n_sensors,
   rgf = new cpg::RythmGenerationNeuron(1, weight_neigbours_f, -.5, 1, 0);
 
   // PF
-  std::vector<cpg::real_t> pfe_weights(1 + n_sensors, 0.0001);
-  std::vector<cpg::real_t> pff_weights(1 + n_sensors, 0.0001);
+  std::vector< cpg::real_t > pfe_weights(1 + n_sensors, 0.0001);
+  std::vector< cpg::real_t > pff_weights(1 + n_sensors, 0.0001);
   pfe_weights[n_sensors] = pff_weights[n_sensors] = 1;
   pfe = new cpg::PatternFormationNeuron(pfe_weights);
   pff = new cpg::PatternFormationNeuron(pff_weights);
@@ -113,10 +114,10 @@ CPGNetwork::CPGNetwork(unsigned int n_sensors,
 //     };
 
   // percentage version
-  std::vector<real_t>
-          _genome = std::vector<real_t>(12 + 2 * n_connections, 0.5);
+  std::vector< real_t >
+          _genome = std::vector< real_t >(12 + 2 * n_connections, 0.5);
 
-  genome = std::make_shared< std::vector<real_t> >(_genome);
+  genome = std::make_shared< std::vector< real_t > >(_genome);
 }
 
 CPGNetwork::~CPGNetwork()
@@ -128,8 +129,9 @@ CPGNetwork::~CPGNetwork()
   delete mn;
 }
 
-real_t CPGNetwork::update(const std::vector<real_t> &sensor_readings,
-                          double step)
+real_t CPGNetwork::update(
+        const std::vector< real_t > &sensor_readings,
+        double step)
 {
   real_t r_step = (real_t)step;
   updateRythmGeneration(r_step);
@@ -141,16 +143,16 @@ real_t CPGNetwork::update(const std::vector<real_t> &sensor_readings,
 
 void CPGNetwork::updateRythmGeneration(real_t step)
 {
-  real_t phi_e = rge->getPhi();
-  real_t phi_f = rgf->getPhi();
+  real_t phi_e = rge->Phi();
+  real_t phi_f = rgf->Phi();
 
-  std::vector<real_t> inputs_e = {phi_f};
-  std::vector<real_t> inputs_f = {phi_e};
+  std::vector< real_t > inputs_e = {phi_f};
+  std::vector< real_t > inputs_f = {phi_e};
 
   for (size_t i = 0; i < n_connections; ++i)
   {
-    inputs_e.push_back(connections[i]->rge->getPhi());
-    inputs_f.push_back(connections[i]->rgf->getPhi());
+    inputs_e.push_back(connections[i]->rge->Phi());
+    inputs_f.push_back(connections[i]->rgf->Phi());
   }
 
   rge_out = rge->update(inputs_e, step)[0];
@@ -158,11 +160,11 @@ void CPGNetwork::updateRythmGeneration(real_t step)
 }
 
 void CPGNetwork::updatePatternFormation(
-        const std::vector<real_t> &sensor_readings,
+        const std::vector< real_t > &sensor_readings,
         real_t step)
 {
-  std::vector<real_t> pfe_inputs = std::vector<real_t>(sensor_readings);
-  std::vector<real_t> pff_inputs = std::vector<real_t>(sensor_readings);
+  std::vector< real_t > pfe_inputs = std::vector< real_t >(sensor_readings);
+  std::vector< real_t > pff_inputs = std::vector< real_t >(sensor_readings);
   pfe_inputs.push_back(rge_out);
   pff_inputs.push_back(rgf_out);
 
@@ -183,25 +185,26 @@ void CPGNetwork::updateMotoNeuron(real_t step)
 }
 
 // GENOME MANAGEMENT ----------------------------------------------------------
-std::shared_ptr<std::vector<real_t>> CPGNetwork::get_genome()
+std::shared_ptr< std::vector< real_t>> CPGNetwork::Genome()
 {
   return genome;
 }
 
-const std::shared_ptr<const std::vector<real_t>> CPGNetwork::get_genome() const
+const std::shared_ptr< const std::vector< real_t>>
+CPGNetwork::get_genome() const
 {
   return genome;
 }
 
-const std::vector<CPGNetwork::Limit> &CPGNetwork::get_genome_limits()
+const std::vector< CPGNetwork::Limit > &CPGNetwork::GenomeLimits()
 {
   return genome_limits;
 }
 
-void revolve::brain::cpg::CPGNetwork::set_genome(std::vector<real_t> other)
+void revolve::brain::cpg::CPGNetwork::set_genome(std::vector< real_t > other)
 {
-  std::shared_ptr<std::vector<real_t>> other_p =
-          std::make_shared< std::vector<real_t> >(other);
+  std::shared_ptr< std::vector< real_t>> other_p =
+          std::make_shared< std::vector< real_t > >(other);
   this->genome.swap(other_p);
   try
   {

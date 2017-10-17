@@ -160,7 +160,7 @@ bool YAML::convert<NEAT::Trait>::decode(
   Node yaml_params = node["params"];
 
   if (not yaml_params.IsSequence()
-      || yaml_params.size() != NUM_TRAIT_PARAMS)
+      or yaml_params.size() not_eq NUM_TRAIT_PARAMS)
   {
     return false;
   }

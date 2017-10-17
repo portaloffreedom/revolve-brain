@@ -56,7 +56,7 @@ namespace revolve
       double inputValue = 0;
 
       for (auto it = this->incomingConnections_.begin();
-           it != this->incomingConnections_.end(); ++it)
+           it not_eq this->incomingConnections_.end(); ++it)
       {
         auto inConnection = it->second;
         inputValue += inConnection->GetInputNeuron()->Output()

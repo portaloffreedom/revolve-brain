@@ -42,11 +42,11 @@ class SUPGNeuron
   virtual ~SUPGNeuron();
 
   /// \brief
-  static unsigned int GetDimensionInput(unsigned int n_inputs,
-                                        unsigned int coordinates_size);
+  static size_t GetDimensionInput(size_t n_inputs,
+                                        size_t coordinates_size);
 
   /// \brief
-  static unsigned int GetDimensionOutput(unsigned int n_outputs);
+  static size_t GetDimensionOutput(size_t n_outputs);
 
   /// \brief
   void reset(float global_time);
@@ -103,7 +103,7 @@ class SUPGNeuron
   };
 
   /// \brief 1 + coordinate.size()
-  const unsigned int supg_internal_inputs;
+  const size_t supg_internal_inputs;
 
   enum Output
   {
@@ -112,7 +112,7 @@ class SUPGNeuron
   };
 
   /// \brief 2
-  const unsigned int supg_internal_outputs;
+  const size_t supg_internal_outputs;
 };
 
 #endif  //  REVOLVEBRAIN_BRAIN_SUPGG_SUPGNEURON_H_

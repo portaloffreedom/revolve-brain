@@ -53,7 +53,7 @@ std::vector< real_t > RythmGenerationNeuron::update(
         real_t delta_time)
 {
   // reading neuron inputs
-  if (inputs.size() != 1 + weight_neigbours.size())
+  if (inputs.size() not_eq 1 + weight_neigbours.size())
   {
     std::stringstream ss;
     ss << "input size should be 1 + " << weight_neigbours.size()
@@ -116,19 +116,19 @@ real_t RythmGenerationNeuron::output() const
 // GETTERS AND SETTERS --------------------------------------------------------
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::getPhi() const
+real_t RythmGenerationNeuron::Phi() const
 {
   return phi;
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::getWeight() const
+real_t RythmGenerationNeuron::Weight() const
 {
   return weight;
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::getWeightNeighbour(size_t index) const
+real_t RythmGenerationNeuron::WeightNeighbour(size_t index) const
 {
   return weight_neigbours[index];
 }
@@ -136,7 +136,7 @@ real_t RythmGenerationNeuron::getWeightNeighbour(size_t index) const
 /////////////////////////////////////////////////
 void RythmGenerationNeuron::setWeight(real_t weight)
 {
-  if (weight < WEIGHT_MIN || weight > WEIGHT_MAX)
+  if (weight < WEIGHT_MIN or weight > WEIGHT_MAX)
   {
     throw invalid_parameter("weight", weight, WEIGHT_MIN, WEIGHT_MAX);
   }
@@ -148,7 +148,7 @@ void RythmGenerationNeuron::setWeight(real_t weight)
 void RythmGenerationNeuron::setWeightNeighbour(real_t weight,
                                                size_t index)
 {
-  if (weight < WEIGHT_MIN || weight > WEIGHT_MAX)
+  if (weight < WEIGHT_MIN or weight > WEIGHT_MAX)
   {
     throw invalid_parameter("weight", weight, WEIGHT_MIN, WEIGHT_MAX);
   }
@@ -156,7 +156,7 @@ void RythmGenerationNeuron::setWeightNeighbour(real_t weight,
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::getC() const
+real_t RythmGenerationNeuron::C() const
 {
   return c;
 }
@@ -164,7 +164,7 @@ real_t RythmGenerationNeuron::getC() const
 /////////////////////////////////////////////////
 void RythmGenerationNeuron::setC(real_t c)
 {
-  if (c < C_MIN || c > C_MAX)
+  if (c < C_MIN or c > C_MAX)
   {
     throw invalid_parameter("c", c, C_MIN, C_MAX);
   }
@@ -172,7 +172,7 @@ void RythmGenerationNeuron::setC(real_t c)
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::getAmplitude() const
+real_t RythmGenerationNeuron::Amplitude() const
 {
   return amplitude;
 }
@@ -180,7 +180,7 @@ real_t RythmGenerationNeuron::getAmplitude() const
 /////////////////////////////////////////////////
 void RythmGenerationNeuron::setAmplitude(real_t amplitude)
 {
-  if (amplitude < AMPLITUDE_MIN || amplitude > AMPLITUDE_MAX)
+  if (amplitude < AMPLITUDE_MIN or amplitude > AMPLITUDE_MAX)
   {
     throw invalid_parameter("amplitude",
                             amplitude,
@@ -191,7 +191,7 @@ void RythmGenerationNeuron::setAmplitude(real_t amplitude)
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::getOffset() const
+real_t RythmGenerationNeuron::Offset() const
 {
   return offset;
 }
@@ -199,7 +199,7 @@ real_t RythmGenerationNeuron::getOffset() const
 /////////////////////////////////////////////////
 void RythmGenerationNeuron::setOffset(real_t offset)
 {
-  if (offset < OFFSET_MIN || offset > OFFSET_MAX)
+  if (offset < OFFSET_MIN or offset > OFFSET_MAX)
   {
     throw invalid_parameter("offset", offset, OFFSET_MIN, OFFSET_MAX);
   }

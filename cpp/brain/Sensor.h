@@ -36,7 +36,7 @@ namespace revolve
 
       virtual void read(double *input_vector) = 0;
 
-      virtual unsigned int inputs() const = 0;
+      virtual size_t inputs() const = 0;
 
       virtual std::string sensorId() const = 0;
     };

@@ -110,7 +110,7 @@ SUPGBrain::SUPGBrain(
           , FREQUENCY_RATE(GetFREQUENCY_RATEenv())
           , CYCLE_LENGTH(GetCYCLE_LENGTHenv())
 {
-  if (actuators.size() != neuron_coordinates.size())
+  if (actuators.size() not_eq neuron_coordinates.size())
   {
     std::stringstream ss;
     ss << "actuator size [" << actuators.size()
@@ -120,7 +120,7 @@ SUPGBrain::SUPGBrain(
     throw std::invalid_argument(ss.str());
   }
 
-  unsigned int p = 0;
+  size_t p = 0;
   std::cout << "sensor->sensorId() [" << sensors.size()
             << " sensors]" << std::endl;
   for (auto sensor : sensors)
@@ -174,7 +174,7 @@ double SUPGBrain::getFitness()
 void SUPGBrain::nextBrain()
 {
   bool init_supgs;
-  unsigned int how_many_neurons;
+  size_t how_many_neurons;
   if (not current_evalaution)
   {
     // first evaluation
@@ -207,7 +207,7 @@ void SUPGBrain::nextBrain()
   NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork * > (
           current_evalaution->Organism()->net.get());
 
-  for (unsigned int i = 0; i < how_many_neurons; i++)
+  for (size_t i = 0; i < how_many_neurons; i++)
   {
     if (init_supgs)
     {
@@ -225,12 +225,12 @@ void SUPGBrain::learner(double t)
 {
   // Evaluate policy on certain time limit
   if (not this->isOffline()
-      && (t - start_eval_time) > SUPGBrain::FREQUENCY_RATE)
+      and (t - start_eval_time) > SUPGBrain::FREQUENCY_RATE)
   {
     // check if to stop the experiment. Negative value for MAX_EVALUATIONS
     // will never stop the experiment
     if (SUPGBrain::MAX_EVALUATIONS > 0
-        && generation_counter > SUPGBrain::MAX_EVALUATIONS)
+        and generation_counter > SUPGBrain::MAX_EVALUATIONS)
     {
       std::cout << "Max Evaluations (" << SUPGBrain::MAX_EVALUATIONS
                 << ") reached. stopping now." << std::endl;

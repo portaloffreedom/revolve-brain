@@ -59,7 +59,7 @@ namespace revolve
       /// \brief
       NEAT::real_t *getOutputs()
       {
-        return cppn->get_outputs();
+        return cppn->Outputs();
       }
 
       /// \brief

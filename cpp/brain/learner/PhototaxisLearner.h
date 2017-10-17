@@ -100,7 +100,7 @@ namespace revolve
         {
           // check if to stop the experiment. Negative value for MAX_EVALUATIONS
           // will never stop the experiment
-          if (MAX_EVALUATIONS > 0 && generation_counter > MAX_EVALUATIONS)
+          if (MAX_EVALUATIONS > 0 and generation_counter > MAX_EVALUATIONS)
           {
             std::cout
                     << "#PhototaxisLearner::update() Max Evaluations ("
@@ -120,14 +120,14 @@ namespace revolve
       {}
 
       protected:
-      double getFitness()
+      double Fitness()
       {
         return partial_fitness;
       };
 
 #define MAX_PHASE_FITNESS 100
 
-      double getPhaseFitness()
+      double PhaseFitness()
       {
         double left_eye = current_light_left == nullptr
                           ? std::numeric_limits<double>::min() :
@@ -152,9 +152,9 @@ namespace revolve
       void learner(double t)
       {
         // FITNESS update
-        if (phase != END)
+        if (phase not_eq END)
         {
-          double phase_fitness = getPhaseFitness();
+          double phase_fitness = PhaseFitness();
           std::cout
                   << "SUPGBrainPhototaxis::update() - partial fitness["
                   << phase
@@ -189,7 +189,7 @@ namespace revolve
         // If phase is `END`, start a new phase
         if (phase == END)
         {
-          auto fitness = getFitness();
+          auto fitness = Fitness();
           std::cout << "SUPGBrainPhototaxis::update() - finished with fitness: "
                     << fitness << std::endl;
 
@@ -197,7 +197,7 @@ namespace revolve
 
           // creates new controller from wrapper learner
           BaseController *new_controller = this->create_new_controller(fitness);
-          if (new_controller != active_controller.get())
+          if (new_controller not_eq active_controller.get())
           {
             active_controller.reset(new_controller);
           }
@@ -314,7 +314,7 @@ namespace revolve
       double partial_fitness;
 
       /// \brief
-      unsigned int generation_counter;
+      size_t generation_counter;
 
       /// \brief
       double start_eval_time;

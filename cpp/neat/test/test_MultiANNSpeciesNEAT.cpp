@@ -80,7 +80,7 @@ bool TestMultiNNSpeciesNeat::testXOR()
       net->load_sensor(1, inputs1[test]);
 
       net->activate(1);
-      NEAT::real_t *outputs = net->get_outputs();
+      NEAT::real_t *outputs = net->Outputs();
       error += std::abs(outputs[0] - expectedOutputs[test]);
     }
 
@@ -97,7 +97,7 @@ bool TestMultiNNSpeciesNeat::testXOR()
                 << ", a successful organism was found with an error of "
                 << min_error << std::endl;
       std::cout << "The organism fitness is "
-                << neat.getFittest()->Organism()->eval.fitness << std::endl;
+                << neat.Fittest()->Organism()->eval.fitness << std::endl;
       success = true;
       break;
     }

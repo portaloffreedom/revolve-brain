@@ -119,7 +119,7 @@ namespace NEAT
 
         bool success = false;
         int gen;
-        for (gen = 1; !success && (gen <= gens); gen++)
+        for (gen = 1; !success and (gen <= gens); gen++)
         {
           cout
                   << "Epoch "
@@ -133,7 +133,7 @@ namespace NEAT
           static Timer timer("epoch");
           timer.start();
 
-          if (gen != 1)
+          if (gen not_eq 1)
           {
             pop->next_generation();
           }
@@ -150,7 +150,7 @@ namespace NEAT
           Timer::report();
 
           // Don't print on success because we'll exit the loop and print then.
-          //          if (not success && (gen % env->print_every == 0))
+          //          if (not success and (gen % env->print_every == 0))
           //            print(expcount,
           //                  gen);
         }
@@ -222,7 +222,7 @@ namespace NEAT
       {
         Organism *org = pop->get(i);
         org->eval = evaluations[i];
-        if (not best || (org->eval.fitness > best->eval.fitness))
+        if (not best or (org->eval.fitness > best->eval.fitness))
         {
           best = org;
         }
@@ -231,7 +231,7 @@ namespace NEAT
 
       timer.stop();
 
-      if (not fittest || (best->eval.fitness > fittest->eval.fitness))
+      if (not fittest or (best->eval.fitness > fittest->eval.fitness))
       {
         fittest = pop->make_copy(best->population_index);
       }

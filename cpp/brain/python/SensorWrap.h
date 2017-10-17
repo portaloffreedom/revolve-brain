@@ -44,7 +44,7 @@ namespace revolve
         this->get_override("read")(python_array<double>(input_vector));
       }
 
-      virtual unsigned int inputs() const
+      virtual size_t inputs() const
       {
         return this->get_override("inputs")();
       };

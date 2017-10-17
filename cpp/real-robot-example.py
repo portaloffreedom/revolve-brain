@@ -78,7 +78,7 @@ class Servo(revolve_brain_python.Actuator):
     def outputs(self):
         '''
         override of c++ virtual function
-        `virtual unsigned int outputs() const`
+        `virtual size_t outputs() const`
         '''
         return 1
 

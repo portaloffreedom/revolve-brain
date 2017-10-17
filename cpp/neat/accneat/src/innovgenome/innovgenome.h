@@ -63,10 +63,10 @@ namespace NEAT
     std::vector<InnovLinkGene> links;
 
     /// \brief Return id of final InnovNodeGene in InnovGenome
-    int get_last_node_id();
+    int LastNodeId();
 
     /// \brief Return last innovation number in InnovGenome
-    real_t get_last_gene_innovnum();
+    real_t LastGeneInnovationNumber();
 
     /// \brief
     InnovGenome(const InnovGenome &other)

@@ -31,7 +31,7 @@ class TestActuator
   virtual void update(double *_output,
                       double step) override;
 
-  virtual unsigned int outputs() const override;
+  virtual size_t outputs() const override;
 
   private:
   bool verbose;

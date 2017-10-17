@@ -132,7 +132,7 @@ class AsyncNeat
   }
 
   /// \brief
-  std::shared_ptr< NeatEvaluation > getFittest() const
+  std::shared_ptr< NeatEvaluation > Fittest() const
   {
     return fittest;
   }

@@ -92,8 +92,8 @@ BOOST_PYTHON_MODULE (revolve_brain_python)
           boost::python::init< std::string,
                                boost::python::object,
                                boost::shared_ptr< Evaluator >,
-                               unsigned int,
-                               unsigned int >()).def(
+                               size_t,
+                               size_t >()).def(
           "update",
           &RLPower_python::update);
   // boost::python::implicitly_convertible<RLPower*, Brain*>();
@@ -105,8 +105,8 @@ BOOST_PYTHON_MODULE (revolve_brain_python)
           "CPGBrain",
           boost::python::init< std::string,
                                boost::shared_ptr< Evaluator >,
-                               unsigned int,
-                               unsigned int >()).def(
+                               size_t,
+                               size_t >()).def(
           "update",
           &CPGBrain_python::update);
 

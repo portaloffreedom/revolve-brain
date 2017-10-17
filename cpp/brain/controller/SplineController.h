@@ -54,15 +54,15 @@ namespace revolve
       /// \brief
       static SplineController *
       GenerateRandomController(double noise_sigma,
-                                unsigned int n_actuators,
-                                unsigned int n_spline_points,
-                                unsigned int interpolation_cache_size);
+                                size_t n_actuators,
+                                size_t n_spline_points,
+                                size_t interpolation_cache_size);
 
       /// \brief
       static SplineController *
       GenerateRandomController(double noise_sigma,
-                                unsigned int n_actuators,
-                                unsigned int n_spline_points)
+                                size_t n_actuators,
+                                size_t n_spline_points)
       {
         return GenerateRandomController(noise_sigma,
                                         n_actuators,
@@ -72,13 +72,13 @@ namespace revolve
 
       public:  // methods
       /// \brief
-      explicit SplineController(unsigned int n_actuators,
-                                unsigned int n_spline_points,
-                                unsigned int interpolation_cache_size);
+      explicit SplineController(size_t n_actuators,
+                                size_t n_spline_points,
+                                size_t interpolation_cache_size);
 
       /// \brief
-      explicit SplineController(unsigned int n_actuators,
-                                unsigned int n_spline_points);
+      explicit SplineController(size_t n_actuators,
+                                size_t n_spline_points);
 
       /// \brief
       virtual ~SplineController();
@@ -102,17 +102,17 @@ namespace revolve
       static const double CYCLE_LENGTH;
       /// \brief  Default value for the number of `interpolation_cache` data
       /// points (default value for `interpolation_cache_size`) = 100
-      static const unsigned int INTERPOLATION_CACHE_SIZE;
+      static const size_t INTERPOLATION_CACHE_SIZE;
 
       protected:  // consts
       /// \brief number of actuators the spline is expeting to write into
-      const unsigned int n_actuators;
+      const size_t n_actuators;
 
       /// \brief number of spline points
-      const unsigned int n_spline_points;
+      const size_t n_spline_points;
 
       /// \brief Number of `interpolation_cache` data points
-      const unsigned int interpolation_cache_size;
+      const size_t interpolation_cache_size;
 
       protected:  // variables
       /// \brief Pointer to the current policy

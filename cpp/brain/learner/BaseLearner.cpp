@@ -46,6 +46,6 @@ BaseController *BaseLearner::update(const std::vector<SensorPtr> &/*sensors*/,
                                     double /*step*/)
 {
   BaseController *controller_p = this->active_controller.get();
-  assert(controller_p != nullptr);
+  assert(controller_p not_eq nullptr);
   return controller_p;
 }

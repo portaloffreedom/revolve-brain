@@ -36,7 +36,7 @@ namespace NEAT
   {
     int stride = __popc(n) == 1 ? n >> 1 : 1 << 31 - __clz(n);
 
-    if ((stride > 0) && (i + stride < n))
+    if ((stride > 0) and (i + stride < n))
     {
       x[i] += x[i + stride];
     }
