@@ -252,7 +252,6 @@ real_t Species::compute_max_fitness()
 real_t Species::count_offspring(real_t skim)
 {
   std::vector< SpeciesOrganism * >::iterator curorg;
-  int e_o_intpart;  // The floor of an organism's expected offspring
   real_t e_o_fracpart;  // Expected offspring fractional part
   real_t skim_intpart;  // The whole offspring in the skim
 
@@ -260,9 +259,9 @@ real_t Species::count_offspring(real_t skim)
 
   for (curorg = organisms.begin(); curorg not_eq organisms.end(); ++curorg)
   {
-    e_o_intpart = static_cast<int>(floor((*curorg)->expected_offspring));
-    e_o_fracpart = fmod((*curorg)->expected_offspring,
-                        1.0);
+    // The floor of an organism's expected offspring
+    int e_o_intpart = static_cast<int>(floor((*curorg)->expected_offspring));
+    e_o_fracpart = fmod((*curorg)->expected_offspring, 1.0);
 
     expected_offspring += e_o_intpart;
 

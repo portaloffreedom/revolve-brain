@@ -68,11 +68,12 @@ int main()
 }
 
 TestCPGBrain::TestCPGBrain(
-        std::string robot_name,
+        const std::string &_name,
         revolve::brain::EvaluatorPtr evaluator,
-        size_t n_actuators,
-        size_t n_sensors)
-        : revolve::brain::CPGBrain(robot_name,
+        const size_t n_actuators,
+        const size_t n_sensors
+)
+        : revolve::brain::CPGBrain(_name,
                                    evaluator,
                                    n_actuators,
                                    n_sensors)

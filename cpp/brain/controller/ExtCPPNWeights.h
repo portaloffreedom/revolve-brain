@@ -52,16 +52,16 @@ namespace revolve
 
       /// \brief Constructor for a neural network including neurons that are of
       /// a different type than the usual ones.
-      /// \param modelName: name of the model
+      /// \param _name: name of the model
       /// \param Config: configuration file
-      /// \param actuators: vector list of robot's actuators
-      /// \param sensors: vector list of robot's sensors
+      /// \param _actuators: vector list of robot's actuators
+      /// \param _sensors: vector list of robot's sensors
       /// \return pointer to the neural network
       ExtNNController(
-              std::string modelName,
+              const std::string &_name,
               boost::shared_ptr< CPPNConfig > Config,
-              const std::vector< ActuatorPtr > &actuators,
-              const std::vector< SensorPtr > &sensors);
+              const std::vector< ActuatorPtr > &_actuators,
+              const std::vector< SensorPtr > &_sensors);
 
       /// \brief
       virtual ~ExtNNController();

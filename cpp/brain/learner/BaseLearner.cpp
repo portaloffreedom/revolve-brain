@@ -25,17 +25,17 @@
 using namespace revolve::brain;
 
 BaseLearner::BaseLearner(
-        std::unique_ptr< BaseController > controller,
+        std::unique_ptr< BaseController > _controller,
         const std::string &robot_name
 )
-        : active_controller(std::move(controller))
+        : active_controller(std::move(_controller))
         , robot_name(robot_name)
 {
 }
 
-revolve::brain::BaseLearner::BaseLearner(const std::string &robot_name)
+revolve::brain::BaseLearner::BaseLearner(const std::string &_name)
         : active_controller()
-        , robot_name(robot_name)
+        , robot_name(_name)
 {
 }
 

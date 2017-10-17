@@ -27,23 +27,23 @@
 using namespace revolve::brain;
 
 CPGBrain_python::CPGBrain_python(
-        std::string robot_name,
+        const std::string &_name,
         EvaluatorPtr evaluator,
-        size_t n_actuators,
-        size_t n_sensors
+        const size_t n_actuators,
+        const size_t n_sensors
 )
-        : CPGBrain(robot_name, evaluator, n_actuators, n_sensors)
+        : CPGBrain(_name, evaluator, n_actuators, n_sensors)
 {
 }
 
 void CPGBrain_python::update(
-        boost::python::list &actuators,
-        const boost::python::list &sensors,
+        boost::python::list &_actuators,
+        const boost::python::list &_sensors,
         double t,
         double step)
 {
-  python_list_wrap< ActuatorPtr > actuator_wrap(&actuators);
-  python_list_wrap< SensorPtr > sensor_wrap(&sensors);
+  python_list_wrap< ActuatorPtr > actuator_wrap(&_actuators);
+  python_list_wrap< SensorPtr > sensor_wrap(&_sensors);
 
   CPGBrain::update
           < python_list_wrap< ActuatorPtr >, python_list_wrap< SensorPtr>>

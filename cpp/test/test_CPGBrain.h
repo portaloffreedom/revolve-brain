@@ -31,10 +31,10 @@ class TestCPGBrain
 {
   public:
   TestCPGBrain(
-          std::string robot_name,
+          const std::string &_name,
           revolve::brain::EvaluatorPtr evaluator,
-          size_t n_actuators,
-          size_t n_sensors);
+          const size_t n_actuators,
+          const size_t n_sensors);
 
   void test_update(
           const std::vector< revolve::brain::ActuatorPtr > &actuators,

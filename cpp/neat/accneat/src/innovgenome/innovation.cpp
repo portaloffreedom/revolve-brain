@@ -123,7 +123,8 @@ IndividualInnovation::IndividualInnovation(
         int population_index_,
         InnovationId id_,
         InnovationParms parms_,
-        ApplyFunc apply_)
+        ApplyFunc apply_
+)
         : population_index(population_index_)
         , id(id_)
         , parms(parms_)
@@ -135,7 +136,8 @@ IndividualInnovation::IndividualInnovation(
 Innovation::Innovation(
         InnovationId id_,
         InnovationParms parms_,
-        int innovation_num1_)
+        int innovation_num1_
+)
         : id(id_)
         , parms(parms_)
         , innovation_num1(innovation_num1_)
@@ -148,7 +150,8 @@ Innovation::Innovation(
         InnovationParms parms_,
         int innovation_num1_,
         int innovation_num2_,
-        int newnode_id_)
+        int newnode_id_
+)
         : id(id_)
         , parms(parms_)
         , innovation_num1(innovation_num1_)

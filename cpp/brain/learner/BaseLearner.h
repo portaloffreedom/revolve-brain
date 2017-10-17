@@ -36,13 +36,13 @@ namespace revolve
     {
       public:
       /// \brief takes ownership of the controller and moves it inside
-      /// \param controller p_controller: the base_controller will take
+      /// \param _controller p_controller: the base_controller will take
       /// ownership of this controller
       /// \param name of the robot that the learner is instructing (for logging
       /// purposes)
       explicit BaseLearner(
-              std::unique_ptr< BaseController > controller,
-              const std::string &robot_name);
+              std::unique_ptr< BaseController > _controller,
+              const std::string &_name);
 
       /// \brief REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
       virtual ~BaseLearner();

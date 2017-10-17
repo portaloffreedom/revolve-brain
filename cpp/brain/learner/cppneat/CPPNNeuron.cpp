@@ -36,7 +36,7 @@ namespace cppneat
           const std::string &_neuronId,
           Layer _layer,
           Ntype _neuronType,
-          std::map< std::string, double > _parameters
+          std::map< std::string, double > &_parameters
   )
           : neuronId_(_neuronId)
           , layer_(_layer)

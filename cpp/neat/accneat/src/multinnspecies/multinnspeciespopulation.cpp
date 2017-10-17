@@ -89,7 +89,7 @@ Organism *MultiNNSpeciesPopulation::get(size_t index)
 
 unique_ptr< Organism > MultiNNSpeciesPopulation::make_copy(size_t index)
 {
-  MultiNNSpeciesOrganism *copy =
+  auto copy =
           new MultiNNSpeciesOrganism((MultiNNSpeciesOrganism &)*get(index));
   return unique_ptr< Organism >(copy);
 }
@@ -126,7 +126,7 @@ void MultiNNSpeciesPopulation::speciate()
     }
     if (not org.species)
     {
-      MultiNNSpecies *s = new MultiNNSpecies(++last_species);
+      auto s = new MultiNNSpecies(++last_species);
       species.push_back(s);
       org.species = s;
     }
@@ -160,18 +160,15 @@ void MultiNNSpeciesPopulation::next_generation()
   // Offspring
   real_t skim;
   int total_expected;  // precision checking
-  int total_organisms = norgs;  // TODO: get rid of this variable
+  size_t total_organisms = norgs;  // TODO: get rid of this variable
   assert(total_organisms == env->pop_size);
-  int max_expected;
   MultiNNSpecies *best_species = nullptr;
-  int final_expected;
 
   /// \brief Species sorted by max fit org in Species
   std::vector< MultiNNSpecies * > sorted_species;
-  int half_pop;
 
   /// \brief We can try to keep the number of species constant at this number
-  int num_species = species.size();
+  size_t num_species = species.size();
 
   for (MultiNNSpecies *s: species)
   {
@@ -253,8 +250,8 @@ void MultiNNSpeciesPopulation::next_generation()
   if (total_expected < total_organisms)
   {
     // Find the Species expecting the most
-    max_expected = 0;
-    final_expected = 0;
+    int max_expected = 0;
+    int final_expected = 0;
     for (MultiNNSpecies *s: species)
     {
       if (s->expected_offspring >= max_expected)
@@ -322,7 +319,7 @@ void MultiNNSpeciesPopulation::next_generation()
   if (highest_last_changed >= env->dropoff_age + 5)
   {
     highest_last_changed = 0;
-    half_pop = total_organisms / 2;
+    int half_pop = total_organisms / 2;
 
     sorted_species[0]->first()->super_champ_offspring = half_pop;
     sorted_species[0]->expected_offspring = half_pop;
@@ -374,13 +371,11 @@ void MultiNNSpeciesPopulation::next_generation()
 
   {
     size_t iorg = 0;
-    for (size_t i = 0, n = species.size(); i < n; i++)
+    for (const auto &specie : species)
     {
-      MultiNNSpecies *s = species[i];
-
-      for (int j = 0; (j < s->expected_offspring) and (iorg < norgs); j++)
+      for (int j = 0; (j < specie->expected_offspring) and (iorg < norgs); j++)
       {
-        reproduce_parms[iorg].species = s;
+        reproduce_parms[iorg].species = specie;
         reproduce_parms[iorg].ioffspring = j;
         iorg++;
       }
@@ -494,25 +489,24 @@ void MultiNNSpeciesPopulation::next_generation()
   {
     size_t nspecies = 0;
 
-    for (size_t i = 0; i < species.size(); i++)
+    for (const auto &specie : species)
     {
-      MultiNNSpecies *s = species[i];
-      if (s->organisms.empty())
+      if (specie->organisms.empty())
       {
-        delete s;
+        delete specie;
       }
       else
       {
-        species[nspecies++] = s;
+        species[nspecies++] = specie;
 
         // Age surviving Species
-        if (s->novel)
+        if (specie->novel)
         {
-          s->novel = false;
+          specie->novel = false;
         }
         else
         {
-          s->age++;
+          specie->age++;
         }
       }
     }

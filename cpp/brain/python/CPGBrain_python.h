@@ -38,15 +38,15 @@ namespace revolve
       public:
       /// \brief
       CPGBrain_python(
-              std::string robot_name,
+              const std::string &_name,
               EvaluatorPtr evaluator,
-              size_t n_actuators,
-              size_t n_sensors);
+              const size_t n_actuators,
+              const size_t n_sensors);
 
       /// \brief
       void update(
-              boost::python::list &actuators,
-              const boost::python::list &sensors,
+              boost::python::list &_actuators,
+              const boost::python::list &_sensors,
               double t,
               double step);
     };

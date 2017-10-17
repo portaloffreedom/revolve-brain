@@ -31,12 +31,12 @@ namespace revolve
   namespace brain
   {
     LayeredExtNNController::LayeredExtNNController(
-            std::string modelName,
+            const std::string &_name,
             boost::shared_ptr< LayeredExtNNConfig > Config,
-            const std::vector< ActuatorPtr > &actuators,
-            const std::vector< SensorPtr > &sensors
+            const std::vector< ActuatorPtr > &_actuators,
+            const std::vector< SensorPtr > &_sensors
     )
-            : modelName_(modelName)
+            : modelName_(_name)
             , layers_(Config->layers_)
             , outputPositionMap_(Config->outputPositionMap_)
             , inputPositionMap_(Config->inputPositionMap_)
@@ -44,13 +44,13 @@ namespace revolve
             , connections_(Config->connections_)
     {
       size_t p = 0;
-      for (auto sensor : sensors)
+      for (auto sensor : _sensors)
       {
         p += sensor->inputs();
       }
       inputs_ = new double[p];
       p = 0;
-      for (auto actuator : actuators)
+      for (auto actuator : _actuators)
       {
         p += actuator->outputs();
       }
