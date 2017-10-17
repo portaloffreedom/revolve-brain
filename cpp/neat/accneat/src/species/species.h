@@ -77,7 +77,7 @@ namespace NEAT
     bool obliterate;
 
     /// \brief The organisms in the Species
-    std::vector<SpeciesOrganism *> organisms;
+    std::vector< SpeciesOrganism * > organisms;
 
     /// \brief If this is too long ago, the Species will goes extinct
     int age_of_last_improvement;
@@ -129,10 +129,11 @@ namespace NEAT
     }
 
     /// \brief Perform mating and mutation to form next generation
-    void reproduce(int ioffspring,
-                   SpeciesOrganism &baby,
-                   class GenomeManager *genome_manager,
-                   std::vector<Species *> &sorted_species);
+    void reproduce(
+            int ioffspring,
+            SpeciesOrganism &baby,
+            class GenomeManager *genome_manager,
+            std::vector< Species * > &sorted_species);
 
     // *** Real-time methods ***
     /// \brief
@@ -140,7 +141,8 @@ namespace NEAT
 
     /// \brief Allows the creation of a Species that won't age (a novel one)
     /// this protects new Species from aging inside their first generation
-    Species(int i,
+    Species(
+            int i,
             bool n);
 
     /// \brief
@@ -149,12 +151,14 @@ namespace NEAT
 
   /// \brief This is used for list sorting of Species by fitness of best
   /// organism highest fitness first
-  bool order_species(Species *x,
-                     Species *y);
+  bool order_species(
+          Species *x,
+          Species *y);
 
   /// \brief
-  bool order_new_species(Species *x,
-                         Species *y);
+  bool order_new_species(
+          Species *x,
+          Species *y);
 }
 
 #endif

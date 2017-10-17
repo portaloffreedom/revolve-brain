@@ -24,8 +24,9 @@
 
 #define NCYCLES 1
 
-size_t SUPGNeuron::GetDimensionInput(size_t n_inputs,
-                                           size_t coordinates_size)
+size_t SUPGNeuron::GetDimensionInput(
+        size_t n_inputs,
+        size_t coordinates_size)
 {
   return 1 + coordinates_size + n_inputs;
 }
@@ -35,15 +36,16 @@ size_t SUPGNeuron::GetDimensionOutput(size_t n_outputs)
   return 2 + n_outputs;
 }
 
-SUPGNeuron::SUPGNeuron(NEAT::CpuNetwork *cppn,
-                       std::vector<float> coordinates,
-                       NEAT::real_t cicle_length)
+SUPGNeuron::SUPGNeuron(
+        NEAT::CpuNetwork *cppn,
+        std::vector< float > coordinates,
+        NEAT::real_t cicle_length)
         : cppn(cppn)
-          , start_timer(-1)
-          , timer_window(cicle_length)
-          , started_timer_flag(false)
-          , supg_internal_inputs(GetDimensionInput(0, coordinates.size()))
-          , supg_internal_outputs(GetDimensionOutput(0))
+        , start_timer(-1)
+        , timer_window(cicle_length)
+        , started_timer_flag(false)
+        , supg_internal_inputs(GetDimensionInput(0, coordinates.size()))
+        , supg_internal_outputs(GetDimensionOutput(0))
 {
   set_coordinates(coordinates);
   NEAT::NetDims dims = cppn->get_dims();
@@ -67,9 +69,10 @@ SUPGNeuron::SUPGNeuron(NEAT::CpuNetwork *cppn,
   }
 }
 
-SUPGNeuron::SUPGNeuron(const SUPGNeuron &other,
-                       std::vector<float> coordinates,
-                       NEAT::real_t cicle_length)
+SUPGNeuron::SUPGNeuron(
+        const SUPGNeuron &other,
+        std::vector< float > coordinates,
+        NEAT::real_t cicle_length)
         : SUPGNeuron(other.cppn, coordinates, cicle_length)
 {}
 
@@ -113,7 +116,7 @@ void SUPGNeuron::init_timer(float global_time)
 
   // reset all other inputs
   size_t n_other_inputs = cppn->get_dims().nnodes.input
-                                - supg_internal_inputs;
+                          - supg_internal_inputs;
   for (size_t i = 0; i < n_other_inputs; i++)
   {
     this->load_sensor(i, 0);
@@ -135,7 +138,7 @@ void SUPGNeuron::init_timer(float global_time)
   start_timer -= offset;
 }
 
-void SUPGNeuron::set_coordinates(std::vector<float> coordinates)
+void SUPGNeuron::set_coordinates(std::vector< float > coordinates)
 {
   this->coordinates = coordinates;
 }
@@ -194,8 +197,9 @@ NEAT::real_t SUPGNeuron::get_timer(float global_time)
   return timer;
 }
 
-void SUPGNeuron::load_sensor(size_t isensor,
-                             NEAT::real_t activation)
+void SUPGNeuron::load_sensor(
+        size_t isensor,
+        NEAT::real_t activation)
 {
   cppn->load_sensor(isensor + supg_internal_inputs, activation);
 }

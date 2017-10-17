@@ -27,12 +27,12 @@
 
 namespace cppneat
 {
-//  bool CompareGenes(
-//          const GenePtr _gene1,
-//          const GenePtr _gene2)
-//  {
-//    return _gene1->InnovationNumber() < _gene2->InnovationNumber();
-//  }
+  //  bool CompareGenes(
+  //          const GenePtr _gene1,
+  //          const GenePtr _gene2)
+  //  {
+  //    return _gene1->InnovationNumber() < _gene2->InnovationNumber();
+  //  }
 
   // non-layered
   void GeneticEncoding::AddNeuron(NeuronGenePtr _neuron)
@@ -43,7 +43,9 @@ namespace cppneat
             this->allSortedGenes_.begin(),
             this->allSortedGenes_.end(),
             boost::dynamic_pointer_cast< Gene >(_neuron),
-            [](GenePtr _gene1, GenePtr _gene2)
+            [](
+                    GenePtr _gene1,
+                    GenePtr _gene2)
             {
               return _gene1->InnovationNumber() < _gene2->InnovationNumber();
             });
@@ -73,7 +75,9 @@ namespace cppneat
             this->allSortedGenes_.begin(),
             this->allSortedGenes_.end(),
             boost::dynamic_pointer_cast< Gene >(_neuron),
-            [](GenePtr _gene1, GenePtr _gene2)
+            [](
+                    GenePtr _gene1,
+                    GenePtr _gene2)
             {
               return _gene1->InnovationNumber() < _gene2->InnovationNumber();
             });
@@ -91,7 +95,9 @@ namespace cppneat
             this->allSortedGenes_.begin(),
             this->allSortedGenes_.end(),
             boost::dynamic_pointer_cast< Gene >(_connection),
-            [](GenePtr _gene1, GenePtr _gene2)
+            [](
+                    GenePtr _gene1,
+                    GenePtr _gene2)
             {
               return _gene1->InnovationNumber() < _gene2->InnovationNumber();
             });
@@ -601,7 +607,9 @@ namespace cppneat
       std::sort(
               this->allSortedGenes_.begin(),
               this->allSortedGenes_.end(),
-              [](GenePtr _gene1, GenePtr _gene2)
+              [](
+                      GenePtr _gene1,
+                      GenePtr _gene2)
               {
                 return _gene1->InnovationNumber() < _gene2->InnovationNumber();
               });
@@ -639,7 +647,7 @@ namespace cppneat
       }
     }
 
-    std::vector< std::pair< size_t , size_t >> innovationNumbers;
+    std::vector< std::pair< size_t, size_t >> innovationNumbers;
     // TODO: check of 0 is necessary
     // TODO: make this faster
     for (size_t inNum = 0; inNum <= globMaxIn; inNum++)
@@ -678,7 +686,8 @@ namespace cppneat
             innovationNumbers.push_back({inNum, 1});
             break;
           case Gene::NEURON_GENE:
-            Neuron::Ntype neuron_type = boost::dynamic_pointer_cast< NeuronGene >(
+            Neuron::Ntype
+                    neuron_type = boost::dynamic_pointer_cast< NeuronGene >(
                     currentGene)->neuron_->neuronType_;
             Neuron::NeuronTypeSpec neuron_spec = _config[neuron_type];
             innovationNumbers.push_back(

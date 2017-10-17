@@ -46,11 +46,12 @@ namespace revolve
         /// the starting position [-0.1, 0.1]
         /// \throws invalid_parameter if one of the given parameters is out of
         /// range
-        RythmGenerationNeuron(real_t weight,
-                              std::vector<real_t> weight_neigbours,
-                              real_t c,
-                              real_t amplitude,
-                              real_t offset);
+        RythmGenerationNeuron(
+                real_t weight,
+                std::vector< real_t > weight_neigbours,
+                real_t c,
+                real_t amplitude,
+                real_t offset);
 
         /// \brief
         virtual ~RythmGenerationNeuron();
@@ -67,8 +68,9 @@ namespace revolve
         /// value
         /// \throws invalid_input_exception if input vector is not of the
         /// correct size
-        virtual std::vector<real_t> update(std::vector<real_t> inputs,
-                                           real_t delta_time) override;
+        virtual std::vector< real_t > update(
+                std::vector< real_t > inputs,
+                real_t delta_time) override;
 
         protected:
 
@@ -82,8 +84,9 @@ namespace revolve
         /// positive and relativly small. Big time steps could have weird
         /// effects on the network.
         /// \return new phi value
-        real_t nextPhi(const std::vector<real_t> &inputs,
-                       real_t delta_time) const;
+        real_t nextPhi(
+                const std::vector< real_t > &inputs,
+                real_t delta_time) const;
 
         /// \brief  Calculates the output value of the neuron using the current
         /// phi value
@@ -116,21 +119,25 @@ namespace revolve
         real_t WeightNeighbour(size_t index) const;
 
         /// \brief the weight that determines the shape [0, 1.0]
-        void setWeightNeighbour(real_t weight,
-                                size_t index);
+        void setWeightNeighbour(
+                real_t weight,
+                size_t index);
 
         /// \brief value from 0 to 1, does not throw exceptions if value is
         /// outside the allowed domain
-        real_t setWeightNeighbourPercentage(real_t weight,
-                                            size_t index);
+        real_t setWeightNeighbourPercentage(
+                real_t weight,
+                size_t index);
 
         /// \brief
-        real_t calculateWeightNeighbourPercentage(real_t weight,
-                                                  size_t index) const;
+        real_t calculateWeightNeighbourPercentage(
+                real_t weight,
+                size_t index) const;
 
         /// \brief
-        real_t calculateWeightNeighbourFromPercentage(real_t weight,
-                                                      size_t index) const;
+        real_t calculateWeightNeighbourFromPercentage(
+                real_t weight,
+                size_t index) const;
 
         /// \brief
         real_t C() const;
@@ -219,7 +226,7 @@ namespace revolve
         real_t weight;
 
         /// \brief weights for neighbours nodes
-        std::vector<real_t> weight_neigbours;
+        std::vector< real_t > weight_neigbours;
 
         /// \brief the phase difference [-2, 2]
         real_t c;

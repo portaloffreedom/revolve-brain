@@ -54,8 +54,9 @@ namespace NEAT
       return buf;
     }
 
-    std::string get_fittest_path(int experiment_num,
-                                 int generation)
+    std::string get_fittest_path(
+            int experiment_num,
+            int generation)
     {
       char buf[1024];
       std::snprintf(buf, "%s/fittest_%d",
@@ -64,20 +65,21 @@ namespace NEAT
     }
 
     public:
-    typedef std::function<NetworkEvaluator *()> CreateEvaluatorFunc;
-    typedef std::function<std::vector<std::unique_ptr<Genome >>(rng_t rng)>
+    typedef std::function< NetworkEvaluator *() > CreateEvaluatorFunc;
+    typedef std::function< std::vector< std::unique_ptr< Genome >>(rng_t rng) >
             CreateSeedsFunc;
 
     CreateEvaluatorFunc create_evaluator;
     CreateSeedsFunc create_seeds;
-    std::unique_ptr<NetworkEvaluator> network_evaluator;
+    std::unique_ptr< NetworkEvaluator > network_evaluator;
 
-    EvaluatorExperiment(const char *name,
-                        CreateEvaluatorFunc create_evaluator_,
-                        CreateSeedsFunc create_seeds_)
+    EvaluatorExperiment(
+            const char *name,
+            CreateEvaluatorFunc create_evaluator_,
+            CreateSeedsFunc create_seeds_)
             : Experiment(name)
-              , create_evaluator(create_evaluator_)
-              , create_seeds(create_seeds_)
+            , create_evaluator(create_evaluator_)
+            , create_seeds(create_seeds_)
     {
     }
 
@@ -90,18 +92,19 @@ namespace NEAT
       return org->eval.error <= 0.0000001;
     }
 
-    virtual void run(class rng_t &rng,
-                     int gens) override
+    virtual void run(
+            class rng_t &rng,
+            int gens) override
     {
       using namespace std;
 
-      network_evaluator = unique_ptr<NetworkEvaluator>(create_evaluator());
+      network_evaluator = unique_ptr< NetworkEvaluator >(create_evaluator());
 
       int nsuccesses = 0;
-      vector<int> success_generations;
-      vector<size_t> nnodes;
-      vector<size_t> nlinks;
-      vector<real_t> fitness;
+      vector< int > success_generations;
+      vector< size_t > nnodes;
+      vector< size_t > nlinks;
+      vector< real_t > fitness;
 
       for (size_t expcount = 1; expcount <= env->num_runs; expcount++)
       {
@@ -112,7 +115,7 @@ namespace NEAT
 
         fittest = nullptr;
         env->genome_manager = GenomeManager::create(get_name());
-        vector<unique_ptr<Genome>> genomes = create_seeds(rng_exp);
+        vector< unique_ptr< Genome>> genomes = create_seeds(rng_exp);
 
         // Spawn the Population
         pop = Population::create(rng_exp, genomes);
@@ -227,7 +230,7 @@ namespace NEAT
           best = org;
         }
       }
-      delete []evaluations;
+      delete[]evaluations;
 
       timer.stop();
 
@@ -247,7 +250,7 @@ namespace NEAT
 
     class Population *pop;
 
-    std::unique_ptr<Organism> fittest;
+    std::unique_ptr< Organism > fittest;
   };
 }
 

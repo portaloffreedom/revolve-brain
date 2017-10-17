@@ -31,7 +31,7 @@ namespace NEAT
   {
     std::string type;
     char character;
-    std::map<std::string, std::string> attrs;
+    std::map< std::string, std::string > attrs;
 
     std::string
     str();
@@ -69,21 +69,22 @@ namespace NEAT
 
   struct LocationTranslator
   {
-    std::map<std::string, size_t> row_index;
-    std::map<std::string, size_t> col_index;
-    std::map<size_t, std::string> col_label;
-    std::map<size_t, std::string> row_label;
+    std::map< std::string, size_t > row_index;
+    std::map< std::string, size_t > col_index;
+    std::map< size_t, std::string > col_label;
+    std::map< size_t, std::string > row_label;
 
-    bool try_find(std::string row,
-                  std::string col,
-                  Location &result);
+    bool try_find(
+            std::string row,
+            std::string col,
+            Location &result);
   };
 
   struct Object
   {
     Location loc;
     Glyph glyph;
-    std::map<std::string, std::string> attrs;
+    std::map< std::string, std::string > attrs;
   };
 
   struct Map
@@ -91,7 +92,7 @@ namespace NEAT
     LocationTranslator loc_trans;
     size_t width;
     size_t height;
-    std::map<Location, Object> objects;
+    std::map< Location, Object > objects;
   };
 
   Map parse_map(std::string &path);

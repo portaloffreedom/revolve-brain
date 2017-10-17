@@ -48,21 +48,21 @@ namespace revolve
     struct LayeredExtNNConfig
     {
       // vector containing all neurons
-      std::vector<std::vector<NeuronPtr>> layers_;
+      std::vector< std::vector< NeuronPtr>> layers_;
       // positions for indexing into the outputs_ buffer for each output neuron
-      std::map<NeuronPtr, int> outputPositionMap_;
+      std::map< NeuronPtr, int > outputPositionMap_;
       // positions for indexing into the inputs_ buffer for each input neuron
-      std::map<NeuronPtr, int> inputPositionMap_;
+      std::map< NeuronPtr, int > inputPositionMap_;
       // Map neuron id strings to Neuron objects
-      std::map<std::string, NeuronPtr> idToNeuron_;
+      std::map< std::string, NeuronPtr > idToNeuron_;
       // vector of all the neural connections
-      std::vector<NeuralConnectionPtr> connections_;
+      std::vector< NeuralConnectionPtr > connections_;
     };
 
     /// \brief extended neural network controller usable with standard neat or
     /// hyper neat (use different conversion methods)
     class LayeredExtNNController
-            : public Controller<boost::shared_ptr<LayeredExtNNConfig>>
+            : public Controller< boost::shared_ptr< LayeredExtNNConfig>>
     {
       public:
       /// \brief Constructor for a neural network including neurons that are of
@@ -73,10 +73,11 @@ namespace revolve
       /// \param actuators: vector list of robot's actuators
       /// \param sensors: vector list of robot's sensors
       /// \return pointer to the neural network
-      LayeredExtNNController(std::string modelName,
-                             boost::shared_ptr<LayeredExtNNConfig> Config,
-                             const std::vector<ActuatorPtr> &actuators,
-                             const std::vector<SensorPtr> &sensors);
+      LayeredExtNNController(
+              std::string modelName,
+              boost::shared_ptr< LayeredExtNNConfig > Config,
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors);
 
       virtual ~LayeredExtNNController();
 
@@ -85,18 +86,19 @@ namespace revolve
       /// \param sensors: vector list of robot's sensors
       /// \param t: current time
       /// \param step:
-      virtual void update(const std::vector<ActuatorPtr> &actuators,
-                          const std::vector<SensorPtr> &sensors,
-                          double t,
-                          double step);
+      virtual void update(
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step);
 
       /// \brief Gets the weight of all the connections
       /// \return weights of all neural connections
-      virtual boost::shared_ptr<LayeredExtNNConfig> getGenotype();
+      virtual boost::shared_ptr< LayeredExtNNConfig > getGenotype();
 
       /// \brief Changes the weights of the neural connections
       /// \param weights: new weights to be assigned
-      virtual void setGenotype(boost::shared_ptr<LayeredExtNNConfig> config);
+      virtual void setGenotype(boost::shared_ptr< LayeredExtNNConfig > config);
 
       /// \brief
       void writeNetwork(std::ofstream &write_to);
@@ -113,21 +115,21 @@ namespace revolve
       double *outputs_;
 
       /// \brief vector containing all neurons
-      std::vector<std::vector<NeuronPtr>> layers_;
+      std::vector< std::vector< NeuronPtr>> layers_;
 
       /// \brief positions for indexing into the outputs_ buffer for each
       /// output neuron
-      std::map<NeuronPtr, int> outputPositionMap_;
+      std::map< NeuronPtr, int > outputPositionMap_;
 
       /// \brief positions for indexing into the inputs_ buffer for each
       /// input neuron
-      std::map<NeuronPtr, int> inputPositionMap_;
+      std::map< NeuronPtr, int > inputPositionMap_;
 
       /// \brief Map neuron id strings to Neuron objects
-      std::map<std::string, NeuronPtr> idToNeuron_;
+      std::map< std::string, NeuronPtr > idToNeuron_;
 
       /// \brief vector of all the neural connections
-      std::vector<NeuralConnectionPtr> connections_;
+      std::vector< NeuralConnectionPtr > connections_;
     };
   }
 }

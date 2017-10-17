@@ -49,8 +49,9 @@ const std::vector< NEAT::nodetype > NEAT::nodetypes = {
 
 NEAT::NeatEnv *NEAT::env = new NeatEnv();
 
-int NEAT::getUnitCount(const char *string,
-                       const char *set)
+int NEAT::getUnitCount(
+        const char *string,
+        const char *set)
 {
   int count = 0;
   short last = 0;
@@ -75,13 +76,14 @@ int NEAT::getUnitCount(const char *string,
   return count;
 }
 
-real_t NEAT::oldhebbian(real_t weight,
-                        real_t maxweight,
-                        real_t active_in,
-                        real_t active_out,
-                        real_t hebb_rate,
-                        real_t pre_rate,
-                        real_t post_rate)
+real_t NEAT::oldhebbian(
+        real_t weight,
+        real_t maxweight,
+        real_t active_in,
+        real_t active_out,
+        real_t hebb_rate,
+        real_t pre_rate,
+        real_t post_rate)
 {
   bool neg = false;
   real_t delta;
@@ -150,13 +152,14 @@ real_t NEAT::oldhebbian(real_t weight,
   return 0;
 }
 
-real_t NEAT::hebbian(real_t weight,
-                     real_t maxweight,
-                     real_t active_in,
-                     real_t active_out,
-                     real_t hebb_rate,
-                     real_t pre_rate,
-                     real_t /*post_rate*/)
+real_t NEAT::hebbian(
+        real_t weight,
+        real_t maxweight,
+        real_t active_in,
+        real_t active_out,
+        real_t hebb_rate,
+        real_t pre_rate,
+        real_t /*post_rate*/)
 {
   bool neg = false;
   real_t delta;

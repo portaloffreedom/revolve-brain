@@ -38,8 +38,9 @@ void FakeLightSensor::read(double *input_vector)
   input_vector[0] = read();
 }
 
-double revolve::brain::FakeLightSensor::light_attenuation(double distance,
-                                                          double angle)
+double revolve::brain::FakeLightSensor::light_attenuation(
+        double distance,
+        double angle)
 {
   double abs_angle = std::fabs(angle);
 

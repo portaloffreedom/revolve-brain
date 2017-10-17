@@ -72,46 +72,56 @@ namespace NEAT
     public:
     inline int out_node_id() const
     {
-      return _out_node_id; }
+      return _out_node_id;
+    }
 
     inline void set_out_node_id(int id)
     { _out_node_id = id; }
 
     inline int in_node_id() const
     {
-      return _in_node_id; }
+      return _in_node_id;
+    }
 
     inline void set_in_node_id(int id)
     {
-      _in_node_id = id; }
+      _in_node_id = id;
+    }
 
     inline real_t &weight()
     {
-      return _weight; }
+      return _weight;
+    }
 
     inline int trait_id() const
     {
-      return _trait_id; }
+      return _trait_id;
+    }
 
     inline void set_trait_id(int tid)
     {
-      _trait_id = tid; }
+      _trait_id = tid;
+    }
 
     inline bool is_recurrent() const
     {
-      return _is_recurrent; }
+      return _is_recurrent;
+    }
 
     inline void set_recurrent(bool r)
     {
-      _is_recurrent = r; }
+      _is_recurrent = r;
+    }
 
     inline const std::string &get_creator_name()
     {
-      return creator_name; }
+      return creator_name;
+    }
 
     inline int get_creator_index()
     {
-      return creator_index; }
+      return creator_index;
+    }
 
     /// \brief
     int innovation_num;
@@ -130,31 +140,34 @@ namespace NEAT
     {}
 
     /// \brief Construct a gene with no trait
-    InnovLinkGene(real_t w,
-                  int inode_id,
-                  int onode_id,
-                  bool recur,
-                  int innov,
-                  real_t mnum,
-                  const std::string &creator_name,
-                  const int creator_index);
+    InnovLinkGene(
+            real_t w,
+            int inode_id,
+            int onode_id,
+            bool recur,
+            int innov,
+            real_t mnum,
+            const std::string &creator_name,
+            const int creator_index);
 
     /// \brief Construct a gene with a trait
-    InnovLinkGene(int trait_id,
-                  real_t w,
-                  int inode_id,
-                  int onode_id,
-                  bool recur,
-                  int innov,
-                  real_t mnum,
-                  const std::string &creator_name,
-                  const int creator_index);
+    InnovLinkGene(
+            int trait_id,
+            real_t w,
+            int inode_id,
+            int onode_id,
+            bool recur,
+            int innov,
+            real_t mnum,
+            const std::string &creator_name,
+            const int creator_index);
 
     /// \brief Construct a gene off of another gene as a duplicate
-    InnovLinkGene(InnovLinkGene *g,
-                  int trait_id,
-                  int inode_id,
-                  int onode_id);
+    InnovLinkGene(
+            InnovLinkGene *g,
+            int trait_id,
+            int inode_id,
+            int onode_id);
 
     /// \brief Copy Constructor
     InnovLinkGene(const InnovLinkGene &gene);
@@ -166,19 +179,20 @@ namespace NEAT
     bool operator==(const InnovLinkGene &rhs) const;
 
     /// \brief
-    friend struct YAML::convert<NEAT::InnovLinkGene>;
+    friend struct YAML::convert< NEAT::InnovLinkGene >;
   };
 }  // namespace NEAT
 
 namespace YAML
 {
   template <>
-  struct convert<NEAT::InnovLinkGene>
+  struct convert< NEAT::InnovLinkGene >
   {
     static Node encode(const NEAT::InnovLinkGene &rhs);
 
-    static bool decode(const Node &node,
-                       NEAT::InnovLinkGene &rhs);
+    static bool decode(
+            const Node &node,
+            NEAT::InnovLinkGene &rhs);
   };
 }
 #endif

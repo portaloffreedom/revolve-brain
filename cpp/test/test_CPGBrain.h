@@ -30,15 +30,17 @@ class TestCPGBrain
         : public revolve::brain::CPGBrain
 {
   public:
-  TestCPGBrain(std::string robot_name,
-               revolve::brain::EvaluatorPtr evaluator,
-               size_t n_actuators,
-               size_t n_sensors);
+  TestCPGBrain(
+          std::string robot_name,
+          revolve::brain::EvaluatorPtr evaluator,
+          size_t n_actuators,
+          size_t n_sensors);
 
-  void test_update(const std::vector<revolve::brain::ActuatorPtr> &actuators,
-                   const std::vector<revolve::brain::SensorPtr> &sensors,
-                   double t,
-                   double step);
+  void test_update(
+          const std::vector< revolve::brain::ActuatorPtr > &actuators,
+          const std::vector< revolve::brain::SensorPtr > &sensors,
+          double t,
+          double step);
 };
 
 

@@ -51,9 +51,10 @@ Network *Network::create()
 }
 
 // Requires nodes to be sorted by type: BIAS, SENSOR, OUTPUT, HIDDEN
-void CpuNetwork::configure(const NetDims &dims_,
-                           NetNode *nodes_,
-                           NetLink *links_)
+void CpuNetwork::configure(
+        const NetDims &dims_,
+        NetNode *nodes_,
+        NetLink *links_)
 {
   dims = dims_;
 
@@ -87,8 +88,9 @@ void CpuNetwork::clear_noninput()
               sizeof(real_t) * (dims.nnodes.all - dims.nnodes.input));
 }
 
-void CpuNetwork::load_sensor(size_t isensor,
-                             real_t activation)
+void CpuNetwork::load_sensor(
+        size_t isensor,
+        real_t activation)
 {
   activations[dims.nnodes.bias + isensor] = activation;
 }
@@ -141,7 +143,8 @@ void CpuNetwork::activate(size_t ncycles)
 }
 
 std::vector< real_t > &CpuNetwork::get_activations(
-        accneat_out std::vector< real_t > &result)
+        accneat_out
+        std::vector< real_t > &result)
 {
   return result = activations;
 }

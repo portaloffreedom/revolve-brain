@@ -53,8 +53,9 @@ namespace NEAT
 
     RawBuffers d_bufs;
 
-    void configure(CudaNetwork **nets,
-                   size_t nnets)
+    void configure(
+            CudaNetwork **nets,
+            size_t nnets)
     {
       cudaSetDevice(device);
 
@@ -157,7 +158,7 @@ namespace NEAT
                        lens.gpu_states,
                        cudaMemcpyHostToDevice));
 
-      delete []nets_offs;
+      delete[]nets_offs;
     }
 
     public:
@@ -188,8 +189,9 @@ namespace NEAT
       free_dev(d_bufs.output);
     }
 
-    void configure(const Config *config,
-                   size_t len)
+    void configure(
+            const Config *config,
+            size_t len)
     {
       cudaSetDevice(device);
 
@@ -201,10 +203,11 @@ namespace NEAT
                        cudaMemcpyHostToDevice));
     }
 
-    void activate(CudaNetwork **nets,
-                  OrganismEvaluation *results,
-                  size_t nnets,
-                  size_t ncycles)
+    void activate(
+            CudaNetwork **nets,
+            OrganismEvaluation *results,
+            size_t nnets,
+            size_t ncycles)
     {
       cudaSetDevice(device);
 

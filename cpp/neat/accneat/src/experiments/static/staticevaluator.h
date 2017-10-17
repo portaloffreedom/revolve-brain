@@ -33,16 +33,17 @@ namespace NEAT
   /// activations.
   struct Step
   {
-    std::vector<real_t> input;
-    std::vector<real_t> output;
+    std::vector< real_t > input;
+    std::vector< real_t > output;
     real_t weight;
 
-    Step(const std::vector<real_t> &input_,
-         const std::vector<real_t> &output_,
-         real_t weight_ = 1.0)
+    Step(
+            const std::vector< real_t > &input_,
+            const std::vector< real_t > &output_,
+            real_t weight_ = 1.0)
             : input(input_)
-              , output(output_)
-              , weight(weight_)
+            , output(output_)
+            , weight(weight_)
     {
     }
   };
@@ -52,24 +53,25 @@ namespace NEAT
   struct Test
   {
     std::string name;
-    std::vector<Step> steps;
+    std::vector< Step > steps;
 
-    Test(const std::string &name_,
-         const std::vector<Step> &steps_)
+    Test(
+            const std::string &name_,
+            const std::vector< Step > &steps_)
             : name(name_)
-              , steps(steps_)
+            , steps(steps_)
     {
     }
 
-    Test(const std::vector<Step> &steps_)
+    Test(const std::vector< Step > &steps_)
             : name("")
-              , steps(steps_)
+            , steps(steps_)
     {
     }
   };
 
   extern class NetworkEvaluator *
-  create_static_evaluator(const std::vector<Test> &tests);
+  create_static_evaluator(const std::vector< Test > &tests);
 }
 
 #endif

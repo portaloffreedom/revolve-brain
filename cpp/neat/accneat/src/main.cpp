@@ -99,10 +99,11 @@ void usage()
   exit(1);
 }
 
-template <typename T>
-T parse_enum(const char *opt,
-             std::string str,
-             std::map<std::string, T> vals)
+template < typename T >
+T parse_enum(
+        const char *opt,
+        std::string str,
+        std::map< std::string, T > vals)
 {
   auto it = vals.find(str);
   if (it == vals.end())
@@ -112,8 +113,9 @@ T parse_enum(const char *opt,
   return it->second;
 }
 
-int parse_int(const char *opt,
-              const char *str)
+int parse_int(
+        const char *opt,
+        const char *str)
 {
   try
   {
@@ -125,8 +127,9 @@ int parse_int(const char *opt,
   }
 }
 
-int main(int argc,
-         char *argv[])
+int main(
+        int argc,
+        char *argv[])
 {
   int rng_seed = DEFAULT_RNG_SEED;
   int maxgens = DEFAULT_MAX_GENS;
@@ -155,7 +158,7 @@ int main(int argc,
           break;
         case 's':
           env->search_type =
-                  parse_enum<GeneticSearchType>(
+                  parse_enum< GeneticSearchType >(
                           "-s", optarg,
                           {
                                   {"phased",     GeneticSearchType::PHASED},

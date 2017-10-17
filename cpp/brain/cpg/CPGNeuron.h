@@ -46,8 +46,9 @@ namespace revolve
         /// \throws should throw invalid_input_exception if input vector is not
         /// of the correct size
         /// \return std::vector<real> containing the network output
-        virtual std::vector<real_t> update(std::vector<real_t> inputs,
-                                           real_t delta_time) = 0;
+        virtual std::vector< real_t > update(
+                std::vector< real_t > inputs,
+                real_t delta_time) = 0;
 
         /// \brief Exception for update function, in case the input vector is
         /// not ok for the neuron
@@ -57,7 +58,7 @@ namespace revolve
           public:
           invalid_input_exception(std::string desc)
                   : std::exception()
-                    , desc(desc)
+                  , desc(desc)
           {}
 
           virtual const char *what() const throw()
@@ -74,14 +75,15 @@ namespace revolve
                 : public std::exception
         {
           public:
-          invalid_parameter(std::string param_name,
-                            real_t value,
-                            real_t min,
-                            real_t max)
+          invalid_parameter(
+                  std::string param_name,
+                  real_t value,
+                  real_t min,
+                  real_t max)
                   : param_name(param_name)
-                    , value(value)
-                    , min(min)
-                    , max(max)
+                  , value(value)
+                  , min(min)
+                  , max(max)
           {}
 
           virtual const char *what() const throw()
@@ -102,9 +104,10 @@ namespace revolve
         };
 
         protected:
-        static real_t percentage_from_range(real_t percentage,
-                                            real_t range_start,
-                                            real_t range_end)
+        static real_t percentage_from_range(
+                real_t percentage,
+                real_t range_start,
+                real_t range_end)
         {
           if (percentage > 1)
           {
@@ -120,9 +123,10 @@ namespace revolve
           return range_start + distance;
         }
 
-        static real_t percentage_of_range(real_t value,
-                                          real_t range_start,
-                                          real_t range_end)
+        static real_t percentage_of_range(
+                real_t value,
+                real_t range_start,
+                real_t range_end)
         {
           if (value > range_end)
           {

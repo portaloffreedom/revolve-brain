@@ -34,7 +34,8 @@ AccNEATLearner::AccNEATLearner(
         size_t n_inputs,
         size_t n_outputs,
         const float evaluationTime,
-        const long maxEvaluations)
+        const long maxEvaluations
+)
         : BaseLearner(std::unique_ptr< BaseController >(
         new AccNEATCPPNController(n_inputs, n_outputs)), robot_name)
         , evaluator(evaluator)

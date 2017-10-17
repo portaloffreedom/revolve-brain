@@ -96,9 +96,10 @@ namespace NEAT
     virtual ~Network()
     {}
 
-    virtual void configure(const NetDims &dims,
-                           NetNode *nodes,
-                           NetLink *links) = 0;
+    virtual void configure(
+            const NetDims &dims,
+            NetNode *nodes,
+            NetLink *links) = 0;
 
     virtual NetDims get_dims() = 0;
   };
@@ -112,9 +113,10 @@ namespace NEAT
     virtual ~NetworkEvaluator()
     {}
 
-    virtual void execute(class Network **nets_,
-                         struct OrganismEvaluation *results,
-                         size_t nnets) = 0;
+    virtual void execute(
+            class Network **nets_,
+            struct OrganismEvaluation *results,
+            size_t nnets) = 0;
   };
 }  // namespace NEAT
 

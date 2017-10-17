@@ -37,19 +37,20 @@ HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(
         const size_t n_inputs,
         const size_t n_outputs,
         const size_t n_coordinates,
-        const std::vector<std::vector<bool>> &connections_active,
-        const std::vector<std::vector<float>> &cpgs_coordinates,
+        const std::vector< std::vector< bool>> &connections_active,
+        const std::vector< std::vector< float>> &cpgs_coordinates,
         const float evaluationTime,
-        const long maxEvaluations)
+        const long maxEvaluations
+)
         : AccNEATLearner(robot_name,
                          evaluator,
                          (n_coordinates + 1) * 2,
                          HyperAccNEATLearner_CPGController::CPPN_OUTPUT_SIZE,
                          evaluationTime,
                          maxEvaluations)
-          , connections_active(connections_active)
-          , cpgs_coordinates(cpgs_coordinates)
-          , n_coordinates(n_coordinates + 1)
+        , connections_active(connections_active)
+        , cpgs_coordinates(cpgs_coordinates)
+        , n_coordinates(n_coordinates + 1)
 {
   assert(connections_active.size() == n_outputs);
   for (const auto &connection_row: connections_active)
@@ -59,7 +60,7 @@ HyperAccNEATLearner_CPGController::HyperAccNEATLearner_CPGController(
   for (const auto &cpg_coordinates: cpgs_coordinates)
     assert(cpg_coordinates.size() == n_coordinates);
 
-  std::unique_ptr<CPGController> controller(
+  std::unique_ptr< CPGController > controller(
           new CPGController(n_inputs, n_outputs));
 
   this->active_controller = std::move(controller);

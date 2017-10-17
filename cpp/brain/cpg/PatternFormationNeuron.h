@@ -42,16 +42,17 @@ namespace revolve
         /// \param weights list of weights. The dimensions should correspond to
         /// the size of inputs
         /// passed in the update function (dimension: number of inputs)
-        PatternFormationNeuron(real_t alpha,
-                               real_t theta,
-                               std::vector<real_t> weights);
+        PatternFormationNeuron(
+                real_t alpha,
+                real_t theta,
+                std::vector< real_t > weights);
 
         /// \brief PatternFormationNeuron constructor. Alpha to default 1. Theta
         /// to default 0.
         /// \param weights list of weights. The dimensions should correspond to
         /// the size of inputs passed in the update function
         /// (dimension: number of inputs)
-        PatternFormationNeuron(std::vector<real_t> weights)
+        PatternFormationNeuron(std::vector< real_t > weights)
                 : PatternFormationNeuron(1, 0, weights)
         {}
 
@@ -68,14 +69,15 @@ namespace revolve
         /// \return std::vector<real> of size 1.
         /// \throws invalid_input_exception if input vector is not of the
         /// correct size (dimension of internal weights)
-        virtual std::vector<real_t> update(std::vector<real_t> inputs,
-                                           real_t delta_time) override;
+        virtual std::vector< real_t > update(
+                std::vector< real_t > inputs,
+                real_t delta_time) override;
 
         protected:
         /// \brief Generating the weighted average of all the inputs.
         /// \param inputs vector of inputs. Size has to be the same as weights
         /// \return weighted average of all inputs
-        real_t generateInput(std::vector<real_t> inputs) const;
+        real_t generateInput(std::vector< real_t > inputs) const;
 
         /// \brief Pattern formation from the combined inputs
         /// \param combined_inputs (output of
@@ -117,11 +119,11 @@ namespace revolve
         real_t calculateThetaFromPercentage(real_t theta) const;
 
         /// \brief
-        const std::vector<real_t> &Weights() const;
+        const std::vector< real_t > &Weights() const;
 
         /// \brief Is normalizing the weights
         /// \param weights new weights
-        void setWeights(const std::vector<real_t> &weights);
+        void setWeights(const std::vector< real_t > &weights);
 
         public:
         /// \brief
@@ -144,7 +146,7 @@ namespace revolve
         real_t theta;
 
         /// \brief
-        std::vector<real_t> weights;
+        std::vector< real_t > weights;
       };
     }
   }

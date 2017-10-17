@@ -24,9 +24,10 @@
 
 using namespace NEAT;
 
-static std::vector<Test>
-create_tests(const std::vector<std::string> &sentences,
-             const std::vector<bool> &is_grammatical);
+static std::vector< Test >
+create_tests(
+        const std::vector< std::string > &sentences,
+        const std::vector< bool > &is_grammatical);
 
 static struct CfgInit
 {
@@ -38,13 +39,13 @@ static struct CfgInit
                                // S -> aSa
                                // S -> bSb
                                // S -> \0
-                               std::vector<std::string> sentences;
+                               std::vector< std::string > sentences;
                                append(sentences,
                                       permute_repeat("ab", 2));
                                append(sentences,
                                       permute_repeat("ab", 4));
 
-                               std::vector<bool> is_grammatical;
+                               std::vector< bool > is_grammatical;
                                for (std::string &s: sentences)
                                {
                                  size_t n = s.size();
@@ -67,16 +68,18 @@ static struct CfgInit
                                for (size_t i = 0; i < sentences.size(); i++)
                                {
                                  std::cout << sentences[i] << ": "
-                                         << is_grammatical[i] << std::endl;
+                                           << is_grammatical[i] << std::endl;
                                }
 
                                return ::create_tests(sentences, is_grammatical);
                              });
-  }} init;
+  }
+} init;
 
-static std::vector<Test>
-create_tests(const std::vector<std::string> &sentences,
-             const std::vector<bool> &is_grammatical)
+static std::vector< Test >
+create_tests(
+        const std::vector< std::string > &sentences,
+        const std::vector< bool > &is_grammatical)
 {
   const real_t A[] = {0.0, 0.0};
   const real_t B[] = {0.0, 1.0};
@@ -99,16 +102,16 @@ create_tests(const std::vector<std::string> &sentences,
     }
   }
   std::cout << "ncorrect = " << ncorrect
-          << " / " << sentences.size() << std::endl;
+            << " / " << sentences.size() << std::endl;
 
   const real_t weight_query_correct = 1.0 / ncorrect;
   const real_t weight_query_incorrect = 1.0 / (sentences.size() - ncorrect);
 
-  std::vector<Test> tests;
+  std::vector< Test > tests;
   for (size_t isentence = 0; isentence < sentences.size(); isentence++)
   {
     const std::string &sentence = sentences[isentence];
-    std::vector<Step> steps;
+    std::vector< Step > steps;
 
     for (size_t ielement = 0; ielement < sentence.size(); ielement++)
     {

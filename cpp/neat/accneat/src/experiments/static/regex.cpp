@@ -26,11 +26,13 @@
 using namespace NEAT;
 using namespace std;
 
-static vector<Test> create_tests_1bit(const char *grammar,
-                                      const vector<string> &sentences);
+static vector< Test > create_tests_1bit(
+        const char *grammar,
+        const vector< string > &sentences);
 
-static vector<Test> create_tests_2bit(const char *grammar,
-                                      const vector<string> &sentences);
+static vector< Test > create_tests_2bit(
+        const char *grammar,
+        const vector< string > &sentences);
 
 static struct RegexInit
 {
@@ -41,7 +43,7 @@ static struct RegexInit
                              {
                                const char *grammar = "a+b+a+";
 
-                               vector<string> sentences = {
+                               vector< string > sentences = {
                                        "aaa",
                                        "aabb",
                                        "bbaa",
@@ -65,7 +67,7 @@ static struct RegexInit
                              {
                                const char *grammar = "[ad][bc][ad][bc]";
 
-                               vector<string> sentences =
+                               vector< string > sentences =
                                        permute_repeat("abcd", 4);
 
                                return ::create_tests_2bit(grammar, sentences);
@@ -73,8 +75,9 @@ static struct RegexInit
   }
 } init;
 
-static vector<Test> create_tests_1bit(const char *grammar,
-                                      const vector<string> &sentences)
+static vector< Test > create_tests_1bit(
+        const char *grammar,
+        const vector< string > &sentences)
 {
   const real_t A = 0.0;
   const real_t B = 1.0;
@@ -89,10 +92,10 @@ static vector<Test> create_tests_1bit(const char *grammar,
 
   std::regex regex_grammar{grammar};
 
-  vector<Test> tests;
+  vector< Test > tests;
   for (const string &sentence: sentences)
   {
-    vector<Step> steps;
+    vector< Step > steps;
 
     for (size_t i = 0, n = sentence.size(); i < n; i++)
     {
@@ -128,8 +131,9 @@ static vector<Test> create_tests_1bit(const char *grammar,
   return tests;
 }
 
-static vector<Test> create_tests_2bit(const char *grammar,
-                                      const vector<string> &sentences)
+static vector< Test > create_tests_2bit(
+        const char *grammar,
+        const vector< string > &sentences)
 {
   const real_t A[] = {0.0, 0.0};
   const real_t B[] = {0.0, 1.0};
@@ -158,10 +162,10 @@ static vector<Test> create_tests_2bit(const char *grammar,
   const real_t weight_query_correct = 1.0 / ncorrect;
   const real_t weight_query_incorrect = 1.0 / (sentences.size() - ncorrect);
 
-  vector<Test> tests;
+  vector< Test > tests;
   for (const string &sentence: sentences)
   {
-    vector<Step> steps;
+    vector< Step > steps;
 
     for (size_t i = 0, n = sentence.size(); i < n; i++)
     {

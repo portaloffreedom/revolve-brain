@@ -28,31 +28,32 @@
 using namespace NEAT;
 using namespace std;
 
-static bool equals(real_t x,
-       real_t y)
+static bool equals(
+        real_t x,
+        real_t y)
 {
   return abs((x) - (y)) / real_t(y) < 0.01;
 }
 
-#define assert_equals(x, y)                                                    \
-    if ( not equals(x, y) ) {                                                  \
-        cerr << __FILE__ << ":"                                                \
-        << __LINE__ << ": " << x << " not_eq " << y << endl;                       \
-        exit(1);                                                               \
+#define assert_equals(x, y)                                                   \
+    if ( not equals(x, y) ) {                                                 \
+        cerr << __FILE__ << ":"                                               \
+        << __LINE__ << ": " << x << " not_eq " << y << endl;                  \
+        exit(1);                                                              \
     }
 
-#define assert_equals_vec(x, y)                                                \
-    for (size_t i = 0; i < x.size(); i++) {                                    \
-        assert_equals(x[i], y[i]);                                             \
+#define assert_equals_vec(x, y)                                               \
+    for (size_t i = 0; i < x.size(); i++) {                                   \
+        assert_equals(x[i], y[i]);                                            \
     }
 
-#define assert_nequals_vec(x, y)                                               \
-    for (size_t i = 0; i < x.size(); i++) {                                    \
-        if (not equals(x[i], y[i])) break;                                     \
-        if (i == x.size() - 1) {                                               \
-            cerr << __FILE__ << ":" << __LINE__ << ": vectors equal" << endl;  \
-            exit(1);                                                           \
-        }                                                                      \
+#define assert_nequals_vec(x, y)                                              \
+    for (size_t i = 0; i < x.size(); i++) {                                   \
+        if (not equals(x[i], y[i])) break;                                    \
+        if (i == x.size() - 1) {                                              \
+            cerr << __FILE__ << ":" << __LINE__ << ": vectors equal" << endl; \
+            exit(1);                                                          \
+        }                                                                     \
     }
 
 void rng_t::test()
@@ -63,7 +64,7 @@ void rng_t::test()
     rng_t rng2;
 
     {
-      vector<real_t> x, y;
+      vector< real_t > x, y;
 
       rng1.seed(1);
       x = {rng1.prob(), rng1.prob(), rng1.prob()};
@@ -73,7 +74,7 @@ void rng_t::test()
     }
 
     {
-      vector<real_t> x, y;
+      vector< real_t > x, y;
 
       rng1.seed(2);
       x = {rng1.prob(), rng1.prob(), rng1.prob()};
@@ -88,7 +89,7 @@ void rng_t::test()
     const size_t N = 1000000;
 
     rng_t rng;
-    vector<size_t> vec = {0, 0, 0, 0, 0};
+    vector< size_t > vec = {0, 0, 0, 0, 0};
     for (size_t i = 0; i < N; i++)
     {
       rng.element(vec)++;

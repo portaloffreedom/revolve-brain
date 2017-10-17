@@ -19,8 +19,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <utility>
 #include <vector>
 
 #include <boost/graph/adjacency_list.hpp>
@@ -34,15 +32,16 @@ namespace revolve
   {
     LayeredExtNNController::LayeredExtNNController(
             std::string modelName,
-            boost::shared_ptr<LayeredExtNNConfig> Config,
-            const std::vector<ActuatorPtr> &actuators,
-            const std::vector<SensorPtr> &sensors)
+            boost::shared_ptr< LayeredExtNNConfig > Config,
+            const std::vector< ActuatorPtr > &actuators,
+            const std::vector< SensorPtr > &sensors
+    )
             : modelName_(modelName)
-              , layers_(Config->layers_)
-              , outputPositionMap_(Config->outputPositionMap_)
-              , inputPositionMap_(Config->inputPositionMap_)
-              , idToNeuron_(Config->idToNeuron_)
-              , connections_(Config->connections_)
+            , layers_(Config->layers_)
+            , outputPositionMap_(Config->outputPositionMap_)
+            , inputPositionMap_(Config->inputPositionMap_)
+            , idToNeuron_(Config->idToNeuron_)
+            , connections_(Config->connections_)
     {
       size_t p = 0;
       for (auto sensor : sensors)
@@ -66,10 +65,11 @@ namespace revolve
     }
 
     void
-    LayeredExtNNController::update(const std::vector<ActuatorPtr> &actuators,
-                                   const std::vector<SensorPtr> &sensors,
-                                   double t,
-                                   double step)
+    LayeredExtNNController::update(
+            const std::vector< ActuatorPtr > &actuators,
+            const std::vector< SensorPtr > &sensors,
+            double t,
+            double step)
     {
       // Read sensor data into the input buffer
       size_t p = 0;
@@ -88,7 +88,7 @@ namespace revolve
       }
 
       // Calculate new states of all neurons
-      for (std::vector<NeuronPtr> layer : layers_)
+      for (std::vector< NeuronPtr > layer : layers_)
       {
         for (NeuronPtr neuron : layer)
         {
@@ -117,9 +117,10 @@ namespace revolve
       }
     }
 
-    boost::shared_ptr<LayeredExtNNConfig> LayeredExtNNController::getGenotype()
+    boost::shared_ptr< LayeredExtNNConfig >
+    LayeredExtNNController::getGenotype()
     {
-      boost::shared_ptr<LayeredExtNNConfig> Config(new LayeredExtNNConfig());
+      boost::shared_ptr< LayeredExtNNConfig > Config(new LayeredExtNNConfig());
       Config->layers_ = layers_;
       Config->outputPositionMap_ = outputPositionMap_;
       Config->inputPositionMap_ = inputPositionMap_;
@@ -129,7 +130,7 @@ namespace revolve
     }
 
     void LayeredExtNNController::setGenotype(
-            boost::shared_ptr<LayeredExtNNConfig> Config)
+            boost::shared_ptr< LayeredExtNNConfig > Config)
     {
       layers_ = Config->layers_;
       outputPositionMap_ = Config->outputPositionMap_;
@@ -140,7 +141,7 @@ namespace revolve
 
     void LayeredExtNNController::writeNetwork(std::ofstream &write_to)
     {
-      std::vector<NeuronPtr> allNeurons_;
+      std::vector< NeuronPtr > allNeurons_;
       for (auto v : layers_)
       {
         allNeurons_.insert(allNeurons_.end(), v.begin(), v.end());
@@ -148,9 +149,9 @@ namespace revolve
       boost::adjacency_list<> graph(allNeurons_.size());
       for (size_t i = 0; i < allNeurons_.size(); i++)
       {
-        std::vector<std::pair<std::string, NeuralConnectionPtr>>
+        std::vector< std::pair< std::string, NeuralConnectionPtr>>
                 connectionsToAdd = allNeurons_[i]->IncomingConnections();
-        for (std::pair<std::string, NeuralConnectionPtr>
+        for (std::pair< std::string, NeuralConnectionPtr >
                   connectionToAdd : connectionsToAdd)
         {
           NeuronPtr input = connectionToAdd.second->GetInputNeuron();
@@ -167,7 +168,7 @@ namespace revolve
                 << allNeurons_[i]->Id() + " of type: "
                    + allNeurons_[i]->Type()
                 << std::endl;
-        for (std::pair<std::string, double>
+        for (std::pair< std::string, double >
                   param : allNeurons_[i]->Parameters())
         {
           nodeName << param.first << ": " << param.second << std::endl;

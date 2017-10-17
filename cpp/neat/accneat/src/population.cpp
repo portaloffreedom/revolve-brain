@@ -45,8 +45,9 @@ using namespace NEAT;
 
 Population *NEAT::debug_population = nullptr;
 
-Population *Population::create(rng_t rng,
-                               std::vector<std::unique_ptr<Genome>> &seeds)
+Population *Population::create(
+        rng_t rng,
+        std::vector< std::unique_ptr< Genome>> &seeds)
 {
   Population *result;
 

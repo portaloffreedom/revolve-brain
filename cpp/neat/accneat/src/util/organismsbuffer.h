@@ -30,24 +30,25 @@
 
 namespace NEAT
 {
-  template <typename TOrganism = Organism>
+  template < typename TOrganism = Organism >
   class OrganismsBuffer
   {
     size_t _n;
 
-    std::vector<TOrganism> _a;
+    std::vector< TOrganism > _a;
 
-    std::vector<TOrganism> _b;
+    std::vector< TOrganism > _b;
 
-    std::vector<TOrganism> *_curr;
+    std::vector< TOrganism > *_curr;
 
-    std::vector<TOrganism> *_prev;
+    std::vector< TOrganism > *_prev;
 
     public:
-    OrganismsBuffer(rng_t rng,
-                    std::vector<std::unique_ptr<Genome>> &seeds,
-                    size_t n,
-                    size_t population_index = 0)
+    OrganismsBuffer(
+            rng_t rng,
+            std::vector< std::unique_ptr< Genome>> &seeds,
+            size_t n,
+            size_t population_index = 0)
             : _n(n)
     {
       _a.reserve(n);
@@ -90,12 +91,12 @@ namespace NEAT
       return _n;
     }
 
-    std::vector<TOrganism> &curr()
+    std::vector< TOrganism > &curr()
     {
       return *_curr;
     }
 
-    std::vector<TOrganism> &prev()
+    std::vector< TOrganism > &prev()
     {
       return *_prev;
     }

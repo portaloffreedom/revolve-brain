@@ -45,9 +45,9 @@ namespace revolve
       input_ = _value;
     }
 
-    std::map<std::string, double> InputNeuron::Parameters()
+    std::map< std::string, double > InputNeuron::Parameters()
     {
-      std::map<std::string, double> ret;
+      std::map< std::string, double > ret;
       return ret;
     }
 

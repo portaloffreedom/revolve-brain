@@ -32,7 +32,8 @@ RythmGenerationNeuron::RythmGenerationNeuron(
         std::vector< real_t > weight_neigbours,
         real_t c,
         real_t amplitude,
-        real_t offset)
+        real_t offset
+)
         : phi(1)
         , weight_neigbours(weight_neigbours)
 {
@@ -74,8 +75,9 @@ std::vector< real_t > RythmGenerationNeuron::update(
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::nextPhi(const std::vector< real_t > &inputs,
-                                      real_t delta_time) const
+real_t RythmGenerationNeuron::nextPhi(
+        const std::vector< real_t > &inputs,
+        real_t delta_time) const
 {
   static const real_t PI = std::acos(-1);  // define PI
 
@@ -145,8 +147,9 @@ void RythmGenerationNeuron::setWeight(real_t weight)
 
 // the weight that determines the shape [0, 1.0]
 /////////////////////////////////////////////////
-void RythmGenerationNeuron::setWeightNeighbour(real_t weight,
-                                               size_t index)
+void RythmGenerationNeuron::setWeightNeighbour(
+        real_t weight,
+        size_t index)
 {
   if (weight < WEIGHT_MIN or weight > WEIGHT_MAX)
   {
@@ -290,8 +293,9 @@ real_t RythmGenerationNeuron::setWeightPercentage(real_t weight)
 }
 
 /////////////////////////////////////////////////
-real_t RythmGenerationNeuron::setWeightNeighbourPercentage(real_t weight,
-                                                           size_t index)
+real_t RythmGenerationNeuron::setWeightNeighbourPercentage(
+        real_t weight,
+        size_t index)
 {
   this->weight_neigbours[index] = calculateWeightFromPercentage(weight);
   return this->weight_neigbours[index];

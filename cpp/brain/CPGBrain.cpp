@@ -20,43 +20,44 @@
 
 #include <map>
 #include <random>
-#include <string>
-#include <vector>
 
 #include "CPGBrain.h"
 
 using namespace revolve::brain;
 
-CPGBrain::CPGBrain(std::string robot_name,
-                   EvaluatorPtr evaluator,
-                   size_t n_actuators,
-                   size_t n_sensors)
+CPGBrain::CPGBrain(
+        std::string robot_name,
+        EvaluatorPtr evaluator,
+        size_t n_actuators,
+        size_t n_sensors
+)
         : Brain()
-          , robot_name(robot_name)
-          , n_inputs(n_sensors)
-          , n_actuators(n_actuators)
-          , cpgs(n_actuators, nullptr)
-          , connections(n_actuators,
-                        std::vector<cpg::CPGNetwork::Weights>(n_actuators))
-          , evaluator(evaluator)
-          , start_eval_time_(-1)
-          , generation_counter_(0)
+        , robot_name(robot_name)
+        , n_inputs(n_sensors)
+        , n_actuators(n_actuators)
+        , cpgs(n_actuators, nullptr)
+        , connections(
+                n_actuators,
+                std::vector< cpg::CPGNetwork::Weights >(n_actuators))
+        , evaluator(evaluator)
+        , start_eval_time_(-1)
+        , generation_counter_(0)
         // TODO read this values from config file
-          , evaluation_rate_(30)
-          , max_evaluations_(1000)
-          , max_ranked_policies_(10)
-          , noise_sigma_(0.1)
+        , evaluation_rate_(30)
+        , max_evaluations_(1000)
+        , max_ranked_policies_(10)
+        , noise_sigma_(0.1)
 {
   size_t n_connections = n_actuators - 1;
 
-  for (size_t i = 0; i < n_actuators; i++)
+  for (size_t i = 0; i < n_actuators; ++i)
   {
     cpgs[i] = new cpg::CPGNetwork(n_sensors, n_connections);
   }
 
-  for (size_t i = 0; i < n_actuators; i++)
+  for (size_t i = 0; i < n_actuators; ++i)
   {
-    for (size_t j = 0; j < n_actuators; j++)
+    for (size_t j = 0; j < n_actuators; ++j)
     {
       if (i == j)
       { continue; }
@@ -66,12 +67,12 @@ CPGBrain::CPGBrain(std::string robot_name,
 
   std::random_device rd;
   std::mt19937 mt(rd());
-  std::normal_distribution<float> dist(0, (float)this->noise_sigma_);
+  std::normal_distribution< float > dist(0, (float)this->noise_sigma_);
 
   // Init first random controller
   if (not current_policy_)
   {
-    current_policy_ = std::make_shared<Policy>(n_actuators);
+    current_policy_ = std::make_shared< Policy >(n_actuators);
   }
 
   // init with random connections
@@ -85,7 +86,7 @@ CPGBrain::CPGBrain(std::string robot_name,
   for (size_t i = 0; i < n_actuators; ++i)
   {
     size_t genome_size = 12 + 2 * n_connections;
-    GenomePtr spline = std::make_shared<Genome>(genome_size, 0);
+    GenomePtr spline = std::make_shared< Genome >(genome_size, 0);
     for (size_t j = 0; j < genome_size; ++j)
     {
       spline->at(j) = dist(mt);
@@ -103,12 +104,13 @@ CPGBrain::~CPGBrain()
   }
 }
 
-void CPGBrain::update(const std::vector<ActuatorPtr> &actuators,
-                      const std::vector<SensorPtr> &sensors,
-                      double t,
-                      double step)
+void CPGBrain::update(
+        const std::vector< ActuatorPtr > &actuators,
+        const std::vector< SensorPtr > &sensors,
+        double t,
+        double step)
 {
-  this->update<std::vector<ActuatorPtr>, std::vector<SensorPtr>>
+  this->update< std::vector< ActuatorPtr >, std::vector< SensorPtr>>
               (actuators, sensors, t, step);
 }
 
@@ -149,12 +151,12 @@ void CPGBrain::updatePolicy(double curr_fitness)
   size_t source_y_size = 12;  // TODO
 
   // Insert ranked policy in list
-  PolicyPtr policy_copy = std::make_shared<Policy>(n_actuators);
+  PolicyPtr policy_copy = std::make_shared< Policy >(n_actuators);
   for (size_t i = 0; i < n_actuators; i++)
   {
     GenomePtr genome = current_policy_->at(i);
     policy_copy->at(i) =
-            std::make_shared<Genome>(genome->begin(), genome->end());
+            std::make_shared< Genome >(genome->begin(), genome->end());
   }
   ranked_policies_.insert({curr_fitness, policy_copy});
 
@@ -200,7 +202,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
   {
     // uncorrelated mutation with one step size
     std::mt19937 sigma_mt(rd());
-    std::normal_distribution<double> sigma_dist(0, 1);
+    std::normal_distribution< double > sigma_dist(0, 1);
     noise_sigma_ =
             noise_sigma_ * std::exp(sigma_tau_correction_
                                     * sigma_dist(sigma_mt));
@@ -213,7 +215,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
       noise_sigma_ *= SIGMA_DECAY_SQUARED;
     }
   }
-  std::normal_distribution<double> dist(0, noise_sigma_);
+  std::normal_distribution< double > dist(0, noise_sigma_);
 
   /// Determine which selection operator to use
   /// Default, for algorithms A and C, is used ten parent crossover
@@ -326,7 +328,7 @@ void CPGBrain::updatePolicy(double curr_fitness)
   {
     // And for each control point
     cpg::CPGNetwork *cpg = cpgs[i];
-    std::vector<cpg::CPGNetwork::Limit> limits = cpg->GenomeLimits();
+    std::vector< cpg::CPGNetwork::Limit > limits = cpg->GenomeLimits();
     for (size_t j = 0; j < source_y_size; j++)
     {
       cpg::real_t &value = current_policy_->at(i)->at(j);
@@ -350,11 +352,11 @@ void CPGBrain::updatePolicy(double curr_fitness)
   genomeToPhenotype();
 }
 
-std::map<double, CPGBrain::PolicyPtr>::iterator CPGBrain::binarySelection()
+std::map< double, CPGBrain::PolicyPtr >::iterator CPGBrain::binarySelection()
 {
   std::random_device rd;
   std::mt19937 umt(rd());
-  std::uniform_int_distribution<size_t> udist(0, max_ranked_policies_ - 1);
+  std::uniform_int_distribution< size_t > udist(0, max_ranked_policies_ - 1);
 
   // Select two different numbers from uniform distribution
   // U(0, maxRankedPolicies_ - 1)
@@ -391,7 +393,7 @@ void CPGBrain::genomeToPhenotype()
 
 
 void CPGBrain::setConnections(
-        std::vector<std::vector<cpg::CPGNetwork::Weights> > connections)
+        std::vector< std::vector< cpg::CPGNetwork::Weights > > connections)
 {
   assert(connections.size() == this->connections.size());
   for (size_t i = 0; i < connections.size(); ++i)

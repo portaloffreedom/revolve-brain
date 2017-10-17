@@ -33,7 +33,7 @@ namespace NEAT
           : public Genome
   {
     public:
-    MultiInnovGenome(std::list<std::unique_ptr<InnovGenome>> &genome_list);
+    MultiInnovGenome(std::list< std::unique_ptr< InnovGenome>> &genome_list);
 
     virtual ~MultiInnovGenome() override;
 
@@ -48,7 +48,7 @@ namespace NEAT
     virtual Stats get_stats() override;
 
     private:
-    std::vector<std::unique_ptr<InnovGenome >> *innov_genome_list;
+    std::vector< std::unique_ptr< InnovGenome >> *innov_genome_list;
   };
 }
 

@@ -67,7 +67,7 @@ namespace NEAT
     virtual void copy_into(Organism &dst) const override;
 
     /// \brief The Organism's phenotype, second part
-    std::vector<std::unique_ptr<Network>> nets;
+    std::vector< std::unique_ptr< Network>> nets;
   };
 }
 

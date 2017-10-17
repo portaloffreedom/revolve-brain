@@ -35,15 +35,17 @@ struct Config
   int nsteps;
   uchar steps[];
 
-  __net_eval_decl static size_t sizeof_step(node_size_t ninputs,
-                                            node_size_t noutputs)
+  __net_eval_decl static size_t sizeof_step(
+          node_size_t ninputs,
+          node_size_t noutputs)
   {
     return sizeof(StepParms) + sizeof(real_t) * (ninputs + noutputs);
   }
 
-  __net_eval_decl static size_t sizeof_buffer(size_t nsteps,
-                                              node_size_t ninputs,
-                                              node_size_t noutputs)
+  __net_eval_decl static size_t sizeof_buffer(
+          size_t nsteps,
+          node_size_t ninputs,
+          node_size_t noutputs)
   {
     return sizeof(Config) + nsteps * sizeof_step(ninputs,
                                                  noutputs);
@@ -116,7 +118,8 @@ struct Evaluator
     for (size_t i = 0; i < config->noutputs; i++)
     {
       real_t err = actual[i] - expected[i];
-      if (err < 0) err *= -1;
+      if (err < 0)
+      { err *= -1; }
       if (err < 0.05)
       {
         err = 0.0;
@@ -141,11 +144,12 @@ struct Evaluator
 //---
 //--- Convert convenient experiment declaration into Config encoding.
 //---
-static void create_config(const std::vector<Test> &tests,
-                          accneat_out
-                          Config *&config_,
-                          accneat_out
-                          size_t &len_)
+static void create_config(
+        const std::vector< Test > &tests,
+        accneat_out
+        Config *&config_,
+        accneat_out
+        size_t &len_)
 {
   // Validate tests
   {
@@ -208,10 +212,14 @@ static void create_config(const std::vector<Test> &tests,
         parms->weight = step.weight;
 
         for (node_size_t i = 0; i < ninputs; i++)
+        {
           config->inputs(istep)[i] = step.input[i];
+        }
 
         for (node_size_t i = 0; i < noutputs; i++)
+        {
           config->outputs(istep)[i] = step.output[i];
+        }
 
         istep++;
       }
@@ -258,11 +266,11 @@ static void create_config(const std::vector<Test> &tests,
 class StaticNetworkEvaluator
         : public NetworkEvaluator
 {
-  NetworkExecutor<Evaluator> *executor;
+  NetworkExecutor< Evaluator > *executor;
   public:
-  StaticNetworkEvaluator(const std::vector<Test> &tests)
+  StaticNetworkEvaluator(const std::vector< Test > &tests)
   {
-    executor = NetworkExecutor<Evaluator>::create();
+    executor = NetworkExecutor< Evaluator >::create();
 
     Evaluator::Config *config;
     size_t configlen;
@@ -276,9 +284,10 @@ class StaticNetworkEvaluator
     delete executor;
   }
 
-  virtual void execute(class Network **nets_,
-                       class OrganismEvaluation *results,
-                       size_t nnets)
+  virtual void execute(
+          class Network **nets_,
+          class OrganismEvaluation *results,
+          size_t nnets)
   {
     executor->execute(nets_, results, nnets);
   }
@@ -286,7 +295,7 @@ class StaticNetworkEvaluator
 
 namespace NEAT
 {
-  NetworkEvaluator *create_static_evaluator(const std::vector<Test> &tests)
+  NetworkEvaluator *create_static_evaluator(const std::vector< Test > &tests)
   {
     return new StaticNetworkEvaluator(tests);
   }

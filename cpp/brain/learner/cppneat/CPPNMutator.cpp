@@ -20,8 +20,6 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#include <utility>
-#include <string>
 #include <vector>
 
 #include <yaml-cpp/yaml.h>
@@ -73,7 +71,7 @@ namespace cppneat
   {
     for (const auto &connection : _genotype->connectionGenes_)
     {
-      std::pair< size_t , size_t > innovation(
+      std::pair< size_t, size_t > innovation(
               connection->from_,
               connection->to_);
       connectionInnovations_[innovation] = connection->InnovationNumber();
@@ -433,9 +431,9 @@ namespace cppneat
 
       _genotype->RemoveConnection(splitId);
       auto fromNeuron = boost::dynamic_pointer_cast< NeuronGene >(
-                      _genotype->Find(from))->neuron_;
+              _genotype->Find(from))->neuron_;
       auto toNeuron = boost::dynamic_pointer_cast< NeuronGene >(
-                      _genotype->Find(to))->neuron_;
+              _genotype->Find(to))->neuron_;
 
       std::uniform_int_distribution< size_t >
               choice2(0, addableNeurons_.size() - 1);
@@ -529,7 +527,7 @@ namespace cppneat
           ConnectionGenePtr _split)
   {
     auto connection_split_in = _split->InnovationNumber();
-    std::pair< size_t , Neuron::Ntype > neuron_pair(
+    std::pair< size_t, Neuron::Ntype > neuron_pair(
             connection_split_in,
             _neuron->neuronType_);
     if (neuronInnovations_.find(neuron_pair) not_eq neuronInnovations_.end())
@@ -537,7 +535,7 @@ namespace cppneat
       size_t i = 0;
       while (i < neuronInnovations_[neuron_pair].size()
              and _genotype->Find(neuronInnovations_[neuron_pair][i])
-                not_eq nullptr)
+                 not_eq nullptr)
       {
         i++;
       }
@@ -611,7 +609,7 @@ namespace cppneat
           GeneticEncodingPtr _genotype,
           const std::string &_socket)
   {
-    std::pair< size_t , size_t > innovation_pair(_from, _to);
+    std::pair< size_t, size_t > innovation_pair(_from, _to);
     if (connectionInnovations_.find(innovation_pair)
         not_eq connectionInnovations_.end())
     {

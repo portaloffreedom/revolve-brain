@@ -1,11 +1,12 @@
 #include "cudanetwork.h"
 
-namespace NEAT {
-
-Network *
-Network::create()
+namespace NEAT
 {
-  return new CudaNetwork();
-}
+
+  Network *
+  Network::create()
+  {
+    return new CudaNetwork();
+  }
 
 }

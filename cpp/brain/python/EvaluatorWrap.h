@@ -35,7 +35,7 @@ namespace revolve
     /// python classes
     class EvaluatorWrap
             : public Evaluator
-              , public boost::python::wrapper<Evaluator>
+              , public boost::python::wrapper< Evaluator >
     {
       public:
       virtual void start()

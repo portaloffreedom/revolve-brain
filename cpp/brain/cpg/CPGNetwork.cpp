@@ -27,7 +27,8 @@ using namespace revolve::brain::cpg;
 
 CPGNetwork::CPGNetwork(
         size_t n_sensors,
-        size_t n_connections)
+        size_t n_connections
+)
         : rge(nullptr)
         , rgf(nullptr)
         , pfe(nullptr)

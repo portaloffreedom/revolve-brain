@@ -35,26 +35,28 @@ namespace revolve
     {
       public:
       /// \brief
-      CPGController(size_t n_inputs,
-                    size_t n_outputs);
+      CPGController(
+              size_t n_inputs,
+              size_t n_outputs);
 
       /// \brief
       virtual ~CPGController();
 
       /// \brief
-      void update(const std::vector<ActuatorPtr> &actuators,
-                  const std::vector<SensorPtr> &sensors,
-                  double t,
-                  double step) override;
+      void update(
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step) override;
 
       /// \brief
-      std::vector<cpg::CPGNetwork *>::iterator beginCPGNetwork()
+      std::vector< cpg::CPGNetwork * >::iterator beginCPGNetwork()
       {
         return cpgs.begin();
       }
 
       /// \brief
-      std::vector<cpg::CPGNetwork *>::iterator endCPGNetwork()
+      std::vector< cpg::CPGNetwork * >::iterator endCPGNetwork()
       {
         return cpgs.end();
       }
@@ -68,13 +70,13 @@ namespace revolve
       size_t n_inputs, n_outputs;
 
       /// \brieflist of cpgs
-      std::vector<cpg::CPGNetwork *> cpgs;
+      std::vector< cpg::CPGNetwork * > cpgs;
 
       /// \brief Connection matrix between the different servos
       /// First is start of the connections, second is end.
       /// Example: connections[0][1].we is the connection starting from servo 0
       /// and reacing servo 1 for the RythmGenerationNeurons E
-      std::vector<std::vector<cpg::CPGNetwork::Weights>> connections;
+      std::vector< std::vector< cpg::CPGNetwork::Weights>> connections;
 
       /// \brief CACHING VECTORS
       double *inputs_vector,

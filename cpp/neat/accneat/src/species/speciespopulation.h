@@ -51,8 +51,9 @@ namespace NEAT
   {
     public:
     /// \brief Construct off of a single spawning Genome
-    SpeciesPopulation(rng_t rng,
-                      std::vector<std::unique_ptr<Genome>> &seeds);
+    SpeciesPopulation(
+            rng_t rng,
+            std::vector< std::unique_ptr< Genome>> &seeds);
 
     /// \brief
     virtual ~SpeciesPopulation();
@@ -64,7 +65,7 @@ namespace NEAT
     virtual class Organism *get(size_t index) override;
 
     /// \brief
-    virtual std::unique_ptr<Organism> make_copy(size_t index) override;
+    virtual std::unique_ptr< Organism > make_copy(size_t index) override;
 
     /// \brief
     virtual void next_generation() override;
@@ -89,11 +90,11 @@ namespace NEAT
     int generation;
 
     /// \brief
-    OrganismsBuffer<SpeciesOrganism> orgs;
+    OrganismsBuffer< SpeciesOrganism > orgs;
 
     /// \brief Species in the SpeciesPopulation. Note that the species should
     /// comprise all the genomes
-    std::vector<class Species *> species;
+    std::vector< class Species * > species;
 
     // ******* Member variables used during reproduction *******
     /// \brief The highest species number

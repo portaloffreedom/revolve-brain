@@ -71,7 +71,8 @@ namespace NEAT
     /// \brief A node can be given an identification number for saving in files
     int node_id;
 
-    InnovNodeGene() : InnovNodeGene("ERROR")
+    InnovNodeGene()
+            : InnovNodeGene("ERROR")
     {}
 
     InnovNodeGene(const InnovNodeGene &other);
@@ -79,15 +80,17 @@ namespace NEAT
     // Construct InnovNodeGene with invalid state.
     InnovNodeGene(const std::string &robot_name);
 
-    InnovNodeGene(nodetype ntype,
-                  int nodeid,
-                  const std::string &robot_name,
-                  const std::string &creator_name,
-                  const int creator_index);
+    InnovNodeGene(
+            nodetype ntype,
+            int nodeid,
+            const std::string &robot_name,
+            const std::string &creator_name,
+            const int creator_index);
 
-    InnovNodeGene(nodetype ntype,
-                  int nodeid,
-                  const std::string &robot_name)
+    InnovNodeGene(
+            nodetype ntype,
+            int nodeid,
+            const std::string &robot_name)
             : InnovNodeGene(ntype, nodeid, robot_name, robot_name, -1)
     {}
 
@@ -130,19 +133,20 @@ namespace NEAT
 
     void set_creator_index(int creator_index);
 
-    friend struct YAML::convert<NEAT::InnovNodeGene>;
+    friend struct YAML::convert< NEAT::InnovNodeGene >;
   };
 }  // namespace NEAT
 
 namespace YAML
 {
   template <>
-  struct convert<NEAT::InnovNodeGene>
+  struct convert< NEAT::InnovNodeGene >
   {
     static Node encode(const NEAT::InnovNodeGene &rhs);
 
-    static bool decode(const Node &node,
-                       NEAT::InnovNodeGene &rhs);
+    static bool decode(
+            const Node &node,
+            NEAT::InnovNodeGene &rhs);
   };
 }
 

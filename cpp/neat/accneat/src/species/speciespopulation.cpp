@@ -51,21 +51,22 @@
 using namespace NEAT;
 using namespace std;
 
-SpeciesPopulation::SpeciesPopulation(rng_t rng,
-                                     vector<unique_ptr<Genome>> &seeds)
+SpeciesPopulation::SpeciesPopulation(
+        rng_t rng,
+        vector< unique_ptr< Genome>> &seeds)
         : norgs(seeds.size())
-          , generation(0)
-          , orgs(rng, seeds, seeds.size())
-          , highest_fitness(0.0)
-          , highest_last_changed(0)
+        , generation(0)
+        , orgs(rng, seeds, seeds.size())
+        , highest_fitness(0.0)
+        , highest_last_changed(0)
 {
   spawn();
 }
 
 SpeciesPopulation::~SpeciesPopulation()
 {
-  std::vector<Species *>::iterator curspec;
-  std::vector<SpeciesOrganism *>::iterator curorg;
+  std::vector< Species * >::iterator curspec;
+  std::vector< SpeciesOrganism * >::iterator curorg;
 
   if (species.begin() not_eq species.end())
   {
@@ -86,10 +87,10 @@ Organism *SpeciesPopulation::get(size_t index)
   return &orgs.curr()[index];
 }
 
-unique_ptr<Organism> SpeciesPopulation::make_copy(size_t index)
+unique_ptr< Organism > SpeciesPopulation::make_copy(size_t index)
 {
   SpeciesOrganism *copy = new SpeciesOrganism((SpeciesOrganism &)*get(index));
-  return unique_ptr<Organism>(copy);
+  return unique_ptr< Organism >(copy);
 }
 
 void SpeciesPopulation::verify()
@@ -168,7 +169,7 @@ void SpeciesPopulation::next_generation()
 
 
   // Species sorted by max fit org in Species
-  std::vector<Species *> sorted_species;
+  std::vector< Species * > sorted_species;
 
   // We can try to keep the number of species constant at this number
   int num_species = species.size();

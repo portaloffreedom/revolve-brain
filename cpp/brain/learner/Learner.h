@@ -27,7 +27,7 @@ namespace revolve
 {
   namespace brain
   {
-    template <typename Genotype>
+    template < typename Genotype >
     class Learner
     {
       public:
@@ -39,9 +39,10 @@ namespace revolve
       /// \param[in] id: identifier of a robot (in case there are multiple ones)
       /// \param[in] genome: genome that was tested on the robot
       /// \param[in] fitness: value of the fitness evaluation
-      virtual void reportFitness(const std::string &_id,
-                                 Genotype _genotype,
-                                 const double _fitness) = 0;
+      virtual void reportFitness(
+              const std::string &_id,
+              Genotype _genotype,
+              const double _fitness) = 0;
 
 
       /// \brief Getter for a new robot genotype

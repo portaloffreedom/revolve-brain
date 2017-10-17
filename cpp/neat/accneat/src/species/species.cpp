@@ -45,31 +45,32 @@ using namespace NEAT;
 using std::vector;
 
 Species::Species(int i)
- : id(i)
- , age(1)
- , ave_fitness(0.0)
- , max_fitness(0)
- , max_fitness_ever(0)
- , expected_offspring(0)
- , novel(false)
- , obliterate(false)
- , age_of_last_improvement(0)
- , average_est(0)
+        : id(i)
+        , age(1)
+        , ave_fitness(0.0)
+        , max_fitness(0)
+        , max_fitness_ever(0)
+        , expected_offspring(0)
+        , novel(false)
+        , obliterate(false)
+        , age_of_last_improvement(0)
+        , average_est(0)
 {
 }
 
-Species::Species(int i,
-                 bool n)
- : id(i)
- , age(1)
- , ave_fitness(0.0)
- , max_fitness(0)
- , max_fitness_ever(0)
- , expected_offspring(0)
- , novel(n)
- , obliterate(false)
- , age_of_last_improvement(0)
- , average_est(0)
+Species::Species(
+        int i,
+        bool n)
+        : id(i)
+        , age(1)
+        , ave_fitness(0.0)
+        , max_fitness(0)
+        , max_fitness_ever(0)
+        , expected_offspring(0)
+        , novel(n)
+        , obliterate(false)
+        , age_of_last_improvement(0)
+        , average_est(0)
 {
 }
 
@@ -126,7 +127,7 @@ SpeciesOrganism *Species::first()
 
 void Species::adjust_fitness()
 {
-  std::vector<SpeciesOrganism *>::iterator curorg;
+  std::vector< SpeciesOrganism * >::iterator curorg;
 
   int num_parents;
   int count;
@@ -176,8 +177,9 @@ void Species::adjust_fitness()
   // Sort the population and mark for death those after survival_thresh*pop_size
   std::sort(organisms.begin(),
             organisms.end(),
-            [](SpeciesOrganism *x,
-               SpeciesOrganism *y)
+            [](
+                    SpeciesOrganism *x,
+                    SpeciesOrganism *y)
             {
               return x->adjusted_fitness > y->adjusted_fitness;
             });
@@ -215,7 +217,7 @@ void Species::adjust_fitness()
 
 real_t Species::compute_average_fitness()
 {
-  std::vector<SpeciesOrganism *>::iterator curorg;
+  std::vector< SpeciesOrganism * >::iterator curorg;
 
   real_t total = 0.0;
 
@@ -232,7 +234,7 @@ real_t Species::compute_average_fitness()
 real_t Species::compute_max_fitness()
 {
   real_t max = 0.0;
-  std::vector<SpeciesOrganism *>::iterator curorg;
+  std::vector< SpeciesOrganism * >::iterator curorg;
 
   for (curorg = organisms.begin(); curorg not_eq organisms.end(); ++curorg)
   {
@@ -249,7 +251,7 @@ real_t Species::compute_max_fitness()
 
 real_t Species::count_offspring(real_t skim)
 {
-  std::vector<SpeciesOrganism *>::iterator curorg;
+  std::vector< SpeciesOrganism * >::iterator curorg;
   int e_o_intpart;  // The floor of an organism's expected offspring
   real_t e_o_fracpart;  // Expected offspring fractional part
   real_t skim_intpart;  // The whole offspring in the skim
@@ -280,9 +282,10 @@ real_t Species::count_offspring(real_t skim)
   return skim;
 }
 
-static SpeciesOrganism *get_random(rng_t &rng,
-                                   Species *thiz,
-                                   const vector<Species *> &sorted_species)
+static SpeciesOrganism *get_random(
+        rng_t &rng,
+        Species *thiz,
+        const vector< Species * > &sorted_species)
 {
   Species *result = thiz;
   for (int i = 0; (result == thiz) and (i < 5); i++)
@@ -298,10 +301,11 @@ static SpeciesOrganism *get_random(rng_t &rng,
 }
 
 // TODO: this method better belongs in the population class.
-void Species::reproduce(int ioffspring,
-                        SpeciesOrganism &baby,
-                        GenomeManager *genome_manager,
-                        vector<Species *> &sorted_species)
+void Species::reproduce(
+        int ioffspring,
+        SpeciesOrganism &baby,
+        GenomeManager *genome_manager,
+        vector< Species * > &sorted_species)
 {
   SpeciesOrganism *thechamp = organisms[0];
   Genome &new_genome = *baby.genome;  // For holding baby's genes
@@ -368,15 +372,17 @@ void Species::reproduce(int ioffspring,
   }
 }
 
-bool NEAT::order_species(Species *x,
-                         Species *y)
+bool NEAT::order_species(
+        Species *x,
+        Species *y)
 {
   return (((*((x->organisms).begin()))->eval.fitness)
           > ((*((y->organisms).begin()))->eval.fitness));
 }
 
-bool NEAT::order_new_species(Species *x,
-                             Species *y)
+bool NEAT::order_new_species(
+        Species *x,
+        Species *y)
 {
   return (x->compute_max_fitness() > y->compute_max_fitness());
 }

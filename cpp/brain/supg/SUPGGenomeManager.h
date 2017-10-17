@@ -31,14 +31,15 @@ class SUPGGenomeManager
   public:
   SUPGGenomeManager(const std::string &robot_name);
 
-  virtual std::vector<std::unique_ptr<NEAT::Genome>>
-  create_seed_generation(size_t ngenomes,
-                         NEAT::rng_t rng,
-                         size_t ntraits,
-                         size_t ninputs,
-                         size_t noutputs,
-                         size_t nhidden,
-                         const std::string &robot_name) override;
+  virtual std::vector< std::unique_ptr< NEAT::Genome>>
+  create_seed_generation(
+          size_t ngenomes,
+          NEAT::rng_t rng,
+          size_t ntraits,
+          size_t ninputs,
+          size_t noutputs,
+          size_t nhidden,
+          const std::string &robot_name) override;
 };
 
 #endif  //  REVOLVEBRAIN_BRAIN_SUPGG_SUPGGENOMEMANAGER_H_

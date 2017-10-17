@@ -58,8 +58,8 @@ namespace revolve
               const size_t n_inputs,
               const size_t n_outputs,
               const size_t n_coordinates,
-              const std::vector<std::vector<bool>> &connections_active,
-              const std::vector<std::vector<float>> &cpgs_coordinates,
+              const std::vector< std::vector< bool>> &connections_active,
+              const std::vector< std::vector< float>> &cpgs_coordinates,
               const float evaluationTime,
               const long maxEvaluations = -1);
 
@@ -72,10 +72,10 @@ namespace revolve
 
       protected:  // VARIABLES
       /// \brief
-      const std::vector<std::vector<bool>> connections_active;
+      const std::vector< std::vector< bool>> connections_active;
 
       /// \brief
-      const std::vector<std::vector<float>> cpgs_coordinates;
+      const std::vector< std::vector< float>> cpgs_coordinates;
 
       /// \brief
       const size_t n_coordinates;

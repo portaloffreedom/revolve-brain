@@ -26,9 +26,10 @@
 
 using namespace NEAT;
 
-static std::vector<Test>
-create_parallel_output_tests(std::string syms,
-                             std::vector<std::string> &sequences);
+static std::vector< Test >
+create_parallel_output_tests(
+        std::string syms,
+        std::vector< std::string > &sequences);
 
 static struct SequenceInit
 {
@@ -38,7 +39,7 @@ static struct SequenceInit
                              []()
                              {
                                std::string syms = "ab";
-                               std::vector<std::string>
+                               std::vector< std::string >
                                        seqs = permute_repeat(syms, 2);
                                return create_parallel_output_tests(syms, seqs);
                              });
@@ -47,7 +48,7 @@ static struct SequenceInit
                              []()
                              {
                                std::string syms = "ab";
-                               std::vector<std::string>
+                               std::vector< std::string >
                                        seqs = permute_repeat(syms, 3);
                                return create_parallel_output_tests(syms, seqs);
                              });
@@ -56,7 +57,7 @@ static struct SequenceInit
                              []()
                              {
                                std::string syms = "ab";
-                               std::vector<std::string>
+                               std::vector< std::string >
                                        seqs = permute_repeat(syms, 4);
                                return create_parallel_output_tests(syms, seqs);
                              });
@@ -65,16 +66,16 @@ static struct SequenceInit
                              []()
                              {
                                std::string syms = "ab";
-                               std::vector<std::string>
+                               std::vector< std::string >
                                        seqs = permute_repeat(syms, 5);
                                return create_parallel_output_tests(syms, seqs);
                              });
   }
 } init;
 
-static std::vector<Test> create_parallel_output_tests(
+static std::vector< Test > create_parallel_output_tests(
         std::string syms,
-        std::vector<std::string> &sequences)
+        std::vector< std::string > &sequences)
 {
   const real_t weight_seq = 5;
   const real_t weight_query = 50;
@@ -90,13 +91,13 @@ static std::vector<Test> create_parallel_output_tests(
   size_t nsyms = syms.size();
   size_t nbits = ceil(log2(nsyms));
 
-  std::map<char, std::vector<real_t>> sym_encoding;
+  std::map< char, std::vector< real_t>> sym_encoding;
   // Create binary encoding for each symbol
   for (size_t i = 0; i < syms.size(); i++)
   {
     char sym = syms[i];
     assert(sym_encoding.find(sym) == sym_encoding.end());
-    std::vector<real_t> &encoding = sym_encoding[sym];
+    std::vector< real_t > &encoding = sym_encoding[sym];
     for (size_t bit = nbits; bit > 0; bit--)
     {
       if (i & (1 << (bit - 1)))
@@ -113,24 +114,24 @@ static std::vector<Test> create_parallel_output_tests(
   const real_t _ = 0.0;
   const real_t X = 1.0;
 
-  std::vector<Test> tests;
+  std::vector< Test > tests;
   for (std::string &sequence: sequences)
   {
-    std::vector<Step> steps;
+    std::vector< Step > steps;
 
     // Present sequence
     for (char sym: sequence)
     {
       // Create step in which symbol is presented
       {
-        std::vector<real_t> input;
+        std::vector< real_t > input;
         // Symbol being provided in this step
         append(input, X);
         // Not querying
         append(input, _);
         append(input, sym_encoding[sym]);
 
-        std::vector<real_t> output;
+        std::vector< real_t > output;
         // Empty output
         append(output, _, sequence_len * nbits);
 
@@ -139,7 +140,7 @@ static std::vector<Test> create_parallel_output_tests(
 
       // Create silence
       {
-        std::vector<real_t> input;
+        std::vector< real_t > input;
         // No symbol this step
         append(input, _);
         // Not querying
@@ -147,7 +148,7 @@ static std::vector<Test> create_parallel_output_tests(
         // Empty symbol
         append(input, _, nbits);
 
-        std::vector<real_t> output;
+        std::vector< real_t > output;
         // Empty output
         append(output, _, sequence_len * nbits);
 
@@ -157,7 +158,7 @@ static std::vector<Test> create_parallel_output_tests(
 
     // Query
     {
-      std::vector<real_t> input;
+      std::vector< real_t > input;
       // No symbol
       append(input, _);
       // Querying
@@ -165,7 +166,7 @@ static std::vector<Test> create_parallel_output_tests(
       // Empty symbol
       append(input, _, nbits);
 
-      std::vector<real_t> output;
+      std::vector< real_t > output;
       for (char sym: sequence)
       {
         append(output, sym_encoding[sym]);

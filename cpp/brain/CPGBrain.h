@@ -50,29 +50,32 @@ namespace revolve
       /// \param evaluator pointer to the evaluator to evoluate the brain
       /// \param n_actuators number of actuators
       /// \param n_sensors number of sensors
-      CPGBrain(std::string robot_name,
-               EvaluatorPtr evaluator,
-               size_t n_actuators,
-               size_t n_sensors);
+      CPGBrain(
+              std::string robot_name,
+              EvaluatorPtr evaluator,
+              size_t n_actuators,
+              size_t n_sensors);
 
       /// \brief
       virtual ~CPGBrain();
 
       /// \brief
-      virtual void update(const std::vector<ActuatorPtr> &actuators,
-                          const std::vector<SensorPtr> &sensors,
-                          double t,
-                          double step) override;
+      virtual void update(
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step) override;
 
       void setConnections(
-              std::vector<std::vector<cpg::CPGNetwork::Weights>> connections);
+              std::vector< std::vector< cpg::CPGNetwork::Weights>> connections);
 
       protected:
-      template <typename ActuatorContainer, typename SensorContainer>
-      void update(const ActuatorContainer &actuators,
-                  const SensorContainer &sensors,
-                  double t,
-                  double step)
+      template < typename ActuatorContainer, typename SensorContainer >
+      void update(
+              const ActuatorContainer &actuators,
+              const SensorContainer &sensors,
+              double t,
+              double step)
       {
         learner(t);
         controller(actuators, sensors, step);
@@ -80,10 +83,11 @@ namespace revolve
 
       virtual void learner(double t);
 
-      template <typename ActuatorContainer, typename SensorContainer>
-      void controller(const ActuatorContainer &actuators,
-                      const SensorContainer &sensors,
-                      double step)
+      template < typename ActuatorContainer, typename SensorContainer >
+      void controller(
+              const ActuatorContainer &actuators,
+              const SensorContainer &sensors,
+              double step)
       {
         // Read sensor data and feed the neural network
         double *inputs = new double[n_inputs];
@@ -95,9 +99,11 @@ namespace revolve
         }
         assert(p == n_inputs);
 
-        std::vector<cpg::real_t> inputs_readings(n_inputs, 0);
+        std::vector< cpg::real_t > inputs_readings(n_inputs, 0);
         for (size_t i = 0; i < n_inputs; i++)
+        {
           inputs_readings[i] = (cpg::real_t)inputs[i];
+        }
         delete[] inputs;
 
         double *outputs = new double[cpgs.size()];
@@ -134,13 +140,13 @@ namespace revolve
       size_t n_actuators;
 
       /// \brief list of cpgs
-      std::vector<cpg::CPGNetwork *> cpgs;
+      std::vector< cpg::CPGNetwork * > cpgs;
 
       /// \brief Connection matrix between the different servos
       /// First is start of the connections, second is end.
       /// \example connections[0][1].we is the connection starting from servo 0
       /// and reacing servo 1 for the RythmGenerationNeurons E
-      std::vector<std::vector<cpg::CPGNetwork::Weights>> connections;
+      std::vector< std::vector< cpg::CPGNetwork::Weights>> connections;
 
       // -- learner data --
 
@@ -167,10 +173,10 @@ namespace revolve
 
 // RLPOWER SECTION ------------------------------------------------------------
       protected:
-      typedef std::vector<cpg::real_t> Genome;
-      typedef std::shared_ptr<Genome> GenomePtr;
-      typedef std::vector<GenomePtr> Policy;
-      typedef std::shared_ptr<Policy> PolicyPtr;
+      typedef std::vector< cpg::real_t > Genome;
+      typedef std::shared_ptr< Genome > GenomePtr;
+      typedef std::vector< GenomePtr > Policy;
+      typedef std::shared_ptr< Policy > PolicyPtr;
 
       /// \brief Evaluate the current policy and generate new
       /// \param fitness fitness of the current evaluation
@@ -179,7 +185,7 @@ namespace revolve
       /// \brief Randomly select two policies and return the one with higher
       /// fitness
       /// \return an iterator from 'ranked_policies_' map
-      std::map<double, PolicyPtr>::iterator binarySelection();
+      std::map< double, PolicyPtr >::iterator binarySelection();
 
       /// \brief update the new parameters in the cpgs
       void genomeToPhenotype();
@@ -189,7 +195,7 @@ namespace revolve
       PolicyPtr current_policy_ = nullptr;
 
       /// \brief Container
-      std::map<double, PolicyPtr, std::greater<cpg::real_t>> ranked_policies_;
+      std::map< double, PolicyPtr, std::greater< cpg::real_t>> ranked_policies_;
 
       /// \brief sigma decay // = 0.98;
       static const double SIGMA_DECAY_SQUARED;

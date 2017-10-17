@@ -48,7 +48,7 @@ namespace revolve
       double Output(const double t) override;
 
       /// \brief
-      std::map<std::string, double> Parameters() override;
+      std::map< std::string, double > Parameters() override;
 
       /// \brief
       void SetParameters(std::map< std::string, double > _parameters) override;

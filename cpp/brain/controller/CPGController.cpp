@@ -28,7 +28,8 @@ using namespace revolve::brain;
 
 CPGController::CPGController(
         size_t n_inputs,
-        size_t n_outputs)
+        size_t n_outputs
+)
         : n_inputs(n_inputs)
         , n_outputs(n_outputs)
         , cpgs(n_outputs, nullptr)

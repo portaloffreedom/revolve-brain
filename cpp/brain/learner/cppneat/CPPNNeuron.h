@@ -60,8 +60,8 @@ namespace cppneat
 
     struct NeuronTypeSpec
     {
-      std::vector<ParamSpec> parameters;
-      std::vector<Layer> possibleLayers;
+      std::vector< ParamSpec > parameters;
+      std::vector< Layer > possibleLayers;
     };
 
     Neuron(Neuron &_copy);
@@ -82,7 +82,7 @@ namespace cppneat
 
     Ntype neuronType_;
 
-    std::map<std::string, double> parameters_;
+    std::map< std::string, double > parameters_;
   };
 }
 

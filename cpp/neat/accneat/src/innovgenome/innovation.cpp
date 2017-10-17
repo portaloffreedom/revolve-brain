@@ -44,8 +44,9 @@ limitations under the License.
 
 using namespace NEAT;
 
-static int cmp(const InnovationId &x,
-               const InnovationId &y)
+static int cmp(
+        const InnovationId &x,
+        const InnovationId &y)
 {
 #define __cmp(val)                                 \
     if (x.val < y.val) { return -1; }              \
@@ -70,25 +71,27 @@ static int cmp(const InnovationId &x,
 #undef __cmp
 }
 
-InnovationId::InnovationId(int nin,
-                           int nout,
-                           int oldinnov)
+InnovationId::InnovationId(
+        int nin,
+        int nout,
+        int oldinnov)
         : innovation_type(NEWNODE)
-          , node_in_id(nin)
-          , node_out_id(nout)
-          , old_innov_num(oldinnov)
-          , recur_flag(false)
+        , node_in_id(nin)
+        , node_out_id(nout)
+        , old_innov_num(oldinnov)
+        , recur_flag(false)
 {
 }
 
-InnovationId::InnovationId(int nin,
-                           int nout,
-                           bool recur)
+InnovationId::InnovationId(
+        int nin,
+        int nout,
+        bool recur)
         : innovation_type(NEWLINK)
-          , node_in_id(nin)
-          , node_out_id(nout)
-          , old_innov_num(-1)  // unused
-          , recur_flag(recur)
+        , node_in_id(nin)
+        , node_out_id(nout)
+        , old_innov_num(-1)  // unused
+        , recur_flag(recur)
 {
 }
 
@@ -104,60 +107,66 @@ bool InnovationId::operator==(const InnovationId &other) const
 
 InnovationParms::InnovationParms()
         : new_weight(-1)
-          , new_trait_id(-1)
+        , new_trait_id(-1)
 {
 }
 
-InnovationParms::InnovationParms(real_t w,
-                                 int t)
+InnovationParms::InnovationParms(
+        real_t w,
+        int t)
         : new_weight(w)
-          , new_trait_id(t)
+        , new_trait_id(t)
 {
 }
 
-IndividualInnovation::IndividualInnovation(int population_index_,
-                                           InnovationId id_,
-                                           InnovationParms parms_,
-                                           ApplyFunc apply_)
+IndividualInnovation::IndividualInnovation(
+        int population_index_,
+        InnovationId id_,
+        InnovationParms parms_,
+        ApplyFunc apply_)
         : population_index(population_index_)
-          , id(id_)
-          , parms(parms_)
+        , id(id_)
+        , parms(parms_)
 {
   apply = apply_;
 }
 
 /// \brief Link
-Innovation::Innovation(InnovationId id_,
-                       InnovationParms parms_,
-                       int innovation_num1_)
+Innovation::Innovation(
+        InnovationId id_,
+        InnovationParms parms_,
+        int innovation_num1_)
         : id(id_)
-          , parms(parms_)
-          , innovation_num1(innovation_num1_)
+        , parms(parms_)
+        , innovation_num1(innovation_num1_)
 {
 }
 
 /// \brief Node
-Innovation::Innovation(InnovationId id_,
-                       InnovationParms parms_,
-                       int innovation_num1_,
-                       int innovation_num2_,
-                       int newnode_id_)
+Innovation::Innovation(
+        InnovationId id_,
+        InnovationParms parms_,
+        int innovation_num1_,
+        int innovation_num2_,
+        int newnode_id_)
         : id(id_)
-          , parms(parms_)
-          , innovation_num1(innovation_num1_)
-          , innovation_num2(innovation_num2_)
-          , newnode_id(newnode_id_)
+        , parms(parms_)
+        , innovation_num1(innovation_num1_)
+        , innovation_num2(innovation_num2_)
+        , newnode_id(newnode_id_)
 {
 }
 
-static bool cmp_ind(const IndividualInnovation &x,
-                    const IndividualInnovation &y)
+static bool cmp_ind(
+        const IndividualInnovation &x,
+        const IndividualInnovation &y)
 {
   return x.population_index < y.population_index;
 }
 
-void PopulationInnovations::init(int node_id,
-                                 int innov_num)
+void PopulationInnovations::init(
+        int node_id,
+        int innov_num)
 {
   cur_node_id = node_id;
   cur_innov_num = innov_num;
@@ -181,7 +190,7 @@ void PopulationInnovations::add(const IndividualInnovation &innov)
 void PopulationInnovations::apply()
 {
   id2inds.clear();
-  for (std::vector<IndividualInnovation> &inds: innovations)
+  for (std::vector< IndividualInnovation > &inds: innovations)
   {
     for (auto &ind: inds)
     {
@@ -190,7 +199,7 @@ void PopulationInnovations::apply()
     inds.clear();
   }
 
-  std::vector<IndividualInnovation> masters;
+  std::vector< IndividualInnovation > masters;
   for (auto &kv: id2inds)
   {
     auto &inds = kv.second;

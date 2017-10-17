@@ -69,14 +69,16 @@ namespace NEAT
     bool recur_flag;
 
     /// \brief Node
-    InnovationId(int nin,
-                 int nout,
-                 int oldinnov);
+    InnovationId(
+            int nin,
+            int nout,
+            int oldinnov);
 
     /// \brief Link
-    InnovationId(int nin,
-                 int nout,
-                 bool recur);
+    InnovationId(
+            int nin,
+            int nout,
+            bool recur);
 
     bool operator<(const InnovationId &other) const;
 
@@ -94,14 +96,15 @@ namespace NEAT
 
     InnovationParms();
 
-    InnovationParms(real_t w,
-                    int t);
+    InnovationParms(
+            real_t w,
+            int t);
   };
 
   class IndividualInnovation
   {
     public:
-    typedef std::function<void(const class Innovation *innov)> ApplyFunc;
+    typedef std::function< void(const class Innovation *innov) > ApplyFunc;
 
     /// \brief
     int population_index;
@@ -115,15 +118,17 @@ namespace NEAT
     /// \brief
     ApplyFunc apply;
 
-    IndividualInnovation(int population_index_,
-                         InnovationId id_,
-                         InnovationParms parms_,
-                         ApplyFunc apply_);
+    IndividualInnovation(
+            int population_index_,
+            InnovationId id_,
+            InnovationParms parms_,
+            ApplyFunc apply_);
   };
 
-  typedef std::function<void(InnovationId id,
-                             InnovationParms parms,
-                             IndividualInnovation::ApplyFunc func)>
+  typedef std::function< void(
+          InnovationId id,
+          InnovationParms parms,
+          IndividualInnovation::ApplyFunc func) >
           CreateInnovationFunc;
 
   class Innovation
@@ -146,25 +151,27 @@ namespace NEAT
     int newnode_id;
 
     /// \brief Link
-    Innovation(InnovationId id_,
-               InnovationParms parms_,
-               int innovation_num1_);
+    Innovation(
+            InnovationId id_,
+            InnovationParms parms_,
+            int innovation_num1_);
 
     /// \brief Node
-    Innovation(InnovationId id_,
-               InnovationParms parms_,
-               int innovation_num1_,
-               int innovation_num2_,
-               int newnode_id_);
+    Innovation(
+            InnovationId id_,
+            InnovationParms parms_,
+            int innovation_num1_,
+            int innovation_num2_,
+            int newnode_id_);
   };
 
   class PopulationInnovations
   {
     /// \brief For holding the genetic innovations of the newest generation
-    std::vector<std::vector<IndividualInnovation>> innovations;
+    std::vector< std::vector< IndividualInnovation>> innovations;
 
     /// \brief
-    std::map<InnovationId, std::vector<IndividualInnovation>> id2inds;
+    std::map< InnovationId, std::vector< IndividualInnovation>> id2inds;
 
     /// \brief
     int cur_node_id;
@@ -173,8 +180,9 @@ namespace NEAT
     int cur_innov_num;
 
     public:
-    void init(int node_id,
-              int innov_num);
+    void init(
+            int node_id,
+            int innov_num);
 
     void add(const IndividualInnovation &innov);
 

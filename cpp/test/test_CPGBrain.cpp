@@ -20,8 +20,6 @@
 
 #include <iostream>
 #include <random>
-#include <string>
-#include <vector>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -37,18 +35,18 @@ int main()
   std::cout << "testing supgbrain" << std::endl;
 
   revolve::brain::EvaluatorPtr
-          testEvaluator = boost::make_shared<TestEvaluator>();
+          testEvaluator = boost::make_shared< TestEvaluator >();
 
-  std::vector<revolve::brain::SensorPtr> sensors;
+  std::vector< revolve::brain::SensorPtr > sensors;
   for (int i = 0; i < 10; i++)
   {
-    sensors.push_back(boost::make_shared<TestSensor>());
+    sensors.push_back(boost::make_shared< TestSensor >());
   }
 
-  std::vector<revolve::brain::ActuatorPtr> actuators;
+  std::vector< revolve::brain::ActuatorPtr > actuators;
   for (int i = 0; i < 10; i++)
   {
-    actuators.push_back(boost::make_shared<TestActuator>());
+    actuators.push_back(boost::make_shared< TestActuator >());
   }
 
   TestCPGBrain testBrain(
@@ -59,7 +57,7 @@ int main()
 
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_real_distribution<double> dis(0, 1);
+  std::uniform_real_distribution< double > dis(0, 1);
   double delta_time = 0.1;
 
   for (double time = 0; time < 10000; time += delta_time)
@@ -69,10 +67,11 @@ int main()
   }
 }
 
-TestCPGBrain::TestCPGBrain(std::string robot_name,
-                           revolve::brain::EvaluatorPtr evaluator,
-                           size_t n_actuators,
-                           size_t n_sensors)
+TestCPGBrain::TestCPGBrain(
+        std::string robot_name,
+        revolve::brain::EvaluatorPtr evaluator,
+        size_t n_actuators,
+        size_t n_sensors)
         : revolve::brain::CPGBrain(robot_name,
                                    evaluator,
                                    n_actuators,
@@ -81,8 +80,8 @@ TestCPGBrain::TestCPGBrain(std::string robot_name,
 }
 
 void TestCPGBrain::test_update(
-        const std::vector<revolve::brain::ActuatorPtr> &actuators,
-        const std::vector<revolve::brain::SensorPtr> &sensors,
+        const std::vector< revolve::brain::ActuatorPtr > &actuators,
+        const std::vector< revolve::brain::SensorPtr > &sensors,
         double t,
         double step)
 {

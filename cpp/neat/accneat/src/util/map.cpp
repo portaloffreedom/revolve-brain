@@ -32,7 +32,7 @@ using namespace std;
 
 namespace NEAT
 {
-  static const std::set<std::string> Valid_Sections = {
+  static const std::set< std::string > Valid_Sections = {
           "glyphs",
           "glyphs-attrs",
           "objects",
@@ -62,9 +62,10 @@ namespace NEAT
     return out.str();
   }
 
-  bool LocationTranslator::try_find(std::string row,
-                                    std::string col,
-                                    Location &result)
+  bool LocationTranslator::try_find(
+          std::string row,
+          std::string col,
+          Location &result)
   {
     if (::try_find(row_index, row, result.index.row))
     {
@@ -96,10 +97,10 @@ namespace NEAT
   struct Section
   {
     std::string name;
-    std::vector<Line> lines;
+    std::vector< Line > lines;
   };
 
-  static std::map<std::string, Section> parse_sections(std::string path)
+  static std::map< std::string, Section > parse_sections(std::string path)
   {
     std::ifstream in(path);
     if (not in.good())
@@ -107,7 +108,7 @@ namespace NEAT
       error("Failed opening " << path);
     }
 
-    std::map<std::string, Section> result;
+    std::map< std::string, Section > result;
 
     size_t lineno = 0;
     auto err = [&lineno, &path](const std::string &msg)
@@ -197,7 +198,7 @@ namespace NEAT
     return result;
   }
 
-  static std::pair<std::string, std::string> parse_equals(Line &line)
+  static std::pair< std::string, std::string > parse_equals(Line &line)
   {
     size_t pos = line.text.find_first_of('=');
     if (pos == std::string::npos)
@@ -210,19 +211,20 @@ namespace NEAT
     return {lhs, rhs};
   }
 
-  static void parse_glyphs_attrs(Section &section,
-                                 std::map<char, Glyph> &glyphs)
+  static void parse_glyphs_attrs(
+          Section &section,
+          std::map< char, Glyph > &glyphs)
   {
     for (Line &line: section.lines)
     {
-      std::pair<std::string, std::string> def = parse_equals(line);
+      std::pair< std::string, std::string > def = parse_equals(line);
 
       auto syn_err = [&line]()
       {
         line.err("Expecting: char name = value (e.g. '> dir = right')");
       };
 
-      std::vector<std::string> lhs_tokens = split(def.first);
+      std::vector< std::string > lhs_tokens = split(def.first);
       if (lhs_tokens.size() not_eq 2)
       {
         syn_err();
@@ -248,14 +250,15 @@ namespace NEAT
     }
   }
 
-  static std::map<char, Glyph> parse_glyphs(Section &section_glyphs,
-                                            Section &section_attrs)
+  static std::map< char, Glyph > parse_glyphs(
+          Section &section_glyphs,
+          Section &section_attrs)
   {
-    std::map<char, Glyph> glyphs;
+    std::map< char, Glyph > glyphs;
 
     for (Line &line: section_glyphs.lines)
     {
-      std::pair<std::string, std::string> def = parse_equals(line);
+      std::pair< std::string, std::string > def = parse_equals(line);
 
       std::string type = def.first;
       for (char c: def.second)
@@ -278,12 +281,13 @@ namespace NEAT
     return glyphs;
   }
 
-  static void parse_objects_attrs(Section &section,
-                                  Map &map)
+  static void parse_objects_attrs(
+          Section &section,
+          Map &map)
   {
     for (Line &line: section.lines)
     {
-      std::pair<std::string, std::string> def = parse_equals(line);
+      std::pair< std::string, std::string > def = parse_equals(line);
 
       auto syn_err = [&line](std::string details)
       {
@@ -291,13 +295,13 @@ namespace NEAT
                 " = value (e.g. 'A,C f seq = llr')");
       };
 
-      std::vector<std::string> lhs_tokens = split(def.first);
+      std::vector< std::string > lhs_tokens = split(def.first);
       if (lhs_tokens.size() not_eq 3)
       {
         syn_err("Too many tokens on lhs");
       }
-      std::vector<std::string> coord = split(lhs_tokens.front(),
-                                             ",");
+      std::vector< std::string > coord = split(lhs_tokens.front(),
+                                               ",");
       if (coord.size() not_eq 2)
       {
         syn_err("Coordinate is malformed: '" + lhs_tokens.front() + "'");
@@ -335,9 +339,10 @@ namespace NEAT
     }
   }
 
-  static Map parse_objects(Section &section,
-                           Section &section_attrs,
-                           std::map<char, Glyph> &glyphs)
+  static Map parse_objects(
+          Section &section,
+          Section &section_attrs,
+          std::map< char, Glyph > &glyphs)
   {
     Map map;
 
@@ -411,7 +416,7 @@ namespace NEAT
           size_t col = j;
 
           Location location{{row_label, map.loc_trans.col_label[col]},
-                            {row, col}};
+                            {row,       col}};
           Glyph &glyph = glyphs[c];
 
           map.objects[location] = {location, glyph};
@@ -426,10 +431,10 @@ namespace NEAT
 
   Map parse_map(string &path)
   {
-    std::map<std::string, Section> sections = parse_sections(path);
+    std::map< std::string, Section > sections = parse_sections(path);
 
-    std::map<char, Glyph> glyphs = parse_glyphs(sections["glyphs"],
-                                                sections["glyphs-attrs"]);
+    std::map< char, Glyph > glyphs = parse_glyphs(sections["glyphs"],
+                                                  sections["glyphs-attrs"]);
 
     Map map = parse_objects(sections["objects"],
                             sections["objects-attrs"],

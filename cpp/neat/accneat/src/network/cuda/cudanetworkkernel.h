@@ -29,10 +29,11 @@ namespace NEAT
   /// GPU KERNEL CODE
   ///
   ////--------------------------------------------------------------------------
-  inline __device__ void sum_partition(float *x,
-                                       int i,
-                                       int n,
-                                       float *result)
+  inline __device__ void sum_partition(
+          float *x,
+          int i,
+          int n,
+          float *result)
   {
     int stride = __popc(n) == 1 ? n >> 1 : 1 << 31 - __clz(n);
 
@@ -63,18 +64,30 @@ namespace NEAT
     __syncthreads();
   }
 
-  inline __device__ real_t fsigmoid(real_t activesum,
-                                    real_t slope, real_t constant)
-  {
-    // NON-SHIFTED STEEPENED
-    return (1/(1+(exp(-(slope *activesum)))));  // Compressed
-  }
+  inline __device__ real_t
 
-template <typename Evaluator>
+  fsigmoid(real_t
+
+  activesum,
+
+  real_t slope, real_t
+
+  constant)
+{
+  // NON-SHIFTED STEEPENED
+  return (1/(1+(exp(-(
+
+  slope *activesum
+
+  )))));  // Compressed
+}
+
+template < typename Evaluator >
 static __global__
-void cudanetwork_activate(const typename Evaluator::Config *config,
-                          RawBuffers bufs,
-                          uint ncycles)
+void cudanetwork_activate(
+        const typename Evaluator::Config *config,
+        RawBuffers bufs,
+        uint ncycles)
 {
   Evaluator eval(config);
 

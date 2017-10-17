@@ -42,10 +42,11 @@ namespace revolve
       /// \param sensors inputs of the controller
       /// \param t global time reference
       /// \param step time since last update
-      virtual void update(const std::vector<ActuatorPtr> &actuators,
-                          const std::vector<SensorPtr> &sensors,
-                          double t,
-                          double step) = 0;
+      virtual void update(
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step) = 0;
     };
   }
 }

@@ -265,7 +265,7 @@ namespace cppneat
       GeneticEncodingPtrs genotypes;
       for (size_t first = 0; first < yaml_file.size(); first++)
       {
-        std::map< size_t , size_t > old_to_new;
+        std::map< size_t, size_t > old_to_new;
         GeneticEncodingPtr newGenome(new GeneticEncoding(true));
         for (size_t counter = 0;
              counter < yaml_file[first]["brain"]["layers"].size(); counter++)
@@ -591,7 +591,8 @@ namespace cppneat
         outputFile << "            parent_index: "
                    << it2->get()->ParentsIndex() << std::endl;
         outputFile << "            params:" << std::endl;
-        for (auto np = neuron_params.begin(); np not_eq neuron_params.end(); np++)
+        for (auto np =
+                neuron_params.begin(); np not_eq neuron_params.end(); np++)
         {
           outputFile << "              " << np->first
                      << ": " << np->second << std::endl;
@@ -690,7 +691,10 @@ namespace cppneat
     }
     std::sort(velocityPairs.begin(),
               velocityPairs.end(),
-              [](FitnessPair a, FitnessPair b) {
+              [](
+                      FitnessPair a,
+                      FitnessPair b)
+              {
                 return a.second > b.second;
               });
 
@@ -731,7 +735,10 @@ namespace cppneat
       }
       std::sort(fitnessPairs.begin(),
                 fitnessPairs.end(),
-                [](FitnessPair a, FitnessPair b) {
+                [](
+                        FitnessPair a,
+                        FitnessPair b)
+                {
                   return a.second > b.second;
                 });
 
@@ -769,7 +776,10 @@ namespace cppneat
           std::sort(
                   toSort.begin(),
                   toSort.end(),
-                  [](FitnessPair a, FitnessPair b) {
+                  [](
+                          FitnessPair a,
+                          FitnessPair b)
+                  {
                     return a.second > b.second;
                   });
 
@@ -902,7 +912,10 @@ namespace cppneat
     std::sort(
             _candidates.begin(),
             _candidates.end(),
-            [](FitnessPair a, FitnessPair b) {
+            [](
+                    FitnessPair a,
+                    FitnessPair b)
+            {
               return a.second > b.second;
             });
 

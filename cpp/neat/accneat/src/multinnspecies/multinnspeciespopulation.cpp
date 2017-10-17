@@ -52,20 +52,21 @@ using namespace std;
 
 MultiNNSpeciesPopulation::MultiNNSpeciesPopulation(
         rng_t rng,
-        vector<unique_ptr<Genome>> &seeds)
+        vector< unique_ptr< Genome>> &seeds
+)
         : norgs(seeds.size())
-          , generation(0)
-          , orgs(rng, seeds, seeds.size())
-          , highest_fitness(0.0)
-          , highest_last_changed(0)
+        , generation(0)
+        , orgs(rng, seeds, seeds.size())
+        , highest_fitness(0.0)
+        , highest_last_changed(0)
 {
   spawn();
 }
 
 MultiNNSpeciesPopulation::~MultiNNSpeciesPopulation()
 {
-  std::vector<MultiNNSpecies *>::iterator curspec;
-  std::vector<MultiNNSpeciesOrganism *>::iterator curorg;
+  std::vector< MultiNNSpecies * >::iterator curspec;
+  std::vector< MultiNNSpeciesOrganism * >::iterator curorg;
 
   if (species.begin() not_eq species.end())
   {
@@ -86,11 +87,11 @@ Organism *MultiNNSpeciesPopulation::get(size_t index)
   return &orgs.curr()[index];
 }
 
-unique_ptr<Organism> MultiNNSpeciesPopulation::make_copy(size_t index)
+unique_ptr< Organism > MultiNNSpeciesPopulation::make_copy(size_t index)
 {
   MultiNNSpeciesOrganism *copy =
           new MultiNNSpeciesOrganism((MultiNNSpeciesOrganism &)*get(index));
-  return unique_ptr<Organism>(copy);
+  return unique_ptr< Organism >(copy);
 }
 
 void MultiNNSpeciesPopulation::verify()
@@ -166,7 +167,7 @@ void MultiNNSpeciesPopulation::next_generation()
   int final_expected;
 
   /// \brief Species sorted by max fit org in Species
-  std::vector<MultiNNSpecies *> sorted_species;
+  std::vector< MultiNNSpecies * > sorted_species;
   int half_pop;
 
   /// \brief We can try to keep the number of species constant at this number
@@ -529,6 +530,6 @@ void MultiNNSpeciesPopulation::next_generation()
   }
 #endif
 
-  delete []reproduce_parms;
+  delete[]reproduce_parms;
 
 }

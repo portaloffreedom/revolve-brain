@@ -24,26 +24,26 @@ using namespace NEAT;
 
 static struct MazeInit
 {
-    MazeInit()
+  MazeInit()
+  {
+    auto create_evaluator = []()
     {
-      auto create_evaluator = []()
-      {
-          return create_maze_evaluator();
-      };
+      return create_maze_evaluator();
+    };
 
-      auto create_seeds = [](rng_t rng_exp)
-      {
-          return env->genome_manager->create_seed_generation(
-                  env->pop_size,
-                  rng_exp,
-                  1,
-                  __sensor_N,
-                  __output_N,
-                  __sensor_N,
-                  "maze_experiment");
-      };
+    auto create_seeds = [](rng_t rng_exp)
+    {
+      return env->genome_manager->create_seed_generation(
+              env->pop_size,
+              rng_exp,
+              1,
+              __sensor_N,
+              __output_N,
+              __sensor_N,
+              "maze_experiment");
+    };
 
-      // TODO: Should maybe make an explicit static registry func?
-      new EvaluatorExperiment("maze", create_evaluator, create_seeds);
-    }
+    // TODO: Should maybe make an explicit static registry func?
+    new EvaluatorExperiment("maze", create_evaluator, create_seeds);
+  }
 } init;

@@ -20,7 +20,6 @@
 #include <cmath>
 #include <iostream>
 #include <map>
-#include <string>
 
 #include "InputDependentOscillatorNeuron.h"
 
@@ -40,7 +39,7 @@ namespace revolve
       {
         std::cerr << "An `Oscillator` neuron requires"
                   << " `rv:period`, `rv:phase_offset` and "
-                     "`rv:amplitude` elements."
+                          "`rv:amplitude` elements."
                   << std::endl;
         throw std::runtime_error("Robot brain error");
       }
@@ -70,9 +69,9 @@ namespace revolve
                                             * this->phaseOffset_)));
     }
 
-    std::map<std::string, double> InputDependentOscillatorNeuron::Parameters()
+    std::map< std::string, double > InputDependentOscillatorNeuron::Parameters()
     {
-      std::map<std::string, double> ret;
+      std::map< std::string, double > ret;
       ret["rv:period"] = period_;
       ret["rv:phase_offset"] = phaseOffset_;
       ret["rv:amplitude"] = gain_;
@@ -87,8 +86,8 @@ namespace revolve
           or not _parameters.count("rv:amplitude"))
       {
         std::cerr << "An `Oscillator` neuron requires "
-                << "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements"
-                << std::endl;
+                  << "`rv:period`, `rv:phase_offset` and `rv:amplitude` elements"
+                  << std::endl;
         throw std::runtime_error("Robot brain error");
       }
 

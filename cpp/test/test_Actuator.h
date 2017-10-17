@@ -28,8 +28,9 @@ class TestActuator
   public:
   TestActuator(bool verbose = false);
 
-  virtual void update(double *_output,
-                      double step) override;
+  virtual void update(
+          double *_output,
+          double step) override;
 
   virtual size_t outputs() const override;
 

@@ -40,8 +40,9 @@ namespace revolve
       /// ownership of this controller
       /// \param name of the robot that the learner is instructing (for logging
       /// purposes)
-      explicit BaseLearner(std::unique_ptr<BaseController> controller,
-                           const std::string &robot_name);
+      explicit BaseLearner(
+              std::unique_ptr< BaseController > controller,
+              const std::string &robot_name);
 
       /// \brief REMEMBER TO MAKE YOUR CHILD DECONSTRUCTORS VIRTUAL AS WELL
       virtual ~BaseLearner();
@@ -71,9 +72,10 @@ namespace revolve
       /// \return revolve::brain::base_controller* the controller you should use
       /// in this update cycle. The pointer is guaranteed to be valid until the
       /// end of the update cycle.
-      virtual BaseController *update(const std::vector<SensorPtr> &sensors,
-                                     double t,
-                                     double step);
+      virtual BaseController *update(
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step);
 
       protected:
 
@@ -94,7 +96,7 @@ namespace revolve
 
       protected:
       /// \brief pointer to the current active controller
-      std::unique_ptr<BaseController> active_controller;
+      std::unique_ptr< BaseController > active_controller;
 
       /// \brief name of the robot that the learner is instructing
       /// (for logging purposes)

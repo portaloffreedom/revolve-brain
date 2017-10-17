@@ -117,16 +117,18 @@ namespace NEAT
 
   static __net_eval_decl
 
-  CudaLink *links(const RawBuffers &bufs,
-                  const Offsets &offs)
+  CudaLink *links(
+          const RawBuffers &bufs,
+          const Offsets &offs)
   {
     return reinterpret_cast<CudaLink *>(bufs.main + offs.main.links);
   }
 
   static __net_eval_decl
 
-  ActivationPartition *partitions(const RawBuffers &bufs,
-                                  const Offsets &offs)
+  ActivationPartition *partitions(
+          const RawBuffers &bufs,
+          const Offsets &offs)
   {
     return reinterpret_cast<ActivationPartition *>(bufs.main
                                                    + offs.main.partitions);
@@ -141,9 +143,9 @@ namespace NEAT
     private:
     CudaNetDims dims;
 
-    std::vector<CudaLink> gpu_links;
+    std::vector< CudaLink > gpu_links;
 
-    std::vector<ActivationPartition> partitions;
+    std::vector< ActivationPartition > partitions;
 
     RawBuffers bufs;
 
@@ -171,8 +173,9 @@ namespace NEAT
       return dims;
     }
 
-    void configure_batch(const RawBuffers &bufs_,
-                         const Offsets &offsets_)
+    void configure_batch(
+            const RawBuffers &bufs_,
+            const Offsets &offsets_)
     {
       bufs = bufs_;
       offsets = offsets_;
@@ -185,9 +188,10 @@ namespace NEAT
              sizeof(ActivationPartition) * partitions.size());
     }
 
-    virtual void configure(const NetDims &dims_,
-                           NetNode *nodes,
-                           NetLink *links)
+    virtual void configure(
+            const NetDims &dims_,
+            NetNode *nodes,
+            NetLink *links)
     {
       static_cast<NetDims &>(dims) = dims_;
 

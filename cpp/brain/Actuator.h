@@ -33,13 +33,14 @@ namespace revolve
       virtual ~Actuator()
       {}
 
-      virtual void update(double *output_vector,
-                          double step) = 0;
+      virtual void update(
+              double *output_vector,
+              double step) = 0;
 
       virtual size_t outputs() const = 0;
     };
 
-    typedef boost::shared_ptr<Actuator> ActuatorPtr;
+    typedef boost::shared_ptr< Actuator > ActuatorPtr;
   }
 }
 

@@ -25,22 +25,26 @@ namespace NEAT
     {
     }
 
-    __net_eval_decl position_t(char row_,
-                               char col_) :
+    __net_eval_decl position_t(
+            char row_,
+            char col_)
+            :
             row(row_), col(col_)
     {
     }
   };
 
-  __net_eval_decl position_t operator+(const position_t a,
-                                       const position_t b)
+  __net_eval_decl position_t operator+(
+          const position_t a,
+          const position_t b)
   {
     return position_t(char(a.row + b.row),
                       char(a.col + b.col));
   }
 
-  __net_eval_decl bool operator==(const position_t a,
-                                  const position_t b)
+  __net_eval_decl bool operator==(
+          const position_t a,
+          const position_t b)
   {
     return (a.row == b.row) and (a.col == b.col);
   }
@@ -76,22 +80,25 @@ namespace NEAT
     }
   }
 
-  __net_eval_decl direction_t rotate(const direction_t &dir,
-                                     const rotation_t &rot)
+  __net_eval_decl direction_t rotate(
+          const direction_t &dir,
+          const rotation_t &rot)
   {
     return direction_t((int(dir) + int(rot) + 4) % 4);
   }
 
-  __net_eval_decl position_t get_look_pos(const position_t &pos,
-                                          const direction_t &dir,
-                                          const rotation_t &rot)
+  __net_eval_decl position_t get_look_pos(
+          const position_t &pos,
+          const direction_t &dir,
+          const rotation_t &rot)
   {
     return pos + get_rel_pos(rotate(dir,
                                     rot));
   }
 
-  ostream &operator<<(ostream &out,
-                      const direction_t &dir)
+  ostream &operator<<(
+          ostream &out,
+          const direction_t &dir)
   {
     switch (dir)
     {
@@ -108,8 +115,9 @@ namespace NEAT
     }
   }
 
-  ostream &operator<<(ostream &out,
-                      const position_t &pos)
+  ostream &operator<<(
+          ostream &out,
+          const position_t &pos)
   {
     return out << "[" << (int)pos.row << "," << (int)pos.col << "]";
   }
@@ -145,10 +153,11 @@ namespace NEAT
     Trial trials[];
   };
 
-  static void create_distance_map(const Config *config,
-                                  position_t from,
-                                  uchar *dist_map,
-                                  uchar &max_dist)
+  static void create_distance_map(
+          const Config *config,
+          position_t from,
+          uchar *dist_map,
+          uchar &max_dist)
   {
     const uchar w = config->width;
     const uchar h = config->height;
@@ -160,17 +169,20 @@ namespace NEAT
     struct local
     {
       static void
-      _(const uchar w,
-        const uchar h,
-        const bool *wall,
-        uchar *dist_map,
-        uchar &max_dist,
-        const uchar row,
-        const uchar col,
-        const uchar dist)
+      _(
+              const uchar w,
+              const uchar h,
+              const bool *wall,
+              uchar *dist_map,
+              uchar &max_dist,
+              const uchar row,
+              const uchar col,
+              const uchar dist)
       {
-        if (row >= h) return;
-        if (col >= w) return;
+        if (row >= h)
+        { return; }
+        if (col >= w)
+        { return; }
 
         size_t offset = w * row + col;
 
@@ -185,7 +197,9 @@ namespace NEAT
 
         dist_map[offset] = dist;
         if (dist > max_dist)
+        {
           max_dist = dist;
+        }
 
         _(w, h, wall, dist_map, max_dist, row - 1, col, dist + 1);
         _(w, h, wall, dist_map, max_dist, row + 1, col, dist + 1);
@@ -197,10 +211,11 @@ namespace NEAT
     local::_(w, h, config->wall, dist_map, max_dist, from.row, from.col, 0);
   }
 
-  static void create_config(accneat_out
-                            Config *&config_,
-                            accneat_out
-                            size_t &len_)
+  static void create_config(
+          accneat_out
+          Config *&config_,
+          accneat_out
+          size_t &len_)
   {
     Map map = parse_map(find_resource("maze.map"));
 
@@ -213,9 +228,9 @@ namespace NEAT
 
     memset(config.wall, 0, sizeof(bool) * config.width * config.height);
 
-    vector<Config::Trial> trials;
+    vector< Config::Trial > trials;
 
-    for (std::map<Location, Object>::iterator it = map.objects.begin();
+    for (std::map< Location, Object >::iterator it = map.objects.begin();
          it not_eq map.objects.end(); it++)
     {
       Object &obj = it->second;
@@ -225,12 +240,14 @@ namespace NEAT
       if (obj.glyph.type == "wall")
       {
         config.wall[row * map.width + col] = true;
-      } else if (obj.glyph.type == "agent")
+      }
+      else if (obj.glyph.type == "agent")
       {
         config.agent_pos.row = obj.loc.index.row;
         config.agent_pos.col = obj.loc.index.col;
         config.agent_dir = parse(obj.glyph.attrs["dir"]);
-      } else if (obj.glyph.type == "food")
+      }
+      else if (obj.glyph.type == "food")
       {
         if (obj.attrs.find("seq") not_eq obj.attrs.end())
         {
@@ -247,10 +264,12 @@ namespace NEAT
             if (c == 'l')
             {
               trial.seq[i] = 0.0;
-            } else if (c == 'r')
+            }
+            else if (c == 'r')
             {
               trial.seq[i] = 1.0;
-            } else
+            }
+            else
             {
               abort();
             }
@@ -263,7 +282,8 @@ namespace NEAT
 #endif
           trials.push_back(trial);
         }
-      } else
+      }
+      else
       {
         abort();
       }
@@ -337,12 +357,14 @@ namespace NEAT
         if (trial == config->ntrials - 1)
         {
           return false;
-        } else
+        }
+        else
         {
           trial++;
           trial_step = 1;
         }
-      } else
+      }
+      else
       {
         trial_step++;
       }
@@ -356,18 +378,21 @@ namespace NEAT
         dist_map = config->trials[trial].dist_map;
         best_dist = dist();
         iseq = 0;
-      } else
+      }
+      else
       {
         if (trial_step <= config->trials[trial].seqlen * 2)
         {
           if (trial_step % 2 == 0)
           {
             iseq = -1;
-          } else
+          }
+          else
           {
             iseq = trial_step / 2;
           }
-        } else
+        }
+        else
         {
           iseq = -2;
         }
@@ -438,13 +463,16 @@ namespace NEAT
         }
         uchar curr_dist = dist();
         if (curr_dist < best_dist)
+        {
           best_dist = curr_dist;
+        }
 
         if (best_dist == 0)
         {
           eval.fitness += 10.0 + (max_trial_steps - trial_step)
                                  / real_t(max_trial_steps);
-        } else if (trial_step == max_trial_steps)
+        }
+        else if (trial_step == max_trial_steps)
         {
           eval.error += 1.0;
           uchar max_dist = config->trials[trial].max_dist;
@@ -464,11 +492,11 @@ namespace NEAT
   class MazeEvaluator
           : public NetworkEvaluator
   {
-    NetworkExecutor<Evaluator> *executor;
+    NetworkExecutor< Evaluator > *executor;
     public:
     MazeEvaluator()
     {
-      executor = NetworkExecutor<Evaluator>::create();
+      executor = NetworkExecutor< Evaluator >::create();
       Evaluator::Config *config;
       size_t configlen;
       create_config(config, configlen);
@@ -481,9 +509,10 @@ namespace NEAT
       delete executor;
     }
 
-    virtual void execute(class Network **nets_,
-                         struct OrganismEvaluation *results,
-                         size_t nnets)
+    virtual void execute(
+            class Network **nets_,
+            struct OrganismEvaluation *results,
+            size_t nnets)
     {
       executor->execute(nets_, results, nnets);
     }

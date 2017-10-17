@@ -60,10 +60,10 @@ namespace NEAT
     OrganismEvaluation eval;
 
     /// \brief The Organism's genotype
-    std::unique_ptr<Genome> genome;
+    std::unique_ptr< Genome > genome;
 
     /// \brief The Organism's phenotype
-    std::unique_ptr<Network> net;
+    std::unique_ptr< Network > net;
 
     /// \brief Tells which generation this Organism is from
     int generation;

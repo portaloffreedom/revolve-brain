@@ -41,7 +41,7 @@ class TestEvaluator
 
   std::mt19937 gen;
 
-  std::uniform_real_distribution<double> dis;
+  std::uniform_real_distribution< double > dis;
 };
 
 #endif  // TESTEVALUATOR_H

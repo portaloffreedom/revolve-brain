@@ -33,10 +33,11 @@ namespace cppneat
       CONNECTION_GENE
     };
 
-    Gene(const size_t _innovationNumber = 0,
-         bool _enabled = true,
-         std::string _name = "",
-         int _index = -1
+    Gene(
+            const size_t _innovationNumber = 0,
+            bool _enabled = true,
+            std::string _name = "",
+            int _index = -1
     )
             : innovationNumber_(_innovationNumber)
             , isEnabled_(_enabled)

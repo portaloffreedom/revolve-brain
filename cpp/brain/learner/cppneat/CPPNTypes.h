@@ -22,30 +22,31 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace cppneat {
-class Gene;
+namespace cppneat
+{
+  class Gene;
 
-class Neuron;
+  class Neuron;
 
-class NeuronGene;
+  class NeuronGene;
 
-class ConnectionGene;
+  class ConnectionGene;
 
-class GeneticEncoding;
+  class GeneticEncoding;
 
-class Mutator;
+  class Mutator;
 
-typedef boost::shared_ptr<Gene> GenePtr;
+  typedef boost::shared_ptr< Gene > GenePtr;
 
-typedef boost::shared_ptr<Neuron> NeuronPtr;
+  typedef boost::shared_ptr< Neuron > NeuronPtr;
 
-typedef boost::shared_ptr<NeuronGene> NeuronGenePtr;
+  typedef boost::shared_ptr< NeuronGene > NeuronGenePtr;
 
-typedef boost::shared_ptr<ConnectionGene> ConnectionGenePtr;
+  typedef boost::shared_ptr< ConnectionGene > ConnectionGenePtr;
 
-typedef boost::shared_ptr<GeneticEncoding> GeneticEncodingPtr;
+  typedef boost::shared_ptr< GeneticEncoding > GeneticEncodingPtr;
 
-typedef boost::shared_ptr<Mutator> MutatorPtr;
+  typedef boost::shared_ptr< Mutator > MutatorPtr;
 }
 
 #endif  //  REVOLVEBRAIN_BRAIN_LEARNER_CPPNNEAT_TYPES_H_

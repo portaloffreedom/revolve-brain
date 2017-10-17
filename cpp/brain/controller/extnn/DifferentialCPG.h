@@ -48,7 +48,7 @@ namespace revolve
       virtual double Output(const double _time) override;
 
       /// \brief
-      std::map<std::string, double> Parameters() override;
+      std::map< std::string, double > Parameters() override;
 
       /// \brief
       void SetParameters(std::map< std::string, double > _parameters) override;
@@ -57,10 +57,12 @@ namespace revolve
       std::string Type() override;
 
       /// \brief bias of the neuron
-      protected: double bias_;
+      protected:
+      double bias_;
 
       /// \brief last time the output was calculated
-      protected: double lastTime_;
+      protected:
+      double lastTime_;
     };
   }
 }

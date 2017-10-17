@@ -54,13 +54,13 @@ namespace NEAT
   {
     public:
     /// \brief
-    std::vector<Trait> traits;
+    std::vector< Trait > traits;
 
     /// \brief
-    std::vector<InnovNodeGene> nodes;
+    std::vector< InnovNodeGene > nodes;
 
     /// \brief
-    std::vector<InnovLinkGene> links;
+    std::vector< InnovLinkGene > links;
 
     /// \brief Return id of final InnovNodeGene in InnovGenome
     int LastNodeId();
@@ -74,19 +74,21 @@ namespace NEAT
     {}
 
     /// \brief
-    InnovGenome(const std::string &robot_name) : InnovGenome(&robot_name)
+    InnovGenome(const std::string &robot_name)
+            : InnovGenome(&robot_name)
     {}
 
     /// \brief
     InnovGenome(const std::string *robot_name);
 
     /// \brief
-    InnovGenome(rng_t rng,
-                size_t ntraits,
-                size_t ninputs,
-                size_t noutputs,
-                size_t nhidden,
-                const std::string &robot_name);
+    InnovGenome(
+            rng_t rng,
+            size_t ntraits,
+            size_t ninputs,
+            size_t noutputs,
+            size_t nhidden,
+            const std::string &robot_name);
 
     virtual Genome &operator=(const Genome &other) override;
 
@@ -125,9 +127,10 @@ namespace NEAT
 
     /// \brief Add Gaussian noise to linkweights either GAUSSIAN or COLDGAUSSIAN
     /// (from zero)
-    void mutate_link_weights(real_t power,
-                             real_t rate,
-                             mutator mut_type);
+    void mutate_link_weights(
+            real_t power,
+            real_t rate,
+            mutator mut_type);
 
     /// \brief toggle links on or off
     void mutate_toggle_enable(int times);
@@ -141,8 +144,9 @@ namespace NEAT
     //   Generally, if they fail, they can be called again if desired.
 
     /// \brief Mutate genome by adding a node respresentation
-    bool mutate_add_node(CreateInnovationFunc create_innov,
-                         bool delete_split_link);
+    bool mutate_add_node(
+            CreateInnovationFunc create_innov,
+            bool delete_split_link);
 
     /// \brief
     void mutate_delete_node();
@@ -152,15 +156,17 @@ namespace NEAT
 
     /// \brief Mutate the genome by adding a new link between 2
     /// random InnovNodeGenes
-    bool mutate_add_link(CreateInnovationFunc create_innov,
-                         int tries);
+    bool mutate_add_link(
+            CreateInnovationFunc create_innov,
+            int tries);
 
     // ****** MATING METHODS *****
-    static void mate(InnovGenome *genome1,
-                     InnovGenome *genome2,
-                     InnovGenome *offspring,
-                     real_t fitness1,
-                     real_t fitness2);
+    static void mate(
+            InnovGenome *genome1,
+            InnovGenome *genome2,
+            InnovGenome *offspring,
+            real_t fitness1,
+            real_t fitness2);
 
     /// \brief For every point in each InnovGenome where each InnovGenome shares
     ///   the innovation number, the InnovLinkGene is chosen randomly from
@@ -168,20 +174,22 @@ namespace NEAT
     ///   the other, the baby will inherit the innovation
     ///   Interspecies mating leads to all genes being inherited.
     ///   Otherwise, excess genes come from most fit parent.
-    static void mate_multipoint(InnovGenome *genome1,
-                                InnovGenome *genome2,
-                                InnovGenome *offspring,
-                                real_t fitness1,
-                                real_t fitness2);
+    static void mate_multipoint(
+            InnovGenome *genome1,
+            InnovGenome *genome2,
+            InnovGenome *offspring,
+            real_t fitness1,
+            real_t fitness2);
 
     /// \brief This method mates like multipoint but instead of selecting one
     ///   or the other when the innovation numbers match, it averages their
     ///   weights
-    static void mate_multipoint_avg(InnovGenome *genome1,
-                                    InnovGenome *genome2,
-                                    InnovGenome *offspring,
-                                    real_t fitness1,
-                                    real_t fitness2);
+    static void mate_multipoint_avg(
+            InnovGenome *genome1,
+            InnovGenome *genome2,
+            InnovGenome *offspring,
+            real_t fitness1,
+            real_t fitness2);
 
     // ******** COMPATIBILITY CHECKING METHODS ********
 
@@ -196,8 +204,9 @@ namespace NEAT
     real_t compatibility(InnovGenome *g);
 
     /// \brief
-    real_t trait_compare(Trait *t1,
-                         Trait *t2);
+    real_t trait_compare(
+            Trait *t1,
+            Trait *t2);
 
     /// \brief Randomize the trait pointers of all the node and connection genes
     void randomize_traits();
@@ -220,27 +229,31 @@ namespace NEAT
     public:
     void reset();
 
-    static bool linklist_cmp(const InnovLinkGene &a,
-                             const InnovLinkGene &b)
+    static bool linklist_cmp(
+            const InnovLinkGene &a,
+            const InnovLinkGene &b)
     {
       return a.innovation_num < b.innovation_num;
     }
 
     /// \brief Inserts a InnovNodeGene into a given ordered list of
     /// InnovNodeGenes in order
-    static void add_node(std::vector<InnovNodeGene> &nlist,
-                         const InnovNodeGene n);
+    static void add_node(
+            std::vector< InnovNodeGene > &nlist,
+            const InnovNodeGene n);
 
     /// \brief Adds a new gene that has been created through a mutation in the
     /// *correct order* into the list of links in the genome
-    static void add_link(std::vector<InnovLinkGene> &glist,
-                         const InnovLinkGene &g);
+    static void add_link(
+            std::vector< InnovLinkGene > &glist,
+            const InnovLinkGene &g);
 
     private:
     /// \brief
-    InnovLinkGene *find_link(int in_node_id,
-                             int out_node_id,
-                             bool is_recurrent);
+    InnovLinkGene *find_link(
+            int in_node_id,
+            int out_node_id,
+            bool is_recurrent);
 
     /// \brief
     void delete_if_orphaned_hidden_node(int node_id);

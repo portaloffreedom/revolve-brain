@@ -71,7 +71,7 @@ namespace NEAT
 namespace YAML
 {
   template <>
-  struct convert<NEAT::nodetype>
+  struct convert< NEAT::nodetype >
   {
     static Node encode(const NEAT::nodetype &rhs)
     {
@@ -97,10 +97,11 @@ namespace YAML
       return Node(text);
     }
 
-    static bool decode(const Node &node,
-                       NEAT::nodetype &rhs)
+    static bool decode(
+            const Node &node,
+            NEAT::nodetype &rhs)
     {
-      std::string text = node.as<std::string>();
+      std::string text = node.as< std::string >();
 
       if (text == "BIAS")
       {

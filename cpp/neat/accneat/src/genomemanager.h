@@ -42,28 +42,32 @@ namespace NEAT
     virtual ~GenomeManager()
     {}
 
-    virtual std::unique_ptr<Genome> make_default() = 0;
+    virtual std::unique_ptr< Genome > make_default() = 0;
 
-    virtual std::vector<std::unique_ptr<Genome>>
-    create_seed_generation(size_t ngenomes,
-                           class rng_t rng,
-                           size_t ntraits,
-                           size_t ninputs,
-                           size_t noutputs,
-                           size_t nhidden,
-                           const std::string &robot_name) = 0;
+    virtual std::vector< std::unique_ptr< Genome>>
+    create_seed_generation(
+            size_t ngenomes,
+            class rng_t rng,
+            size_t ntraits,
+            size_t ninputs,
+            size_t noutputs,
+            size_t nhidden,
+            const std::string &robot_name) = 0;
 
-    virtual bool are_compatible(Genome &genome1,
-                                Genome &genome2) = 0;
+    virtual bool are_compatible(
+            Genome &genome1,
+            Genome &genome2) = 0;
 
-    virtual void clone(Genome &orig,
-                       Genome &clone) = 0;
+    virtual void clone(
+            Genome &orig,
+            Genome &clone) = 0;
 
-    virtual void mate(Genome &genome1,
-                      Genome &genome2,
-                      Genome &offspring,
-                      real_t fitness1,
-                      real_t fitness2) = 0;
+    virtual void mate(
+            Genome &genome1,
+            Genome &genome2,
+            Genome &offspring,
+            real_t fitness1,
+            real_t fitness2) = 0;
 
     enum MutationOperation
     {
@@ -72,8 +76,9 @@ namespace NEAT
       MUTATE_OP_ANY
     };
 
-    virtual void mutate(Genome &genome,
-                        MutationOperation op = MUTATE_OP_ANY) = 0;
+    virtual void mutate(
+            Genome &genome,
+            MutationOperation op = MUTATE_OP_ANY) = 0;
 
     virtual void finalize_generation(bool new_fittest) = 0;
   };

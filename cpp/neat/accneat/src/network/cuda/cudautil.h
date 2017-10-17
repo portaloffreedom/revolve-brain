@@ -31,26 +31,26 @@
 
 using namespace NEAT;
 
-#define xcuda(stmt) {                                                          \
-        cudaError_t err = stmt;                                                \
-        if (err not_eq cudaSuccess) {                                              \
-            std::cerr << __FILE__ << ":" << __LINE__ << ": Failed to run " <<  \
-            #stmt << ". Reason: " << cudaGetErrorString(err) << std::endl;     \
-            abort();                                                           \
-        }                                                                      \
+#define xcuda(stmt) {                                                         \
+        cudaError_t err = stmt;                                               \
+        if (err not_eq cudaSuccess) {                                         \
+            std::cerr << __FILE__ << ":" << __LINE__ << ": Failed to run " << \
+            #stmt << ". Reason: " << cudaGetErrorString(err) << std::endl;    \
+            abort();                                                          \
+        }                                                                     \
     }
 
 #define p(msg) std::cout << "[cuda]: " << msg << std::endl
 
-#define errif(STMT, MSG...) if ( STMT ) { fprintf(stderr, "[%s:%d] '%s' ",     \
-                                          __FILE__, __LINE__, #STMT);          \
-                                          fprintf(stderr, MSG);                \
-                                          fprintf(stderr, "\n");               \
+#define errif(STMT, MSG...) if ( STMT ) { fprintf(stderr, "[%s:%d] '%s' ",    \
+                                          __FILE__, __LINE__, #STMT);         \
+                                          fprintf(stderr, MSG);               \
+                                          fprintf(stderr, "\n");              \
                                           abort(); }
 
-#define require(STMT) if ( !(STMT) ) { fprintf(stderr,                         \
-                                      "ASSERTION ERROR! [%s:%d] '%s'\n",       \
-                                      __FILE__, __LINE__, #STMT);              \
+#define require(STMT) if ( !(STMT) ) { fprintf(stderr,                        \
+                                      "ASSERTION ERROR! [%s:%d] '%s'\n",      \
+                                      __FILE__, __LINE__, #STMT);             \
                                       abort(); }
 
 static uchar *alloc_host(uint size)
@@ -67,10 +67,11 @@ static uchar *alloc_dev(uint size)
   return result;
 }
 
-template <typename T>
-static void free_host(accneat_inout
-                      T *&buf,
-                      bool tolerate_shutdown = false)
+template < typename T >
+static void free_host(
+        accneat_inout
+        T *&buf,
+        bool tolerate_shutdown = false)
 {
   if (buf)
   {
@@ -89,7 +90,7 @@ static void free_host(accneat_inout
   }
 }
 
-template <typename T>
+template < typename T >
 static void free_dev(T *&buf)
 {
   if (buf)
@@ -99,14 +100,15 @@ static void free_dev(T *&buf)
   }
 }
 
-template <typename T>
-static void grow_buffers(accneat_inout
-                         T *&h_buf,
-                         accneat_inout
-                         T *&d_buf,
-                         accneat_inout
-                         uint &capacity,
-                         accneat_in uint newlen)
+template < typename T >
+static void grow_buffers(
+        accneat_inout
+        T *&h_buf,
+        accneat_inout
+        T *&d_buf,
+        accneat_inout
+        uint &capacity,
+        accneat_in uint newlen)
 {
   if (newlen > capacity)
   {

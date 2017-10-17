@@ -36,14 +36,15 @@ namespace revolve
     /// python classes
     class ActuatorWrap
             : public revolve::brain::Actuator
-              , public boost::python::wrapper<Actuator>
+              , public boost::python::wrapper< Actuator >
     {
       public:
       virtual void
-      update(double *output_vector,
-             double step)
+      update(
+              double *output_vector,
+              double step)
       {
-        this->get_override("update")(python_array<double>(output_vector),
+        this->get_override("update")(python_array< double >(output_vector),
                                      step);
       }
 

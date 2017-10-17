@@ -26,10 +26,10 @@
 using namespace NEAT;
 
 MultiInnovGenome::MultiInnovGenome(
-        std::list<std::unique_ptr<InnovGenome>,
-                  std::allocator< std::unique_ptr<InnovGenome>> > &genome_list)
+        std::list< std::unique_ptr< InnovGenome >,
+                   std::allocator< std::unique_ptr< InnovGenome>> > &genome_list)
 {
-  innov_genome_list = new std::vector< std::unique_ptr<InnovGenome> >();
+  innov_genome_list = new std::vector< std::unique_ptr< InnovGenome > >();
 
   for (auto g = genome_list.begin(); g not_eq genome_list.end(); g++)
   {
@@ -53,7 +53,8 @@ void MultiInnovGenome::verify()
 #ifdef NDEBUG
   return;
 #else
-  for (auto g = innov_genome_list->begin(); g not_eq innov_genome_list->end(); g++)
+  for (auto g =
+          innov_genome_list->begin(); g not_eq innov_genome_list->end(); g++)
   {
     (*g)->verify();
   }
@@ -64,7 +65,8 @@ Genome::Stats MultiInnovGenome::get_stats()
 {
   size_t nodes_size = 0,
           links_size = 0;
-  for (auto g = innov_genome_list->begin(); g not_eq innov_genome_list->end(); g++)
+  for (auto g =
+          innov_genome_list->begin(); g not_eq innov_genome_list->end(); g++)
   {
     nodes_size += (*g)->nodes.size();
     links_size += (*g)->links.size();
@@ -75,7 +77,8 @@ Genome::Stats MultiInnovGenome::get_stats()
 
 void MultiInnovGenome::print(std::ostream &out) const
 {
-  for (auto g = innov_genome_list->begin(); g not_eq innov_genome_list->end(); g++)
+  for (auto g =
+          innov_genome_list->begin(); g not_eq innov_genome_list->end(); g++)
   {
     (*g)->print(out);
   }

@@ -25,9 +25,10 @@
 
 using namespace revolve::brain::cpg;
 
-PatternFormationNeuron::PatternFormationNeuron(real_t alpha,
-                                               real_t theta,
-                                               std::vector<real_t> weights)
+PatternFormationNeuron::PatternFormationNeuron(
+        real_t alpha,
+        real_t theta,
+        std::vector< real_t > weights)
 {
   setAlpha(alpha);
   setTheta(theta);
@@ -37,8 +38,9 @@ PatternFormationNeuron::PatternFormationNeuron(real_t alpha,
 PatternFormationNeuron::~PatternFormationNeuron()
 {}
 
-std::vector<real_t> PatternFormationNeuron::update(std::vector<real_t> inputs,
-                                                   real_t /*delta_time*/)
+std::vector< real_t > PatternFormationNeuron::update(
+        std::vector< real_t > inputs,
+        real_t /*delta_time*/)
 {
   real_t combined_inputs = generateInput(inputs);
   real_t result = output(combined_inputs);
@@ -46,7 +48,7 @@ std::vector<real_t> PatternFormationNeuron::update(std::vector<real_t> inputs,
   return {result};
 }
 
-real_t PatternFormationNeuron::generateInput(std::vector<real_t> inputs) const
+real_t PatternFormationNeuron::generateInput(std::vector< real_t > inputs) const
 {
   if (inputs.size() not_eq weights.size())
   {
@@ -99,14 +101,14 @@ void PatternFormationNeuron::setTheta(real_t theta)
   PatternFormationNeuron::theta = theta;
 }
 
-const std::vector<real_t> &PatternFormationNeuron::Weights() const
+const std::vector< real_t > &PatternFormationNeuron::Weights() const
 {
   return weights;
 }
 
-void PatternFormationNeuron::setWeights(const std::vector<real_t> &weights)
+void PatternFormationNeuron::setWeights(const std::vector< real_t > &weights)
 {
-  PatternFormationNeuron::weights = std::vector<real_t>(weights);
+  PatternFormationNeuron::weights = std::vector< real_t >(weights);
 
   // Weight normalization
   real_t weight_sum = 0;

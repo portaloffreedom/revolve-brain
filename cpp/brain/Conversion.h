@@ -37,12 +37,12 @@ namespace revolve
   {
     /// \brief used for communication between cppneat learner and ext nn net
     /// controller the conversion methods work only when using standard neat
-    extern std::map<cppneat::Neuron::Ntype, cppneat::Neuron::NeuronTypeSpec>
+    extern std::map< cppneat::Neuron::Ntype, cppneat::Neuron::NeuronTypeSpec >
             brain_spec;
 
-    extern std::map<int, size_t> InputMap;
+    extern std::map< int, size_t > InputMap;
 
-    extern std::map<int, size_t> OutputMap;
+    extern std::map< int, size_t > OutputMap;
 
     void SetBrainSpec(bool _isHyperNeat);
 
@@ -55,39 +55,40 @@ namespace revolve
 ///////////////////////////////////////////////////////////////////////////////
     /// \brief used for communication between rlpower learner and
     /// ext nn weights controller
-    std::vector<double> convertPolicyToDouble(PolicyPtr _genotype);
+    std::vector< double > convertPolicyToDouble(PolicyPtr _genotype);
 
-    PolicyPtr convertDoubleToNull(std::vector<double> _phenotype);
+    PolicyPtr convertDoubleToNull(std::vector< double > _phenotype);
 ///////////////////////////////////////////////////////////////////////////////
 
     /// \brief used for communication between hyperneat learner and
     /// ext nn net controller
-    extern boost::shared_ptr<CPPNConfig> RafCpgNetwork;
+    extern boost::shared_ptr< CPPNConfig > RafCpgNetwork;
 
-    extern std::map<std::string, std::tuple<int, int, int>> neuron_coordinates;
+    extern std::map< std::string, std::tuple< int, int, int>>
+            neuron_coordinates;
 
     extern cppneat::GeneticEncodingPtr last_genotype_;
 
     /// \brief converts a layered genotype to a layered phenotype only works if
     /// genotype->layered == true
-    boost::shared_ptr<LayeredExtNNConfig>
+    boost::shared_ptr< LayeredExtNNConfig >
     convertForLayeredExtNN(cppneat::GeneticEncodingPtr genotype);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// RLPower_CPG~RLPower_CPPN
 ///////////////////////////////////////////////////////////////////////////////
-    boost::shared_ptr<CPPNConfig>
+    boost::shared_ptr< CPPNConfig >
     convertGEtoNN(cppneat::GeneticEncodingPtr _genotype);
 
     cppneat::GeneticEncodingPtr
-    convertNNtoGE(boost::shared_ptr<CPPNConfig> config);
+    convertNNtoGE(boost::shared_ptr< CPPNConfig > config);
 ///////////////////////////////////////////////////////////////////////////////
 
     /// \brief used for communication between spline controller and hyperneat
     /// learner contains the coordinates of the actuators matching the order the
     /// actuators are given in the update method coordinate of actuators[0] is
     /// in sorted_coordinates[0]
-    extern std::vector<std::pair<int, int>> sorted_coordinates;
+    extern std::vector< std::pair< int, int>> sorted_coordinates;
 
     extern size_t spline_size;
 

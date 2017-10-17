@@ -32,11 +32,11 @@ namespace NEAT
   ///
   /// CLASS CudaNetworkExecutor
   ///
-  template <typename Evaluator>
+  template < typename Evaluator >
   class CudaNetworkExecutor
-          : public NetworkExecutor<Evaluator>
+          : public NetworkExecutor< Evaluator >
   {
-    std::vector<class CudaNetworkBatch<Evaluator> *> batches;
+    std::vector< class CudaNetworkBatch< Evaluator > * > batches;
 
     public:
     CudaNetworkExecutor()
@@ -47,7 +47,7 @@ namespace NEAT
       batches.resize(ndevices);
       for (int i = 0; i < ndevices; i++)
       {
-        batches[i] = new CudaNetworkBatch<Evaluator>(i);
+        batches[i] = new CudaNetworkBatch< Evaluator >(i);
       }
     }
 
@@ -59,8 +59,9 @@ namespace NEAT
       }
     }
 
-    virtual void configure(const typename Evaluator::Config *config,
-                           size_t len)
+    virtual void configure(
+            const typename Evaluator::Config *config,
+            size_t len)
     {
       for (size_t i = 0; i < batches.size(); i++)
       {
@@ -68,9 +69,10 @@ namespace NEAT
       }
     }
 
-    virtual void execute(class Network **nets_,
-                         OrganismEvaluation *results,
-                         size_t nnets)
+    virtual void execute(
+            class Network **nets_,
+            OrganismEvaluation *results,
+            size_t nnets)
     {
       CudaNetwork **nets = reinterpret_cast<CudaNetwork **>(nets_);
       size_t nbatches = batches.size();
@@ -94,10 +96,10 @@ namespace NEAT
     }
   };
 
-  template <typename Evaluator>
-  inline NetworkExecutor<Evaluator> *NetworkExecutor<Evaluator>::create()
+  template < typename Evaluator >
+  inline NetworkExecutor< Evaluator > *NetworkExecutor< Evaluator >::create()
   {
-    return new CudaNetworkExecutor<Evaluator>();
+    return new CudaNetworkExecutor< Evaluator >();
   }
 }  // namespace NEAT
 

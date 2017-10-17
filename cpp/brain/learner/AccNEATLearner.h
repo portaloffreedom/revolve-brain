@@ -37,20 +37,22 @@ namespace revolve
     {
       public:  // METHODS
       /// \brief
-      AccNEATLearner(const std::string &robot_name,
-                     EvaluatorPtr evaluator,
-                     size_t n_inputs,
-                     size_t n_outputs,
-                     const float evaluationTime,
-                     const long maxEvaluations = -1);
+      AccNEATLearner(
+              const std::string &robot_name,
+              EvaluatorPtr evaluator,
+              size_t n_inputs,
+              size_t n_outputs,
+              const float evaluationTime,
+              const long maxEvaluations = -1);
 
       /// \brief
       virtual ~AccNEATLearner();
 
       /// \brief
-      virtual BaseController *update(const std::vector<SensorPtr> &sensors,
-                                     double t,
-                                     double step) override;
+      virtual BaseController *update(
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step) override;
 
       protected:
       /// \brief
@@ -80,10 +82,10 @@ namespace revolve
       double start_eval_time;
 
       /// \brief
-      std::unique_ptr<AsyncNeat> neat;
+      std::unique_ptr< AsyncNeat > neat;
 
       /// \brief
-      std::shared_ptr<NeatEvaluation> current_evalaution;
+      std::shared_ptr< NeatEvaluation > current_evalaution;
 
       /// \brief Number of evaluations before the program quits. Usefull to do
       /// long run tests. If negative (default value), it will never stop.

@@ -28,7 +28,8 @@ namespace revolve
   {
     BiasNeuron::BiasNeuron(
             const std::string &_id,
-            const std::map< std::string, double > &_parameters)
+            const std::map< std::string, double > &_parameters
+    )
             : Neuron(_id)
     {
       if (not _parameters.count("rv:bias"))

@@ -38,7 +38,8 @@ namespace cppneat
     /// \brief
     GeneticEncoding(
             std::vector< NeuronGenePtr > neuron_genes,
-            std::vector< ConnectionGenePtr > connection_genes)
+            std::vector< ConnectionGenePtr > connection_genes
+    )
             : neuronGenes_(neuron_genes)
             , connectionGenes_(connection_genes)
             , isLayered_(false)
@@ -47,7 +48,8 @@ namespace cppneat
     /// \brief
     GeneticEncoding(
             std::vector< std::vector< NeuronGenePtr>> layers,
-            std::vector< ConnectionGenePtr > connection_genes)
+            std::vector< ConnectionGenePtr > connection_genes
+    )
             : layers_(layers)
             , connectionGenes_(connection_genes)
             , isLayered_(true)

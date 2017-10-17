@@ -29,10 +29,11 @@
 
 namespace NEAT
 {
-  typedef std::function<std::vector<Test>()> GetStaticTestsFunc;
+  typedef std::function< std::vector< Test >() > GetStaticTestsFunc;
 
-  inline void create_static_experiment(const char *name,
-                                       GetStaticTestsFunc get_tests)
+  inline void create_static_experiment(
+          const char *name,
+          GetStaticTestsFunc get_tests)
   {
     auto create_evaluator = [get_tests]()
     {

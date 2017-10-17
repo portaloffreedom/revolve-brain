@@ -37,7 +37,7 @@ namespace revolve
       virtual double fitness() = 0;
     };
 
-    typedef boost::shared_ptr<revolve::brain::Evaluator> EvaluatorPtr;
+    typedef boost::shared_ptr< revolve::brain::Evaluator > EvaluatorPtr;
   }
 }
 

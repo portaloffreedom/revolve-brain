@@ -29,21 +29,24 @@ class SUPGNeuron
 {
   public:
   /// \brief
-  SUPGNeuron(NEAT::CpuNetwork *cppn,
-             std::vector<float> coordinates,
-             NEAT::real_t cicle_length);
+  SUPGNeuron(
+          NEAT::CpuNetwork *cppn,
+          std::vector< float > coordinates,
+          NEAT::real_t cicle_length);
 
   /// \brief
-  SUPGNeuron(const SUPGNeuron &other,
-             std::vector<float> coordinates,
-             NEAT::real_t cicle_length);
+  SUPGNeuron(
+          const SUPGNeuron &other,
+          std::vector< float > coordinates,
+          NEAT::real_t cicle_length);
 
   /// \brief
   virtual ~SUPGNeuron();
 
   /// \brief
-  static size_t GetDimensionInput(size_t n_inputs,
-                                        size_t coordinates_size);
+  static size_t GetDimensionInput(
+          size_t n_inputs,
+          size_t coordinates_size);
 
   /// \brief
   static size_t GetDimensionOutput(size_t n_outputs);
@@ -55,8 +58,9 @@ class SUPGNeuron
   void activate(float global_time);
 
   /// \brief
-  void load_sensor(size_t isensor,
-                   NEAT::real_t activation);
+  void load_sensor(
+          size_t isensor,
+          NEAT::real_t activation);
 
   /// \brief
   void setCppn(NEAT::CpuNetwork *cppn);
@@ -75,7 +79,7 @@ class SUPGNeuron
   NEAT::real_t start_timer;
 
   /// \brief
-  std::vector<float> coordinates;
+  std::vector< float > coordinates;
 
   /// \brief
   NEAT::real_t const timer_window;
@@ -87,7 +91,7 @@ class SUPGNeuron
   void init_timer(float global_time);
 
   /// \brief
-  void set_coordinates(std::vector<float> coordinates);
+  void set_coordinates(std::vector< float > coordinates);
 
   /// \brief
   void load_coordinates();

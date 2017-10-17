@@ -32,12 +32,13 @@ namespace NEAT
 {
 // Don't need any special qualifiers for CPU
 #define __net_eval_decl
+
   ///
   /// CLASS CpuNetworkExecutor
   ///
-  template <typename Evaluator>
+  template < typename Evaluator >
   class CpuNetworkExecutor
-          : public NetworkExecutor<Evaluator>
+          : public NetworkExecutor< Evaluator >
   {
     public:
     const typename Evaluator::Config *config;
@@ -52,17 +53,19 @@ namespace NEAT
       delete config;
     }
 
-    virtual void configure(const typename Evaluator::Config *config_,
-                           size_t len)
+    virtual void configure(
+            const typename Evaluator::Config *config_,
+            size_t len)
     {
       void *buf = std::malloc(len);
       std::memcpy(buf, config_, len);
       config = (const typename Evaluator::Config *)buf;
     }
 
-    virtual void execute(class Network **nets_,
-                         OrganismEvaluation *results,
-                         size_t nnets)
+    virtual void execute(
+            class Network **nets_,
+            OrganismEvaluation *results,
+            size_t nnets)
     {
       CpuNetwork **nets = reinterpret_cast<CpuNetwork **>(nets_);
       node_size_t nsensors = nets[0]->get_dims().nnodes.sensor;
@@ -95,10 +98,10 @@ namespace NEAT
   ///
   /// FUNC NetworkExecutor<Evaluator>::create()
   ///
-  template <typename Evaluator>
-  inline NetworkExecutor<Evaluator> *NetworkExecutor<Evaluator>::create()
+  template < typename Evaluator >
+  inline NetworkExecutor< Evaluator > *NetworkExecutor< Evaluator >::create()
   {
-    return new CpuNetworkExecutor<Evaluator>();
+    return new CpuNetworkExecutor< Evaluator >();
   }
 }
 

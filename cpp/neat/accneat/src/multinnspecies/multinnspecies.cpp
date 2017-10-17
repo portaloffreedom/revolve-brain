@@ -58,8 +58,9 @@ MultiNNSpecies::MultiNNSpecies(int i)
   average_est = 0;
 }
 
-MultiNNSpecies::MultiNNSpecies(int i,
-                               bool n)
+MultiNNSpecies::MultiNNSpecies(
+        int i,
+        bool n)
 {
   id = i;
   age = 1;
@@ -128,7 +129,7 @@ MultiNNSpeciesOrganism *MultiNNSpecies::first()
 
 void MultiNNSpecies::adjust_fitness()
 {
-  std::vector<MultiNNSpeciesOrganism *>::iterator curorg;
+  std::vector< MultiNNSpeciesOrganism * >::iterator curorg;
 
   int num_parents;
   int count;
@@ -178,8 +179,9 @@ void MultiNNSpecies::adjust_fitness()
   // Sort the population and mark for death those after survival_thresh*pop_size
   std::sort(organisms.begin(),
             organisms.end(),
-            [](MultiNNSpeciesOrganism *x,
-               MultiNNSpeciesOrganism *y)
+            [](
+                    MultiNNSpeciesOrganism *x,
+                    MultiNNSpeciesOrganism *y)
             {
               return x->adjusted_fitness > y->adjusted_fitness;
             });
@@ -217,7 +219,7 @@ void MultiNNSpecies::adjust_fitness()
 
 real_t MultiNNSpecies::compute_average_fitness()
 {
-  std::vector<MultiNNSpeciesOrganism *>::iterator curorg;
+  std::vector< MultiNNSpeciesOrganism * >::iterator curorg;
 
   real_t total = 0.0;
 
@@ -234,7 +236,7 @@ real_t MultiNNSpecies::compute_average_fitness()
 real_t MultiNNSpecies::compute_max_fitness()
 {
   real_t max = 0.0;
-  std::vector<MultiNNSpeciesOrganism *>::iterator curorg;
+  std::vector< MultiNNSpeciesOrganism * >::iterator curorg;
 
   for (curorg = organisms.begin(); curorg not_eq organisms.end(); ++curorg)
   {
@@ -251,7 +253,7 @@ real_t MultiNNSpecies::compute_max_fitness()
 
 real_t MultiNNSpecies::count_offspring(real_t skim)
 {
-  std::vector<MultiNNSpeciesOrganism *>::iterator curorg;
+  std::vector< MultiNNSpeciesOrganism * >::iterator curorg;
   int e_o_intpart;  // The floor of an organism's expected offspring
   real_t e_o_fracpart;  // Expected offspring fractional part
   real_t skim_intpart;  // The whole offspring in the skim
@@ -284,7 +286,7 @@ real_t MultiNNSpecies::count_offspring(real_t skim)
 static MultiNNSpeciesOrganism *get_random(
         rng_t &rng,
         MultiNNSpecies *thiz,
-        const vector<MultiNNSpecies *> &sorted_species)
+        const vector< MultiNNSpecies * > &sorted_species)
 {
   MultiNNSpecies *result = thiz;
   for (int i = 0; (result == thiz) and (i < 5); i++)
@@ -304,7 +306,7 @@ void MultiNNSpecies::reproduce(
         int ioffspring,
         MultiNNSpeciesOrganism &baby,
         GenomeManager *genome_manager,
-        vector<MultiNNSpecies *> &sorted_species)
+        vector< MultiNNSpecies * > &sorted_species)
 {
   MultiNNSpeciesOrganism *thechamp = organisms[0];
   Genome &new_genome = *baby.genome;  // For holding baby's genes
@@ -373,15 +375,17 @@ void MultiNNSpecies::reproduce(
   }
 }
 
-bool NEAT::order_species(MultiNNSpecies *x,
-                         MultiNNSpecies *y)
+bool NEAT::order_species(
+        MultiNNSpecies *x,
+        MultiNNSpecies *y)
 {
   return (((*((x->organisms).begin()))->eval.fitness)
           > ((*((y->organisms).begin()))->eval.fitness));
 }
 
-bool NEAT::order_new_species(MultiNNSpecies *x,
-                             MultiNNSpecies *y)
+bool NEAT::order_new_species(
+        MultiNNSpecies *x,
+        MultiNNSpecies *y)
 {
   return (x->compute_max_fitness() > y->compute_max_fitness());
 }

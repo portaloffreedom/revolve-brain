@@ -71,7 +71,7 @@ namespace NEAT
     INNOV
   };
 
-  extern const std::vector<nodetype> nodetypes;
+  extern const std::vector< nodetype > nodetypes;
 
   inline bool is_input(nodetype type)
   {
@@ -181,8 +181,9 @@ namespace NEAT
   ///                      int startIndex,
   ///                      int endIndex,
   ///                      const char *set);
-  int getUnitCount(const char *string,
-                   const char *set);
+  int getUnitCount(
+          const char *string,
+          const char *set);
 
   /// \brief SIGMOID FUNCTION ********************************
   /// This is a signmoidal activation function, which is an S-shaped squashing
@@ -201,8 +202,9 @@ namespace NEAT
   /// the old output and some other node.
   /// When not right-shifted, the steepened slope is closest to a linear
   /// ascent as possible between -0.5 and 0.5
-  inline real_t fsigmoid(real_t activesum,
-                         real_t slope)
+  inline real_t fsigmoid(
+          real_t activesum,
+          real_t slope)
   {
     // NON-SHIFTED STEEPENED
     return (1 / (1 + (std::exp(-(slope * activesum)))));  // Compressed
@@ -217,13 +219,14 @@ namespace NEAT
   /// Returns the new modified weight
   /// NOTE: For an inhibatory connection, it makes sense to
   ///      emphasize decorrelation on hebbian learning!
-  extern real_t oldhebbian(real_t weight,
-                           real_t maxweight,
-                           real_t active_in,
-                           real_t active_out,
-                           real_t hebb_rate,
-                           real_t pre_rate,
-                           real_t post_rate);
+  extern real_t oldhebbian(
+          real_t weight,
+          real_t maxweight,
+          real_t active_in,
+          real_t active_out,
+          real_t hebb_rate,
+          real_t pre_rate,
+          real_t post_rate);
 
   /// \brief Hebbian Adaptation Function
   /// Based on equations in Floreano & Urzelai 2000
@@ -234,13 +237,14 @@ namespace NEAT
   /// Returns the new modified weight
   /// NOTE: For an inhibatory connection, it makes sense to
   ///      emphasize decorrelation on hebbian learning!
-  extern real_t hebbian(real_t weight,
-                        real_t maxweight,
-                        real_t active_in,
-                        real_t active_out,
-                        real_t hebb_rate,
-                        real_t pre_rate,
-                        real_t post_rate);
+  extern real_t hebbian(
+          real_t weight,
+          real_t maxweight,
+          real_t active_in,
+          real_t active_out,
+          real_t hebb_rate,
+          real_t pre_rate,
+          real_t post_rate);
 
 }  // namespace NEAT
 

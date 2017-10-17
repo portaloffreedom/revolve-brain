@@ -20,7 +20,7 @@
 #ifndef REVOLVEBRAIN_BRAIN_PYTHON_ARRAY_H_
 #define REVOLVEBRAIN_BRAIN_PYTHON_ARRAY_H_
 
-template <typename ValueType>
+template < typename ValueType >
 class python_array
 {
   private:
@@ -45,8 +45,9 @@ class python_array
     return value_pointer[key];
   }
 
-  void setitem(const long key,
-               const ValueType value)
+  void setitem(
+          const long key,
+          const ValueType value)
   {
     value_pointer[key] = value;
   }

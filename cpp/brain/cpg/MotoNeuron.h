@@ -52,14 +52,16 @@ namespace revolve
         /// \return std::vector<real> of size 1.
         /// \throws invalid_input_exception if input vector is not of the
         /// correct size (dimension of internal weights)
-        virtual std::vector<real_t> update(std::vector<real_t> inputs,
-                                           real_t delta_time) override;
+        virtual std::vector< real_t > update(
+                std::vector< real_t > inputs,
+                real_t delta_time) override;
 
         private:
         /// \brief Calculates the output value of the neuron
         /// \return neuron output
-        real_t output(real_t pfe,
-                      real_t pff) const;
+        real_t output(
+                real_t pfe,
+                real_t pff) const;
 
         private:
         real_t v_max;

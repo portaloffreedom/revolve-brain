@@ -20,8 +20,6 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <utility>
-#include <string>
 #include <vector>
 
 #include <boost/graph/adjacency_list.hpp>
@@ -35,18 +33,19 @@ namespace revolve
   {
     ExtNNController::ExtNNController(
             std::string modelName,
-            boost::shared_ptr<CPPNConfig> Config,
-            const std::vector<ActuatorPtr> &actuators,
-            const std::vector<SensorPtr> &sensors)
+            boost::shared_ptr< CPPNConfig > Config,
+            const std::vector< ActuatorPtr > &actuators,
+            const std::vector< SensorPtr > &sensors
+    )
             : modelName_(modelName)
-              , allNeurons_(Config->allNeurons_)
-              , inputNeurons_(Config->inputNeurons_)
-              , outputNeurons_(Config->outputNeurons_)
-              , hiddenNeurons_(Config->hiddenNeurons_)
-              , outputPositionMap_(Config->outputPositionMap_)
-              , inputPositionMap_(Config->inputPositionMap_)
-              , idToNeuron_(Config->idToNeuron_)
-              , connections_(Config->connections_)
+            , allNeurons_(Config->allNeurons_)
+            , inputNeurons_(Config->inputNeurons_)
+            , outputNeurons_(Config->outputNeurons_)
+            , hiddenNeurons_(Config->hiddenNeurons_)
+            , outputPositionMap_(Config->outputPositionMap_)
+            , inputPositionMap_(Config->inputPositionMap_)
+            , idToNeuron_(Config->idToNeuron_)
+            , connections_(Config->connections_)
     {
       size_t p = 0;
       for (auto sensor : sensors)
@@ -69,8 +68,8 @@ namespace revolve
     }
 
     void ExtNNController::update(
-            const std::vector<ActuatorPtr> &actuators,
-            const std::vector<SensorPtr> &sensors,
+            const std::vector< ActuatorPtr > &actuators,
+            const std::vector< SensorPtr > &sensors,
             double t,
             double step)
     {
@@ -134,10 +133,10 @@ namespace revolve
       }
     }
 
-    std::vector<double> ExtNNController::getPhenotype()
+    std::vector< double > ExtNNController::getPhenotype()
     {
       // weights
-      std::vector<double> ret(connections_.size(), 0);
+      std::vector< double > ret(connections_.size(), 0);
       for (size_t i = 0; i < connections_.size(); i++)
       {
         ret[i] = connections_[i]->GetWeight();
@@ -147,7 +146,7 @@ namespace revolve
       {
         // iterator over map is ordered, therefore we always return the same
         // parameter in the same place
-        std::map<std::string, double> params =
+        std::map< std::string, double > params =
                 allNeurons_[i]->Parameters();
         for (auto it = params.begin(); it not_eq params.end(); ++it)
         {
@@ -157,7 +156,7 @@ namespace revolve
       return ret;
     }
 
-    void ExtNNController::setPhenotype(std::vector<double> weights)
+    void ExtNNController::setPhenotype(std::vector< double > weights)
     {
       size_t matches = connections_.size();
       for (size_t i = 0; i < connections_.size(); i++)
@@ -169,7 +168,7 @@ namespace revolve
       {
         // iterator over map is ordered, therefore we always return the same
         // parameter in the same place
-        std::map<std::string, double> params =
+        std::map< std::string, double > params =
                 allNeurons_[i]->Parameters();
         for (auto it = params.begin(); it not_eq params.end(); ++it)
         {
@@ -195,10 +194,10 @@ namespace revolve
       boost::adjacency_list<> graph(allNeurons_.size());
       for (size_t i = 0; i < allNeurons_.size(); i++)
       {
-        std::vector<std::pair<std::string, NeuralConnectionPtr>>
+        std::vector< std::pair< std::string, NeuralConnectionPtr>>
                 connectionsToAdd =
                 allNeurons_[i]->IncomingConnections();
-        for (std::pair<std::string, NeuralConnectionPtr> connectionToAdd
+        for (std::pair< std::string, NeuralConnectionPtr > connectionToAdd
                 : connectionsToAdd)
         {
           NeuronPtr input = connectionToAdd.second->GetInputNeuron();
@@ -214,7 +213,7 @@ namespace revolve
         std::stringstream nodeName;
         nodeName << allNeurons_[i]->Id() + " of type: "
                     + allNeurons_[i]->Type() << std::endl;
-        for (std::pair<std::string, double> param
+        for (std::pair< std::string, double > param
                 : allNeurons_[i]->Parameters())
         {
           nodeName << param.first << ": " << param.second << std::endl;

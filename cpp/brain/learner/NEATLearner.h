@@ -37,15 +37,19 @@ namespace cppneat
 {
   typedef std::vector< GeneticEncodingPtr > GeneticEncodingPtrs;
 
-  typedef std::pair< GeneticEncodingPtr, GeneticEncodingPtr> ParentPair;
-  typedef std::vector< ParentPair > ParentPairs;
-  typedef std::pair< GeneticEncodingPtr, GeneticEncodingPtrs> ParentVectorPairs;
+  typedef std::pair< GeneticEncodingPtr, GeneticEncodingPtr > ParentPair;
 
-  typedef std::pair< GeneticEncodingPtr, double> FitnessPair;
+  typedef std::vector< ParentPair > ParentPairs;
+
+  typedef std::pair< GeneticEncodingPtr, GeneticEncodingPtrs >
+          ParentVectorPairs;
+
+  typedef std::pair< GeneticEncodingPtr, double > FitnessPair;
+
   typedef std::vector< FitnessPair > FitnessPairs;
 
   class NEATLearner
-          : public revolve::brain::Learner<GeneticEncodingPtr>
+          : public revolve::brain::Learner< GeneticEncodingPtr >
   {
     public:
     struct LearningConfiguration
@@ -146,22 +150,22 @@ namespace cppneat
 
     //    double fitness;
     /// \brief
-    std::vector<GeneticEncodingPtr> evaluationQueue_;
+    std::vector< GeneticEncodingPtr > evaluationQueue_;
 
     /// \brief
     GeneticEncodingPtrs brainPpopulation_;
 
     /// \brief
-    std::map<GeneticEncodingPtr, double> brainFitness_;
+    std::map< GeneticEncodingPtr, double > brainFitness_;
 
     /// \brief
-    std::map<GeneticEncodingPtr, double> brainVelocity_;
+    std::map< GeneticEncodingPtr, double > brainVelocity_;
 
     /// \brief
-    std::map<GeneticEncodingPtr, std::vector<GeneticEncodingPtr>> species_;
+    std::map< GeneticEncodingPtr, std::vector< GeneticEncodingPtr>> species_;
 
     /// \brief
-    std::vector<double> fitnessBuffer_;
+    std::vector< double > fitnessBuffer_;
 
     /// \brief
     int numGeneration;

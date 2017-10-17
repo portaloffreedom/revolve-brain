@@ -41,33 +41,39 @@ namespace NEAT
     public:
     virtual ~InnovGenomeManager();
 
-    virtual std::unique_ptr<Genome>
+    virtual std::unique_ptr< Genome >
     make_default() override;
 
     using NEAT::GenomeManager::create_seed_generation;
-    virtual std::vector<std::unique_ptr<Genome>>
-    create_seed_generation(size_t ngenomes,
-                           class rng_t rng,
-                           size_t ntraits,
-                           size_t ninputs,
-                           size_t noutputs,
-                           size_t nhidden,
-                           const std::string &robot_name) override;
 
-    virtual bool are_compatible(Genome &genome1,
-                                Genome &genome2) override;
+    virtual std::vector< std::unique_ptr< Genome>>
+    create_seed_generation(
+            size_t ngenomes,
+            class rng_t rng,
+            size_t ntraits,
+            size_t ninputs,
+            size_t noutputs,
+            size_t nhidden,
+            const std::string &robot_name) override;
 
-    virtual void clone(Genome &orig,
-                       Genome &clone) override;
+    virtual bool are_compatible(
+            Genome &genome1,
+            Genome &genome2) override;
 
-    virtual void mate(Genome &genome1,
-                      Genome &genome2,
-                      Genome &offspring,
-                      real_t fitness1,
-                      real_t fitness2) override;
+    virtual void clone(
+            Genome &orig,
+            Genome &clone) override;
 
-    virtual void mutate(Genome &genome,
-                        MutationOperation op = MUTATE_OP_ANY) override;
+    virtual void mate(
+            Genome &genome1,
+            Genome &genome2,
+            Genome &offspring,
+            real_t fitness1,
+            real_t fitness2) override;
+
+    virtual void mutate(
+            Genome &genome,
+            MutationOperation op = MUTATE_OP_ANY) override;
 
     virtual void finalize_generation(bool new_fittest) override;
 

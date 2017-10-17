@@ -32,15 +32,17 @@ namespace revolve
 {
   namespace brain
   {
-    template <typename Phenotype, typename Genotype>
+    template < typename Phenotype, typename Genotype >
     class ConverterSplitBrain
-            : public SplitBrain<Phenotype, Genotype>
+            : public SplitBrain< Phenotype, Genotype >
     {
       public:
       /// \brief
-      ConverterSplitBrain(Phenotype (*convertForController)(Genotype),
-                          Genotype (*convertForLearner)(Phenotype),
-                          const std::string model_name)
+      ConverterSplitBrain(
+              Phenotype (*convertForController)(Genotype),
+              Genotype (*convertForLearner)(Phenotype),
+              const std::string model_name
+      )
               : name_(model_name)
               , isFirstRun_(true)
               , numRuns_(0)
@@ -57,10 +59,11 @@ namespace revolve
       /// \param sensors List of sensors
       /// \param t Current simulation time
       /// \param step Actuation step size in seconds
-      virtual void update(const std::vector<ActuatorPtr> &actuators,
-                          const std::vector<SensorPtr> &sensors,
-                          double t,
-                          double step)
+      virtual void update(
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step)
       {
         if (isFirstRun_)
         {
