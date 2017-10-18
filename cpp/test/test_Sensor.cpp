@@ -18,6 +18,7 @@
 */
 
 #include <iostream>
+#include <string>
 
 #include "test_Sensor.h"
 

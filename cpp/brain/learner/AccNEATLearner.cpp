@@ -20,6 +20,8 @@
 
 #include <ctime>
 #include <fstream>
+#include <limits>
+#include <string>
 #include <vector>
 
 #include "brain/controller/AccNEATCPPNController.h"

@@ -21,6 +21,8 @@
 #include <fstream>
 #include <map>
 #include <random>
+#include <string>
+#include <vector>
 
 #include <gsl/gsl_spline.h>
 

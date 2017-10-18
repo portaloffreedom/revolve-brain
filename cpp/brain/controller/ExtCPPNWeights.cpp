@@ -20,6 +20,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <string>
 #include <vector>
 
 #include <boost/graph/adjacency_list.hpp>
@@ -89,7 +90,7 @@ namespace revolve
            it not_eq inputNeurons_.end(); ++it)
       {
         auto inNeuron = *it;
-        int pos = inputPositionMap_[inNeuron];
+        auto pos = inputPositionMap_[inNeuron];
         inNeuron->SetInput(inputs_[pos]);
       }
 
@@ -115,7 +116,7 @@ namespace revolve
            it not_eq outputNeurons_.end(); ++it)
       {
         auto outNeuron = *it;
-        int pos = outputPositionMap_[outNeuron];
+        auto pos = outputPositionMap_[outNeuron];
         outputs_[pos] = outNeuron->Output();
 
         // debF << pos << "," << outputs_[pos] << std::endl;
@@ -146,11 +147,10 @@ namespace revolve
       {
         // iterator over map is ordered, therefore we always return the same
         // parameter in the same place
-        std::map< std::string, double > params =
-                allNeurons_[i]->Parameters();
-        for (auto it = params.begin(); it not_eq params.end(); ++it)
+        auto  parameters = allNeurons_[i]->Parameters();
+        for (const auto &parameter : parameters)
         {
-          ret.push_back(it->second);
+          ret.push_back(parameter.second);
         }
       }
       return ret;
@@ -183,7 +183,7 @@ namespace revolve
                   << ") delivered. expected " << matches << std::endl;
         throw std::runtime_error("Weight size error");
       }
-      for (NeuronPtr neuron: allNeurons_)
+      for (const auto &neuron: allNeurons_)
       {
         neuron->reset();
       }
@@ -194,27 +194,24 @@ namespace revolve
       boost::adjacency_list<> graph(allNeurons_.size());
       for (size_t i = 0; i < allNeurons_.size(); i++)
       {
-        std::vector< std::pair< std::string, NeuralConnectionPtr>>
-                connectionsToAdd =
-                allNeurons_[i]->IncomingConnections();
-        for (std::pair< std::string, NeuralConnectionPtr > connectionToAdd
-                : connectionsToAdd)
+        auto connectionsToAdd = allNeurons_[i]->IncomingConnections();
+        for (const auto &connectionToAdd: connectionsToAdd)
         {
-          NeuronPtr input = connectionToAdd.second->GetInputNeuron();
-          int indexInput = std::find(allNeurons_.begin(),
-                                     allNeurons_.end(),
-                                     input) - allNeurons_.begin();
+          auto input = connectionToAdd.second->GetInputNeuron();
+          auto indexInput = std::find(
+                  allNeurons_.begin(),
+                  allNeurons_.end(),
+                  input) - allNeurons_.begin();
           boost::add_edge(indexInput, i, graph);
         }
       }
-      std::string *names = new std::string[allNeurons_.size()];
+      auto *names = new std::string[allNeurons_.size()];
       for (size_t i = 0; i < allNeurons_.size(); i++)
       {
         std::stringstream nodeName;
         nodeName << allNeurons_[i]->Id() + " of type: "
                     + allNeurons_[i]->Type() << std::endl;
-        for (std::pair< std::string, double > param
-                : allNeurons_[i]->Parameters())
+        for (const auto &param : allNeurons_[i]->Parameters())
         {
           nodeName << param.first << ": " << param.second << std::endl;
         }

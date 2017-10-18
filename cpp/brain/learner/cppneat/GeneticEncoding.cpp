@@ -21,6 +21,7 @@
 #include <cmath>
 #include <iostream>
 #include <map>
+#include <utility>
 #include <vector>
 
 #include "GeneticEncoding.h"

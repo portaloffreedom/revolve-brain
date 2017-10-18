@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <random>
+#include <vector>
 
 #include "CPPNCrossover.h"
 

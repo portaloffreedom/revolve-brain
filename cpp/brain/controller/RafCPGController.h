@@ -49,27 +49,27 @@ namespace revolve
     struct CPPNConfig
     {
       // vector containing all neurons
-      std::vector<NeuronPtr> allNeurons_;
+      std::vector< NeuronPtr > allNeurons_;
       // vector containing the input neurons
-      std::vector<NeuronPtr> inputNeurons_;
+      std::vector< NeuronPtr > inputNeurons_;
       // vector containing the output neurons
-      std::vector<NeuronPtr> outputNeurons_;
+      std::vector< NeuronPtr > outputNeurons_;
       // vector containing the hidden neurons
-      std::vector<NeuronPtr> hiddenNeurons_;
+      std::vector< NeuronPtr > hiddenNeurons_;
       // positions for indexing into the outputs_ buffer for each output neuron
-      std::map<NeuronPtr, int> outputPositionMap_;
+      std::map< NeuronPtr, size_t > outputPositionMap_;
       // positions for indexing into the inputs_ buffer for each input neuron
-      std::map<NeuronPtr, int> inputPositionMap_;
+      std::map< NeuronPtr, size_t > inputPositionMap_;
       // Map neuron id strings to Neuron objects
-      std::map<std::string, NeuronPtr> idToNeuron_;
+      std::map< std::string, NeuronPtr > idToNeuron_;
       // vector of all the neural connections
-      std::vector<NeuralConnectionPtr> connections_;
+      std::vector< NeuralConnectionPtr > connections_;
     };
 
     /// \brief extended neural network controller usable with standard neat or
     /// hyper neat (use different conversion methods)
     class RafCPGController
-            : public Controller<CPPNConfigPtr>
+            : public Controller< CPPNConfigPtr >
     {
       public:
       /// \brief Constructor for a neural network including neurons that are of
@@ -80,10 +80,11 @@ namespace revolve
       /// \param _actuators: vector list of robot's actuators
       /// \param _sensors: vector list of robot's sensors
       /// \return pointer to the neural network
-      RafCPGController(std::string &_modelName,
-                       CPPNConfigPtr _config,
-                       const std::vector< ActuatorPtr > &_actuators,
-                       const std::vector< SensorPtr > &_sensors);
+      RafCPGController(
+              std::string &_modelName,
+              CPPNConfigPtr _config,
+              const std::vector< ActuatorPtr > &_actuators,
+              const std::vector< SensorPtr > &_sensors);
 
       virtual ~RafCPGController();
 
@@ -93,10 +94,11 @@ namespace revolve
       /// \param sensors: vector list of robot's sensors
       /// \param t: current time
       /// \param step:
-      virtual void update(const std::vector<ActuatorPtr> &actuators,
-                          const std::vector<SensorPtr> &sensors,
-                          double t,
-                          double step);
+      virtual void update(
+              const std::vector< ActuatorPtr > &actuators,
+              const std::vector< SensorPtr > &sensors,
+              double t,
+              double step);
 
       /// \brief Gets the weight of all the connections
       /// \return weights of all neural connections
@@ -120,30 +122,30 @@ namespace revolve
       double *outputs_;
 
       /// \brief vector containing all neurons
-      std::vector<NeuronPtr> allNeurons_;
+      std::vector< NeuronPtr > allNeurons_;
 
       /// \brief vector containing the input neurons
-      std::vector<NeuronPtr> inputNeurons_;
+      std::vector< NeuronPtr > inputNeurons_;
 
       /// \brief vector containing the output neurons
-      std::vector<NeuronPtr> outputNeurons_;
+      std::vector< NeuronPtr > outputNeurons_;
 
       /// \brief vector containing the hidden neurons
-      std::vector<NeuronPtr> hiddenNeurons_;
+      std::vector< NeuronPtr > hiddenNeurons_;
 
       /// \brief positions for indexing into the outputs_ buffer for each output
       /// neuron
-      std::map<NeuronPtr, int> outputPositionMap_;
+      std::map< NeuronPtr, size_t > outputPositionMap_;
 
       /// \brief positions for indexing into the inputs_ buffer for each input
       /// neuron
-      std::map<NeuronPtr, int> inputPositionMap_;
+      std::map< NeuronPtr, size_t > inputPositionMap_;
 
       /// \brief Map neuron id strings to Neuron objects
-      std::map<std::string, NeuronPtr> idToNeuron_;
+      std::map< std::string, NeuronPtr > idToNeuron_;
 
       /// \brief vector of all the neural connections
-      std::vector<NeuralConnectionPtr> connections_;
+      std::vector< NeuralConnectionPtr > connections_;
     };
   }
 }

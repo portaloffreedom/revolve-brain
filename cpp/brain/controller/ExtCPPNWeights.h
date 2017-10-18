@@ -114,11 +114,11 @@ namespace revolve
 
       /// \brief positions for indexing into the outputs_ buffer
       /// for each output neuron
-      std::map< NeuronPtr, int > outputPositionMap_;
+      std::map< NeuronPtr, size_t > outputPositionMap_;
 
       /// \brief positions for indexing into the inputs_ buffer for each input
       /// neuron
-      std::map< NeuronPtr, int > inputPositionMap_;
+      std::map< NeuronPtr, size_t > inputPositionMap_;
 
       /// \brief Map neuron id strings to Neuron objects
       std::map< std::string, NeuronPtr > idToNeuron_;

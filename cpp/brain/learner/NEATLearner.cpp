@@ -21,6 +21,8 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include <yaml-cpp/yaml.h>

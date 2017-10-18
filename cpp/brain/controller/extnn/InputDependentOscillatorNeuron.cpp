@@ -20,6 +20,7 @@
 #include <cmath>
 #include <iostream>
 #include <map>
+#include <string>
 
 #include "InputDependentOscillatorNeuron.h"
 
