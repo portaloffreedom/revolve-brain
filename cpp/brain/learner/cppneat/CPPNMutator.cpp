@@ -168,9 +168,9 @@ namespace cppneat
     for (const auto &connections : yamlFile[1]["connection_innovations"])
     {
       auto connection = connections["connection_innovation"];
-      auto from = connection["mark_from"].as< int >();
-      auto to = connection["mark_to"].as< int >();
-      auto in_no = connection["in_no"].as< int >();
+      auto from = connection["mark_from"].as< size_t >();
+      auto to = connection["mark_to"].as< size_t >();
+      auto in_no = connection["in_no"].as< size_t >();
       connectionInnovations_.insert({{from, to}, in_no});
     }
     neuronInnovations_.clear();
@@ -178,8 +178,7 @@ namespace cppneat
     {
       auto neuron = neurons["neuron_innovation"];
       auto conn_split = neuron["conn_split"].as< size_t >();
-      auto type =
-              static_cast<Neuron::Ntype>(neuron["ntype"].as< size_t >());
+      auto type = static_cast<Neuron::Ntype>(neuron["ntype"].as< size_t >());
       std::vector< size_t > innovations;
       for (size_t j = 0; j < neuron["in_nos"].size(); j++)
       {

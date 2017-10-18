@@ -71,7 +71,7 @@ Experiment::Experiment(const char *name)
 Experiment::~Experiment()
 {
   experiments->erase(name);
-  if (experiments->size() == 0)
+  if (experiments->empty())
   {
     delete experiments;
     experiments = nullptr;

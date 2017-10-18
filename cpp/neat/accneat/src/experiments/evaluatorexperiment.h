@@ -151,11 +151,6 @@ namespace NEAT
 
           timer.stop();
           Timer::report();
-
-          // Don't print on success because we'll exit the loop and print then.
-          //          if (not success and (gen % env->print_every == 0))
-          //            print(expcount,
-          //                  gen);
         }
 
         if (success)
@@ -169,8 +164,6 @@ namespace NEAT
           nlinks.push_back(gstats.nlinks);
         }
 
-        // print(expcount, gen - 1);
-
         delete pop;
         delete env->genome_manager;
       }
@@ -182,7 +175,7 @@ namespace NEAT
               << env->num_runs
               << " runs"
               << endl;
-      if (success_generations.size() > 0)
+      if (not success_generations.empty())
       {
         cout << "Success generations: " << stats(success_generations) << endl;
       }

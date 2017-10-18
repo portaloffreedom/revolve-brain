@@ -153,8 +153,8 @@ static void create_config(
 {
   // Validate tests
   {
-    assert(tests.size() > 0);
-    assert(tests[0].steps.size() > 0);
+    assert(not tests.empty());
+    assert(not tests[0].steps.empty());
 
     node_size_t ninputs = tests[0].steps[0].input.size();
     assert(ninputs > 0);
@@ -165,7 +165,7 @@ static void create_config(
     for (size_t i = 1; i < tests.size(); i++)
     {
       const Test &test = tests[i];
-      assert(test.steps.size() > 0);
+      assert(not test.steps.empty());
       for (size_t j = 0; j < test.steps.size(); j++)
       {
         const Step &step = test.steps[j];

@@ -40,7 +40,7 @@ namespace NEAT
   template < typename T, typename U = double >
   U mean(const std::vector< T > &vec)
   {
-    if (vec.size() == 0)
+    if (vec.empty())
     { return NAN; }
     return sum< T, U >(vec) / vec.size();
   }

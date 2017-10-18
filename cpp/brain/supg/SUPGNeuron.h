@@ -97,7 +97,7 @@ class SUPGNeuron
   void load_coordinates();
 
   /// \brief
-  NEAT::real_t get_timer(float global_time);
+  NEAT::real_t Timer(float global_time);
 
   public:
   enum Input

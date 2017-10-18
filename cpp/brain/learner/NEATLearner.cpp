@@ -522,7 +522,7 @@ namespace cppneat
       this->brainFitness_[this->activeBrain_] = avgFitness;
       this->brainVelocity_[this->activeBrain_] = avgFitness;
 
-      if (this->evaluationQueue_.size() == 0)
+      if (this->evaluationQueue_.empty())
       {
         this->ShareFitness();
         this->Population();

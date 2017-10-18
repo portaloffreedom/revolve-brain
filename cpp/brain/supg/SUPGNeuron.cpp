@@ -153,11 +153,8 @@ void SUPGNeuron::load_coordinates()
   }
 }
 
-NEAT::real_t SUPGNeuron::get_timer(float global_time)
+NEAT::real_t SUPGNeuron::Timer(float global_time)
 {
-  //     if (coordinates[0] == 0)
-  //     std::cout << "#### (" << coordinates[0] << ", "
-  //               << coordinates[1] << ") ####" << std::endl;
   if (not started_timer_flag)
   {
     init_timer(global_time);
@@ -206,7 +203,7 @@ void SUPGNeuron::load_sensor(
 
 void SUPGNeuron::activate(float global_time)
 {
-  NEAT::real_t timer = get_timer(global_time);
+  NEAT::real_t timer = Timer(global_time);
 
   cppn->load_sensor(Input::TIMER, timer);
   load_coordinates();
