@@ -49,15 +49,16 @@ namespace revolve
       /// \brief The RLPower constructor reads out configuration file,
       /// deretmines which algorithm type to apply and
       /// initialises new policy.
-      /// \param _modelName: name of a robot
+      /// \param _name: name of a robot
       /// \param _brain: configuration file
       /// \param evaluator: pointer to fitness evaluatior
       /// \param n_actuators: number of actuators
       /// \param n_sensors: number of sensors
       /// \return pointer to the RLPower class object
-      RLPowerLearner(std::string &_modelName,
-                     Config _brain,
-                     size_t _numWeightVectors);
+      RLPowerLearner(
+              const std::string &_name,
+              Config _brain,
+              size_t _numWeightVectors);
 
       virtual ~RLPowerLearner();
 
@@ -94,16 +95,16 @@ namespace revolve
 
       struct Config
       {
-        std::string algorithm_type;
-        size_t interpolation_spline_size;
-        double evaluation_rate;
-        size_t max_evaluations;
-        size_t max_ranked_policies;
-        double noise_sigma;
-        double sigma_tau_correction;
+        std::string algorithmType;
+        size_t interpolationSplineSize;
+        double evaluationRate;
+        size_t maxEvaluations;
+        size_t maxRankedPolicies;
+        double noiseSigma;
+        double sigmaTauCorrection;
         size_t source_y_size;
-        size_t update_step;
-        std::string policy_load_path;
+        size_t updateStep;
+        std::string policyLoadPath;
       };
 
       protected:

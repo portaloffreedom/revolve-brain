@@ -30,22 +30,22 @@
 using namespace revolve::brain;
 
 RLPowerLearner::RLPowerLearner(
-        std::string &_modelName,
+        const std::string &_name,
         Config _brain,
         size_t _numWeightVectors
 )
-        : numInterpolationPoints_(_brain.interpolation_spline_size)
+        : numInterpolationPoints_(_brain.interpolationSplineSize)
         , generationCounter_(0)
-        , maxRankedPolicies_(_brain.max_ranked_policies)
-        , maxEvaluations_(_brain.max_evaluations)
+        , maxRankedPolicies_(_brain.maxRankedPolicies)
+        , maxEvaluations_(_brain.maxEvaluations)
         , numActuators_(_numWeightVectors)
         , numSteps_(_brain.source_y_size)
-        , updateStep_(_brain.update_step)
-        , sigma_(_brain.noise_sigma)
-        , tau_(_brain.sigma_tau_correction)
-        , robotName_(_modelName)
-        , algorithmType_(_brain.algorithm_type)
-        , policyLoadPath_(_brain.policy_load_path)
+        , updateStep_(_brain.updateStep)
+        , sigma_(_brain.noiseSigma)
+        , tau_(_brain.sigmaTauCorrection)
+        , robotName_(_name)
+        , algorithmType_(_brain.algorithmType)
+        , policyLoadPath_(_brain.policyLoadPath)
 {
   // Read out brain configuration attributes
   std::cout << std::endl << "Initialising RLPowerLearner, type "
