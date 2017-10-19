@@ -393,7 +393,7 @@ namespace revolve
 
     boost::shared_ptr< CPPNConfig > RafCpgNetwork;
 
-    std::map< std::string, std::tuple< int, int, int>> neuron_coordinates;
+    std::map< std::string, std::tuple< int, int, int>> neuronCoordinates;
 
     cppneat::GeneticEncodingPtr last_genotype_;
 
@@ -613,7 +613,7 @@ namespace revolve
         }
         if (include_coordinates)
         {
-          auto coord = neuron_coordinates[conf->allNeurons_[i]->Id()];
+          auto coord = neuronCoordinates[conf->allNeurons_[i]->Id()];
           nodeName << "(x,y,z) = (" << std::get< 0 >(coord)
                    << "," << std::get< 1 >(coord)
                    << "," << std::get< 2 >(coord)
@@ -636,8 +636,8 @@ namespace revolve
       {
         auto src_neuron = connection->GetInputNeuron();
         auto dst_neuron = connection->GetOutputNeuron();
-        auto coord_src = neuron_coordinates[src_neuron->Id()];
-        auto coord_dst = neuron_coordinates[dst_neuron->Id()];
+        auto coord_src = neuronCoordinates[src_neuron->Id()];
+        auto coord_dst = neuronCoordinates[dst_neuron->Id()];
         for (const auto &neuron : cppn->layers_.at(0))
         {
           // could be faster by neuron->Id()[6] but less easy to read
@@ -691,7 +691,7 @@ namespace revolve
       for (const auto &neuron : RafCpgNetwork->allNeurons_)
       {
         // Retrieve coordinates of source and destination neuron
-        auto coord_src = neuron_coordinates[neuron->Id()];
+        auto coord_src = neuronCoordinates[neuron->Id()];
         auto coord_dst = std::make_tuple(0, 0, 0);
         for (const auto &inputNeuron : cppn->layers_[0])
         {

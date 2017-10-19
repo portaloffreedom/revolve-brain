@@ -35,31 +35,31 @@ namespace cppneat
 {
   /////////////////////////////////////////////////
   NEATLearner::NEATLearner(
-          MutatorPtr _mutator,
+          MutatorPtr &_mutator,
           const std::string &_mutatorPath,
-          LearningConfiguration &_configuration
+          LearningConfiguration &_config
   )
           : activeBrain_(nullptr)
           , numGeneration(0)
           , numEvaluatedBrains(0)
           , mutator_(_mutator)
           , mutatorPath_(_mutatorPath)
-          , isAsexual_(_configuration.asexual)
-          , initStructuralMutations_(_configuration.initial_structural_mutations)
-          , numChildren_(_configuration.num_children)
-          , populationSize_(_configuration.pop_size)
-          , tournamentSize_(_configuration.tournament_size)
-          , weightMutationProbability_(_configuration.weight_mutation_probability)
-          , weightMutationSigma_(_configuration.weight_mutation_sigma)
-          , paramMutationProbability_(_configuration.param_mutation_probability)
-          , paramMutationSigma_(_configuration.param_mutation_sigma)
-          , augmentationProbability_(_configuration.structural_augmentation_probability)
-          , removalProbability_(_configuration.structural_removal_probability)
-          , maxGenerations_(_configuration.max_generations)
-          , speciationThreshold_(_configuration.speciation_threshold)
-          , repeatEvaluation_(_configuration.repeat_evaluations)
-          , startFrom_(_configuration.start_from)
-          , interspeciesMateProbability_(_configuration.interspecies_mate_probability)
+          , isAsexual_(_config.asexual)
+          , initStructuralMutations_(_config.initialStructuralMutations)
+          , numChildren_(_config.numChildren)
+          , populationSize_(_config.popSize)
+          , tournamentSize_(_config.tournamentSize)
+          , weightMutationProbability_(_config.weightMutationProbability)
+          , weightMutationSigma_(_config.weightMutationSigma)
+          , paramMutationProbability_(_config.paramMutationProbability)
+          , paramMutationSigma_(_config.paramMutationSigma)
+          , augmentationProbability_(_config.structuralAugmentationProbability)
+          , removalProbability_(_config.structuralRemovalProbability)
+          , maxGenerations_(_config.maxGenerations)
+          , speciationThreshold_(_config.speciationThreshold)
+          , repeatEvaluation_(_config.repeat_evaluations)
+          , startFrom_(_config.startFrom)
+          , interspeciesMateProbability_(_config.interspeciesMateProbability)
   {
     std::random_device rd;
     generator.seed(rd());
@@ -75,15 +75,14 @@ namespace cppneat
     {
       tournamentSize_ = 2;
     }
-//    if (mutator_path not_eq "none")
+//    if ("none" not_eq mutatorPath_)
 //    {
-//      mutator->load_known_innovations(mutator_path);
+//      mutator_->LoadRegisteredInnovations(mutatorPath_);
 //    }
     if (startFrom_ not_eq nullptr)
     {
-      std::cout
-              << "generating inital population from starting network"
-              << std::endl;
+      std::cout << "generating inital population from starting network"
+                << std::endl;
       Initialise(GeneticEncodingPtrs());
     }
     else
@@ -508,7 +507,10 @@ namespace cppneat
     std::cout << "Evalutation over\n"
               << "Evaluated " << ++numEvaluatedBrains << " brains \n"
               << "Last fitness: " << _fitness << std::endl;
-    this->RecordGenome(_id, _genotype);
+//    this->RecordGenome(_id, _genotype);
+    this->RecordGenome(
+            _id, // + "-" + std::to_string(numEvaluatedBrains),
+            _genotype);
 
     fitnessBuffer_.push_back(_fitness);
     if (fitnessBuffer_.size() == this->repeatEvaluation_)
@@ -559,7 +561,7 @@ namespace cppneat
     outputFile << "    connection_genes:" << std::endl;
     auto connection_genes = _genome->connectionGenes_;
     int n_cons = 1;
-    for (auto conGene : connection_genes)
+    for (const auto &conGene : connection_genes)
     {
       auto connection = conGene.get();
       outputFile << "      - con_" << n_cons << ":" << std::endl;
@@ -582,7 +584,7 @@ namespace cppneat
       for (auto it2 = it->begin(); it2 not_eq it->end(); it2++)
       {
         auto neuron = it2->get()->neuron_;
-        auto neuron_params = neuron->parameters_;
+        auto parameters = neuron->parameters_;
         outputFile << "          - nid: " << neuron->neuronId_ << std::endl;
         outputFile << "            ntype: " << neuron->neuronType_ << std::endl;
         outputFile << "            nlayer: " << neuron->layer_ << std::endl;
@@ -593,11 +595,10 @@ namespace cppneat
         outputFile << "            parent_index: "
                    << it2->get()->ParentsIndex() << std::endl;
         outputFile << "            params:" << std::endl;
-        for (auto np =
-                neuron_params.begin(); np not_eq neuron_params.end(); np++)
+        for (const auto &param : parameters)
         {
-          outputFile << "              " << np->first
-                     << ": " << np->second << std::endl;
+          outputFile << "              " << param.first
+                     << ": " << param.second << std::endl;
         }
       }
       n_layer++;

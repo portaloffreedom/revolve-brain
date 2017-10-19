@@ -37,9 +37,10 @@ namespace cppneat
     for (auto it : _specification)
     {
       auto specification = it.second;
-      auto foundLayer = std::find(specification.possibleLayers.begin(),
-                                  specification.possibleLayers.end(),
-                                  Neuron::HIDDEN_LAYER);
+      auto foundLayer = std::find(
+              specification.possibleLayers.begin(),
+              specification.possibleLayers.end(),
+              Neuron::HIDDEN_LAYER);
       if (foundLayer not_eq specification.possibleLayers.end())
       {
         possible.push_back(it.first);
@@ -148,45 +149,39 @@ namespace cppneat
     }
   }
 
-  void Mutator::LoadRegisteredInnovations(const std::string &_yamlPath)
-  {
-    std::ifstream outputFile(_yamlPath);
-    if (not outputFile.good())
-    {
-      return;
-    }
-    outputFile.close();
-    YAML::Node yamlFile = YAML::LoadFile(_yamlPath);
-    if (yamlFile.IsNull())
-    {
-      std::cout << "Failed to load the yaml file."
-              "If this is the first run do not worry." << std::endl;
-      return;
-    }
-    this->innovationNumber_ = yamlFile[0]["in_no"].as< size_t >();
-    this->connectionInnovations_.clear();
-    for (const auto &connections : yamlFile[1]["connection_innovations"])
-    {
-      auto connection = connections["connection_innovation"];
-      auto from = connection["mark_from"].as< size_t >();
-      auto to = connection["mark_to"].as< size_t >();
-      auto in_no = connection["in_no"].as< size_t >();
-      connectionInnovations_.insert({{from, to}, in_no});
-    }
-    neuronInnovations_.clear();
-    for (const auto &neurons : yamlFile[2]["neuron_innovations"])
-    {
-      auto neuron = neurons["neuron_innovation"];
-      auto conn_split = neuron["conn_split"].as< size_t >();
-      auto type = static_cast<Neuron::Ntype>(neuron["ntype"].as< size_t >());
-      std::vector< size_t > innovations;
-      for (size_t j = 0; j < neuron["in_nos"].size(); j++)
-      {
-        innovations.push_back(neuron["in_nos"][j]["in_no"].as< size_t >());
-      }
-      neuronInnovations_.insert({{conn_split, type}, innovations});
-    }
-  }
+//  void Mutator::LoadRegisteredInnovations(const std::string &_yamlPath)
+//  {
+//    YAML::Node yamlFile = YAML::LoadFile(_yamlPath);
+//    if (yamlFile.IsNull())
+//    {
+//      std::cout << "Failed to load the yaml file."
+//              "If this is the first run do not worry." << std::endl;
+//      return;
+//    }
+//    this->innovationNumber_ = yamlFile[0]["in_no"].as< size_t >();
+//    this->connectionInnovations_.clear();
+//    for (const auto &connections : yamlFile[1]["connection_innovations"])
+//    {
+//      auto connection = connections["connection_innovation"];
+//      auto from = connection["mark_from"].as< size_t >();
+//      auto to = connection["mark_to"].as< size_t >();
+//      auto in_no = connection["in_no"].as< size_t >();
+//      this->connectionInnovations_.insert({{from, to}, in_no});
+//    }
+//    this->neuronInnovations_.clear();
+//    for (const auto &neurons : yamlFile[2]["neuron_innovations"])
+//    {
+//      auto neuron = neurons["neuron_innovation"];
+//      auto conn_split = neuron["conn_split"].as< size_t >();
+//      auto type = static_cast<Neuron::Ntype>(neuron["ntype"].as< size_t >());
+//      std::vector< size_t > innovations;
+//      for (const auto &innovation : neuron["in_nos"])
+//      {
+//        innovations.push_back(innovation["in_no"].as< size_t >());
+//      }
+//      this->neuronInnovations_.insert({{conn_split, type}, innovations});
+//    }
+//  }
 
   void Mutator::MutateNeuronParams(
           GeneticEncodingPtr _genotype,
@@ -244,13 +239,13 @@ namespace cppneat
   }
 
   void Mutator::MutateWeights(
-          GeneticEncodingPtr genotype,
+          GeneticEncodingPtr _genotype,
           const double _probability,
           const double _sigma)
   {
     std::uniform_real_distribution< double > uniform(0, 1);
     std::normal_distribution< double > normal(0, _sigma);
-    for (const auto &connection_gene : genotype->connectionGenes_)
+    for (const auto &connection_gene : _genotype->connectionGenes_)
     {
       if (uniform(generator_) < _probability)
       {

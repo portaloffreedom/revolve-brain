@@ -51,7 +51,7 @@ namespace cppneat
     void RegisterStartingGenotype(GeneticEncodingPtr _genotype);
 
     /// \brief
-    void LoadRegisteredInnovations(const std::string &_yamlPath);
+//    void LoadRegisteredInnovations(const std::string &_yamlPath);
 
     /// \brief
     void InsertConnectionInnovation(
@@ -75,7 +75,7 @@ namespace cppneat
 
     /// \brief
     void MutateWeights(
-            GeneticEncodingPtr genotype,
+            GeneticEncodingPtr _genotype,
             const double _probability,
             const double _sigma);
 
@@ -156,6 +156,8 @@ namespace cppneat
     /// \brief
     private:
     size_t innovationNumber_;
+
+    private: size_t testInnovation_ = 10000;
 
     /// \brief
     private:

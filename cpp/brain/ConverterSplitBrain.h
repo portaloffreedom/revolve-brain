@@ -80,7 +80,7 @@ namespace revolve
         {
           double fitness = evaluator_->fitness();
           writeCurrent(fitness);
-
+          std::cout << "reporting fitness..." << std::endl;
           this->learner_->reportFitness(
                   name_,
                   convertForLearner_(this->controller_->getPhenotype()),

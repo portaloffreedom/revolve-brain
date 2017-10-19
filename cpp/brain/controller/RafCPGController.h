@@ -74,14 +74,14 @@ namespace revolve
       public:
       /// \brief Constructor for a neural network including neurons that are of
       /// a different type than the usual ones.
-      /// \param _modelName: name of the model
+      /// \param _name: name of the model
       /// \param _config: configuration file
       /// \param evaluator: pointer to the evaluator that is used
       /// \param _actuators: vector list of robot's actuators
       /// \param _sensors: vector list of robot's sensors
       /// \return pointer to the neural network
       RafCPGController(
-              std::string &_modelName,
+              const std::string &_name,
               CPPNConfigPtr _config,
               const std::vector< ActuatorPtr > &_actuators,
               const std::vector< SensorPtr > &_sensors);
@@ -113,7 +113,7 @@ namespace revolve
 
       protected:
       /// \brief name of the robot
-      std::string modelName_;
+      std::string name_;
 
       /// \brief buffer of input values from the sensors
       double *inputs_;

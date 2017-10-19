@@ -55,28 +55,31 @@ namespace cppneat
     struct LearningConfiguration
     {
       bool asexual;
-      int pop_size;
-      int tournament_size;
-      int num_children;
-      double weight_mutation_probability;
-      double weight_mutation_sigma;
-      double param_mutation_probability;
-      double param_mutation_sigma;
-      double structural_augmentation_probability;
-      double structural_removal_probability;
-      int max_generations;
-      double speciation_threshold;
+
+      int popSize;
+      int tournamentSize;
+      int numChildren;
+      int maxGenerations;
       int repeat_evaluations;
-      GeneticEncodingPtr start_from;
-      int initial_structural_mutations;
-      double interspecies_mate_probability;
+      int initialStructuralMutations;
+
+      double speciationThreshold;
+      double weightMutationProbability;
+      double weightMutationSigma;
+      double paramMutationProbability;
+      double paramMutationSigma;
+      double structuralAugmentationProbability;
+      double structuralRemovalProbability;
+      double interspeciesMateProbability;
+
+      GeneticEncodingPtr startFrom;
     };
 
     /// \brief
     NEATLearner(
-            MutatorPtr _mutator,
+            MutatorPtr &_mutator,
             const std::string &_mutatorPath,
-            LearningConfiguration &_configuration);
+            LearningConfiguration &_config);
 
     /// \brief
     void Initialise(GeneticEncodingPtrs _genotypes);

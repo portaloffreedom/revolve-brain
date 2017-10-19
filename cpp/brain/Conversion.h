@@ -65,7 +65,7 @@ namespace revolve
     extern boost::shared_ptr< CPPNConfig > RafCpgNetwork;
 
     extern std::map< std::string, std::tuple< int, int, int>>
-            neuron_coordinates;
+            neuronCoordinates;
 
     extern cppneat::GeneticEncodingPtr last_genotype_;
 
