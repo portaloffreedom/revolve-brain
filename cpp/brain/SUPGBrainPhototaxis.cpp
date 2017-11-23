@@ -104,8 +104,16 @@ void SUPGBrainPhototaxis::learner(double t)
 
         // FITNESS update
         if (phase != END) {
+            double left_eye = current_light_left == nullptr ? std::numeric_limits<double>::min() :
+                              current_light_left->read();
+            double right_eye = current_light_right == nullptr ? std::numeric_limits<double>::min() :
+                               current_light_right->read();
+
             double phase_fitness = getPhaseFitness();
-            std::cout << "SUPGBrainPhototaxis::learner - partial fitness[" << phase << "]: " << phase_fitness << std::endl;
+            std::cout << "SUPGBrainPhototaxis::learner - partial fitness[" << phase << "]: " << phase_fitness
+                      << " light_distance_left: " << 1/left_eye
+                      << " light_distance_right: " << 1/right_eye
+                      << std::endl;
             partial_fitness += phase_fitness;
         }
 
@@ -123,8 +131,10 @@ void SUPGBrainPhototaxis::learner(double t)
         // If phase is `END`, start a new phase
         if (phase == END) {
             std::cout << "SUPGBrainPhototaxis::learner - finished with fitness: "
-                      << getFitness() << " "
-                      << SUPGBrain::getFitness() << std::endl;
+                      << getFitness()
+                      //<< " general gait fitness: "
+                      //<< SUPGBrain::getFitness()
+                      << std::endl;
 
             generation_counter++;
             this->nextBrain();

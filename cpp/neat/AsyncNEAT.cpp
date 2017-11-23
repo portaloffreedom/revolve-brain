@@ -4,6 +4,7 @@
 #include <limits>
 #include <fstream>
 #include <sstream>
+#include <boost/filesystem.hpp>
 
 #define DEFAULT_RNG_SEED 1
 
@@ -115,13 +116,30 @@ AsyncNeat::setFittest(std::shared_ptr<NeatEvaluation> new_fittest,
   this->fittest_fitness = new_fitness;
   this->best_fitness_counter++;
 
+  size_t start = this->robot_name.rfind('/')+1;
+  size_t end = this->robot_name.find('-');
+  std::string test_n = this->robot_name.substr(end+1, robot_name.length() - end+1);
+  std::string robot_name = this->robot_name.substr(start, end-start);
+  
   std::ostringstream filename;
-  filename << "/tmp/supg/genome_" << this->best_fitness_counter << "_" << generation << ".yaml";
+  
+  filename << "./results/" << robot_name << '/' << test_n;
+  boost::filesystem::create_directories(filename.str());
+  filename << "/genome_n-" << this->best_fitness_counter << "_gen-" << generation << ".yaml";
+  
   std::fstream genome_save;
   genome_save.open(filename.str(), std::ios::out);
 
-
   std::cout << "New best fitness! " << new_fitness << " saved at \"" << filename.str() << '\"' << std::endl;
 
+
+
   fittest->getOrganism()->genome->save(genome_save);
+  genome_save
+          << "\nfitness:"
+          << "\n  value: " << new_fitness
+          << "\n  generation: " << ((generation-1)*NEAT::env->pop_size) + fittest->getOrganism()->population_index + 1
+          << "\n  neat_generation: " << generation
+          << std::endl;
+  genome_save.close();
 }

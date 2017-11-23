@@ -22,7 +22,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system filesystem)
 
 # add accneat
 add_subdirectory("neat/accneat")
