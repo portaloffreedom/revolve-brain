@@ -146,8 +146,8 @@ TestNEATLoadSave::testXOR()
   return success;
 }
 
-std::stringstream TestNEATLoadSave::testSave(const NEAT::Organism *organism) {
-
+std::stringstream TestNEATLoadSave::testSave(const NEAT::Organism *organism)
+{
   std::stringstream genome_save;
 
   (*organism->genome).save(genome_save);
@@ -157,16 +157,9 @@ std::stringstream TestNEATLoadSave::testSave(const NEAT::Organism *organism) {
   return genome_save;
 }
 
-std::unique_ptr<NEAT::Organism> TestNEATLoadSave::testLoad(std::stringstream &genome_save) {
-  const std::string robot_name = "loaded_controller";
-
-  std::unique_ptr<NEAT::Genome> genome = NEAT::env->genome_manager->make_default();
-  (*genome).load(genome_save);
-
-  std::unique_ptr<NEAT::Organism> organism(new NEAT::Organism(*genome));
-
-  (*genome).init_phenotype(*(*organism).net);
-  return organism;
+std::unique_ptr<NEAT::Organism> TestNEATLoadSave::testLoad(std::stringstream &genome_save)
+{
+  return NEAT::Organism::LoadFromYaml(genome_save);
 }
 
 

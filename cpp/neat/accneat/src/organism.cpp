@@ -82,3 +82,13 @@ Organism::copy_into(Organism &dst) const
 
 #undef copy
 }
+
+std::unique_ptr<Organism> Organism::LoadFromYaml(std::stringstream &genome_stream) {
+  std::unique_ptr<NEAT::Genome> genome = NEAT::env->genome_manager->make_default();
+  (*genome).load(genome_stream);
+
+  std::unique_ptr<NEAT::Organism> organism(new NEAT::Organism(*genome));
+  (*genome).init_phenotype(*(*organism).net);
+
+  return organism;
+}

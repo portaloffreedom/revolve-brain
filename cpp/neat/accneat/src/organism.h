@@ -46,6 +46,8 @@ public:
 
     virtual ~Organism();
 
+    static std::unique_ptr<Organism> LoadFromYaml(std::stringstream &stringstream);
+
     virtual void
     init(int gen);
 
