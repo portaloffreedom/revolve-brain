@@ -54,13 +54,13 @@ struct convert<NEAT::nodetype> {
                 text = "BIAS";
                 break;
             case NEAT::nodetype::NT_HIDDEN:
-                text = "SENSOR";
+                text = "HIDDEN";
                 break;
             case NEAT::nodetype::NT_OUTPUT:
                 text = "OUTPUT";
                 break;
             case NEAT::nodetype::NT_SENSOR:
-                text = "HIDDEN";
+                text = "SENSOR";
                 break;
         }
 

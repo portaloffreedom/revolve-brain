@@ -15,4 +15,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     #    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif ()
 
+enable_testing()
+
 add_subdirectory(cpp)
