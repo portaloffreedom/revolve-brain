@@ -83,7 +83,7 @@ TestAsyncNeat::testXOR()
     }
   }
 
-  neat.CleanUp();
+  AsyncNeat::CleanUp();
   return success;
 }
 
