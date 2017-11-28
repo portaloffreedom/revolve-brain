@@ -198,3 +198,33 @@ void SUPGBrain::learner(double t)
         evaluator->start();
     }
 }
+
+void SUPGBrain::loadOfflineBrain(const std::string &filename)
+{
+    std::fstream genome_file;
+    genome_file.open(filename, std::ios::in);
+
+    std::cout << "Loading SUPGBrainPhototaxis brain from \"" << filename << '"' << std::endl;
+
+    std::unique_ptr<NEAT::Organism> organism = NEAT::Organism::LoadFromYaml(genome_file);
+    NEAT::CpuNetwork *cppn = reinterpret_cast< NEAT::CpuNetwork* > (
+            (*organism).net.get()
+    );
+
+    bool init_supgs = (neurons.size() == 0);
+
+    unsigned long how_many_neurons = neuron_coordinates.size();
+    for (unsigned int i=0; i< how_many_neurons; i++) {
+        if (init_supgs)
+            neurons.push_back(std::unique_ptr<SUPGNeuron>(new SUPGNeuron(cppn, neuron_coordinates[i], CYCLE_LENGTH)));
+        else
+            neurons[i]->setCppn(cppn);
+    }
+
+    // This sets the organism pointer into the object, getting the old organism out.
+    // This effectively deallocates the old organism (if any) at the end of this function.
+    this->offlineOrganism.swap(organism);
+
+    // Set the learner off
+    this->setOffline(true);
+}

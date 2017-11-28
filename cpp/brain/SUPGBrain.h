@@ -86,6 +86,7 @@ protected:
     }
 
     void init_async_neat();
+    void loadOfflineBrain(const std::string &filename);
 
 protected:
     virtual void learner(double t);
@@ -110,6 +111,9 @@ protected:
     std::shared_ptr< NeatEvaluation > current_evalaution;
 
     std::vector< std::unique_ptr< SUPGNeuron > > neurons;
+
+    // if running offline, we need to keep in memory the organism so that it's CPPN doesn't get deallocated.
+    std::unique_ptr<NEAT::Organism> offlineOrganism;
 
     /**
      * Number of evaluations before the program quits. Usefull to do long run

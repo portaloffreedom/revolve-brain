@@ -21,6 +21,8 @@
 
 #include <functional>
 #include <cmath>
+#include <fstream>
+#include <memory>
 
 using namespace revolve::brain;
 
@@ -109,7 +111,10 @@ void SUPGBrainPhototaxis::learner(double t)
             double right_eye = current_light_right == nullptr ? std::numeric_limits<double>::min() :
                                current_light_right->read();
 
-            double phase_fitness = getPhaseFitness();
+	    // HACK: 4 is the base value of fitness if the robot didn't move in respect to the light.
+	    // This hardcoded number is to offset the value of the fitness to a 0 in case of the robot didn't move.
+	    // The value will be negative in case the robot moved away from the target.
+            double phase_fitness = getPhaseFitness() -4;
             std::cout << "SUPGBrainPhototaxis::learner - partial fitness[" << phase << "]: " << phase_fitness
                       << " light_distance_left: " << 1/left_eye
                       << " light_distance_right: " << 1/right_eye
