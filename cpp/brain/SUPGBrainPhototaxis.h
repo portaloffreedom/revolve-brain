@@ -23,6 +23,9 @@
 #include "FakeLightSensor.h"
 #include "SUPGBrain.h"
 
+#include <functional>
+#include <boost/shared_ptr.hpp>
+
 namespace revolve {
 namespace brain {
 
@@ -46,6 +49,20 @@ class SUPGBrainPhototaxis : protected SUPGBrain
                       const std::vector<SensorPtr> &sensors,
                       double t, double step) override;
 
+  enum PHASE
+  {
+      CENTER = 0,
+      LEFT = 1,
+      MORELEFT = 2,
+      RIGHT = 3,
+      MORERIGHT = 4,
+      END = 5,
+  };
+
+  void setLightCoordinates(PHASE phase);
+
+  void setLightCoordinates(const std::vector<float> &relative_coordinates);
+
   protected:
   SUPGBrainPhototaxis(EvaluatorPtr evaluator);
 
@@ -55,17 +72,13 @@ class SUPGBrainPhototaxis : protected SUPGBrain
 
   virtual void learner(double t) override;
 
+  static const std::vector<SensorPtr> PushCombinedLightSensor(
+          const std::vector<SensorPtr> &sensors,
+          const SensorPtr combined_light_sensor = nullptr);
+
   //// Templates ---------------------------------------------------------
 
-  enum PHASE
-  {
-    CENTER = 0,
-    LEFT = 1,
-    MORELEFT = 2,
-    RIGHT = 3,
-    MORERIGHT = 4,
-    END = 5,
-  } phase;
+  PHASE phase;
 
   std::function<boost::shared_ptr<FakeLightSensor>(std::vector<float> coordinates)>
           light_constructor_left,
@@ -75,6 +88,27 @@ class SUPGBrainPhototaxis : protected SUPGBrain
 
   double light_radius_distance;
   double partial_fitness;
+
+  // Additional combined sensor class
+  class CombinedLightSensor : public revolve::brain::Sensor
+  {
+  public:
+      explicit CombinedLightSensor(const std::string &id);
+
+      virtual void read(double *input_vector) override;
+      virtual unsigned int inputs() const override;
+      virtual std::string sensorId() const override;
+
+      void set_sensor_left(revolve::brain::SensorPtr light_sensor_left);
+      void set_sensor_right(revolve::brain::SensorPtr light_sensor_right);
+  private:
+      const std::string id;
+      revolve::brain::SensorPtr light_sensor_left;
+      revolve::brain::SensorPtr light_sensor_right;
+  };
+
+  boost::shared_ptr<CombinedLightSensor> combined_light_sensor;
+
 };
 
 }
