@@ -248,7 +248,7 @@ std::string SUPGBrainPhototaxis::CombinedLightSensor::sensorId() const
 
 void SUPGBrainPhototaxis::CombinedLightSensor::set_sensor_left(revolve::brain::SensorPtr light_sensor_left)
 {
-    if (light_sensor_left || light_sensor_left->inputs() < 1) {
+    if (!light_sensor_left || light_sensor_left->inputs() < 1) {
         throw std::runtime_error("invalid sensor for combined sensor");
     }
 
@@ -257,7 +257,7 @@ void SUPGBrainPhototaxis::CombinedLightSensor::set_sensor_left(revolve::brain::S
 
 void SUPGBrainPhototaxis::CombinedLightSensor::set_sensor_right(revolve::brain::SensorPtr light_sensor_right)
 {
-    if (light_sensor_right || light_sensor_right->inputs() < 1) {
+    if (!light_sensor_right || light_sensor_right->inputs() < 1) {
         throw std::runtime_error("invalid sensor for combined sensor");
     }
 
