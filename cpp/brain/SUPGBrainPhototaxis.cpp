@@ -20,6 +20,7 @@
 #include "SUPGBrainPhototaxis.h"
 
 #include <boost/make_shared.hpp>
+#include <sstream>
 
 using namespace revolve::brain;
 
@@ -132,13 +133,30 @@ void SUPGBrainPhototaxis::learner(double t)
 
         // Advance Phase
         switch (phase) {
+            case END: // code will execute this case only for the initialization
+                std::cout << "SUPGBrainPhototaxis::learner - INIT!" << std::endl;
+                break;
+            case LEFT:
+                phase = RIGHT;
+                break;
+            case RIGHT:
+                phase = END;
+                break;
+            default:
+                std::ostringstream error_ss;
+                error_ss << "ERROR! THIS PHASE (" << phase << ") SHOULD NOT BE CALLED!";
+                std::string error = error_ss.str();
+                std::cout << error << std::endl;
+                throw std::runtime_error(error);
+                phase = LEFT;
+                break;
+            /*
             case CENTER:    phase = LEFT;      break;
             case LEFT:      phase = RIGHT;     break;
             case RIGHT:     phase = MORELEFT;  break;
             case MORELEFT:  phase = MORERIGHT; break;
             case MORERIGHT: phase = END;       break;
-            case END:
-                std::cout << "SUPGBrainPhototaxis::learner - INIT!" << std::endl;
+            */
         }
 
         // If phase is `END`, start a new phase
@@ -154,7 +172,10 @@ void SUPGBrainPhototaxis::learner(double t)
             partial_fitness = 0;
 
             std::cout << "SUPGBrainPhototaxis::learner - NEW BRAIN (generation " << generation_counter << " )" << std::endl;
-            phase = CENTER;
+
+            // initial phase where to start
+            //phase = CENTER;
+            phase = LEFT;
         }
 
         // reposition learner lights
