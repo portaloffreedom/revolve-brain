@@ -38,7 +38,7 @@ void FakeLightSensor::read(double* input_vector)
     input_vector[0] = read();
 }
 
-float revolve::brain::FakeLightSensor::light_attenuation(float distance, float angle)
+double revolve::brain::FakeLightSensor::light_attenuation(double distance, float angle)
 {
     float abs_angle = std::fabs(angle);
 
@@ -46,5 +46,15 @@ float revolve::brain::FakeLightSensor::light_attenuation(float distance, float a
         return 0;
 
     //TODO noise
-    return distance;
+
+    #define CONST_E 2.718281828459045235360287471352662497757247093699959574966
+    // gaussian curve
+    #define AVERAGE 0
+    #define VARIANCE 0.25
+    // distance = 0 => value = 1
+    // distance = 0.5 => value = 0.2236..
+    return std::pow(CONST_E, -((((distance-AVERAGE)*(distance-AVERAGE))/(2*VARIANCE))));
+    #undef CONST_E
+    #undef AVERAGE
+    #undef VARIANCE
 }

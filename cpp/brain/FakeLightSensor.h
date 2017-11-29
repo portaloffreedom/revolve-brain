@@ -43,11 +43,11 @@ public:
     virtual void read(double* input_vector) override;
     virtual unsigned int inputs() const override;
 
-protected:
     virtual double light_distance() = 0;
+protected:
     virtual double light_angle() = 0;
 
-    virtual float light_attenuation(float distance, float angle);
+    virtual double light_attenuation(double distance, float angle);
 
     float half_fov;
 };
