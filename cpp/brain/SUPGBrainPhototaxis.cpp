@@ -207,19 +207,19 @@ void SUPGBrainPhototaxis::setLightCoordinates(SUPGBrainPhototaxis::PHASE phase)
 
     switch (phase) {
     case CENTER:
-        relative_coordinates = {0, static_cast<float>(radius)};
+        relative_coordinates = {0, -static_cast<float>(radius)};
         break;
     case LEFT:
-        relative_coordinates = {-x_52_5, y_52_5};
+        relative_coordinates = {-x_52_5, -y_52_5};
         break;
     case RIGHT:
-        relative_coordinates = {x_52_5, y_52_5};
+        relative_coordinates = {x_52_5, -y_52_5};
         break;
     case MORELEFT:
-        relative_coordinates = {-x_15, y_15};
+        relative_coordinates = {-x_15, -y_15};
         break;
     case MORERIGHT:
-        relative_coordinates = {x_15, y_15};
+        relative_coordinates = {x_15, -y_15};
         break;
     default:
         std::cerr << "PLEASE USE A VALID LIGHT COORDINATE PHASE!" << std::endl;

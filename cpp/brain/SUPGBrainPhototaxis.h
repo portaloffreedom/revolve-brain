@@ -61,7 +61,7 @@ class SUPGBrainPhototaxis : protected SUPGBrain
 
   void setLightCoordinates(PHASE phase);
 
-  void setLightCoordinates(const std::vector<float> &relative_coordinates);
+  virtual void setLightCoordinates(const std::vector<float> &relative_coordinates);
 
   protected:
   SUPGBrainPhototaxis(EvaluatorPtr evaluator);
