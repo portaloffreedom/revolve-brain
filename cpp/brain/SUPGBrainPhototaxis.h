@@ -88,6 +88,7 @@ class SUPGBrainPhototaxis : protected SUPGBrain
 
   double light_radius_distance;
   double partial_fitness;
+  bool grace_done;
 
   // Additional combined sensor class
   class CombinedLightSensor : public revolve::brain::Sensor
@@ -108,7 +109,6 @@ class SUPGBrainPhototaxis : protected SUPGBrain
   };
 
   boost::shared_ptr<CombinedLightSensor> combined_light_sensor;
-
 };
 
 }

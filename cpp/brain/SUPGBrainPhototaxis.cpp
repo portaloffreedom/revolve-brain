@@ -54,6 +54,7 @@ SUPGBrainPhototaxis::SUPGBrainPhototaxis(const std::string &robot_name,
     , current_light_right(nullptr)
     , light_radius_distance(_light_radius_distance)
     , partial_fitness(0)
+    , grace_done(false)
     , combined_light_sensor(boost::make_shared<CombinedLightSensor>("combined_light_sensor"))
 {
 }
@@ -101,10 +102,11 @@ double SUPGBrainPhototaxis::getPhaseFitness()
 
 void SUPGBrainPhototaxis::learner(double t)
 {
+    if (this->isOffline())
+        return;
 
     // Evaluate policy on certain time limit
-    if (not this->isOffline()
-            && (t-start_eval_time) > SUPGBrain::FREQUENCY_RATE)
+    if ((t-start_eval_time) > SUPGBrain::FREQUENCY_RATE)
     {
         // check if to stop the experiment. Negative value for MAX_EVALUATIONS will never stop the experiment
         if (SUPGBrain::MAX_EVALUATIONS > 0 && generation_counter > SUPGBrain::MAX_EVALUATIONS) {
@@ -178,16 +180,21 @@ void SUPGBrainPhototaxis::learner(double t)
             phase = LEFT;
         }
 
-        // reposition learner lights
-//         delete current_light_left;
-//         delete current_light_right;
+        // evaluation restart
+        start_eval_time = t;
+        this->grace_done = false;
+    }
 
+    // grace period passed: //2 seconds of grace period
+    #define GRACE_PERIOD 2
+    if (!this->grace_done && (t-start_eval_time) > GRACE_PERIOD) {
+
+        // reposition learner lights
         // END PHASE SHOULD NOT BE POSSIBLE HERE!
         this->setLightCoordinates(phase);
 
-        // evaluation restart
-        start_eval_time = t;
         evaluator->start();
+        this->grace_done = false;
     }
 }
 
