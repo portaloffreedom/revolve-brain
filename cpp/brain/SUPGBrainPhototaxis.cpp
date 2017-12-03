@@ -183,18 +183,20 @@ void SUPGBrainPhototaxis::learner(double t)
         // evaluation restart
         start_eval_time = t;
         this->grace_done = false;
+        //std::cout << "Grace Period start: " << t << std::endl;
     }
 
     // grace period passed: //2 seconds of grace period
     #define GRACE_PERIOD 2
     if (!this->grace_done && (t-start_eval_time) > GRACE_PERIOD) {
 
+        //std::cout << "Grace Period end: " << t << std::endl;
         // reposition learner lights
         // END PHASE SHOULD NOT BE POSSIBLE HERE!
         this->setLightCoordinates(phase);
 
         evaluator->start();
-        this->grace_done = false;
+        this->grace_done = true;
     }
 }
 
