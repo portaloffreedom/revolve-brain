@@ -57,6 +57,7 @@ SUPGBrainPhototaxis::SUPGBrainPhototaxis(const std::string &robot_name,
     , light_radius_distance(_light_radius_distance)
     , partial_fitness(0)
     , grace_done(false)
+    , racing_done(false)
     , combined_light_sensor(boost::make_shared<CombinedLightSensor>("combined_light_sensor"))
 {
 }
@@ -73,6 +74,8 @@ void SUPGBrainPhototaxis::update(const std::vector< ActuatorPtr >& actuators,
 SUPGBrainPhototaxis::SUPGBrainPhototaxis(EvaluatorPtr evaluator)
         : SUPGBrain(evaluator)
         , TESTING_PHASE(CENTER)
+        , grace_done(false)
+        , racing_done(false)
 {
 }
 
@@ -112,7 +115,7 @@ void SUPGBrainPhototaxis::learner(double t)
     if ((t-start_eval_time) > SUPGBrain::FREQUENCY_RATE)
     {
         // check if to stop the experiment. Negative value for MAX_EVALUATIONS will never stop the experiment
-        if (SUPGBrain::MAX_EVALUATIONS > 0 && generation_counter > SUPGBrain::MAX_EVALUATIONS) {
+        if (SUPGBrain::MAX_EVALUATIONS > 0 && evaluation_counter > SUPGBrain::MAX_EVALUATIONS) {
             std::cout << "Max Evaluations (" << SUPGBrain::MAX_EVALUATIONS << ") reached. stopping now." << std::endl;
             std::exit(0);
         }
@@ -169,15 +172,15 @@ void SUPGBrainPhototaxis::learner(double t)
         if (current_phase == END) {
             std::cout << "SUPGBrainPhototaxis::learner - finished with fitness: "
                       << getFitness()
-                      //<< " general gait fitness: "
-                      //<< SUPGBrain::getFitness()
+                      << " general gait fitness: "
+                      << evaluator->fitness() * 100 * 30 // fitness is reported as m/s over 30 seconds.
                       << std::endl;
 
-            generation_counter++;
+            evaluation_counter++;
             this->nextBrain();
             partial_fitness = 0;
 
-            std::cout << "SUPGBrainPhototaxis::learner - NEW BRAIN (generation " << generation_counter << " )" << std::endl;
+            std::cout << "SUPGBrainPhototaxis::learner - NEW BRAIN (generation " << evaluation_counter << " ; generation " << neat->getGeneration() << "  )" << std::endl;
 
             // initial phase where to start
             current_phase = this->TESTING_PHASE;
@@ -186,20 +189,73 @@ void SUPGBrainPhototaxis::learner(double t)
         // evaluation restart
         start_eval_time = t;
         this->grace_done = false;
+        this->racing_done = false;
+        evaluator->start();
         //std::cout << "Grace Period start: " << t << std::endl;
     }
 
     // grace period passed: //2 seconds of grace period
     #define GRACE_PERIOD 2
-    if (!this->grace_done && (t-start_eval_time) > GRACE_PERIOD) {
+    if (not this->grace_done && (t-start_eval_time) > GRACE_PERIOD) {
+
+        // check if to stop the experiment. Negative value for MAX_EVALUATIONS will never stop the experiment
+        if (SUPGBrain::MAX_EVALUATIONS > 0 && evaluation_counter > SUPGBrain::MAX_EVALUATIONS) {
+            std::cout << "Max Evaluations (" << SUPGBrain::MAX_EVALUATIONS << ") reached. stopping now." << std::endl;
+            std::exit(0);
+        }
 
         //std::cout << "Grace Period end: " << t << std::endl;
         // reposition learner lights
         // END PHASE SHOULD NOT BE POSSIBLE HERE!
         this->setLightCoordinates(current_phase);
 
-        evaluator->start();
         this->grace_done = true;
+    }
+
+    // racing evaluation: //5 seconds of racing evaluation
+    #define RACING_PERIOD 5
+    if (not this->racing_done && (t-start_eval_time) > RACING_PERIOD) {
+
+        //std::cout << "RACING Period end: " << t << std::endl;
+        // END PHASE SHOULD NOT BE POSSIBLE HERE!
+        double distance_raced = evaluator->fitness() * 100 * 30; // fitness is reported as m/s over 30 seconds.
+        double distance_to_race; //cm
+        if (evaluation_counter < 500) {
+            distance_to_race = 0; //cm
+        } else if (evaluation_counter >= 500 && evaluation_counter < 1000) {
+            distance_to_race = 1; //cm
+        } else if (evaluation_counter >= 1000 && evaluation_counter < 1500) {
+            distance_to_race = 3; //cm
+        } else if (evaluation_counter >= 1500 && evaluation_counter < 2000) {
+            distance_to_race = 5; //cm
+        } else {
+            distance_to_race = 9; //cm
+        }
+
+        std::cout << "RACING: evaluating distance_raced(" << distance_raced << ") and distance_to_race(" << distance_to_race << ')' << std::endl;
+        if (distance_raced < distance_to_race) {
+            std::cout << "RACING Failed, starting new round" << std::endl;
+
+            // kill the individual
+            partial_fitness = 0;
+
+            // and start a new one
+            evaluation_counter++;
+            this->nextBrain();
+
+            std::cout << "SUPGBrainPhototaxis::learner - NEW BRAIN (evaluation " << evaluation_counter << " ; generation " << neat->getGeneration() << "  )" << std::endl;
+            // initial phase where to start
+            current_phase = this->TESTING_PHASE;
+
+            // evaluation restart
+            start_eval_time = t;
+            this->grace_done = false;
+            this->racing_done = false;
+            evaluator->start();
+            //std::cout << "Grace Period start: " << t << std::endl;
+        } else {
+            this->racing_done = true;
+        }
     }
 }
 

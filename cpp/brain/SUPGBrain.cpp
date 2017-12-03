@@ -58,7 +58,7 @@ double SUPGBrain::GetCYCLE_LENGTHenv()
 revolve::brain::SUPGBrain::SUPGBrain(EvaluatorPtr evaluator)
   : evaluator(evaluator)
   , start_eval_time(std::numeric_limits< double >::lowest())
-  , generation_counter(0)
+  , evaluation_counter(0)
   , MAX_EVALUATIONS(GetMAX_EVALUATIONSenv())
   , FREQUENCY_RATE(GetFREQUENCY_RATEenv())
   , CYCLE_LENGTH(GetCYCLE_LENGTHenv())
@@ -76,7 +76,7 @@ SUPGBrain::SUPGBrain(const std::string &robot_name,
   , robot_name(robot_name)
   , start_eval_time(std::numeric_limits< double >::lowest())
   , neuron_coordinates(neuron_coordinates)
-  , generation_counter(0)
+  , evaluation_counter(0)
   , MAX_EVALUATIONS(GetMAX_EVALUATIONSenv())
   , FREQUENCY_RATE(GetFREQUENCY_RATEenv())
   , CYCLE_LENGTH(GetCYCLE_LENGTHenv())
@@ -187,12 +187,12 @@ void SUPGBrain::learner(double t)
             && (t-start_eval_time) > SUPGBrain::FREQUENCY_RATE)
     {
         // check if to stop the experiment. Negative value for MAX_EVALUATIONS will never stop the experiment
-        if (SUPGBrain::MAX_EVALUATIONS > 0 && generation_counter > SUPGBrain::MAX_EVALUATIONS) {
+        if (SUPGBrain::MAX_EVALUATIONS > 0 && evaluation_counter > SUPGBrain::MAX_EVALUATIONS) {
             std::cout << "Max Evaluations (" << SUPGBrain::MAX_EVALUATIONS << ") reached. stopping now." << std::endl;
             std::exit(0);
         }
-        generation_counter++;
-        std::cout << "################# EVALUATING NEW BRAIN !!!!!!!!!!!!!!!!!!!!!!!!! (generation " << generation_counter << " )" << std::endl;
+        evaluation_counter++;
+        std::cout << "SUPGBrain::learner - NEW BRAIN (evaluation " << evaluation_counter << " ; generation " << neat->getGeneration() << "  )" << std::endl;
         this->nextBrain();
         start_eval_time = t;
         evaluator->start();

@@ -116,6 +116,8 @@ AsyncNeat::setFittest(std::shared_ptr<NeatEvaluation> new_fittest,
   this->fittest_fitness = new_fitness;
   this->best_fitness_counter++;
 
+  size_t evaluation = ((generation - 1) * NEAT::env->pop_size) + fittest->getOrganism()->population_index + 1;
+    
   size_t start = this->robot_name.rfind('/')+1;
   size_t end = this->robot_name.find('-');
   std::string test_n = this->robot_name.substr(end+1, robot_name.length() - end+1);
@@ -125,7 +127,7 @@ AsyncNeat::setFittest(std::shared_ptr<NeatEvaluation> new_fittest,
   
   filename << "./results/" << robot_name << '/' << test_n;
   boost::filesystem::create_directories(filename.str());
-  filename << "/genome_n-" << this->best_fitness_counter << "_gen-" << generation << ".yaml";
+  filename << "/genome_n-" << this->best_fitness_counter << "_eval-" << evaluation << "_gen-" << generation << ".yaml";
   
   std::fstream genome_save;
   genome_save.open(filename.str(), std::ios::out);
@@ -138,8 +140,8 @@ AsyncNeat::setFittest(std::shared_ptr<NeatEvaluation> new_fittest,
   genome_save
           << "\nfitness:"
           << "\n  value: " << new_fitness
-          << "\n  generation: " << ((generation-1)*NEAT::env->pop_size) + fittest->getOrganism()->population_index + 1
-          << "\n  neat_generation: " << generation
+          << "\n  evaluation: " << evaluation
+          << "\n  generation: " << generation
           << std::endl;
   genome_save.close();
 }

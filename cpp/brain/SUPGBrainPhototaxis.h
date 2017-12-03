@@ -91,6 +91,7 @@ class SUPGBrainPhototaxis : protected SUPGBrain
   double light_radius_distance;
   double partial_fitness;
   bool grace_done;
+  bool racing_done;
 
   // Additional combined sensor class
   class CombinedLightSensor : public revolve::brain::Sensor

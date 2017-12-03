@@ -107,7 +107,7 @@ protected:
     EvaluatorPtr evaluator;
     const std::string robot_name;
     double start_eval_time;
-    long generation_counter;
+    long evaluation_counter;
     std::shared_ptr< NeatEvaluation > current_evalaution;
 
     std::vector< std::unique_ptr< SUPGNeuron > > neurons;

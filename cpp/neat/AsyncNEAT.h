@@ -131,6 +131,11 @@ public:
       return fittest;
     }
 
+    unsigned int getGeneration()
+    {
+      return generation;
+    }
+
 protected:
     void setFittest(std::shared_ptr<NeatEvaluation> new_fittest, float new_fitness);
 
