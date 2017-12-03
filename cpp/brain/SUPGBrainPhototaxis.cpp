@@ -45,9 +45,11 @@ SUPGBrainPhototaxis::SUPGBrainPhototaxis(const std::string &robot_name,
                                          double _light_radius_distance,
                                          const std::vector< std::vector< float > >& neuron_coordinates,
                                          const std::vector< ActuatorPtr >& actuators,
-                                         const std::vector< SensorPtr >& sensors)
+                                         const std::vector< SensorPtr >& sensors,
+                                         const PHASE testing_phase)
     : SUPGBrain(robot_name, std::move(evaluator), neuron_coordinates, actuators, PushCombinedLightSensor(sensors))
-    , phase(END)
+    , TESTING_PHASE(testing_phase)
+    , current_phase(END)
     , light_constructor_left(std::move(_light_constructor_left))
     , light_constructor_right(std::move(_light_constructor_right))
     , current_light_left(nullptr)
@@ -70,6 +72,7 @@ void SUPGBrainPhototaxis::update(const std::vector< ActuatorPtr >& actuators,
 
 SUPGBrainPhototaxis::SUPGBrainPhototaxis(EvaluatorPtr evaluator)
         : SUPGBrain(evaluator)
+        , TESTING_PHASE(CENTER)
 {
 }
 
@@ -116,7 +119,7 @@ void SUPGBrainPhototaxis::learner(double t)
 
 
         // FITNESS update
-        if (phase != END) {
+        if (current_phase != END) {
             double left_eye = current_light_left == nullptr ? std::numeric_limits<double>::max() :
                               current_light_left->light_distance();
             double right_eye = current_light_right == nullptr ? std::numeric_limits<double>::max() :
@@ -126,7 +129,7 @@ void SUPGBrainPhototaxis::learner(double t)
             // This hardcoded number is to offset the value of the fitness to a 0 in case of the robot didn't move.
             // The value will be negative in case the robot moved away from the target.
             double phase_fitness = getPhaseFitness();
-            std::cout << "SUPGBrainPhototaxis::learner - partial fitness[" << phase << "]: " << phase_fitness
+            std::cout << "SUPGBrainPhototaxis::learner - partial fitness[" << current_phase << "]: " << phase_fitness
                       << " light_distance_left: " << left_eye
                       << " light_distance_right: " << right_eye
                       << std::endl;
@@ -134,23 +137,24 @@ void SUPGBrainPhototaxis::learner(double t)
         }
 
         // Advance Phase
-        switch (phase) {
+        switch (current_phase) {
             case END: // code will execute this case only for the initialization
                 std::cout << "SUPGBrainPhototaxis::learner - INIT!" << std::endl;
                 break;
+            case CENTER:
             case LEFT:
-                phase = RIGHT;
-                break;
+            case MORELEFT:
             case RIGHT:
-                phase = END;
+            case MORERIGHT:
+                current_phase = END;
                 break;
             default:
                 std::ostringstream error_ss;
-                error_ss << "ERROR! THIS PHASE (" << phase << ") SHOULD NOT BE CALLED!";
+                error_ss << "ERROR! THIS PHASE (" << current_phase << ") SHOULD NOT BE CALLED!";
                 std::string error = error_ss.str();
                 std::cout << error << std::endl;
                 throw std::runtime_error(error);
-                phase = LEFT;
+                current_phase = this->TESTING_PHASE;
                 break;
             /*
             case CENTER:    phase = LEFT;      break;
@@ -162,7 +166,7 @@ void SUPGBrainPhototaxis::learner(double t)
         }
 
         // If phase is `END`, start a new phase
-        if (phase == END) {
+        if (current_phase == END) {
             std::cout << "SUPGBrainPhototaxis::learner - finished with fitness: "
                       << getFitness()
                       //<< " general gait fitness: "
@@ -176,8 +180,7 @@ void SUPGBrainPhototaxis::learner(double t)
             std::cout << "SUPGBrainPhototaxis::learner - NEW BRAIN (generation " << generation_counter << " )" << std::endl;
 
             // initial phase where to start
-            //phase = CENTER;
-            phase = LEFT;
+            current_phase = this->TESTING_PHASE;
         }
 
         // evaluation restart
@@ -193,7 +196,7 @@ void SUPGBrainPhototaxis::learner(double t)
         //std::cout << "Grace Period end: " << t << std::endl;
         // reposition learner lights
         // END PHASE SHOULD NOT BE POSSIBLE HERE!
-        this->setLightCoordinates(phase);
+        this->setLightCoordinates(current_phase);
 
         evaluator->start();
         this->grace_done = true;

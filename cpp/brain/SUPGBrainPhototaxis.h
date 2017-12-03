@@ -32,6 +32,16 @@ namespace brain {
 class SUPGBrainPhototaxis : protected SUPGBrain
 {
   public:
+  enum PHASE
+  {
+      CENTER = 0,
+      LEFT = 1,
+      MORELEFT = 2,
+      RIGHT = 3,
+      MORERIGHT = 4,
+      END = 5,
+  };
+
   /**
    * Light sensor constructors are passed the coordinates with already the offset included
    */
@@ -42,22 +52,13 @@ class SUPGBrainPhototaxis : protected SUPGBrain
                       double light_radius_distance,
                       const std::vector<std::vector<float> > &neuron_coordinates,
                       const std::vector<ActuatorPtr> &actuators,
-                      const std::vector<SensorPtr> &sensors);
+                      const std::vector<SensorPtr> &sensors,
+                      const PHASE testing_phase);
 
   using SUPGBrain::update;
   virtual void update(const std::vector<ActuatorPtr> &actuators,
                       const std::vector<SensorPtr> &sensors,
                       double t, double step) override;
-
-  enum PHASE
-  {
-      CENTER = 0,
-      LEFT = 1,
-      MORELEFT = 2,
-      RIGHT = 3,
-      MORERIGHT = 4,
-      END = 5,
-  };
 
   void setLightCoordinates(PHASE phase);
 
@@ -78,7 +79,8 @@ class SUPGBrainPhototaxis : protected SUPGBrain
 
   //// Templates ---------------------------------------------------------
 
-  PHASE phase;
+  const PHASE TESTING_PHASE;
+  PHASE current_phase;
 
   std::function<boost::shared_ptr<FakeLightSensor>(std::vector<float> coordinates)>
           light_constructor_left,
