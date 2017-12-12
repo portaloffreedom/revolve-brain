@@ -124,8 +124,15 @@ AsyncNeat::setFittest(std::shared_ptr<NeatEvaluation> new_fittest,
   std::string robot_name = this->robot_name.substr(start, end-start);
   
   std::ostringstream filename;
-  
-  filename << "./results/" << robot_name << '/' << test_n;
+
+  std::string phase_string;
+  if (const char *env_p = std::getenv("SUPG_PHASE"))
+    phase_string = env_p;
+  else
+    phase_string = "CENTER";
+
+
+  filename << "./results/" << robot_name << '/' << phase_string << '/' << test_n;
   boost::filesystem::create_directories(filename.str());
   filename << "/genome_n-" << this->best_fitness_counter << "_eval-" << evaluation << "_gen-" << generation << ".yaml";
   
