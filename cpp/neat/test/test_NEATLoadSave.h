@@ -1,7 +1,6 @@
 #ifndef REVOLVE_NEAT_TEST_NEATLOADSAVE_H_
 #define REVOLVE_NEAT_TEST_NEATLOADSAVE_H_
 
-#include <boost/exception/detail/shared_ptr.hpp>
 #include <neat/NEATEvaluation.h>
 
 /**
