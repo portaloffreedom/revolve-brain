@@ -19,6 +19,7 @@
 
 #include "FakeLightSensor.h"
 #include <cmath>
+#include <iostream>
 
 using namespace revolve::brain;
 
@@ -29,7 +30,9 @@ unsigned int FakeLightSensor::inputs() const
 
 double revolve::brain::FakeLightSensor::read()
 {
-    return light_attenuation(light_distance(), light_angle());
+    auto value = light_attenuation(light_distance(), static_cast<float>(light_angle()));
+    if (verbose) std::cout << "[!]SENSOR_READ " << this->sensorId() << ": " << value << std::endl;
+    return value;
 }
 
 
@@ -57,4 +60,10 @@ double revolve::brain::FakeLightSensor::light_attenuation(double distance, float
     #undef CONST_E
     #undef AVERAGE
     #undef VARIANCE
+}
+
+void FakeLightSensor::replace(const FakeLightSensor *const new_sensor)
+{
+    this->half_fov = new_sensor->half_fov;
+    this->verbose = new_sensor->verbose;
 }

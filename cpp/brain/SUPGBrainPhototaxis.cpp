@@ -184,6 +184,9 @@ void SUPGBrainPhototaxis::learner(double t)
 
             // initial phase where to start
             current_phase = this->TESTING_PHASE;
+
+            // memory must be initialized -- value not really important
+            this->setLightCoordinates(current_phase);
         }
 
         // evaluation restart
@@ -300,8 +303,14 @@ void SUPGBrainPhototaxis::setLightCoordinates(SUPGBrainPhototaxis::PHASE phase)
 
 void SUPGBrainPhototaxis::setLightCoordinates(const std::vector<float> &relative_coordinates)
 {
-    current_light_left = light_constructor_left(relative_coordinates);
-    current_light_right = light_constructor_right(relative_coordinates);
+    if (current_light_left)
+        current_light_left->replace(light_constructor_left(relative_coordinates));
+    else
+        current_light_left = light_constructor_left(relative_coordinates);
+    if (current_light_right)
+        current_light_right->replace(light_constructor_right(relative_coordinates));
+    else
+        current_light_right = light_constructor_right(relative_coordinates);
     combined_light_sensor->set_sensor_left(current_light_left);
     combined_light_sensor->set_sensor_right(current_light_right);
 }

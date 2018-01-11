@@ -36,7 +36,8 @@ public:
         : half_fov(fov/2)
         // TODO noise
     {
-//         std::cout << "revolve::brain::FakeLightSensor()" << std::endl;
+        // std::cout << "revolve::brain::FakeLightSensor()" << std::endl;
+        verbose = std::getenv("FAKE_LIGHT_SENSOR_VERBOSE") != nullptr;
     }
 
     virtual double read();
@@ -44,12 +45,18 @@ public:
     virtual unsigned int inputs() const override;
 
     virtual double light_distance() = 0;
+
+    virtual void replace(const FakeLightSensor *const new_sensor);
+    virtual void replace(const boost::shared_ptr<FakeLightSensor> &new_sensor) {
+        this->replace(new_sensor.get());
+    }
 protected:
     virtual double light_angle() = 0;
 
     virtual double light_attenuation(double distance, float angle);
 
     float half_fov;
+    bool verbose;
 };
 
 }
